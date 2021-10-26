@@ -1,1 +1,3 @@
 .aws-sam
+/client/dist/
+/client/node_modules/

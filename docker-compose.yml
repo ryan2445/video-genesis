@@ -12,6 +12,10 @@ services:
       - "./database:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
     user: root
+  angular-local:
+    build: ./client
+    ports:
+      - "8080:80"
 
 networks:
   backend:
