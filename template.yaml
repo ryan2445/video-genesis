@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  namesDB:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: names
+      PrimaryKey:
+        Name: name
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+  namesPostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: names/
+      Handler: namesPost.handle
+      Runtime: python3.8
+      Events:
+        namesPostEvent:
+          Type: Api
+          Properties:
+            Path: /names
+            Method: post
+      Policies:
+        DynamoDBWritePolicy:
+          TableName: !Ref namesDB
+
+  namesGetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: names/
+      Handler: namesGet.handle
+      Runtime: python3.8
+      Events:
+        namesGetEvent:
+          Type: Api
+          Properties:
+            Path: /names/{name}
+            Method: get
+      Policies:
+        DynamoDBReadPolicy:
+          TableName: !Ref namesDB
