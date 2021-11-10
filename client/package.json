@@ -9,11 +9,13 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
+    "aws-amplify": "^4.3.5",
+    "core-js": "^3.19.1",
+    "nuxt": "^2.15.8"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",
+    "@nuxtjs/vuetify": "^1.12.1",
     "postcss": "^8.3.11"
   }
 }

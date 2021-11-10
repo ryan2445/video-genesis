@@ -1,0 +1,25 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify6ea26912d6084-staging-05251-authRole",
+      "UnauthRoleArn": "arn:aws:iam::580314847820:role/amplify-amplify6ea26912d6084-staging-05251-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::580314847820:role/amplify-amplify6ea26912d6084-staging-05251-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-amplify6ea26912d6084-staging-05251-deployment",
+      "UnauthRoleName": "amplify-amplify6ea26912d6084-staging-05251-unauthRole",
+      "StackName": "amplify-amplify6ea26912d6084-staging-05251",
+      "StackId": "arn:aws:cloudformation:us-west-2:580314847820:stack/amplify-amplify6ea26912d6084-staging-05251/88b74080-41c0-11ec-acc2-0a7f5b70ccef",
+      "AmplifyAppId": "d1q0qlvnhmxk9h"
+    },
+    "categories": {
+      "auth": {
+        "videogenesisclient": {
+          "userPoolId": "us-west-2_3LjdLzhH5",
+          "userPoolName": "Video-Genesis-User-Pool",
+          "webClientId": "5hh7v6tstjnrbfmcnl14rf0a01",
+          "nativeClientId": "5hh7v6tstjnrbfmcnl14rf0a01"
+        }
+      }
+    }
+  }
+}
