@@ -13,34 +13,28 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-  namesPostFunction:
+  namesFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: names/
-      Handler: namesPost.handle
+      Handler: names.handle
       Runtime: python3.8
       Events:
-        namesPostEvent:
+        namesApiEvent:
           Type: Api
           Properties:
             Path: /names
-            Method: post
+            Method: ANY
       Policies:
-        DynamoDBWritePolicy:
+        DynamoDBCrudPolicy:
           TableName: !Ref namesDB
 
-  namesGetFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: names/
-      Handler: namesGet.handle
-      Runtime: python3.8
-      Events:
-        namesGetEvent:
-          Type: Api
-          Properties:
-            Path: /names/{name}
-            Method: get
-      Policies:
-        DynamoDBReadPolicy:
-          TableName: !Ref namesDB
+# Globals:
+#   Api:
+#     Auth:
+#       Authorizers:
+#         MyCognitoAuth:
+#           UserPoolArn:
+#             Fn::GetAtt:
+#               - MyCognitoUserPool
+#               - Arn
