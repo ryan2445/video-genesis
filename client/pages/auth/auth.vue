@@ -2,13 +2,13 @@
     <div class="flex flex-col">
         <h1> {{ title }} </h1>
         <AuthForm
-            v-if="step === 1 || step === 3"
+            v-if="step == 1 || step == 3"
             :type="authFormType"
             @signUp="setStep(2)"
             @signIn="setStep(4)"
         />
         <ConfirmAuthForm
-            v-if="step === 2"
+            v-if="step == 2"
             @confirmed="setStep(3)"
         />
     </div>
@@ -25,6 +25,13 @@ export default {
     methods: {
         setStep(val) {
             this.step = val
+        }
+    },
+    created() {
+        const step = this.$route.query.step
+
+        if (step) {
+            this.setStep(Number(step))
         }
     },
     computed: {

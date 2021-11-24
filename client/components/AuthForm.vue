@@ -52,6 +52,7 @@
                     placeholder="Password"
                     :success="!errors"
                     v-model="password"
+                    type="password"
                 />
             </validation-provider>
 
