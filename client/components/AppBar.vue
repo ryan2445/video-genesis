@@ -50,8 +50,18 @@ export default {
                 path: '/auth/sign-in'
             })
         },
-        onSignOut() {
+        async onSignOut() {
+            try {
+                await this.$auth.signOut();
 
+                this.$store.commit('user/setUser', null)
+                this.$store.dispatch('auth/unauthorize', { axios: this.$axios })
+
+                console.log('EVENT: User signed out')
+            }
+            catch(error) {
+                console.log('error signing out: ', error)
+            }
         }
     },
     computed: {
