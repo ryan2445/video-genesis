@@ -1,5 +1,6 @@
 <template>
-    <Tutorial />
+    
+    <AuthForm />
 </template>
 
 <script>
