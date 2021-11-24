@@ -28,6 +28,18 @@ Resources:
       Policies:
         DynamoDBCrudPolicy:
           TableName: !Ref namesDB
+  
+  videoGensisAuthPostAuthentication:
+    Type: AWS::Serverless::Function,
+    Properties:
+      CodeUri: auth/
+      Handler: videoGensisAuthPostAuthentication.handle
+      Runtime: nodejs14.x
+      UserPool: us-west-2_3LjdLzhH5
+      Trigger: PostAuthentication
+        
+
+
 
 # Globals:
 #   Api:
