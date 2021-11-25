@@ -8,12 +8,17 @@
         <v-col cols="10">
             <v-row align="center" justify="end" no-gutters>
                 <v-btn
+                    color="#FF7A45"
+                    outlined
+                    class = "m-2"
                     v-if="!user"
                     @click="onSignUp"
                 >
                     Sign Up
                 </v-btn>
                 <v-btn
+                    class="white--text"
+                    color = "orange accent-3"
                     v-if="!user"
                     @click="onSignIn"
                 >
