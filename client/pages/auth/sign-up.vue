@@ -7,6 +7,7 @@
             type="signUp"
             @signUp="onSignUp"
         />
+        <NuxtLink to='/'>Home Page</NuxtLink>
     </div>
 </template>
 

@@ -1,0 +1,51 @@
+<template>
+  <v-navigation-drawer v-model="drawer" app>
+    <v-sheet color="orange lighten-3" class="pa-4">
+      <v-avatar class="mb-4" color="grey lighten-1" size="64">
+        <img alt="Avatar" :src="userImage" />
+      </v-avatar>
+
+      <div class="text-h6">{{ userName }}</div>
+    </v-sheet>
+
+    <v-divider></v-divider>
+
+    <v-list 
+    nav>
+      <v-list-item-group
+      color="orange lighten-1"
+      
+      >
+        <v-list-item v-for="[icon, text] in links" :key="icon" link>
+          <v-list-item-icon>
+            <v-icon>{{ icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ text }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    userName: "Dalidrew",
+    userImage:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80",
+    drawer: null,
+    links: [
+      ["mdi-file-upload", "Upload"],
+      ["mdi-send", "Send"],
+      ["mdi-delete", "Trash"],
+      ["mdi-alert-octagon", "Spam"],
+    ],
+  }),
+};
+</script>
+
+<style scoped>
+</style>
