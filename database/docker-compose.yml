@@ -9,15 +9,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "./database:/home/dynamodblocal/data"
+      - ".:/home/dynamodblocal/data"
     working_dir: /home/dynamodblocal
     user: root
-  nuxt-local:
-    build: ./client
-    ports:
-      - "3000:3000"
-    volumes:
-      - "./client:/app"
 
 networks:
   backend:
