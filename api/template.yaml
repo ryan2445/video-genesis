@@ -2,14 +2,21 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  namesDB:
-    Type: AWS::Serverless::SimpleTable
+  systemDB:
+    Type: AWS::DynamoDB::Table
     Properties:
-      TableName: names
-      PrimaryKey:
-        Name: name
-        Type: String
-      ProvisionedThroughput:
+      TableName: system
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      ProvisionedThroughput: 
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
@@ -27,19 +34,7 @@ Resources:
             Method: ANY
       Policies:
         DynamoDBCrudPolicy:
-          TableName: !Ref namesDB
-  
-  videoGensisAuthPostAuthentication:
-    Type: AWS::Serverless::Function,
-    Properties:
-      CodeUri: auth/
-      Handler: videoGensisAuthPostAuthentication.handle
-      Runtime: nodejs14.x
-      UserPool: us-west-2_3LjdLzhH5
-      Trigger: PostAuthentication
-        
-
-
+          TableName: !Ref systemDB
 
 # Globals:
 #   Api:
