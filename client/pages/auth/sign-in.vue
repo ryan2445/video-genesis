@@ -16,7 +16,7 @@ export default {
     methods: {
         onSignIn() {
             this.$router.push({
-                path: '/'
+                path: '/home'
             })
         }
     }
