@@ -1,3 +1,6 @@
+# Local API:
+# 1. In 'database' directory: 'docker-compose up'
+# 2. In 'api' directory: 'sam local start-api --docker-network sam-backend'
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
@@ -20,17 +23,17 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-  namesFunction:
+  videosController:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: names/
-      Handler: names.handle
+      CodeUri: VideosController/
+      Handler: videos.handle
       Runtime: python3.8
       Events:
-        namesApiEvent:
+        videosApiEvent:
           Type: Api
           Properties:
-            Path: /names
+            Path: /videos
             Method: ANY
       Policies:
         DynamoDBCrudPolicy:
