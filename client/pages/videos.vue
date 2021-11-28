@@ -1,6 +1,8 @@
 <template>
- <div class="grid place-items-center h-screen">
- <VideoCard/>
+ <div class="flex flex-col mx-10 my-10">
+ 
+  <VideoCard/>
+
  </div>
 </template>
 

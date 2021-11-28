@@ -27,6 +27,10 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
+   <div> 
+   <v-divider></v-divider>
+   <v-icon class="mx-2 my-2">mdi-menu</v-icon> 
+   </div>
   </v-navigation-drawer>
 </template>
 
@@ -36,7 +40,7 @@ export default {
     userName: "Dalidrew",
     userImage:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80",
-    drawer: null,
+    drawer: true,
     links: [
       ["mdi-home", "Home", "/home"],
       ["mdi-upload", "Upload", "/upload"],
