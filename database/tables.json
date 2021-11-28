@@ -1,0 +1,23 @@
+//  Creating a dynamodb table locally:
+//  1. In 'database' directory: 'docker-compose up' to start the local dynamodb server 
+//  2. 'aws dynamodb --cli-input-json file://tables.json --endpoint-url http://localhost:8000'
+
+//  Adding an item to a table: 'aws dynamodb put-item --table-name system --item '{"pk": {"S": "ID#ryan"}, "sk": {"S": "VIDEO#1"}, "videoTitle": {"S": "CrazyCats"}}' --endpoint-url http://localhost:8000'
+
+//  Scanning a table: 'aws dynamodb scan --table-name system --endpoint-url http://localhost:8000'
+
+{
+    "TableName": "system",
+    "KeySchema": [
+      { "AttributeName": "pk", "KeyType": "HASH" },
+      { "AttributeName": "sk", "KeyType": "RANGE" }
+    ],
+    "AttributeDefinitions": [
+      { "AttributeName": "pk", "AttributeType": "S" },
+      { "AttributeName": "sk", "AttributeType": "S" }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+    }
+}
