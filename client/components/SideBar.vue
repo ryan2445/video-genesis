@@ -1,11 +1,11 @@
 <template>
   <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" app>
-    <v-list-item  class="px-2 my-1" color="orange">
+    <v-list-item  class="px-2 orange darken-1">
       <v-list-item-avatar>
         <img alt="Avatar" :src="userImage" />
       </v-list-item-avatar>
 
-      <div class="text-h6">{{ userName }}</div>
+      <div class=" text-white">{{ userName }}</div>
     </v-list-item>
 
     <v-divider></v-divider>
@@ -31,6 +31,7 @@
     <template v-slot:append>
       <v-divider></v-divider>
       <v-btn
+       class="mx-2"
        icon
        @click.stop="mini = !mini"
        >
