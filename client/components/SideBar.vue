@@ -40,6 +40,7 @@ export default {
     links: [
       ["mdi-home", "Home", "/home"],
       ["mdi-upload", "Upload", "/upload"],
+      ["mdi-list", "Videos", "/upload"],
     ],
   }),
 };
