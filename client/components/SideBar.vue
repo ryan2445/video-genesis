@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" app>
-    <v-list-item  class="px-2 orange darken-1">
+    <v-list-item  class="px-2 orange lighten-1">
       <v-list-item-avatar>
         <img alt="Avatar" :src="userImage" />
       </v-list-item-avatar>
