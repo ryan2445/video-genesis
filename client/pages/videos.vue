@@ -1,6 +1,6 @@
 <template>
  <div class="flex flex-col mx-10 my-10">
- 
+  
   <VideoCard/>
 
  </div>
