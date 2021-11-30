@@ -39,12 +39,10 @@ Resources:
         DynamoDBCrudPolicy:
           TableName: !Ref systemDB
 
-# Globals:
-#   Api:
-#     Auth:
-#       Authorizers:
-#         MyCognitoAuth:
-#           UserPoolArn:
-#             Fn::GetAtt:
-#               - MyCognitoUserPool
-#               - Arn
+Globals:
+  Api:
+    Auth:
+      Authorizers:
+        globalApiAuth:
+          UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
+      DefaultAuthorizer: globalApiAuth
