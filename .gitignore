@@ -1,4 +1,6 @@
-.aws-sam
+/api/.aws-sam
 /client/dist/
 /client/node_modules/
 /client/.nuxt/
+/api/.vscode
+/database/shared-local-instance.db

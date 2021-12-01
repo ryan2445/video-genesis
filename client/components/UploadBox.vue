@@ -2,7 +2,7 @@
   <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
     <div>
       <svg
-        width="36"
+        width="*"
         height="36"
         viewBox="0 0 36 36"
         class="upload-label-icon"
@@ -31,11 +31,16 @@
         <small class="secondary-text">Support for a single file upload</small>
       </p>
     </div>
+    <router-link to="/Description">Description</router-link>
   </div>
 </template>
 
 <script>
-export default {};
+import UploadDescription from '../components/UploadDescription.vue';
+export default {
+  components: { UploadDescription },
+  layout: "dashboard",
+};
 </script>
 
 <style scoped>
