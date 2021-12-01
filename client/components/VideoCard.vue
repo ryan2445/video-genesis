@@ -1,7 +1,5 @@
 <template>
-  <v-card max-width="50%">
-     
-  </v-card>
+  <v-card max-width="50%"> </v-card>
 </template>
 
 <script>

@@ -18,6 +18,8 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",
     "@nuxtjs/vuetify": "^1.12.1",
-    "postcss": "^8.3.11"
+    "@types/video.js": "^7.3.27",
+    "postcss": "^8.3.11",
+    "video.js": "^7.17.0"
   }
 }
