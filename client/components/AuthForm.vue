@@ -170,7 +170,8 @@ export default {
                 // Commit it
                 this.$store.dispatch('auth/authorize', {
                     auth: this.$auth,
-                    axios: this.$axios
+                    axios: this.$axios,
+                    aws: this.$aws
                 })
 
                 this.$emit('signIn')
