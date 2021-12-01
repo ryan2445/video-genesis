@@ -1,0 +1,22 @@
+{
+    "shared": {
+        "resourceName": "genesis2vod"
+    },
+    "template": {
+        "type": [
+            "DASH"
+        ],
+        "name": "Amplify_Video_DASH.json"
+    },
+    "sns": {
+        "createTopic": false
+    },
+    "contentDeliveryNetwork": {
+        "enableDistribution": false
+    },
+    "parameters": {
+        "authRoleName": {
+            "Ref": "AuthRoleName"
+        }
+    }
+}

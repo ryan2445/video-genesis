@@ -12,6 +12,7 @@
     "aws-amplify": "^4.3.5",
     "axios": "^0.24.0",
     "core-js": "^3.19.1",
+    "mpd-parser": "^0.20.0",
     "nuxt": "^2.15.8",
     "vee-validate": "^3.4.14"
   },

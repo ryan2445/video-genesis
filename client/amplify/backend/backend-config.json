@@ -7,5 +7,12 @@
       "dependsOn": [],
       "customAuth": false
     }
+  },
+  "video": {
+    "genesis2vod": {
+      "service": "video",
+      "serviceType": "video-on-demand",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
