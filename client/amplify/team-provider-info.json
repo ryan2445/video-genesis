@@ -19,6 +19,11 @@
           "webClientId": "5hh7v6tstjnrbfmcnl14rf0a01",
           "nativeClientId": "5hh7v6tstjnrbfmcnl14rf0a01"
         }
+      },
+      "video": {
+        "genesis2vod": {
+          "s3UUID": "q1h5l756"
+        }
       }
     }
   }

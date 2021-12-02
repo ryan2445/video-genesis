@@ -30,7 +30,8 @@ export default {
   plugins: [
     {src: '~/plugins/amplify.js'},
     {src: '~/plugins/vee-validate.js'},
-    {src: '~/plugins/axios.js'}
+    {src: '~/plugins/axios.js' },
+    {src: '~/plugins/s3-client.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -51,5 +52,9 @@ export default {
     transpile: [
       "vee-validate/dist/rules"
     ]
+  },
+
+  env: {
+    'baseURL': 'getfucked'
   }
 }
