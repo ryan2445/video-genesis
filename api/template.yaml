@@ -46,3 +46,7 @@ Globals:
         globalApiAuth:
           UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
       DefaultAuthorizer: globalApiAuth
+    Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
