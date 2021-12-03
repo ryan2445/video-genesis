@@ -54,7 +54,7 @@ export default {
     ]
   },
 
-  env: {
-    'baseURL': 'getfucked'
+  router: {
+      middleware: ['authMiddleware']
   }
 }
