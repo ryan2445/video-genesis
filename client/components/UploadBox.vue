@@ -38,7 +38,6 @@
 				@change="onFileInputChange"
 				show-size
 				:loading="uploading"
-				style="width:300px"
 			>
 			</v-file-input>
 		</div>
@@ -54,7 +53,6 @@
 				<small class="secondary-text">Support for a single file upload</small>
 			</p>
 		</div>
-		<router-link to="/Description">Description</router-link>
 	</div>
 </template>
 
@@ -70,9 +68,9 @@ export default {
 			video: null,
 
 			uploading: false,
-
-			uploadProgress: 0,
 		};
+	},
+	mounted() {
 	},
 	methods: {
 		onFileInputChange(file) {
@@ -88,6 +86,7 @@ export default {
 				return;
 			} else if (this.video.size > 5.12e8) {
 				alert("The file size must be less than 512 megabytes");
+				return;
 			}
 
 			// Indicate that we are uploading the video
@@ -109,6 +108,12 @@ export default {
 
 				// Send the PutObject request to S3
 				const resp = await this.$s3.send(command);
+
+				// Emit the upload event to the parent component
+				this.$emit('upload', {
+					video: this.video,
+					response: resp
+				})
 			} catch (err) {
 				alert("there was an error uploading your video, check the logs");
 				console.log(err);
@@ -117,6 +122,11 @@ export default {
 			this.uploading = false;
 		},
 	},
+	computed: {
+		icon() {
+			return this.ctx?.$icon
+		}
+	}
 };
 </script>
 

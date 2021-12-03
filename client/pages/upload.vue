@@ -1,7 +1,7 @@
 <template>
   <div class="grid place-items-center h-screen"
 >
-    <UploadBox/>
+    <video-form />
   </div>
  
 </template>

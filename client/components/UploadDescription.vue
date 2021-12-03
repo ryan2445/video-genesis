@@ -1,54 +1,38 @@
 <template>
   <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
-      <p>
-        <strong>Upload</strong>
-      </p>
-       <p>
-        <strong>Details</strong>
-      </p>
-       <p>
-        <strong>Title(Required)</strong>
-      </p>
-      <v-text-field placeholder="Placeholder Text">
-                </v-text-field>
-
-        <p>
-        <strong>Description</strong>
-      </p>
-      <v-text-field placeholder="What is your video about">
-                </v-text-field>
-      <v-container>
-          
-    <v-row>
-      <v-col col="12">
-        <v-combobox
-          v-model="select"
-          :items="items"
-          label="Select Category"
-          multiple
-        ></v-combobox>
-      </v-col>
-    </v-row>
-  </v-container>
-    <p>
-        <strong>Thumbnail</strong>
-      </p>
-  <div>
-      <input type="file" id="upload-file" class="upload-file" />
+      <v-text-field 
+        label="Title"
+        v-model="title"
+        @change="onChange"
+      />
+      <v-text-field
+        label="Description"
+        v-model="description"
+        @change="onChange"
+      />
     </div>
-    </div>
-  
 </template>
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "UploadDescription",
   data() {
     return {
-      
-      items: ["Music", "Funny", "inspirational", "Sports"],
+      // The v-model bounded title
+      title: null,
+
+      // The v-model bounded description
+      description: null,
     };
   },
+  methods: {
+    onChange() {
+      this.$emit('update', {
+        title: this.title,
+        description: this.description
+      })
+    }
+  }
 };
 </script>
 

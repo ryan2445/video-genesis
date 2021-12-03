@@ -1,70 +1,92 @@
 <template>
-    <validation-observer ref="validationObservation" v-slot="{ invalid }">
-        <v-form
-            ref="signupForm"
-            @submit.prevent="onSubmit"
-        >
-            <!-- Username Input -->
-            <validation-provider
-                name="username"
-                rules="required|min:3"
-                v-slot="{ errors }"
-            >
-                <v-text-field
-                    id="usernameAuth"
-                    :error="!!errors"
-                    :error-messages="errors"
-                    placeholder="Username"
-                    :success="!errors"
-                    v-model="username"
+    <v-card
+        style="
+            padding: 14px 12px;
+        "
+        min-width="500px"
+        class="relative"
+    >
+        <v-progress-linear 
+			absolute 
+			top 
+			indeterminate 
+			rounded
+			:active="loading" 
+		/>
+        <v-card-title>
+            <h3
+                v-text="`Sign ${type === 'signUp' ? 'up' : 'in'} for Video Genesis`"
+            />
+        </v-card-title>
+        <v-card-text>
+            <validation-observer ref="validationObservation" v-slot="{ invalid }">
+                <v-form
+                    ref="signupForm"
+                    @submit.prevent="onSubmit"
                 >
-                </v-text-field>
-            </validation-provider>
+                    <!-- Username Input -->
+                    <validation-provider
+                        name="username"
+                        rules="required|min:3"
+                        v-slot="{ errors }"
+                    >
+                        <v-text-field
+                            id="usernameAuth"
+                            :error-messages="errors"
+                            placeholder="Username"
+                            :success="!errors"
+                            v-model="username"
+                        >
+                        </v-text-field>
+                    </validation-provider>
 
-            <!-- Email Input -->
-            <validation-provider
-                v-if="type === 'signUp'"
-                name="email"
-                rules="required|email"
-                v-slot="{ errors }"
-            >
-                <v-text-field
-                    id="emailAuth"
-                    :error="!!errors"
-                    :error-messages="errors"
-                    placeholder="Email"
-                    :success="!errors"
-                    v-model="email"
-                >
-                </v-text-field>
-            </validation-provider>
+                    <!-- Email Input -->
+                    <validation-provider
+                        v-if="type === 'signUp'"
+                        name="email"
+                        rules="required|email"
+                        v-slot="{ errors }"
+                    >
+                        <v-text-field
+                            id="emailAuth"
+                            :error-messages="errors"
+                            placeholder="Email"
+                            :success="!errors"
+                            v-model="email"
+                            @keydown.enter="onSubmit"
+                        >
+                        </v-text-field>
+                    </validation-provider>
 
-            <!-- Password Input -->
-            <validation-provider
-                name="password"
-                rules="required|min:8"
-                v-slot="{ errors }"
-            >
-                <v-text-field
-                    id="passwordAuth"
-                    :error="!!errors"
-                    :error-messages="errors"
-                    placeholder="Password"
-                    :success="!errors"
-                    v-model="password"
-                    type="password"
-                />
-            </validation-provider>
+                    <!-- Password Input -->
+                    <validation-provider
+                        name="password"
+                        rules="required|min:8"
+                        v-slot="{ errors }"
+                    >
+                        <v-text-field
+                            id="passwordAuth"
+                            :error-messages="errors"
+                            placeholder="Password"
+                            :success="!errors"
+                            v-model="password"
+                            type="password"
+                            @keydown.enter="onSubmit"
+                        />
+                    </validation-provider>
 
-            <!-- Submit Button -->
-            <v-btn
-                @click="onSubmit"
-                :disabled="invalid"
-            >
-                Submit
-            </v-btn>
-        </v-form>
-    </validation-observer>
+                    <!-- Submit Button -->
+                    <v-btn
+                        @click="onSubmit"
+                        :disabled="invalid"
+                        class="mt-3"
+                    >
+                        Submit
+                    </v-btn>
+                </v-form>
+            </validation-observer>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script lang="js">
@@ -113,7 +135,7 @@ export default {
             if (!isValid) {
                 this.loading = false
                 return
-            }
+            }   
 
             // Depending on the Auth type, sign up or sign in
             switch (this.type) {
@@ -151,7 +173,7 @@ export default {
                 this.$emit('signUp')
             }
             catch (error) {
-                console.log('error signing up:', error)
+                error.name && alert(error.name)
             }
 
             this.loading = false
@@ -177,7 +199,7 @@ export default {
                 this.$emit('signIn')
             }
             catch (error) {
-                console.log('error signing in:', error)
+                error.name && alert(error.name)
             }
             
             this.loading = false
