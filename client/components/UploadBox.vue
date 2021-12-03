@@ -52,7 +52,7 @@ export default {
 		onFileInputChange(file) {
 			this.video = file;
 
-			emit('update', file)
+			this.$emit('update', file)
 		},
 	}
 };
