@@ -85,7 +85,7 @@ export default {
 			this.uploading = true;
 
 			// Generate a key for the payload (this will be the file name)
-			const key = encodeURIComponent(this.video.name) + nanoid();
+			const key = encodeURIComponent(this.video.name).replace('.mp4', nanoid() + '.mp4')
 
 			// Generate the payload
 			const payload = {
@@ -100,6 +100,10 @@ export default {
 
 				// Send the PutObject request to S3
 				const resp = await this.$s3.send(command);
+
+                // After video is uploaded, post the video to database
+                
+
 			} catch (err) {
 				alert('error uploading video')
 				console.log(err);
