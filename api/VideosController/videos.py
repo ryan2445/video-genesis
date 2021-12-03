@@ -87,16 +87,25 @@ def videosDelete(event, context):
 def handle(event, context):
     method = event['httpMethod']
 
-    if method == 'GET':
-        return videosGet(event, context)
-    elif method == 'POST':
-        return videosPost(event, context)
-    elif method == 'PUT':
-        return videosPut(event, context)
-    elif method == 'DELETE':
-        return videosDelete(event, context)
+    response = None
 
-    return {
-        'statusCode': 404,
-        'body': 'Not Found'
+    if method == 'GET':
+        response = videosGet(event, context)
+    elif method == 'POST':
+        response = videosPost(event, context)
+    elif method == 'PUT':
+        response = videosPut(event, context)
+    elif method == 'DELETE':
+        response = videosDelete(event, context)
+
+    if not response:
+        response = {
+            'statusCode': 404,
+            'body': 'Not Found'
+        }
+
+    response['headers'] = {
+        'Access-Control-Allow-Origin': '*'        
     }
+
+    return response
