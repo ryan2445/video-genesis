@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'https://zkcsvdswr2.execute-api.us-west-2.amazonaws.com/Prod/',
+    baseURL: process.env.API_URL || 'http://localhost:3000/',
     timeout: 5000,
     headers: {
         
