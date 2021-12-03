@@ -24,6 +24,12 @@
         "genesis2vod": {
           "s3UUID": "q1h5l756"
         }
+      },
+      "storage": {
+        "videogenesisclient8865f1f9": {
+          "bucketName": "genesis2vod-staging-input-q1h5l756",
+          "region": "us-west-2"
+        }
       }
     }
   }
