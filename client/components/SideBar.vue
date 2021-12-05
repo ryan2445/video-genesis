@@ -52,6 +52,7 @@ export default {
       ["mdi-home", "Home", "/home"],
       ["mdi-upload", "Upload", "/upload"],
       ["mdi-view-list", "Videos", "/videos"],
+
     ],
     mini: false, 
   }),
