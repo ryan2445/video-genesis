@@ -8,7 +8,7 @@
 			/>
 		</div>
 		<div
-			v-if="!loading && !videos"
+			v-if="!loading && !videos.length"
 			class="text-center"
 			style="
 				display: flex;
