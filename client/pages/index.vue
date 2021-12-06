@@ -55,10 +55,6 @@
           </v-flex>
         </v-layout>
       </section>
-
-      
-    
-
        <section>
         <v-container class="orange">
             <v-row>
@@ -73,7 +69,6 @@
              
             <v-responsive class="pt-4">
               <v-avatar size="150" class="grey lighten-2">
-               
               </v-avatar>
             </v-responsive>
             <v-card-text>
@@ -123,11 +118,11 @@ export default {
         
       },
       team: [
-        { name: 'Mark Minkoff', role: 'Web developer', avatar: 'https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202012/MIT-Coding-Brain-01-press_0.jpg?itok=JKoUflf8' },
-        { name: 'Ryan Hoofman', role: 'Web developer', avatar: '/avatar-2.png' },
-        { name: 'Ritik Bhardwaj', role: 'Web developer', avatar: '/avatar-3.png' },
-        { name: 'Heriberto Martinez', role: 'Web developer', avatar: '/avatar-4.png' },
-        { name: 'Manoj Selvakumar', role: 'Web developer', avatar: '/avatar-5.png'}
+        { name: 'Mark Minkoff', role: 'Web developer'},
+        { name: 'Ryan Hoofman', role: 'Web developer'},
+        { name: 'Ritik Bhardwaj', role: 'Web developer'},
+        { name: 'Heriberto Martinez', role: 'Web developer'},
+        { name: 'Manoj Selvakumar', role: 'Web developer'}
       ]
       }    
           }
