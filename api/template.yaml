@@ -1,52 +1,52 @@
 # Local API:
 # 1. In 'database' directory: 'docker-compose up'
-# 2. In 'api' directory: 'sam local start-api --docker-network sam-backend'
+# 2. In 'api' directory: 'sam local start-api --docker-network sam-backend -p 3001'
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
-  systemDB:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: system
-      AttributeDefinitions:
-        - AttributeName: pk
-          AttributeType: S
-        - AttributeName: sk
-          AttributeType: S
-      KeySchema: 
-        - AttributeName: pk
-          KeyType: HASH
-        - AttributeName: sk
-          KeyType: RANGE
-      ProvisionedThroughput: 
-        ReadCapacityUnits: 5
-        WriteCapacityUnits: 5
+    systemDB:
+        Type: AWS::DynamoDB::Table
+        Properties:
+            TableName: system
+            AttributeDefinitions:
+                - AttributeName: pk
+                  AttributeType: S
+                - AttributeName: sk
+                  AttributeType: S
+            KeySchema:
+                - AttributeName: pk
+                  KeyType: HASH
+                - AttributeName: sk
+                  KeyType: RANGE
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 5
 
-  videosController:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: VideosController/
-      Handler: videos.handle
-      Runtime: python3.8
-      Events:
-        videosApiEvent:
-          Type: Api
-          Properties:
-            Path: /videos
-            Method: ANY
-      Policies:
-        DynamoDBCrudPolicy:
-          TableName: !Ref systemDB
+    videosController:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: VideosController/
+            Handler: videos.handle
+            Runtime: python3.8
+            Events:
+                videosApiEvent:
+                    Type: Api
+                    Properties:
+                        Path: /videos
+                        Method: ANY
+            Policies:
+                DynamoDBCrudPolicy:
+                    TableName: !Ref systemDB
 
 Globals:
-  Api:
-    Auth:
-      Authorizers:
-        globalApiAuth:
-          UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
-      DefaultAuthorizer: globalApiAuth
-    Cors:
-        AllowMethods: "'*'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-        AllowOrigin: "'*'"
+    Api:
+        Auth:
+            Authorizers:
+                globalApiAuth:
+                    UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
+            DefaultAuthorizer: globalApiAuth
+        Cors:
+            AllowMethods: "'*'"
+            AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            AllowOrigin: "'*'"

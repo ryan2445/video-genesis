@@ -27,12 +27,16 @@ def videosPost(event, context):
     pk = "ID#" + body['username']
     sk = "VIDEO#" + str(uuid.uuid4())
     videoTitle = body['videoTitle']
+    videoDescription = body['videoDescription']
+    videoKey = body['videoKey']
 
     response = dynamodb.put_item(
         Item = {
             'pk': pk,
             'sk': sk,
-            'videoTitle': videoTitle
+            'videoTitle': videoTitle,
+            'videoDescription': videoDescription,
+            'videoKey': videoKey
         }
     )
 
