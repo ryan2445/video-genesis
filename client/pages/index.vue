@@ -4,8 +4,8 @@
       <section>
         <v-parallax :src="imageLink.sub_main" height="600">
           <v-layout column align-center justify-center class="white--text">
-            <h1 class=" text-xs-center white--text mb-2 display-1" style="font-weight: 900; text-shadow: 3px 2px #000000">Stream videos With High Resolution</h1>
-            <div class="white--text subheading mb-3 text-xs-center" style="font-weight: 900; text-shadow: 2px 2px #000000">Even if you are experiencing low bandwidth</div>
+            <h1 class=" text-xs-center orange--text mb-2 display-1" style="font-weight: 1000; text-shadow: 3px 2px #000000">Stream videos With High Resolution</h1>
+            <div class="orange--text subheading mb-3 text-xs-center" style="font-weight: 900; text-shadow: 2px 2px #000000">Even if you are experiencing low bandwidth</div>
           </v-layout>
         </v-parallax>
       </section>
@@ -89,9 +89,6 @@
         </v-container>
      </section>
 
-    
-
-
       <v-footer class="blue darken-2">
         <v-layout row wrap align-center>
           <v-flex xs12 class="text-xs-center">
@@ -126,7 +123,7 @@ export default {
         
       },
       team: [
-          { name: 'Mark Minkoff', role: 'Web developer', avatar: '/avatar-1.png' },
+        { name: 'Mark Minkoff', role: 'Web developer', avatar: 'https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202012/MIT-Coding-Brain-01-press_0.jpg?itok=JKoUflf8' },
         { name: 'Ryan Hoofman', role: 'Web developer', avatar: '/avatar-2.png' },
         { name: 'Ritik Bhardwaj', role: 'Web developer', avatar: '/avatar-3.png' },
         { name: 'Heriberto Martinez', role: 'Web developer', avatar: '/avatar-4.png' },
@@ -136,11 +133,6 @@ export default {
           }
   }
       
-  
-
-  
-
- 
 </script>
 
 <style scoped>
