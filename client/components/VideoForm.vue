@@ -107,11 +107,11 @@ export default {
 			};
 
 			try {
-				// // Get the PutObjectCommand for S3
-				// const command = new PutObjectCommand(payload);
+				// Get the PutObjectCommand for S3
+				const command = new PutObjectCommand(payload);
 
-				// // Send the PutObject request to S3
-				// const resp = await this.$s3.send(command);
+				// Send the PutObject request to S3
+				const resp = await this.$s3.send(command);
 
                 // After video is uploaded, post the video to database
                 const video = await this.$store.dispatch('videos/videosPost', {

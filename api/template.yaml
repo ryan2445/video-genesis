@@ -35,17 +35,18 @@ Resources:
                     Properties:
                         Path: /videos
                         Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
             Policies:
                 DynamoDBCrudPolicy:
                     TableName: !Ref systemDB
 
 Globals:
     Api:
-        # Auth:
-        #     Authorizers:
-        #         globalApiAuth:
-        #             UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
-        #     DefaultAuthorizer: globalApiAuth
+        Auth:
+            Authorizers:
+                globalApiAuth:
+                    UserPoolArn: arn:aws:cognito-idp:us-west-2:580314847820:userpool/us-west-2_3LjdLzhH5
         Cors:
             AllowMethods: "'*'"
             AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
