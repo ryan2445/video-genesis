@@ -88,14 +88,14 @@
         </v-row>
 
         <v-layout row wrap>
-          <v-flex xs12 sm6 md4 lg3 v-for="person in team" :key="person.name">
+          <v-flex xs12 sm6 md4 lg3 v-for="member in team" :key="member.name">
             <v-card flat class="orange text-xs-center ma-3">
               <v-responsive class="pt-4">
                 <v-avatar size="150" class="grey lighten-2"> </v-avatar>
               </v-responsive>
               <v-card-text>
-                <div class="subheading">{{ person.name }}</div>
-                <div class="grey--text">{{ person.role }}</div>
+                <div class="subheading">{{ member.name }}</div>
+                <div class="grey--text">{{ member.role }}</div>
               </v-card-text>
               <v-card-actions> </v-card-actions>
             </v-card>
@@ -104,14 +104,10 @@
       </v-container>
     </section>
     <!-- This section creates a footer with text to show! -->
-    <v-footer class="blue darken-2">
-      <v-layout row wrap align-center>
-        <v-flex xs12 class="text-xs-center">
-          <div class="white--text ml-3">
-            Copyright 2021 Genesis LLC. All Rights Reserved
-          </div>
-        </v-flex>
-      </v-layout>
+    <v-footer class="blue">
+      <div class="black--text">
+        Copyright 2021 Genesis LLC. All Rights Reserved
+      </div>
     </v-footer>
   </v-content>
 </template>
@@ -127,12 +123,9 @@ export default {
       user: "user/user",
     }),
   },
-  name: "App",
+  name: "landingpage",
   data: function () {
     return {
-      imageLink: {
-        img: "https://cdn.pixabay.com/photo/2018/02/28/10/04/soap-bubble-3187617_1280.jpg",
-      },
       team: [
         { name: "Mark Minkoff", role: "Web developer" },
         { name: "Ryan Hoofman", role: "Web developer" },
@@ -140,19 +133,12 @@ export default {
         { name: "Heriberto Martinez", role: "Web developer" },
         { name: "Manoj Selvakumar", role: "Web developer" },
       ],
+      imageLink: {
+        img: "https://cdn.pixabay.com/photo/2018/02/28/10/04/soap-bubble-3187617_1280.jpg",
+      },
     };
   },
 };
 </script>
 
-<style scoped>
-.finedTitle {
-  font-weight: 900;
-  text-shadow: 2px 2px #000000;
-}
-
-.social-icon {
-  font-size: 21px;
-  color: white;
-}
-</style>
+<style scoped></style>
