@@ -17,7 +17,14 @@
           "userPoolId": "us-west-2_3LjdLzhH5",
           "userPoolName": "Video-Genesis-User-Pool",
           "webClientId": "5hh7v6tstjnrbfmcnl14rf0a01",
-          "nativeClientId": "5hh7v6tstjnrbfmcnl14rf0a01"
+          "nativeClientId": "5hh7v6tstjnrbfmcnl14rf0a01",
+          "identityPoolId": "us-west-2:a7e3dcf8-8ead-4d2f-b0c5-c9b2fca24109",
+          "identityPoolName": "video-genesis-identity-pool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::580314847820:role/Cognito_0videogenesisidentitypoolAuth_Role",
+          "authRoleName": "Cognito_0videogenesisidentitypoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::580314847820:role/Cognito_videogenesisidentitypoolUnauth_Role",
+          "unauthRoleName": "Cognito_videogenesisidentitypoolUnauth_Role"
         }
       },
       "video": {

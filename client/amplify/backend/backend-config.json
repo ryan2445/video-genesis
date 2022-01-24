@@ -1,5 +1,13 @@
 {
-  "auth": {},
+  "auth": {
+    "videogenesisclient": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
   "video": {
     "genesis2vod": {
       "service": "video",
