@@ -142,3 +142,16 @@ export default {
 </script>
 
 <style scoped></style>
+
+<!-- Working on the landing page made me understand vue language and the functionalities that it provides us to make our work very simple and clear  -->
+<!-- Having no prior expereince of using vue language, it was challenging but i end up learning so many new things which ultimately is the goal  -->
+<!-- The way i got myself familiar with vue is going through ton of docmentation online which helped me understand the vue langauge from word A to Z in a proper manner  -->
+<!-- I read docmentation on every vue component i have used and than watched so many youtube videos to help me implement when i did not able to figure out by reading the documentation  -->
+<!-- In summary, working on this component of our project has been nothing but a learning curve for me and i am pretty sure it will help me next semester when we will be making UI/UX looks even more prettier  -->
+<!-- RESOURCES USED:--->
+
+<!-- https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides--->
+<!-- https://www.youtube.com/watch?v=NS0io3Z75GI&t=3296s--->
+<!-- https://vuetifyjs.com/en/components/cards/--->
+<!-- https://stackoverflow.com/questions/46404884/vuetify-center-items-into-v-flex--->
+<!-- https://stackoverflow.com/questions/55574599/how-to-align-the-contents-to-the-center-of-the-v-card-component-in-vuetify--->
