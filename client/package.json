@@ -9,11 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "aws-amplify": "^4.3.5",
-    "axios": "^0.24.0",
-    "core-js": "^3.19.1",
-    "mpd-parser": "^0.20.0",
-    "nanoid": "^3.1.30",
+    "aws-amplify": "^4.3.12",
+    "axios": "^0.25.0",
+    "core-js": "^3.20.3",
+    "mpd-parser": "^0.21.0",
+    "nanoid": "^3.2.0",
     "nuxt": "^2.15.8",
     "vee-validate": "^3.4.14"
   },
