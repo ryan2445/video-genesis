@@ -97,7 +97,9 @@ export default {
 			this.uploading = true;
 
 			// Generate a key for the payload (this will be the file name)
-			const key = encodeURIComponent(this.video.name).replace('.mp4', nanoid() + '.mp4')
+			const key = nanoid() + '.mp4'
+
+			console.log('key', key)
 
 			// Generate the payload
 			const payload = {

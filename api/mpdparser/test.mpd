@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MPD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:cenc="urn:mpeg:cenc:2013" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 http://standards.iso.org/ittf/PubliclyAvailableStandards/MPEG-DASH_schema_files/DASH-MPD.xsd" type="static" minBufferTime="PT16S" profiles="urn:hbbtv:dash:profile:isoff-live:2012,urn:mpeg:dash:profile:isoff-live:2011" mediaPresentationDuration="PT3M32.040S">
+  <Period start="PT0S" duration="PT3M32.040S" id="1">
+    <AdaptationSet mimeType="video/mp4" frameRate="25/1" segmentAlignment="true" subsegmentAlignment="true" startWithSAP="1" subsegmentStartsWithSAP="1" bitstreamSwitching="false">
+      <Representation id="1" width="1920" height="1080" bandwidth="3000000" codecs="avc1.4d4028" scanType="progressive">
+        <BaseURL>EvEABi1latkHGwtM-YiV0_3000.mp4</BaseURL>
+        <SegmentBase indexRange="758-2081">
+          <Initialization range="0-757"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="2" width="960" height="540" bandwidth="1500000" codecs="avc1.4d401f" scanType="progressive">
+        <BaseURL>EvEABi1latkHGwtM-YiV0_1500.mp4</BaseURL>
+        <SegmentBase indexRange="756-2079">
+          <Initialization range="0-755"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="3" width="768" height="432" bandwidth="750000" codecs="avc1.4d401e" scanType="progressive">
+        <BaseURL>EvEABi1latkHGwtM-YiV0_750.mp4</BaseURL>
+        <SegmentBase indexRange="755-2078">
+          <Initialization range="0-754"/>
+        </SegmentBase>
+      </Representation>
+      <Representation id="4" width="640" height="360" bandwidth="325000" codecs="avc1.4d401e" scanType="progressive">
+        <BaseURL>EvEABi1latkHGwtM-YiV0_325.mp4</BaseURL>
+        <SegmentBase indexRange="756-2079">
+          <Initialization range="0-755"/>
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+    <AdaptationSet mimeType="audio/mp4" lang="eng" segmentAlignment="0">
+      <Representation id="5" bandwidth="96000" audioSamplingRate="48000" codecs="mp4a.40.2">
+        <BaseURL>EvEABi1latkHGwtM-YiV0.mp4</BaseURL>
+        <SegmentBase indexRange="658-1969">
+          <Initialization range="0-657"/>
+        </SegmentBase>
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2"/>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

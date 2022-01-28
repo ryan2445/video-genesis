@@ -40,6 +40,27 @@ Resources:
             Policies:
                 DynamoDBCrudPolicy:
                     TableName: !Ref systemDB
+    
+    # OnVideoUpload:
+    #     Type: AWS::Serverless::Function
+    #     Properties:
+    #         CodeUri: VideosController/
+    #         Handler: mpdUploadedEvent.handle
+    #         Runtime: python3.8
+    #         Timeout: 60
+    #         Events:
+    #             CreateMPDEvent:
+    #                 Type: S3
+    #                 Properties:
+    #                     Bucket: genesis2vod-staging-output-q1h5l756
+    #                     Events: s3:ObjectCreated:*
+    #                     Filter:
+    #                         S3Key:
+    #                             Rules:
+    #                                 - Name: suffix
+    #                                   Value: '.mpd'
+    
+                        
 
 Globals:
     Api:

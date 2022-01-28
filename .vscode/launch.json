@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "api:eventListeners",
+            "invokeTarget": {
+                "target": "template",
+                "templatePath": "${workspaceFolder}/api/template.yaml",
+                "logicalId": "eventListeners"
+            },
+            "lambda": {
+                "payload": {},
+                "environmentVariables": {}
+            }
+        }
+    ]
+}
