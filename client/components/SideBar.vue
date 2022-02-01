@@ -21,6 +21,12 @@
                 </v-list-item>
             </v-list-item-group>
         </v-list>
+        <template v-slot:append>
+            <v-divider></v-divider>
+            <v-btn class="mx-2" icon @click.stop="mini = !mini">
+                <v-icon class="mx-10 my-2">mdi-menu</v-icon>
+            </v-btn>
+        </template>
     </v-navigation-drawer>
 </template>
 <script>
