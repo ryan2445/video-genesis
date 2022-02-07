@@ -4,7 +4,7 @@
       <v-card class="mx-auto" outlined>
         <v-row>
           <v-col cols="4">
-            <nuxt-link :to="`/videos/${video.sk}`">
+            <nuxt-link :to="`/videos/${video.sk.split('#')[1]}`">
               <v-img
                 height="250"
                 src="https://cdn.vuetifyjs.com/images/cards/cooking.png"

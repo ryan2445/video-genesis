@@ -1,54 +1,46 @@
 <template>
-	<v-card rounded min-width="520">
-		<v-stepper v-model="step">
-			<v-stepper-items>
-				<v-stepper-content step="1">
-					<v-card-title class="bg-gray-300">
-						<div class="flex justify-center">
-							<h3>Upload Video</h3>
-							<v-icon right> icon-video </v-icon>
-						</div>
-					</v-card-title>
-					<upload-description
-						ref="uploadDescription"
-						@update="onVideoDescriptionUpdate"
-					/>
-					<upload-box ref="uploadBox" @update="onVideoUpdate" />
-					<div class="flex flex-grow justify-center bg-gray-300 py-3">
-						<v-btn @click="onUpload" :loading="uploading">
-							Upload
-						</v-btn>
-					</div>
-				</v-stepper-content>
-				<v-stepper-content step="2">
-					<v-card-title class="bg-gray-300" style="display: block">
-						<div class="flex justify-center">
-							<v-icon left color="green">
-								icon-check-circle
-							</v-icon>
-							<h3>Video Upload Success</h3>
-						</div>
-						<div class="flex justify-center pt-8">
-							<v-btn @click="resetVideoForm()">
-								<v-icon> icon-video </v-icon>
-								Upload Another Video
-							</v-btn>
-						</div>
-						<div class="flex justify-center pt-8">
-							<v-btn
-								@click="
-									resetVideoForm(), $router.push('/videos')
-								"
-							>
-								<v-icon> icon-video </v-icon>
-								View Videos
-							</v-btn>
-						</div>
-					</v-card-title>
-				</v-stepper-content>
-			</v-stepper-items>
-		</v-stepper>
-	</v-card>
+  <v-card rounded min-width="520">
+    <v-stepper v-model="step">
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <v-card-title class="bg-gray-300">
+            <div class="flex justify-center">
+              <h3>Upload Video</h3>
+              <v-icon right> icon-video </v-icon>
+            </div>
+          </v-card-title>
+          <upload-description
+            ref="uploadDescription"
+            @update="onVideoDescriptionUpdate"
+          />
+          <upload-box ref="uploadBox" @update="onVideoUpdate" />
+          <div class="flex flex-grow justify-center bg-gray-300 py-3">
+            <v-btn @click="onUpload" :loading="uploading"> Upload </v-btn>
+          </div>
+        </v-stepper-content>
+        <v-stepper-content step="2">
+          <v-card-title class="bg-gray-300" style="display: block">
+            <div class="flex justify-center">
+              <v-icon left color="green"> icon-check-circle </v-icon>
+              <h3>Video Upload Success</h3>
+            </div>
+            <div class="flex justify-center pt-8">
+              <v-btn @click="resetVideoForm()">
+                <v-icon> icon-video </v-icon>
+                Upload Another Video
+              </v-btn>
+            </div>
+            <div class="flex justify-center pt-8">
+              <v-btn @click="resetVideoForm(), $router.push('/videos')">
+                <v-icon> icon-video </v-icon>
+                View Videos
+              </v-btn>
+            </div>
+          </v-card-title>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+  </v-card>
 </template>
 
 <script lang="js">
@@ -151,6 +143,6 @@ export default {
 </script>
 <style scoped>
 .v-stepper__content {
-	padding: 0px;
+  padding: 0px;
 }
 </style>

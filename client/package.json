@@ -15,7 +15,8 @@
     "mpd-parser": "^0.21.0",
     "nanoid": "^3.2.0",
     "nuxt": "^2.15.8",
-    "vee-validate": "^3.4.14"
+    "vee-validate": "^3.4.14",
+    "videojs-resolution-switcher-webpack": "^0.4.6"
   },
   "devDependencies": {
     "@nuxtjs/pwa": "^3.3.5",

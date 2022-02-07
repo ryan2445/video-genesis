@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title> This is the title of the video </v-card-title>
+    <v-card-title> {{ video.videoTitle }} </v-card-title>
     <v-card-text>
       <v-row align="center" class="mx-0">
         <div class="mr-2">UserName</div>
@@ -12,14 +12,7 @@
       <v-row>
         <v-col cols="8">
           <div class="text-black font-bold">Description:</div>
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
-            minima voluptate, placeat vero repudiandae, rerum quia aliquam
-            distinctio molestiae fugit maxime? Blanditiis totam aut adipisci
-            dicta deleniti veniam unde voluptates maiores perspiciatis numquam
-            necessitatibus a cum, laborum doloremque aliquam amet. Fugit odit
-            fuga numquam voluptate animi sunt et at corrupti?
-          </div>
+          <div>{{ video.videoDescription }}</div>
         </v-col>
       </v-row>
     </v-card-text>
@@ -27,7 +20,10 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "VideoPlayerInfo",
+  props: ["video"],
+};
 </script>
 
 <style></style>
