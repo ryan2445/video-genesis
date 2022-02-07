@@ -15,12 +15,6 @@
     >
       <!-- @timeupdate="onTimeChange($event)" -->
     </video>
-    <!-- <audio
-      preload
-      loop
-      id="audio"
-      src="https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3WOzZFlo5ytUFGeUtNWgj/3WOzZFlo5ytUFGeUtNWgj.mp4"
-    ></audio> -->
   </div>
 </template>
 
@@ -70,14 +64,7 @@ export default {
         },
       },
     });
-    // alert(this.audiourl);
     audio = new Audio(this.audiourl);
-    // var audio = new Audio(
-    //   "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3WOzZFlo5ytUFGeUtNWgj/3WOzZFlo5ytUFGeUtNWgj.mp4"
-    // );
-    // audio.play();
-    // audio.pause();
-    //videojs("videoplayer").videoJsResoultionSwitcher();
     this.loading = false;
   },
   methods: {
@@ -86,10 +73,6 @@ export default {
       // alert(this.src);
       // alert(src);
       audio.play();
-      // console.log(video, this.url);
-      // console.log(video, this.audiourl);
-      // alert(this.audiourl);
-      // console.log('player play!', player)
     },
     onPlayerPause(player) {
       audio.pause();
@@ -97,11 +80,9 @@ export default {
     },
     // ...player event
     onTimeChange(timeData) {
-      // timeData.
-      // playerCurrentState.
       console.log("timeData", timeData);
     },
-    // or listen state event
+
     playerStateChanged(playerCurrentState) {
       alert("123");
       // playerCurrentState.
