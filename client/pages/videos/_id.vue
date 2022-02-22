@@ -39,7 +39,7 @@ export default {
   async mounted() {
     const sk = `VIDEO#${this.sk}`;
     await this.$store.dispatch("videos/videosGet");
-    var video = this.$store.getters["videos/videos"].find(
+    let video = this.$store.getters["videos/videos"].find(
       (video) => video.sk == sk
     );
 
@@ -52,7 +52,6 @@ export default {
     Array.from(videoInfoes).forEach((videoInfo) =>
       console.log("video resolution", videoInfo.width)
     );
-    // console.log("video Data", videoInfo[0]);
   },
 };
 </script>

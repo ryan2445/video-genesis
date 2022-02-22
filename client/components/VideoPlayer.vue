@@ -23,9 +23,7 @@ import videojs from "video.js";
 import "video.js/dist/video-js.min.css";
 import "videojs-resolution-switcher-webpack";
 
-var audio = new Audio();
-// this.audiourl
-// "https://genesis2vod-staging-outnpm run dveput-q1h5l756.s3.us-west-2.amazonaws.com/3WOzZFlo5ytUFGeUtNWgj/3WOzZFlo5ytUFGeUtNWgj.mp4"
+let audio = new Audio();
 
 export default {
   name: "VideoPlayer",
@@ -68,47 +66,38 @@ export default {
     this.loading = false;
   },
   methods: {
-    // listen event
     onPlayerPlay(player) {
-      // alert(this.src);
-      // alert(src);
       audio.play();
     },
     onPlayerPause(player) {
       audio.pause();
-      // console.log('player pause!', player)
     },
-    // ...player event
+
     onTimeChange(timeData) {
       console.log("timeData", timeData);
     },
 
     playerStateChanged(playerCurrentState) {
       alert("123");
-      // playerCurrentState.
+
       console.log("player current update state", playerCurrentState);
     },
     onVideoEnded() {
       audio.currentTime = 0;
     },
-    // player is ready
+
     playerReadied(player) {
       console.log("the player is readied", player);
-      // you can use it to do something...
-      // player.[methods]
     },
-    // player is ready
+
     onVolumeChange(volumeChange) {
       console.log("the player volume is updated", volumeChange);
-      // if this.player.
+
       audio.volume = this.player.muted() ? 0 : this.player.volume();
-      // this.player.
+
       console.log("current volume is", this.player.volume());
-      // you can use it to do something...
-      // player.[methods]
     },
-    test(dummy) {
-      // alert("eventTriggered");
+    test(cur_time) {
       audio.currentTime = this.player.currentTime();
     },
   },

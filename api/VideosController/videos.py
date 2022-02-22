@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import boto3
 from boto3.dynamodb.conditions import Key
 import json
@@ -13,12 +14,17 @@ else:
 def videosGet(event, context):
     username = event['queryStringParameters']['username']
 
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
+    if username:
+        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
+    else:
+        response = dynamodb.query(KeyConditionExpression =Key('sk').begins_with('VIDEO'))
 
     return {
         'statusCode': 200,
         'body': json.dumps({ 'Items': response['Items'] })
     }
+
+    
 
 #   Creates a new video
 def videosPost(event, context):

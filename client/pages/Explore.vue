@@ -1,3 +1,6 @@
+// This is not working rn, need to figure out the python deployment thing, but
+it should bring all videos to Explore page!
+
 <template>
   <div>
     <div v-if="loading" class="text-center" style="height: 100vh">
@@ -19,11 +22,12 @@
       <video-card :video="video" />
     </div>
   </div>
+  <!-- <VideoList /> -->
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import VideoCard from "../../components/VideoCard.vue";
+import VideoCard from "../components/VideoCard.vue";
 export default {
   components: { VideoCard },
   layout: "dashboard",
@@ -35,14 +39,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: "user/user",
-      videos: "videos/videos",
+      videos: "videos/videosAll",
     }),
   },
   async mounted() {
     //  Send request to get videos
-    await this.$store.dispatch("videos/videosGet");
-    console.log(this.$store.getters["videos/videos"]);
+    await this.$store.dispatch("videos/GetAllVideos");
+    alert("Hello Ji");
+    console.log(this.$store.getters["videos/videosAll"]);
 
     //  Stop loading
     this.loading = false;

@@ -1,5 +1,6 @@
 export const state = () => ({
   videos: null,
+  videosAll: null,
   selected_video: null,
 });
 
@@ -18,6 +19,14 @@ export const actions = {
         `videos?username=${rootState.user.user.username}`
       );
       commit("videosSet", response.data.Items);
+    } catch (exception) {
+      return null;
+    }
+  },
+  async GetAllVideos({ commit, rootState }) {
+    try {
+      const response = await this.$axios.get("videos");
+      commit("videosSetAll", response.data.Items);
     } catch (exception) {
       return null;
     }
@@ -54,5 +63,9 @@ export const actions = {
 export const mutations = {
   videosSet(state, array) {
     state.videos = array;
+  },
+
+  videoSetAll(state, array) {
+    state.videosAll = array;
   },
 };
