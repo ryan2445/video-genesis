@@ -1,5 +1,5 @@
 <template>
-  <div class="relative bg-gray-600">
+  <div class="relative">
     <!-- This is the cover image for the banner -->
     <div
       class="absolute bottom-0 h-56 overflow-hidden flex-1 justify-center items-center"
