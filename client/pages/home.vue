@@ -1,6 +1,9 @@
 <template>
-  <div class="my-48">
+  <div class="my-36">
     <profile-banner />
+    <v-content>
+      <h1 class="mt-10 text-xl">Hello</h1>
+    </v-content>
   </div>
 </template>
 
