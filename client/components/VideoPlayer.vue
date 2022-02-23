@@ -1,21 +1,24 @@
 <template>
-  <video
-    id="videoplayer"
-    controls
-    preload="auto"
-    ref="videoPlayer"
-    class="video-js vjs-big-play-centered"
-    @play="onPlayerPlay($event)"
-    @pause="onPlayerPause($event)"
-    @volumechange="onVolumeChange($event)"
-  >
-    <audio 
-      v-if="audioEnabled"
-      :src="audio"
-      ref="audioPlayer"
+  <div>
+    <video
+      id="videoplayer"
+      controls
+      preload="auto"
+      ref="videoPlayer"
+      class="video-js vjs-big-play-centered"
+      @play="onPlayerPlay($event)"
+      @pause="onPlayerPause($event)"
+      @volumechange="onVolumeChange($event)"
+      @resolutionchange="onResChange($event)"
     >
-    </audio>
-  </video>
+      <audio 
+        v-if="audioEnabled"
+        :src="audio"
+        ref="audioPlayer"
+      >
+      </audio>
+    </video>
+  </div>
 </template>
 
 <script>
@@ -38,13 +41,23 @@ export default {
 
   data() {
     return {
-      loading: true,  // Determines if the mounted hook is ongoing
+      loading: true,      // Determines if the mounted hook is ongoing
 
       videoPlayer: null,  // Stores VideoJsPlayer
 
       audioPlayer: null,  // Stores Native HTML audio element (if audio is provided)
 
       bucketUrl: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+
+      currentVideoSrc: null, // Stores the current src being played
+
+      currentVideoRes: null, // Stores the current resolution of the video
+
+      canvasPlayer: null, // Stores the canvas player
+
+      width: null, // Stores the width of the video element
+
+      height: null // Stores the height of the video element
     };
   },
   mounted() {
@@ -74,6 +87,27 @@ export default {
           },
         },
       });
+      
+      // Set the initial height, width of video player
+      this.width = this.$refs.videoPlayer.clientWidth
+      this.height = this.$refs.videoPlayer.clientHeight
+
+      // Create resize observer on video element, tracking its size
+      const resizeObserver = new ResizeObserver(entries => {
+        if (!entries || entries.length < 1) {
+          console.error("video resize observer with no entries")
+          return
+        }
+
+        this.width = entries[0].contentRect.width
+        this.height = entries[0].contentRect.height
+      })
+
+      // Observer the video element
+      resizeObserver.observe(this.$refs.videoPlayer)
+
+      // Listen for the resolution change event
+      player.on('resolutionchange', this.onResChange)
 
       // Save the player to state
       this.videoPlayer = player
@@ -97,7 +131,6 @@ export default {
       // Save the audio player to state
       this.audioPlayer = player
     },
-
     onPlayerPlay(event) {
       // Continue if audio is enabled
       if (!this.audioEnabled) return
@@ -127,6 +160,20 @@ export default {
 
       // Sync the volume
       this.audioPlayer.volume = volume
+    },
+    onResChange(event) {
+      // Get the current resolution of the video player
+      const currentResolution = event.target.player.currentResolution();
+
+      // Update the video src and res data
+      this.setCurrentVideoSrc(currentResolution);
+      this.setCurrentVideoRes(currentResolution);
+    },
+    setCurrentVideoSrc(currentResolution) {
+      this.currentVideoSrc = currentResolution.sources[0].src;
+    },
+    setCurrentVideoRes(currentResolution) {
+      this.currentVideoRes = currentResolution.label;
     }
   },
   computed: {
