@@ -4,3 +4,4 @@
 /client/.nuxt/
 /api/.vscode
 /database/shared-local-instance.db
+.DS_Store

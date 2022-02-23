@@ -1,18 +1,16 @@
 <template>
-  <div class="grid place-items-center h-screen"
->
-    <home-page />
+  <div class="my-48">
+    <profile-banner />
   </div>
- 
 </template>
 
 <script>
-import HomePage from '../components/HomePage.vue';
+import ProfileBanner from "../components/ProfileBanner.vue";
 export default {
-  components: { HomePage },
+  components: { ProfileBanner },
+
   layout: "dashboard",
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
