@@ -91,8 +91,6 @@ export default {
 			// Generate a key for the payload (this will be the file name)
 			const key = nanoid() + '.mp4'
 
-			console.log('key', key)
-
 			// Generate the payload
 			const payload = {
 				Bucket: "genesis2vod-staging-input-q1h5l756",

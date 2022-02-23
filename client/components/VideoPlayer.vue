@@ -1,105 +1,151 @@
 <template>
-  <div>
-    <video
-      id="videoplayer"
-      controls
-      preload="auto"
-      ref="videoPlayer"
-      class="video-js vjs-big-play-centered"
-      @play="onPlayerPlay($event)"
-      @pause="onPlayerPause($event)"
-      @statechanged="playerStateChanged($event)"
-      @volumechange="onVolumeChange($event)"
-      @seeked="test($event)"
-      @ended="onVideoEnded()"
+  <video
+    id="videoplayer"
+    controls
+    preload="auto"
+    ref="videoPlayer"
+    class="video-js vjs-big-play-centered"
+    @play="onPlayerPlay($event)"
+    @pause="onPlayerPause($event)"
+    @volumechange="onVolumeChange($event)"
+  >
+    <audio 
+      v-if="audioEnabled"
+      :src="audio"
+      ref="audioPlayer"
     >
-      <!-- @timeupdate="onTimeChange($event)" -->
-    </video>
-  </div>
+    </audio>
+  </video>
 </template>
 
 <script>
 import videojs from "video.js";
-import "video.js/dist/video-js.min.css";
 import "videojs-resolution-switcher-webpack";
-
-let audio = new Audio();
-
 export default {
   name: "VideoPlayer",
 
-  props: ["src", "audiourl", "video"],
+  props: {
+    videoData: {
+      required: true,
+      type: Array
+    },
+    audio: {
+      required: false,
+      default: null,
+      type: String
+    }
+  },
 
   data() {
     return {
-      loading: true,
-      player: null,
-      bucketUrl:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      loading: true,  // Determines if the mounted hook is ongoing
+
+      videoPlayer: null,  // Stores VideoJsPlayer
+
+      audioPlayer: null,  // Stores Native HTML audio element (if audio is provided)
+
+      bucketUrl: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
     };
   },
   mounted() {
-    var sources = [];
-    var videoInfos = JSON.parse(this.video.videoData);
-    Array.from(videoInfos).forEach((vinfo) =>
-      sources.push({
-        type: "video/mp4",
-        src: `${this.bucketUrl}/${this.video.videoKey}/${vinfo.baseURL}`,
-        label: `${vinfo.width}`,
-        res: vinfo.width,
-      })
-    );
-    console.log("thse are the sources", sources);
+    // Initialize the video player
+    this.initVideoPlayer();
+    
+    // Initialize the audio player
+    this.initAudioPlayer();
 
-    this.player = videojs(this.$refs.videoPlayer, {
-      fluid: true,
-      controls: true,
-      sources: sources,
-      plugins: {
-        videoJsResolutionSwitcher: {
-          default: "low",
-          dynamicLabel: true,
-        },
-      },
-    });
-    audio = new Audio(this.audiourl);
     this.loading = false;
   },
   methods: {
-    onPlayerPlay(player) {
-      audio.play();
-    },
-    onPlayerPause(player) {
-      audio.pause();
+    initVideoPlayer() {
+      if (!this.videoData) {
+        console.error("videoData not provided so cannot load video player.")
+        return;
+      }
+
+      const player = videojs(this.$refs.videoPlayer, {
+        fluid: true,
+        controls: true,
+        sources: this.videoData,
+        plugins: {
+          videoJsResolutionSwitcher: {
+            default: "low",
+            dynamicLabel: true,
+          },
+        },
+      });
+
+      // Save the player to state
+      this.videoPlayer = player
     },
 
-    onTimeChange(timeData) {
-      console.log("timeData", timeData);
+    initAudioPlayer() {
+      // If the audio is not enabled, do nothing
+      if (!this.audioEnabled) {
+        return
+      }
+
+      // Get the audio player reference
+      const player = this.$refs.audioPlayer
+
+      // If the player could not be found, emit error and return
+      if (!player) {
+        console.error("Could not load audioPlayer ref")
+        return
+      }
+
+      // Save the audio player to state
+      this.audioPlayer = player
     },
 
-    playerStateChanged(playerCurrentState) {
-      alert("123");
+    onPlayerPlay(event) {
+      // Continue if audio is enabled
+      if (!this.audioEnabled) return
 
-      console.log("player current update state", playerCurrentState);
-    },
-    onVideoEnded() {
-      audio.currentTime = 0;
-    },
+      // Get the time stamp from the video
+      const time = event.target.currentTime;
 
-    playerReadied(player) {
-      console.log("the player is readied", player);
-    },
+      // Sync the time
+      this.audioPlayer.currentTime = time
 
-    onVolumeChange(volumeChange) {
-      console.log("the player volume is updated", volumeChange);
-
-      audio.volume = this.player.muted() ? 0 : this.player.volume();
-
-      console.log("current volume is", this.player.volume());
+      // Play the audio
+      this.audioPlayer.play();
     },
-    test(cur_time) {
-      audio.currentTime = this.player.currentTime();
+    onPlayerPause(videoPlayer) {
+      // Continue if audio is enabled
+      if (!this.audioEnabled) return
+
+      // Pause the audio
+      this.audioPlayer.pause()
     },
+    onVolumeChange(event) {
+      // Continue if audio is enabled
+      if (!this.audioEnabled) return
+
+      // Get the volume from the video player
+      const volume = event.target.volume;
+
+      // Sync the volume
+      this.audioPlayer.volume = volume
+    }
   },
+  computed: {
+    audioEnabled() {
+      return !!this.audio
+    }
+  },
+  watch: {
+    audio() {
+      if (this.audioEnabled()) {
+        this.initAudioPlayer();
+      }
+      else {
+        this.audioPlayer = null;
+      }
+    },
+    videoData() {
+      this.initVideoPlayer()
+    }
+  }
 };
 </script>

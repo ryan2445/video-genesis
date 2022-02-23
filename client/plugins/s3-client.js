@@ -60,6 +60,5 @@ const uploadFn = async (credentials) => {
 
 
 export default (_, inject) => {
-    console.log(process.env)
     inject('s3', s3)
 }

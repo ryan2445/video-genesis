@@ -42,7 +42,6 @@ export default {
   async mounted() {
     //  Send request to get videos
     await this.$store.dispatch("videos/videosGet");
-    console.log(this.$store.getters["videos/videos"]);
 
     //  Stop loading
     this.loading = false;
