@@ -17,12 +17,14 @@ else:
 
 #   Returns an array of all videos for a given user
 def videosGet(event, context):
-    username = event['queryStringParameters']['username']
-
-    if username:
+    if hasattr(event, 'queryStringParameters') and 'username' in event['queryStringParameters']:
+        username = event['queryStringParameters']['username']
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
     else:
-        response = dynamodb.query(KeyConditionExpression = Key('sk').begins_with('VIDEO'))
+        scan_kwargs = {
+            'FilterExpression': Key('sk').begins_with('VIDEO')
+        }
+        response = dynamodb.scan(**scan_kwargs) 
 
     return {
         'statusCode': 200,

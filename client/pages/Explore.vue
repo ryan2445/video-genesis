@@ -44,8 +44,8 @@ export default {
   },
   async mounted() {
     //  Send request to get videos
-    await this.$store.dispatch("videos/GetAllVideos");
-    alert("Hello Ji");
+    await this.$store.dispatch("videos/getAllVideos");
+
     console.log(this.$store.getters["videos/videosAll"]);
 
     //  Stop loading

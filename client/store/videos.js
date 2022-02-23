@@ -10,6 +10,7 @@ export const getters = {
   get_video_by_id: (state) => (sk) => {
     return state.videos.find((video) => video.sk == sk);
   },
+  videosAll: (state) => state.videosAll
 };
 
 export const actions = {
@@ -39,9 +40,9 @@ export const actions = {
       return null;
     }
   },
-  async GetAllVideos({ commit, rootState }) {
+  async getAllVideos({ commit, rootState }) {
     try {
-      const response = await this.$axios.get("videos");
+      const response = await this.$axios.get("videos/all");
       commit("videosSetAll", response.data.Items);
     } catch (exception) {
       return null;
@@ -81,7 +82,7 @@ export const mutations = {
     state.videos = array;
   },
 
-  videoSetAll(state, array) {
+  videosSetAll(state, array) {
     state.videosAll = array;
   },
 };
