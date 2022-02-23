@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@tensorflow/tfjs-node": "^3.13.0",
     "aws-amplify": "^4.3.12",
     "axios": "^0.25.0",
     "core-js": "^3.4.2",
