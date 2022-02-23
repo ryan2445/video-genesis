@@ -30,10 +30,17 @@ Resources:
             Handler: videos.handle
             Runtime: python3.8
             Events:
-                videosApiEvent:
+                videosApiEventDefault:
                     Type: Api
                     Properties:
                         Path: /videos
+                        Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
+                videosApiEventProxy:
+                    Type: Api
+                    Properties:
+                        Path: /videos/{proxy+}
                         Method: ANY
                         Auth:
                             Authorizer: globalApiAuth

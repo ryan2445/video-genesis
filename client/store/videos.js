@@ -16,10 +16,26 @@ export const actions = {
   async videosGet({ commit, rootState }) {
     try {
       const response = await this.$axios.get(
-        `videos?username=${rootState.user.user.username}`
+        `videos/all?username=${rootState.user.user.username}`
       );
       commit("videosSet", response.data.Items);
     } catch (exception) {
+      return null;
+    }
+  },
+  async videoGet({ commit, rootState }, sk) {
+    try {
+      const response = await this.$axios.get(
+        `videos?username=${rootState.user.user.username}&sk=${sk}`
+      );
+
+      if (!response || !response.data || !response.data.Items) {
+        return null;
+      }
+
+      return response.data.Items[0]
+    }
+    catch (exception) {
       return null;
     }
   },

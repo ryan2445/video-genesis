@@ -27,7 +27,6 @@ export default {
       loading: true,
     };
   },
-
   computed: {
     ...mapGetters({
       user: "user/user",
@@ -67,13 +66,9 @@ export default {
     }
   },
   async mounted() {
-    const sk = `VIDEO#${this.sk}`;
+    const sk = this.sk
 
-    await this.$store.dispatch("videos/videosGet");
-
-    const video = this.$store.getters["videos/videos"].find(
-      (video) => video.sk == sk
-    );
+    const video = await this.$store.dispatch("videos/videoGet", sk);
 
     this.video = video;
 

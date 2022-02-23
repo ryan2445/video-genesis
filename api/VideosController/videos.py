@@ -1,9 +1,14 @@
-from asyncio.windows_events import NULL
 import boto3
 from boto3.dynamodb.conditions import Key
 import json
 import os
 import uuid
+
+def badRequest(msg: str) -> dict:
+    return {
+        'statusCode': 400,
+        'body': msg
+    }
 
 if os.getenv('AWS_SAM_LOCAL'):
     dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://dynamodb-local:8000').Table('system')
@@ -17,14 +22,28 @@ def videosGet(event, context):
     if username:
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
     else:
-        response = dynamodb.query(KeyConditionExpression =Key('sk').begins_with('VIDEO'))
+        response = dynamodb.query(KeyConditionExpression = Key('sk').begins_with('VIDEO'))
 
     return {
         'statusCode': 200,
         'body': json.dumps({ 'Items': response['Items'] })
     }
-
     
+def videoGet(event, context):
+    username = event['queryStringParameters']['username']
+    sk = event['queryStringParameters']['sk']
+    
+    if not username:
+        return badRequest("Username required")
+    if not sk:
+        return badRequest("sk required")
+
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').eq('VIDEO#' + sk))
+    
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response)
+    }
 
 #   Creates a new video
 def videosPost(event, context):
@@ -97,18 +116,28 @@ def videosDelete(event, context):
     }
 
 def handle(event, context):
-    method = event['httpMethod']
-
     response = None
-
-    if method == 'GET':
-        response = videosGet(event, context)
-    elif method == 'POST':
-        response = videosPost(event, context)
-    elif method == 'PUT':
-        response = videosPut(event, context)
-    elif method == 'DELETE':
-        response = videosDelete(event, context)
+    
+    methods = {
+        'GET': {
+            '/videos/all': videosGet,
+            '/videos': videoGet
+        },
+        'POST': {
+            '/videos': videosPost
+        },
+        'PUT': {
+            '/videos': videosPut
+        },
+        'DELETE': {
+            '/videos': videosDelete
+        }
+    }
+    
+    method = event['httpMethod']
+    path = event['path']
+    
+    response = methods[method][path](event, context)
 
     if not response:
         response = {
