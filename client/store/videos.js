@@ -24,11 +24,9 @@ export const actions = {
       return null;
     }
   },
-  async videoGet({ commit, rootState }, sk) {
+  async videoGet({ commit, rootState }, params) {
     try {
-      const response = await this.$axios.get(
-        `videos?username=${rootState.user.user.username}&sk=${sk}`
-      );
+      const response = await this.$axios.get('videos', { params: params });
 
       if (!response || !response.data || !response.data.Items) {
         return null;

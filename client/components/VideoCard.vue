@@ -4,7 +4,7 @@
       <v-card class="mx-auto" outlined>
         <v-row>
           <v-col cols="4">
-            <nuxt-link :to="`/videos/${video.sk.split('#')[1]}`">
+            <nuxt-link :to="`/videos/pk=${videoPK}&sk=${videoSK}`">
               <VueVideoThumbnail
                 :video-src="getLink(video)"
                 :snapshot-at-duration-percent="70"
@@ -46,6 +46,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "VideoCard",
   components: { VueVideoThumbnail },
+  watchQuery: ['pk', 'sk'],
   data() {
     return {
       bucket_url:
@@ -62,12 +63,31 @@ export default {
     ...mapGetters({
       user: "user/user",
     }),
+    videoPK() {
+      // If the video does not exist, return null
+      if (!this.video) return null
+
+      return this.video.pk
+    },
+    videoSK() {
+      // If the video does not exist, return null
+      if (!this.video) return null
+
+      return this.video.sk
+    }
   },
   methods: {
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
     },
   },
+  watchQuery(newQuery, oldQuery) {
+    console.log('watchQuery')
+    console.log(newQuery)
+    // Only execute component methods if the old query string contained `bar`
+    // and the new query string contains `foo`
+    return newQuery.foo && oldQuery.bar
+  }
 };
 </script>
 

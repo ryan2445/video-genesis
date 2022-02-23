@@ -17,7 +17,9 @@ else:
 
 #   Returns an array of all videos for a given user
 def videosGet(event, context):
-    if hasattr(event, 'queryStringParameters') and 'username' in event['queryStringParameters']:
+    queryParams = event['queryStringParameters']
+    
+    if queryParams is not None and 'username' in queryParams:
         username = event['queryStringParameters']['username']
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
     else:
@@ -32,15 +34,15 @@ def videosGet(event, context):
     }
     
 def videoGet(event, context):
-    username = event['queryStringParameters']['username']
+    if 'pk' not in event['queryStringParameters']:
+        return badRequest("Error: pk required in request")
+    if 'sk' not in event['queryStringParameters']:
+        return badRequest('Error: sk required in request')
+    
+    pk = event['queryStringParameters']['pk']
     sk = event['queryStringParameters']['sk']
     
-    if not username:
-        return badRequest("Username required")
-    if not sk:
-        return badRequest("sk required")
-
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').eq('VIDEO#' + sk))
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk))
     
     return {
         'statusCode': 200,

@@ -20,11 +20,12 @@ export default {
   components: { VideoPlayerInfo },
   data() {
     return {
-      sk: this.$route.params.id,
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       video: null,
       loading: true,
+      pk: null,
+      sk: null
     };
   },
   computed: {
@@ -66,14 +67,47 @@ export default {
     }
   },
   async mounted() {
-    const sk = this.sk
+    this.getQueryParamsAndSetKeys();
 
-    const video = await this.$store.dispatch("videos/videoGet", sk);
-
-    this.video = video;
+    await this.getAndSetVideo();
 
     this.loading = false;
   },
+  methods: {
+    getQueryParamsAndSetKeys() {
+      const path = this.$route.fullPath.replace('/videos/', '');
+      const params = new URLSearchParams(path);
+
+      // If the sk is not provided, error
+      if (!params.has('sk')) {
+        console.error('sort key not provided')
+        return;
+      }
+
+      console.log(params.get('pk'))
+
+      const pk = params.has('pk') 
+                  ? params.get('pk') 
+                  : this.$store.getters('user/user').id;
+      const sk = params.get('sk');
+
+      this.pk = pk
+      this.sk = sk
+    },
+    async getAndSetVideo() {
+      if (!this.pk || !this.sk) {
+        console.error("Cannot get video without pk and sk");
+        return;
+      }
+
+      const video = await this.$store.dispatch("videos/videoGet", {
+        pk: this.pk,
+        sk: this.sk
+      });
+      
+      this.video = video;
+    }
+  }
 };
 </script>
 
