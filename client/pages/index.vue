@@ -128,7 +128,7 @@ export default {
     return {
       team: [
         { name: "Mark Minkoff", role: "Web developer" },
-        { name: "Ryan Hoofman", role: "Web developer" },
+        { name: "Ryan Hoffman", role: "Web developer" },
         { name: "Ritik Bhardwaj", role: "Web developer" },
         { name: "Heriberto Martinez", role: "Web developer" },
         { name: "Manoj Selvakumar", role: "Web developer" },

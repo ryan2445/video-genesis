@@ -1,25 +1,16 @@
 <template>
-    <div class="flex flex-col">
-        <h1> 
-            Sign Up
-        </h1>
-        <AuthForm
-            type="signUp"
-            @signUp="onSignUp"
-        />
-        <NuxtLink to='/'>Home Page</NuxtLink>
-    </div>
+  <div class="flex flex-col items-center">
+    <AuthForm type="signUp" @signUp="onSignUp" />
+  </div>
 </template>
-
-<script lang="js">
+<script>
 export default {
-    name: "sign-up",
-    methods: {
-        onSignUp() {
-            this.$router.push({
-                path: '/auth/confirm'
-            })
-        }
-    }
+  methods: {
+    onSignUp() {
+      this.$router.push({
+        path: "/auth/confirm",
+      })
+    },
+  },
 }
 </script>
