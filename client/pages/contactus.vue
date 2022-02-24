@@ -152,7 +152,7 @@
 </template>
 <script>
 
-
+// emailjs
 import emailjs from "@emailjs/browser";       
 export default {
   methods: {
