@@ -92,6 +92,11 @@ export default {
         icon: "mdi-telescope",
         route: "/explore",
       },
+      {
+        title: "Contact-us",
+        icon: "mdi-view-list",
+        route: "/contactus",
+      }
     ],
     drawer: false,
     userImage: "https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png",
