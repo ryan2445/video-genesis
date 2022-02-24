@@ -27,7 +27,7 @@ it should bring all videos to Explore page!
 
 <script>
 import { mapGetters } from "vuex";
-import VideoCard from "../components/VideoCard.vue";
+import VideoCard from "../components/VideoCardExplore.vue";
 export default {
   components: { VideoCard },
   layout: "dashboard",

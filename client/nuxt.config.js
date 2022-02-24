@@ -34,7 +34,8 @@ export default {
     {src: '~/plugins/amplify.js'},
     {src: '~/plugins/vee-validate.js'},
     {src: '~/plugins/axios.js' },
-    {src: '~/plugins/s3-client.js'}
+    {src: '~/plugins/s3-client.js'},
+    {src: '~/plugins/tensor.js'}
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

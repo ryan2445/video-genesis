@@ -2,7 +2,7 @@
   <div class="relative">
     <!-- This is the cover image for the banner -->
     <div
-      class="absolute bottom-0 h-56 overflow-hidden flex-1 justify-center items-center w-screen"
+      class="absolute bottom-0 h-56 overflow-hidden flex-1 justify-center items-center"
     >
       <img
         class="min-w-full min-h-full object-cover"
@@ -11,7 +11,7 @@
       />
     </div>
     <div
-      class="-bottom-16 left-12 absolute w-44 h-44 rounded-full overflow-hidden"
+      class="-bottom-16 left-14 absolute w-44 h-44 rounded-full overflow-hidden"
     >
       <img
         class="min-w-full min-h-full object-cover"
