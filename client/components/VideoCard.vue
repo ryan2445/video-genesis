@@ -11,25 +11,17 @@
                 :width="500"
                 :height="300"
               >
-                <template #snapshot="{ snapshot }">
-                  <img
-                    v-if="snapshot"
-                    :src="snapshot"
-                    alt="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                  />
-                </template>
               </VueVideoThumbnail>
             </nuxt-link>
           </v-col>
           <v-col cols="8">
             <v-list-item three-line>
               <v-list-item-content>
-                <v-list-item-title class="text-overline mb-4">
+                <div class="text-2xl font-medium mt-4">
                   {{ video.videoTitle }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ video.videoDescription }}
-                </v-list-item-subtitle>
+                </div>
+                <div class="ml-2 mt-2">{{ user.username }}</div>
+                <div class="text-base mt-2">{{ video.videoDescription }}</div>
               </v-list-item-content>
             </v-list-item>
           </v-col>
@@ -46,7 +38,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "VideoCard",
   components: { VueVideoThumbnail },
-  watchQuery: ['pk', 'sk'],
+  watchQuery: ["pk", "sk"],
   data() {
     return {
       bucket_url:
@@ -65,16 +57,16 @@ export default {
     }),
     videoPK() {
       // If the video does not exist, return null
-      if (!this.video) return null
+      if (!this.video) return null;
 
-      return this.video.pk
+      return this.video.pk;
     },
     videoSK() {
       // If the video does not exist, return null
-      if (!this.video) return null
+      if (!this.video) return null;
 
-      return this.video.sk
-    }
+      return this.video.sk;
+    },
   },
   methods: {
     getLink(video) {
@@ -82,12 +74,12 @@ export default {
     },
   },
   watchQuery(newQuery, oldQuery) {
-    console.log('watchQuery')
-    console.log(newQuery)
+    console.log("watchQuery");
+    console.log(newQuery);
     // Only execute component methods if the old query string contained `bar`
     // and the new query string contains `foo`
-    return newQuery.foo && oldQuery.bar
-  }
+    return newQuery.foo && oldQuery.bar;
+  },
 };
 </script>
 
