@@ -17,11 +17,16 @@
           <v-col cols="8">
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="text-2xl font-medium mt-4">
+                <div class="text-3xl font-medium mt-2">
                   {{ video.videoTitle }}
                 </div>
-                <div class="ml-2 mt-2">{{ user.username }}</div>
-                <div class="text-base mt-2">{{ video.videoDescription }}</div>
+                <div class="mt-1 text-lg hover:text-gray-500 cursor-pointer">
+                  {{ user.username }}
+                </div>
+                <div class="mt-2 text-xl">
+                  <span class="font-bold">Description: </span>
+                  {{ video.videoDescription }}
+                </div>
               </v-list-item-content>
             </v-list-item>
           </v-col>
