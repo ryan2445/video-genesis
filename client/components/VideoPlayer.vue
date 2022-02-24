@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="relative">
     <video
       id="videoplayer"
       controls
       preload="auto"
       ref="videoPlayer"
-      class="video-js vjs-big-play-centered"
+      crossorigin="anonymous"
+      class="video-js vjs-big-play-centered z-10"
       @play="onPlayerPlay($event)"
       @pause="onPlayerPause($event)"
       @volumechange="onVolumeChange($event)"
@@ -18,12 +19,14 @@
       >
       </audio>
     </video>
+    <canvas ref="videoCanvas" class="" :width="width" :height="height"></canvas>
   </div>
 </template>
 
 <script>
 import videojs from "video.js";
 import "videojs-resolution-switcher-webpack";
+import { clipByValue, browser, scalar } from '@tensorflow/tfjs'
 export default {
   name: "VideoPlayer",
 
@@ -53,23 +56,42 @@ export default {
 
       currentVideoRes: null, // Stores the current resolution of the video
 
-      canvasPlayer: null, // Stores the canvas player
+      c1: null, // Stores the canvas player
+
+      ctx1: null, // Store the context of the canvas
+
+      c_tmp: null,
+
+      ctx_tmp: null,
 
       width: null, // Stores the width of the video element
 
-      height: null // Stores the height of the video element
+      height: null, // Stores the height of the video element
+
+      playing: false,
+
+      model: null
     };
   },
-  mounted() {
+  async mounted() {
+    await this.initModel()
+
     // Initialize the video player
     this.initVideoPlayer();
     
     // Initialize the audio player
     this.initAudioPlayer();
 
+    this.initCanvasPlayer()
+
     this.loading = false;
   },
   methods: {
+    async initModel() {
+      this.model = await this.$tensor.loadModel()
+      console.log('model loaded')
+    },
+
     initVideoPlayer() {
       if (!this.videoData) {
         console.error("videoData not provided so cannot load video player.")
@@ -131,6 +153,49 @@ export default {
       // Save the audio player to state
       this.audioPlayer = player
     },
+
+    initCanvasPlayer() {
+      if (!this.videoPlayer) {
+        console.error("Video player is not initialized. Cannot initialize the canvas player")
+        return
+      }
+
+      const canvas = this.$refs.videoCanvas
+      const video = this.$refs.videoPlayer
+
+      if (!canvas || !video) {
+        console.error("Canvas or video ref not found")
+        return
+      }
+
+      this.c1 = canvas
+      this.ctx1 = this.c1.getContext('2d');
+      this.c_tmp = document.createElement('canvas');
+      this.c_tmp.setAttribute('width', this.width);
+      this.c_tmp.setAttribute('height', this.height);
+      this.ctx_tmp = this.c_tmp.getContext('2d');
+    },
+
+    async computeCanvasFrame() {
+      const video = this.$refs.videoPlayer;
+
+      this.ctx_tmp.drawImage(video, 0, 0, this.width, this.height);
+
+      let frame = this.ctx_tmp.getImageData(0, 0, this.width, this.height);
+
+      // let processed = this.$tensor.preprocess(frame);
+
+      // const p = this.model.predict(processed);
+
+      // const clip = clipByValue(p.squeeze(), 0, 255).cast('int32')
+
+      // await browser.toPixels(clip, this.c1)
+
+      this.ctx1.putImageData(frame, 0, 0);
+
+      if (this.playing) setTimeout(this.computeCanvasFrame, 0)
+    },
+
     onPlayerPlay(event) {
       // Continue if audio is enabled
       if (!this.audioEnabled) return
@@ -143,6 +208,10 @@ export default {
 
       // Play the audio
       this.audioPlayer.play();
+
+      this.playing = true
+
+      this.computeCanvasFrame();
     },
     onPlayerPause(videoPlayer) {
       // Continue if audio is enabled
@@ -150,6 +219,7 @@ export default {
 
       // Pause the audio
       this.audioPlayer.pause()
+      this.playing = false
     },
     onVolumeChange(event) {
       // Continue if audio is enabled

@@ -1,23 +1,25 @@
-import { Tensor3D, cast, node, expandDims, clipByValue, Tensor4D, loadGraphModel, io, GraphModel} from '@tensorflow/tfjs-node'
+import { cast, browser, expandDims, loadGraphModel, tensor} from '@tensorflow/tfjs'
 
 const Tensor = {
-  preprocess = (path) => {
-    //get image
-    const image = fs.readFileSync(path)
+  preprocess: (image) => {
+    // Load it with the new decodeImage Function
+    const hr_image = browser.fromPixels(image)
 
-    //load it with the new decodeImage Function
-    const hr_image = node.decodeImage(new Uint8Array(image), 3)
-
-    //change the type to 'float32' from 'int32'
+    // change the type to 'float32' from 'int32'
     const castImage = cast(hr_image, 'float32')
 
     // expand the dims for multiple batch capabilities
     return expandDims(castImage, 0)
   },
-  loadModel = async () => {
-    return await loadGraphModel(io.fileSystem('./weights/srgan/model.json'))
+  loadModel:  async () => {
+    const modelUrl = 'https://model-weights-123.s3.us-west-2.amazonaws.com/srgan/model.json';
+    return await loadGraphModel(modelUrl)
   },
-  predict = (model) => {
-    
+  predict: (model, image) => {
+    return model.predict(image)
   }
+}
+
+export default function ({ app }, inject) {
+  inject("tensor", Tensor);
 }
