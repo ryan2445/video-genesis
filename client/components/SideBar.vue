@@ -2,8 +2,8 @@
   <div>
     <v-navigation-drawer mini-variant permanent app>
       <template v-slot:prepend>
-        <v-list-item class="orange">
-          <v-list-item-avatar class="-ml-10">
+        <v-list-item class="orange justify-center">
+          <v-list-item-avatar>
             <img alt="Avatar" :src="userImage" />
           </v-list-item-avatar>
         </v-list-item>
