@@ -11,20 +11,13 @@
                 :width="500"
                 :height="300"
               >
-                <template #snapshot="{ snapshot }">
-                  <img
-                    v-if="snapshot"
-                    :src="snapshot"
-                    alt="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-                  />
-                </template>
               </VueVideoThumbnail>
             </nuxt-link>
           </v-col>
           <v-col cols="8">
             <v-list-item three-line>
               <v-list-item-content>
-                <v-list-item-title class="text-overline mb-4">
+                <div class="text-3xl font-medium mt-2">
                   {{ video.videoTitle }}
                   <v-textarea
                     v-if="isEditing"
@@ -115,11 +108,9 @@
                       
                     </v-btn> -->
                   </v-card-actions>
-                </v-list-item-title>
 
-                <v-list-item-subtitle>
                   {{ video.videoDescription }}
-                </v-list-item-subtitle>
+                </div>
               </v-list-item-content>
             </v-list-item>
           </v-col>
