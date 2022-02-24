@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@mdi/js": "^6.5.95",
     "aws-amplify": "^4.3.12",
     "axios": "^0.25.0",
     "core-js": "^3.4.2",
