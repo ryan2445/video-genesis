@@ -93,7 +93,7 @@ export default {
         route: "/explore",
       },
       {
-        title: "Contact-us",
+        title: "Contactus",
         icon: "mdi-view-list",
         route: "/contactus",
       }

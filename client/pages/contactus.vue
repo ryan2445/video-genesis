@@ -18,7 +18,7 @@
         <div class="field">
           <p class="control is-expanded has-icons-left has-icons-right">
             <input
-              class="input is-success"
+              class="input"
               type="email"
               placeholder="Email"
               value=""
@@ -98,12 +98,12 @@
         <div class="field">
           <div class="control">
             <input
-              class="input is-danger"
+              class="input"
               type="text"
-              placeholder="e.g. Partnership opportunity"
+              placeholder="e.g. Trouble Uploading Video"
             />
           </div>
-          <p class="help is-danger">This field is required</p>
+          <p class="help is-danger"></p>
         </div>
       </div>
     </div>
@@ -131,7 +131,7 @@
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <button class="button is-primary">Send message</button>
+            <button class="button is-primary">send message</button>
           </div>
         </div>
       </div>
