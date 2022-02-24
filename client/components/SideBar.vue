@@ -30,6 +30,7 @@
         </v-btn>
       </template>
     </v-navigation-drawer>
+
     <!-- Going to add another navigation bar that expands  -->
     <v-navigation-drawer v-model="drawer" temporary app>
       <template v-slot:prepend>
