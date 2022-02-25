@@ -18,7 +18,7 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="text-3xl font-medium mt-2">
-                  {{ video.videoTitle }}
+                  {{ this._videoTitle || this.video.videoTitle }}
 
                   <p v-if="!isEditing">
                     {{ pros }}
@@ -113,7 +113,7 @@
                       
                     </v-btn> -->
 
-                  {{ video.videoDescription }}
+                  {{ this._videoDescription || this.video.videoDescription }}
                 </div>
               </v-list-item-content>
             </v-list-item>
@@ -200,7 +200,14 @@ export default {
       await this.$store.dispatch("videos/videosGet");
       this.dialog = false;
     },
-
+    async onVideoDelete() {
+      const video = await this.$store.dispatch("videos/videosDelete", {
+        pk: this.video.pk,
+        sk: this.video.sk,
+      });
+      await this.$store.dispatch("videos/videosGet");
+      this.dialog = false;
+    },
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
     },
