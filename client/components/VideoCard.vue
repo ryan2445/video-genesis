@@ -47,6 +47,12 @@
                             <v-icon left> mdi-pencil </v-icon>
                             EDIT
                           </v-btn>
+                          <v-card-actions class="justify-end">
+                            <v-btn align="right" color="orange" depressed dark>
+                              <v-icon left> mdi-delete </v-icon>
+                              Delete
+                            </v-btn>
+                          </v-card-actions>
                         </template>
                         <v-card>
                           <v-card-title>
