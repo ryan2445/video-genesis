@@ -87,7 +87,7 @@
                             <v-btn
                               color="blue darken-1"
                               text
-                              @click="dialog = false"
+                              @click="onDialogClose"
                             >
                               Close
                             </v-btn>
@@ -192,13 +192,18 @@ export default {
   methods: {
     async onVideoSave() {
       const video = await this.$store.dispatch("videos/videosPut", {
-        videoTitle: this._videoTitle,
-        videoDescription: this._videoDescription,
+        videoTitle: this._videoTitle || this.video.videoTitle,
+        videoDescription: this._videoDescription || this.video.videoDescription,
         pk: this.video.pk,
         sk: this.video.sk,
       });
       await this.$store.dispatch("videos/videosGet");
       this.dialog = false;
+    },
+    async onDialogClose() {
+      this.dialog = false;
+      this._videoTitle = this.video.videoTitle;
+      this._videoDescription = this.video.videoDescription;
     },
     async onVideoDelete() {
       const video = await this.$store.dispatch("videos/videosDelete", {
