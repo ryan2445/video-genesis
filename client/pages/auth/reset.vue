@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col m-auto text-center" style="width: 360px">
     <div v-if="!success">
-      <h1>Reset</h1>
+      <h1>We've emailed a verification code to {{ toEmail }}</h1>
       <validation-provider
         name="Verification code"
         rules="required|numeric|length:6"
@@ -13,7 +13,6 @@
           :error-messages="errors"
           placeholder="Code"
           :success="!errors"
-          type="number"
           v-model="code"
         >
         </v-text-field>
@@ -45,7 +44,7 @@
     <div v-else>
       <h1>You're password has successfully been reset.</h1>
       <v-btn
-        @click="$router.push('/home')"
+        @click="$router.push('/auth/sign-in')"
         color="orange lighten-1"
         text
         style="text-transform: none"
@@ -62,7 +61,8 @@ export default {
       username: null,
       code: null,
       password: null,
-      success: false
+      success: false,
+      toEmail: null
     }
   },
   mounted() {
@@ -72,6 +72,7 @@ export default {
       .forgotPassword(this.username)
       .then((data) => {
         console.log("Reset Password Email Sent", data)
+        this.toEmail = data.CodeDeliveryDetails.Destination
       })
       .catch((err) => console.log(err))
   },

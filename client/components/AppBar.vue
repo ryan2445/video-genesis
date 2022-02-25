@@ -1,7 +1,7 @@
 <template>
   <v-row justify="space-between" align="center" no-gutters>
     <v-col cols="4">
-      <NuxtLink to="/">
+      <NuxtLink :to="$route.path == '/' ? '/home' : '/'">
         <h1 class="font-medium text-xl mx-4">Video Genesis</h1>
       </NuxtLink>
     </v-col>
@@ -29,37 +29,37 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 export default {
   name: "AppBar",
   methods: {
     onSignUp() {
       this.$router.push({
-        path: "/auth/sign-up",
-      });
+        path: "/auth/sign-up"
+      })
     },
     onSignIn() {
       this.$router.push({
-        path: "/auth/sign-in",
-      });
+        path: "/auth/sign-in"
+      })
     },
     async onSignOut() {
       try {
-        await this.$auth.signOut();
+        await this.$auth.signOut()
 
-        this.$store.commit("user/setUser", null);
-        this.$store.dispatch("auth/unauthorize", { axios: this.$axios });
+        this.$store.commit("user/setUser", null)
+        this.$store.dispatch("auth/unauthorize", { axios: this.$axios })
 
-        console.log("EVENT: User signed out");
+        console.log("EVENT: User signed out")
       } catch (error) {
-        console.log("error signing out: ", error);
+        console.log("error signing out: ", error)
       }
-    },
+    }
   },
   computed: {
     ...mapGetters({
-      user: "user/user",
-    }),
-  },
-};
+      user: "user/user"
+    })
+  }
+}
 </script>

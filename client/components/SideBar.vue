@@ -4,7 +4,9 @@
       <template v-slot:prepend>
         <v-list-item class="orange justify-center">
           <v-list-item-avatar>
-            <img alt="Avatar" :src="userImage" />
+            <NuxtLink to="/">
+              <img alt="Avatar" :src="logo" />
+            </NuxtLink>
           </v-list-item-avatar>
         </v-list-item>
       </template>
@@ -36,7 +38,9 @@
       <template v-slot:prepend>
         <v-list-item class="px-2 orange lighten-1">
           <v-list-item-avatar>
-            <img alt="Avatar" :src="userImage" />
+            <NuxtLink to="/">
+              <img alt="Avatar" :src="logo" />
+            </NuxtLink>
           </v-list-item-avatar>
           <div class="text-white font-weight-bold">Video Genesis</div>
         </v-list-item>
@@ -69,44 +73,44 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 export default {
   data: () => ({
     items: [
       {
         title: "Home",
         icon: "mdi-home",
-        route: "/home",
+        route: "/home"
       },
       {
         title: "Upload",
         icon: "mdi-upload",
-        route: "/upload",
+        route: "/upload"
       },
       {
         title: "Videos",
         icon: "mdi-view-list",
-        route: "/videos",
+        route: "/videos"
       },
       {
         title: "Explore",
         icon: "mdi-telescope",
-        route: "/explore",
+        route: "/explore"
       },
       {
         title: "Contactus",
         icon: "mdi-view-list",
-        route: "/contactus",
+        route: "/contactus"
       }
     ],
     drawer: false,
-    userImage: "https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png"
   }),
   computed: {
     ...mapGetters({
-      user: "user/user",
-    }),
-  },
-};
+      user: "user/user"
+    })
+  }
+}
 </script>
 <style scoped></style>

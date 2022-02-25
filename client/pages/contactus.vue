@@ -19,7 +19,12 @@
         <div class="field-body">
           <div class="field">
             <p class="control is-expanded has-icons-left">
-              <input class="input" type="text" placeholder="Name" name="from_name" />
+              <input
+                class="input"
+                type="text"
+                placeholder="Name"
+                name="from_name"
+              />
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
@@ -27,7 +32,13 @@
           </div>
           <div class="field">
             <p class="control is-expanded has-icons-left has-icons-right">
-              <input class="input" type="email" placeholder="Email" value="" name="from_email" />
+              <input
+                class="input"
+                type="email"
+                placeholder="Email"
+                value=""
+                name="from_email"
+              />
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -151,13 +162,12 @@
   </div>
 </template>
 <script>
-
 // emailjs
-import emailjs from "@emailjs/browser";       
+import emailjs from "@emailjs/browser"
 export default {
+  layout: "dashboard",
   methods: {
     SendEmail() {
-
       emailjs
         .sendForm(
           "service_gbmy4bi",
@@ -167,13 +177,13 @@ export default {
         )
         .then(
           (result) => {
-            console.log("SUCCESS!", result.text);
+            console.log("SUCCESS!", result.text)
           },
           (error) => {
-            console.log("FAILED...", error.text);
+            console.log("FAILED...", error.text)
           }
-        );
-    },
-  },
-};
+        )
+    }
+  }
+}
 </script>
