@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.4.0",
     "@mdi/js": "^6.5.95",
     "@tensorflow/tfjs": "^3.13.0",
     "aws-amplify": "^4.3.12",
