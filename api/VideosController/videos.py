@@ -72,7 +72,7 @@ def videosPost(event, context):
     )
 
     return {
-        'statusCode': 200,
+        'statusCode': 201,
         'body': json.dumps({'response': response})
     }
 
@@ -83,15 +83,17 @@ def videosPut(event, context):
     pk = body['pk']
     sk = body['sk']
     videoTitle = body['videoTitle']
-
+    videoDescription = body['videoDescription']
+    
     response = dynamodb.update_item(
         Key = {
             'pk': pk,
             'sk': sk
         },
-        UpdateExpression = 'set videoTitle=:0',
+        UpdateExpression = 'set videoTitle=:0, videoDescription=:1',
         ExpressionAttributeValues = {
-            ':0': videoTitle
+            ':0': videoTitle,
+            ':1': videoDescription,
         }
     )
 

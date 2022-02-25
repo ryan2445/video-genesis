@@ -19,20 +19,12 @@
               <v-list-item-content>
                 <div class="text-3xl font-medium mt-2">
                   {{ video.videoTitle }}
-                  <v-textarea
-                    v-if="isEditing"
-                    v-model="video.videoTitle"
-                    auto-grow
-                    full-width
-                    rows="2"
-                  >
-                  </v-textarea>
 
                   <p v-if="!isEditing">
                     {{ pros }}
                   </p>
-                  <v-card-actions class="justify-end">
-                    <v-row>
+                  <v-row>
+                    <v-card-actions class="justify-left">
                       <v-dialog v-model="dialog" persistent max-width="600px">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
@@ -48,7 +40,13 @@
                             EDIT
                           </v-btn>
                           <v-card-actions class="justify-end">
-                            <v-btn align="right" color="orange" depressed dark>
+                            <v-btn
+                              align="right"
+                              color="orange"
+                              depressed
+                              dark
+                              @click="onVideoDelete"
+                            >
                               <v-icon left> mdi-delete </v-icon>
                               Delete
                             </v-btn>
@@ -65,7 +63,7 @@
                                   <v-text-field
                                     label="Title*"
                                     required
-                                    :value="video.videoTitle"
+                                    v-model="videoTitle"
                                     auto-grow
                                     full-width
                                     rows="2"
@@ -74,7 +72,7 @@
                                 <v-col cols="12">
                                   <v-textarea
                                     label="Description"
-                                    :value="video.videoDescription"
+                                    v-model="videoDescription"
                                     type="text"
                                     :error-messages="errors"
                                     filled
@@ -96,15 +94,16 @@
                             <v-btn
                               color="blue darken-1"
                               text
-                              @click="dialog = false"
+                              @click="onVideoSave"
                             >
                               Save
                             </v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
-                    </v-row>
-                    <!-- <v-btn
+                    </v-card-actions>
+                  </v-row>
+                  <!-- <v-btn
                       class="ma-2"
                       color="orange"
                       @click="isEditing = !isEditing"
@@ -113,7 +112,6 @@
                       EDIT
                       
                     </v-btn> -->
-                  </v-card-actions>
 
                   {{ video.videoDescription }}
                 </div>
@@ -144,6 +142,8 @@ export default {
       top: false,
       right: false,
       dialog: false,
+      _videoTitle: "",
+      _videoDescription: "",
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
     };
@@ -154,10 +154,28 @@ export default {
       required: true,
     },
   },
+
+  mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
     }),
+    videoTitle: {
+      set(value) {
+        this._videoTitle = value;
+      },
+      get() {
+        return this._videoTitle || this.video.videoTitle;
+      },
+    },
+    videoDescription: {
+      set(value) {
+        this._videoDescription = value;
+      },
+      get() {
+        return this._videoDescription || this.video.videoDescription;
+      },
+    },
     videoPK() {
       // If the video does not exist, return null
       if (!this.video) return null;
@@ -172,6 +190,17 @@ export default {
     },
   },
   methods: {
+    async onVideoSave() {
+      const video = await this.$store.dispatch("videos/videosPut", {
+        videoTitle: this._videoTitle,
+        videoDescription: this._videoDescription,
+        pk: this.video.pk,
+        sk: this.video.sk,
+      });
+      await this.$store.dispatch("videos/videosGet");
+      this.dialog = false;
+    },
+
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
     },
