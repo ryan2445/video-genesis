@@ -99,7 +99,7 @@ export default {
       },
       {
         title: "Contactus",
-        icon: "mdi-view-list",
+        icon: "mdi-account-question ",
         route: "/contactus"
       }
     ],
