@@ -11,7 +11,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <form ref="contact-us-form" @submit.prevent="SendEmail">
+    <form ref="contact-us-form" @submit.prevent="SendEmail($event.currentTarget)">
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">From</label>
@@ -187,12 +187,13 @@ export default {
     };
   },
   methods: {
-    SendEmail() {
+    SendEmail(form) {
       emailjs
         .sendForm(
           "service_gbmy4bi",
           "template_mvv2l0u",
-          this.$refs["contact-us-form"],
+          // this.$refs["contact-us-form"],
+          form,
           "user_b3vs3lNhdFhCw8CZDwjzj"
         )
         .then(
@@ -201,6 +202,8 @@ export default {
             (
               (resolve, reject) => 
               {
+                // this.$refs["contact-us-form"].reset();
+                form.reset(); 
                 this.sendMessageSuccess = true; 
                 resolve(); 
               }
@@ -213,7 +216,7 @@ export default {
                   ()=> 
                   {
                     this.sendMessageSuccess = false;
-                    this.$refs["contact-us-form"].reset();
+                    
                   }, 7000
                 ); 
 
