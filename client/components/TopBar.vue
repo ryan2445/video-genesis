@@ -1,5 +1,9 @@
 <template>
-  <v-app-bar app flat color="white">
+  <v-app-bar 
+    app 
+    color="white"
+    :elevation="2"
+  >
     <v-spacer />
     <v-menu offset-y min-width="200px">
       <template v-slot:activator="{ on, attrs }">

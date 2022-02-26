@@ -1,6 +1,3 @@
-// This is not working rn, need to figure out the python deployment thing, but
-it should bring all videos to Explore page!
-
 <template>
   <div>
     <div v-if="loading" class="text-center" style="height: 100vh">
@@ -18,8 +15,8 @@ it should bring all videos to Explore page!
     >
       <div>No videos found</div>
     </div>
-    <div v-for="(video, i) in videos" :key="i">
-      <video-card :video="video" :idx="i" />
+    <div class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center">
+      <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
     </div>
   </div>
   <!-- <VideoList /> -->
@@ -27,10 +24,11 @@ it should bring all videos to Explore page!
 
 <script>
 import { mapGetters } from "vuex";
-import VideoCard from "../components/VideoCardExplore.vue";
+import VideoCard from "../components/VideoCard.vue";
 export default {
   components: { VideoCard },
   layout: "dashboard",
+  name: "Explore",
   data() {
     return {
       //  Controls v-progress-circular

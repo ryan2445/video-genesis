@@ -15,8 +15,8 @@
     >
       <div>No videos found</div>
     </div>
-    <div v-for="(video, i) in videos" :key="i">
-      <video-card :video="video" :idx="i" />
+    <div class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center">
+      <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
     </div>
   </div>
 </template>

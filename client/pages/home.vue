@@ -31,8 +31,8 @@
             v-if="tabSelected == 'Uploads' && loading == false"
             class="mt-10 ml-auto mr-auto w-3/4"
           >
-            <div v-for="(video, i) in videos" :key="i">
-              <video-card :video="video" :idx="i" />
+            <div class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center">
+              <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
             </div>
           </div>
         </transition>

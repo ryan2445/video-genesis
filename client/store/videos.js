@@ -85,8 +85,6 @@ export const mutations = {
   },
 
   videoUpdate(state, params) {
-    console.log(params)
-
     if (params.idx == null) {
       console.error("videoUpdate requires idx in the parameter")
     }

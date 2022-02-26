@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("./icons.eot?7373fcc2525dbd7659d5b743fa71b86a#iefix") format("embedded-opentype"),
-url("./icons.woff2?7373fcc2525dbd7659d5b743fa71b86a") format("woff2"),
-url("./icons.woff?7373fcc2525dbd7659d5b743fa71b86a") format("woff");
+    src: url("./icons.eot?25c08b7706147cef3af251fdbe2beae5#iefix") format("embedded-opentype"),
+url("./icons.woff2?25c08b7706147cef3af251fdbe2beae5") format("woff2"),
+url("./icons.woff?25c08b7706147cef3af251fdbe2beae5") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -16,9 +16,18 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-check-circle:before {
+.icon-account-circle:before {
     content: "\f101";
 }
-.icon-video:before {
+.icon-account:before {
     content: "\f102";
+}
+.icon-check-circle:before {
+    content: "\f103";
+}
+.icon-cog-outline:before {
+    content: "\f104";
+}
+.icon-video:before {
+    content: "\f105";
 }
