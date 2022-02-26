@@ -177,11 +177,14 @@
 import emailjs from "@emailjs/browser"
 export default {
   layout: "dashboard",
-  data()
+  created() {
+    this.$store.commit('app/setRoute', "Contact Us")
+  },
+   data()
   {
     return {
       sendMessageSuccess: false
-    }; 
+    };
   },
   methods: {
     SendEmail() {
@@ -225,4 +228,5 @@ export default {
     }
   }
 }
+
 </script>
