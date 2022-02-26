@@ -28,6 +28,9 @@ export default {
       sk: null
     };
   },
+  created() {
+    this.$store.commit('app/setRoute', "")
+  },
   computed: {
     ...mapGetters({
       user: "user/user",
@@ -37,6 +40,8 @@ export default {
       if (!this.video) {
         return null;
       }
+
+      this.$store.commit('app/setRoute', this.video.videoTitle)
       
       // Parse the videoData json string
       const json = JSON.parse(this.video.videoData);

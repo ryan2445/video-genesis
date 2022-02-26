@@ -1,6 +1,5 @@
 <template>
-  <div class="grid place-items-center h-screen"
->
+  <div class="grid place-items-center h-screen">
     <video-form />
   </div>
  
@@ -11,6 +10,9 @@ import UploadBox from '../components/UploadBox.vue';
 export default {
   components: { UploadBox },
   layout: "dashboard",
+  created() {
+    this.$store.commit('app/setRoute', "Video Upload")
+  }
 };
 </script>
 

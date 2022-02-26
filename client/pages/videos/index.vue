@@ -39,6 +39,9 @@ export default {
       videos: "videos/videos",
     }),
   },
+  created() {
+    this.$store.commit('app/setRoute', "Videos")
+  },
   async mounted() {
     //  Send request to get videos
     await this.$store.dispatch("videos/videosGet");

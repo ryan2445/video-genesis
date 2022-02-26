@@ -3,7 +3,13 @@
     app 
     color="white"
     :elevation="2"
+    hide-on-scroll
   >
+    <div>
+      <h2 class="text-gray-800 text-lg strong">
+        {{ title }} 
+      </h2>
+    </div>
     <v-spacer />
     <v-menu offset-y min-width="200px">
       <template v-slot:activator="{ on, attrs }">
@@ -75,6 +81,11 @@ export default {
       this.$store.commit("user/setUser", null)
       this.$store.dispatch("auth/unauthorize", { axios: this.$axios })
       this.$router.push("/")
+    }
+  },
+  computed: {
+    title() {
+      return this.$store.getters["app/route"]
     }
   }
 }
