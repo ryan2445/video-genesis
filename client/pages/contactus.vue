@@ -120,7 +120,7 @@
               <input
                 class="input"
                 type="text"
-                placeholder="e.g. Trouble Uploading Video"
+                placeholder="e.g. Trouble Accessing Video"
                 name="subject"
               />
             </div>
@@ -138,7 +138,7 @@
             <div class="control">
               <textarea
                 class="textarea"
-                placeholder="Explain how we can help you"
+                placeholder="how we can help you"
                 name="message"
               ></textarea>
             </div>
@@ -159,13 +159,30 @@
         </div>
       </div>
     </form>
+    <div v-show="sendMessageSuccess">
+      <br />
+      <v-alert
+        border="right"
+        color="blue-grey"
+        dark
+      >
+        Thank you for your message.
+      </v-alert>
+    </div>
   </div>
 </template>
 <script>
+
 // emailjs
 import emailjs from "@emailjs/browser"
 export default {
   layout: "dashboard",
+  data()
+  {
+    return {
+      sendMessageSuccess: false
+    }; 
+  },
   methods: {
     SendEmail() {
       emailjs
@@ -177,7 +194,29 @@ export default {
         )
         .then(
           (result) => {
-            console.log("SUCCESS!", result.text)
+            return new Promise 
+            (
+              (resolve, reject) => 
+              {
+                this.sendMessageSuccess = true; 
+                resolve(); 
+              }
+            ).then 
+            (
+              ()=> 
+              {
+                setInterval
+                (
+                  ()=> 
+                  {
+                    this.sendMessageSuccess = false;
+                    this.$refs["contact-us-form"].reset();
+                  }, 7000
+                ); 
+
+              }
+            )
+            
           },
           (error) => {
             console.log("FAILED...", error.text)
