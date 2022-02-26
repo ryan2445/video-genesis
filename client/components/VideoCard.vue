@@ -127,15 +127,16 @@
                           color="white"
                           dark
                         >
-                          <div
-                            class="orange text--lighten-150 text-body-10 mb-10"
-                          >
+                          <div class="orange pa-4 bg-secondary rounded-t-xl">
                             Are you sure you want to delete this video?
                           </div>
 
                           <v-btn
                             class="ma-1"
-                            color="grey"
+                            elevation="12"
+                            height="25"
+                            width="1%"
+                            color="orange"
                             plain
                             @click.stop="onDeleteDialogClose"
                           >
@@ -143,8 +144,11 @@
                           </v-btn>
 
                           <v-btn
-                            class="ma-1"
-                            color="error"
+                            class="mx-auto transition-swing secondary"
+                            elevation="12"
+                            height="25"
+                            width="1%"
+                            color="orange"
                             plain
                             @click.stop="onVideoDelete"
                           >
