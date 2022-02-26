@@ -40,6 +40,9 @@ export default {
       videos: "videos/videosAll",
     }),
   },
+  created() {
+    this.$store.commit('app/setRoute', "Explore")
+  },
   async mounted() {
     //  Send request to get videos
     await this.$store.dispatch("videos/getAllVideos");

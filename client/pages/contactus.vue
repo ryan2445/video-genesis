@@ -166,6 +166,9 @@
 import emailjs from "@emailjs/browser"
 export default {
   layout: "dashboard",
+  created() {
+    this.$store.commit('app/setRoute', "Contact Us")
+  },
   methods: {
     SendEmail() {
       emailjs

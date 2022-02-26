@@ -61,9 +61,11 @@ export default {
       this.tabSelected = tabName;
     },
   },
+  created() {
+    this.$store.commit('app/setRoute', this.user.username)
+  },
   async mounted() {
     //  Send request to get videos
-
     await this.$store.dispatch("videos/videosGet");
 
     //  Stop loading

@@ -13,16 +13,28 @@
       <v-divider></v-divider>
       <v-list nav>
         <v-list-item-group color="orange lighten-1">
-          <v-list-item
-            v-for="(item, i) in items"
-            :key="i"
-            :to="item.route"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
+          <div
+              v-for="(item, i) in items"
+              :key="i"
+            >
+            <v-tooltip right transition="slide-x-transition" :open-delay="500">
+              <template v-slot:activator="{ on, attrs }">
+                <v-list-item
+                  :to="item.route"
+                  link
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+               </v-list-item>
+              </template>
+              <div>
+                <span style="transform: rotate(30deg) !important;">{{ item.title }}</span>
+              </div>
+            </v-tooltip>
+          </div>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -98,7 +110,7 @@ export default {
         route: "/explore"
       },
       {
-        title: "Contactus",
+        title: "Contact Us",
         icon: "mdi-account-question ",
         route: "/contactus"
       }
