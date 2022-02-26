@@ -1,11 +1,15 @@
 <template>
   <v-card
     class="my-2 mx-auto shadow-sm hover:shadow-lg"
-    style="transition: box-shadow 0.33s ease-out; width: 380px; border: 1px solid rgb(202, 202, 202);"
+    style="
+      transition: box-shadow 0.33s ease-out;
+      width: 380px;
+      border: 1px solid rgb(202, 202, 202);
+    "
     outlined
     @click="onCardClick"
   >
-    <v-col style="padding:0px;">
+    <v-col style="padding: 0px">
       <VueVideoThumbnail
         :video-src="getLink(video)"
         :snapshot-at-duration-percent="70"
@@ -42,7 +46,7 @@
                           v-bind="attrs"
                           v-on="on"
                           v-ripple="{ class: 'red--text' }"
-                          style="min-width:112px;"
+                          style="min-width: 112px"
                         >
                           <v-icon left>mdi-pencil</v-icon>EDIT
                         </v-btn>
@@ -62,7 +66,10 @@
                                   full-width
                                   rows="2"
                                   :value="video.videoTitle"
-                                  @change="($event) => mutateVideo({ videoTitle: $event })"
+                                  @change="
+                                    ($event) =>
+                                      mutateVideo({ videoTitle: $event })
+                                  "
                                 ></v-text-field>
                               </v-col>
                               <v-col cols="12">
@@ -71,7 +78,10 @@
                                   type="text"
                                   filled
                                   :value="video.videoDescription"
-                                  @change="($event) => mutateVideo({ videoDescription: $event })"
+                                  @change="
+                                    ($event) =>
+                                      mutateVideo({ videoDescription: $event })
+                                  "
                                 />
                               </v-col>
                             </v-row>
@@ -80,25 +90,71 @@
                         </v-card-text>
                         <v-card-actions>
                           <v-spacer></v-spacer>
-                          <v-btn color="blue darken-1" text @click="onDialogClose">Close</v-btn>
-                          <v-btn color="blue darken-1" text @click="onVideoSave">Save</v-btn>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onDialogClose"
+                            >Close</v-btn
+                          >
+                          <v-btn color="blue darken-1" text @click="onVideoSave"
+                            >Save</v-btn
+                          >
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
                   </v-list-item>
-                  <v-list-item>
-                    <v-btn
-                      color="orange"
-                      depressed
-                      dark
-                      @click.stop="onVideoDelete"
-                      style="min-width:112px;"
-                      class="my-1"
-                    >
-                      <v-icon left>mdi-delete</v-icon>Delete
-                    </v-btn>
-                  </v-list-item>
                 </v-list>
+                <v-list-item>
+                  <template>
+                    <v-dialog v-model="deleteDialogBox" width="335">
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          top
+                          class="my-1"
+                          color="orange"
+                          dark
+                          v-bind="attrs"
+                          v-on="on"
+                          v-ripple="{ class: 'red--text' }"
+                          style="min-width: 112px"
+                        >
+                          <v-icon left>mdi-delete</v-icon>DELETE
+                        </v-btn>
+                      </template>
+                      <div class="text-center">
+                        <v-sheet
+                          class="px-7 pt-7 pb-4 mx-auto text-center d-inline-block"
+                          color="white"
+                          dark
+                        >
+                          <div
+                            class="orange text--lighten-150 text-body-10 mb-10"
+                          >
+                            Are you sure you want to delete this video?
+                          </div>
+
+                          <v-btn
+                            class="ma-1"
+                            color="grey"
+                            plain
+                            @click.stop="onDeleteDialogClose"
+                          >
+                            Cancel
+                          </v-btn>
+
+                          <v-btn
+                            class="ma-1"
+                            color="error"
+                            plain
+                            @click.stop="onVideoDelete"
+                          >
+                            Delete
+                          </v-btn>
+                        </v-sheet>
+                      </div>
+                    </v-dialog>
+                  </template>
+                </v-list-item>
               </v-menu>
             </div>
           </div>
@@ -107,7 +163,9 @@
             <v-icon small class="mr-1">icon-account-circle</v-icon>
             <div class="text-xs">{{ this.owner }}</div>
           </div>
-          <div class="text-base text-gray-700">{{ this.video.videoDescription }}</div>
+          <div class="text-base text-gray-700">
+            {{ this.video.videoDescription }}
+          </div>
           <p v-if="!isEditing">{{ pros }}</p>
           <v-row>
             <v-card-actions class="justify-left"></v-card-actions>
@@ -135,8 +193,10 @@ export default {
       top: false,
       right: false,
       dialog: false,
-      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      showSettingsMenu: false
+      deleteDialogBox: false,
+      bucket_url:
+        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      showSettingsMenu: false,
     };
   },
   props: {
@@ -146,13 +206,11 @@ export default {
     },
     idx: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
 
-  mounted() {
-
-  },
+  mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
@@ -170,21 +228,21 @@ export default {
       return this.video.sk;
     },
     isOwner() {
-      return this.owner === this.user.username
+      return this.owner === this.user.username;
     },
     owner() {
-      return this.video.pk.substr(3)
-    }
+      return this.video.pk.substr(3);
+    },
   },
   methods: {
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {
         ...param,
-        idx: this.idx
-      })
+        idx: this.idx,
+      });
     },
     onCardClick() {
-      this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`)
+      this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`);
     },
     async onVideoSave() {
       const video = await this.$store.dispatch("videos/videosPut", {
@@ -199,13 +257,16 @@ export default {
     async onDialogClose() {
       this.dialog = false;
     },
+    async onDeleteDialogClose() {
+      this.deleteDialogBox = false;
+    },
     async onVideoDelete() {
       const video = await this.$store.dispatch("videos/videosDelete", {
         pk: this.video.pk,
         sk: this.video.sk,
       });
       await this.$store.dispatch("videos/videosGet");
-      this.dialog = false;
+      this.deleteDialogBox = false;
     },
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
@@ -215,8 +276,8 @@ export default {
         // title: this.title,
         // description: video.videoDescription,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
