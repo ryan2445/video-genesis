@@ -165,7 +165,19 @@
           <v-divider class="mb-1"></v-divider>
           <div class="flex flex-row items-center mb-3">
             <v-icon small class="mr-1">icon-account-circle</v-icon>
-            <div class="text-xs">{{ this.owner }}</div>
+            <template>
+              <div>
+                <v-btn
+                  class="ma-2"
+                  width="15%"
+                  color="orange"
+                  plain
+                  @click="openUserPage"
+                >
+                  {{ this.owner }}
+                </v-btn>
+              </div>
+            </template>
           </div>
           <div class="text-base text-gray-700">
             {{ this.video.videoDescription }}
@@ -198,6 +210,7 @@ export default {
       right: false,
       dialog: false,
       deleteDialogBox: false,
+      onClickUsername: false,
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
@@ -263,6 +276,9 @@ export default {
     },
     async onDeleteDialogClose() {
       this.deleteDialogBox = false;
+    },
+    async onClickUsername() {
+      this.openUserPage = false;
     },
     async onVideoDelete() {
       const video = await this.$store.dispatch("videos/videosDelete", {
