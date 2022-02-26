@@ -13,25 +13,19 @@
       <v-divider></v-divider>
       <v-list nav>
         <v-list-item-group color="orange lighten-1">
-          <div
-              v-for="(item, i) in items"
-              :key="i"
-            >
+          <div v-for="(item, i) in items" :key="i">
             <v-tooltip right transition="slide-x-transition" :open-delay="500">
               <template v-slot:activator="{ on, attrs }">
-                <v-list-item
-                  :to="item.route"
-                  link
-                  v-bind="attrs"
-                  v-on="on"
-                >
+                <v-list-item :to="item.route" link v-bind="attrs" v-on="on">
                   <v-list-item-icon>
                     <v-icon>{{ item.icon }}</v-icon>
                   </v-list-item-icon>
-               </v-list-item>
+                </v-list-item>
               </template>
               <div>
-                <span style="transform: rotate(30deg) !important;">{{ item.title }}</span>
+                <span style="transform: rotate(30deg) !important">{{
+                  item.title
+                }}</span>
               </div>
             </v-tooltip>
           </div>
@@ -85,44 +79,40 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
     items: [
       {
         title: "Home",
         icon: "mdi-home",
-        route: "/home"
+        route: "/home",
       },
       {
         title: "Upload",
         icon: "mdi-upload",
-        route: "/upload"
+        route: "/upload",
       },
-      {
-        title: "Videos",
-        icon: "mdi-view-list",
-        route: "/videos"
-      },
+
       {
         title: "Explore",
         icon: "mdi-telescope",
-        route: "/explore"
+        route: "/explore",
       },
       {
         title: "Contact Us",
         icon: "mdi-account-question ",
-        route: "/contactus"
-      }
+        route: "/contactus",
+      },
     ],
     drawer: false,
-    logo: "https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png"
+    logo: "https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png",
   }),
   computed: {
     ...mapGetters({
-      user: "user/user"
-    })
-  }
-}
+      user: "user/user",
+    }),
+  },
+};
 </script>
 <style scoped></style>
