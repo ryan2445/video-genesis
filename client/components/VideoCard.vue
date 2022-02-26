@@ -210,7 +210,6 @@ export default {
       right: false,
       dialog: false,
       deleteDialogBox: false,
-      onClickUsername: false,
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
@@ -252,6 +251,9 @@ export default {
     },
   },
   methods: {
+    openUserPage() {
+      
+    },
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {
         ...param,
@@ -276,9 +278,6 @@ export default {
     },
     async onDeleteDialogClose() {
       this.deleteDialogBox = false;
-    },
-    async onClickUsername() {
-      this.openUserPage = false;
     },
     async onVideoDelete() {
       const video = await this.$store.dispatch("videos/videosDelete", {
