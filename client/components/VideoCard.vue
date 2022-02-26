@@ -252,9 +252,13 @@ export default {
   },
   methods: {
     openUserPage() {
-      
+
     },
     mutateVideo(param) {
+      console.log('mutateVideo')
+      console.log(param)
+      console.log(this.idx)
+
       this.$store.commit("videos/videoUpdate", {
         ...param,
         idx: this.idx,
@@ -270,7 +274,14 @@ export default {
         pk: this.video.pk,
         sk: this.video.sk,
       });
-      await this.$store.dispatch("videos/videosGet");
+
+      // If on the 'Explore' page get every user's video or get the user's videos
+      await this.$store.dispatch(
+        this.$router.history.current.name === 'Explore' ?
+          "videos/getAllVideos" :
+          "videos/videosGet"
+      )
+      
       this.dialog = false;
     },
     async onDialogClose() {
@@ -284,7 +295,14 @@ export default {
         pk: this.video.pk,
         sk: this.video.sk,
       });
-      await this.$store.dispatch("videos/videosGet");
+
+      // If on the 'Explore' page get every user's video or get the user's videos
+      await this.$store.dispatch(
+        this.$router.history.current.name === 'Explore' ?
+          "videos/getAllVideos" :
+          "videos/videosGet"
+      )
+      
       this.deleteDialogBox = false;
     },
     getLink(video) {

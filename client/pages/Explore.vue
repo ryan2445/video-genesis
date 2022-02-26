@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      videos: "videos/videosAll",
+      videos: "videos/videos",
     }),
   },
   created() {
