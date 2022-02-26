@@ -31,9 +31,24 @@
             v-if="tabSelected == 'Uploads' && loading == false"
             class="mt-10 ml-auto mr-auto w-3/4"
           >
-            <div class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center">
-              <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
+            <div
+              class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center"
+            >
+              <video-card
+                v-for="(video, i) in videos"
+                :key="i"
+                :video="video"
+                :idx="i"
+              />
             </div>
+          </div>
+        </transition>
+        <transition>
+          <div
+            v-if="tabSelected == 'About' && loading == false"
+            class="mt-10 ml-auto mr-auto w-3/4"
+          >
+            <profile-about />
           </div>
         </transition>
       </div>
@@ -62,7 +77,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit('app/setRoute', this.user.username)
+    this.$store.commit("app/setRoute", this.user.username);
   },
   async mounted() {
     //  Send request to get videos
