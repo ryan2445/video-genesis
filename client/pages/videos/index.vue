@@ -16,7 +16,7 @@
       <div>No videos found</div>
     </div>
     <div v-for="(video, i) in videos" :key="i">
-      <video-card :video="video" />
+      <video-card :video="video" :idx="i" />
     </div>
   </div>
 </template>

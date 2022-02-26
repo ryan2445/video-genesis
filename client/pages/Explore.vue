@@ -19,7 +19,7 @@ it should bring all videos to Explore page!
       <div>No videos found</div>
     </div>
     <div v-for="(video, i) in videos" :key="i">
-      <video-card :video="video" />
+      <video-card :video="video" :idx="i" />
     </div>
   </div>
   <!-- <VideoList /> -->
@@ -45,8 +45,6 @@ export default {
   async mounted() {
     //  Send request to get videos
     await this.$store.dispatch("videos/getAllVideos");
-
-    console.log(this.$store.getters["videos/videosAll"]);
 
     //  Stop loading
     this.loading = false;

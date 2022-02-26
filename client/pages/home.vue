@@ -32,7 +32,7 @@
             class="mt-10 ml-auto mr-auto w-3/4"
           >
             <div v-for="(video, i) in videos" :key="i">
-              <video-card :video="video" />
+              <video-card :video="video" :idx="i" />
             </div>
           </div>
         </transition>

@@ -18,7 +18,7 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="text-3xl font-medium mt-2">
-                  {{ this._videoTitle || this.video.videoTitle }}
+                  {{ this.video.videoTitle }}
 
                   <p v-if="!isEditing">
                     {{ pros }}
@@ -63,19 +63,20 @@
                                   <v-text-field
                                     label="Title*"
                                     required
-                                    v-model="videoTitle"
                                     auto-grow
                                     full-width
                                     rows="2"
+                                    :value="video.videoTitle"
+                                    @change="($event) => mutateVideo({ videoTitle: $event })"
                                   ></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
                                   <v-textarea
                                     label="Description"
-                                    v-model="videoDescription"
                                     type="text"
-                                    :error-messages="errors"
                                     filled
+                                    :value="video.videoDescription"
+                                    @change="($event) => mutateVideo({ videoDescription: $event })"
                                   />
                                 </v-col>
                               </v-row>
@@ -103,17 +104,7 @@
                       </v-dialog>
                     </v-card-actions>
                   </v-row>
-                  <!-- <v-btn
-                      class="ma-2"
-                      color="orange"
-                      @click="isEditing = !isEditing"
-                      v-ripple="{ class: 'red--text' }"
-                    >
-                      EDIT
-                      
-                    </v-btn> -->
-
-                  {{ this._videoDescription || this.video.videoDescription }}
+                  {{ this.video.videoDescription }}
                 </div>
               </v-list-item-content>
             </v-list-item>
@@ -142,10 +133,7 @@ export default {
       top: false,
       right: false,
       dialog: false,
-      _videoTitle: "",
-      _videoDescription: "",
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
     };
   },
   props: {
@@ -153,29 +141,19 @@ export default {
       type: Object,
       required: true,
     },
+    idx: {
+      type: Number,
+      required: true
+    }
   },
 
-  mounted() {},
+  mounted() {
+    
+  },
   computed: {
     ...mapGetters({
       user: "user/user",
     }),
-    videoTitle: {
-      set(value) {
-        this._videoTitle = value;
-      },
-      get() {
-        return this._videoTitle || this.video.videoTitle;
-      },
-    },
-    videoDescription: {
-      set(value) {
-        this._videoDescription = value;
-      },
-      get() {
-        return this._videoDescription || this.video.videoDescription;
-      },
-    },
     videoPK() {
       // If the video does not exist, return null
       if (!this.video) return null;
@@ -190,10 +168,16 @@ export default {
     },
   },
   methods: {
+    mutateVideo(param) {
+      this.$store.commit("videos/videoUpdate", {
+        ...param,
+        idx: this.idx
+      })
+    },
     async onVideoSave() {
       const video = await this.$store.dispatch("videos/videosPut", {
-        videoTitle: this._videoTitle || this.video.videoTitle,
-        videoDescription: this._videoDescription || this.video.videoDescription,
+        videoTitle: this.video.videoTitle,
+        videoDescription: this.video.videoDescription,
         pk: this.video.pk,
         sk: this.video.sk,
       });
@@ -202,8 +186,6 @@ export default {
     },
     async onDialogClose() {
       this.dialog = false;
-      this._videoTitle = this.video.videoTitle;
-      this._videoDescription = this.video.videoDescription;
     },
     async onVideoDelete() {
       const video = await this.$store.dispatch("videos/videosDelete", {
@@ -222,14 +204,7 @@ export default {
         // description: video.videoDescription,
       });
     },
-  },
-  watchQuery(newQuery, oldQuery) {
-    console.log("watchQuery");
-    console.log(newQuery);
-    // Only execute component methods if the old query string contained `bar`
-    // and the new query string contains `foo`
-    return newQuery.foo && oldQuery.bar;
-  },
+  }
 };
 </script>
 

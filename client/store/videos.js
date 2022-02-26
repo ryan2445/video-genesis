@@ -67,7 +67,7 @@ export const actions = {
   },
   async videosDelete({ commit, rootState }, params) {
     try {
-      const response = await this.$axios.delete("videos", params);
+      const response = await this.$axios.delete("videos", { data: params });
       return response.data;
     } catch (exception) {
       return null;
@@ -83,4 +83,18 @@ export const mutations = {
   videosSetAll(state, array) {
     state.videosAll = array;
   },
+
+  videoUpdate(state, params) {
+    console.log(params)
+
+    if (params.idx == null) {
+      console.error("videoUpdate requires idx in the parameter")
+    }
+
+    const idx = params.idx
+
+    delete params['idx']
+    
+    Object.assign(state.videos[idx], params)
+  }
 };
