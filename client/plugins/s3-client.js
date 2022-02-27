@@ -1,64 +1,26 @@
-const REGION = "us-west-2";
-const INPUT_BUCKET = 'genesis2vod-staging-input-q1h5l756'
-const OUTPUT_BUCKET = 'genesis2vod-staging-output-q1h5l756'
+import { S3Client } from "@aws-sdk/client-s3"
 
-import {
-    GetObjectCommand,
-    ListObjectsCommand,
-    PutObjectCommand,
-    S3Client,
-} from "@aws-sdk/client-s3";
+const { fromCognitoIdentityPool } = require("@aws-sdk/credential-providers")
 
-const filenameGenerator = (key) => {
-    const name = key.split("/")[1]
-    return { name, encoded: name.replace(/\s+|[\d,/.()]/g, "-") };
-}
+const REGION = "us-west-2"
 
-const { CognitoIdentityClient } = require("@aws-sdk/client-cognito-identity");
-const { fromCognitoIdentityPool } = require("@aws-sdk/credential-provider-cognito-identity");
+export default async ({ $auth }, inject) => {
+	var session = await $auth.currentSession()
 
-const s3 = new S3Client({
-  region: REGION,
-  credentials: fromCognitoIdentityPool({
-    client: new CognitoIdentityClient({ region: REGION }),
-    identityPoolId: "us-west-2:a7e3dcf8-8ead-4d2f-b0c5-c9b2fca24109",
-  }),
-});
+	var identity = session.getIdToken()
 
-const uploadFn = async (credentials) => {
-    const files = document.querySelector("#input-upload").files
-  
-    if (!files.length) return alert("Please choose a file to upload first!")
-  
-    try {
-      const file = files[0]
-      const fileName = file.name
-  
-      const s3Client = new S3Client({
-        region,
-        credentials,
-      })
-  
-      await s3Client.send(
-        new PutObjectCommand({
-          Bucket: bucket,
-          Key: `${credentials.identityId}/${fileName}`,
-          Body: file,
-          ContentType: 'mp4',
-        })
-      )
-  
-      alert("Uploaded successful!")
-      window.location.reload()
-    } catch (err) {
-      alert(err.message)
-  
-      window.location = "http://localhost:3000"
-    }
-  }
-  
+	var token = identity.getJwtToken()
 
+	const s3 = new S3Client({
+		region: REGION,
+		credentials: fromCognitoIdentityPool({
+			clientConfig: { region: REGION },
+			identityPoolId: "us-west-2:a7e3dcf8-8ead-4d2f-b0c5-c9b2fca24109",
+			logins: {
+				"cognito-idp.us-west-2.amazonaws.com/us-west-2_3LjdLzhH5": token
+			}
+		})
+	})
 
-export default (_, inject) => {
-    inject('s3', s3)
+	inject("s3", s3)
 }
