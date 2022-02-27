@@ -6,7 +6,7 @@
       preload="auto"
       ref="videoPlayer"
       crossorigin="anonymous"
-      class="video-js vjs-big-play-centered z-10"
+      class="video-js vjs-big-play-centered z-10 w-full h-full"
       @play="onPlayerPlay($event)"
       @pause="onPlayerPause($event)"
       @volumechange="onVolumeChange($event)"
