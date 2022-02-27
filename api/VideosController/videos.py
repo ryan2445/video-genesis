@@ -84,16 +84,18 @@ def videosPut(event, context):
     sk = body['sk']
     videoTitle = body['videoTitle']
     videoDescription = body['videoDescription']
+    videoThumbnail = body['videoThumbnail']
     
     response = dynamodb.update_item(
         Key = {
             'pk': pk,
             'sk': sk
         },
-        UpdateExpression = 'set videoTitle=:0, videoDescription=:1',
+        UpdateExpression = 'set videoTitle=:0, videoDescription=:1, videoThumbnail=:2',
         ExpressionAttributeValues = {
             ':0': videoTitle,
             ':1': videoDescription,
+            ':2': videoThumbnail
         }
     )
 
