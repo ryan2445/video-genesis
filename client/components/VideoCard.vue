@@ -14,7 +14,19 @@
         :video-src="getLink(video)"
         :snapshot-at-duration-percent="70"
         :width="380"
-      ></VueVideoThumbnail>
+        :height="280"
+      >
+        <template #snapshot="{snapshot}">
+          <img
+            v-if="snapshot"
+            :src="video.videoThumbnail || snapshot"
+            alt="snapshot"
+            :width="380"
+            :height="280"
+            style="object-fit:contain; min-width:380px; min-height:280px; max-width:380px; max-height:280px;"
+          >
+        </template>
+      </VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
           <div class="flex justify-between w-full items-center">
@@ -58,6 +70,28 @@
                         <v-card-text>
                           <v-container>
                             <v-row>
+                              <!-- Invisible file input menu - only opens when user clicks upload thumbnail -->
+                              <input id="file-input" type="file" name="name" style="display:none;" accept=".png, .jpg, .jpeg" @change="thumbnailSelected" />
+                              <v-col v-if="videoThumbnail" cols="12">
+                                <div>
+                                  Video Thumbnail:
+                                </div>
+                              </v-col>
+                              <v-col v-if="videoThumbnail" cols="12">
+                                <img :src="videoThumbnail" width="300px" />
+                              </v-col>
+                              <v-col cols="12">
+                                <div class="flex flex-row">
+                                  <div>
+                                    <v-btn :loading="loading" small color="orange lighten-1" class="white--text" @click="uploadThumbnail">
+                                      <div class="flex flex-row items-center">
+                                        <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                                        <span>{{videoThumbnail ? 'Change' : 'Upload'}} Thumbnail</span>
+                                      </div>
+                                    </v-btn>
+                                  </div>
+                                </div>
+                              </v-col>
                               <v-col cols="12">
                                 <v-text-field
                                   label="Title*"
@@ -96,7 +130,7 @@
                             @click="onDialogClose"
                             >Close</v-btn
                           >
-                          <v-btn color="blue darken-1" text @click="onVideoSave"
+                          <v-btn color="blue darken-1" text @click="onVideoSave(false)"
                             >Save</v-btn
                           >
                         </v-card-actions>
@@ -180,7 +214,7 @@
             </template>
           </div>
           <div class="text-base text-gray-700">
-            {{ this.video.videoDescription }}
+            {{ video.videoDescription }}
           </div>
           <p v-if="!isEditing">{{ pros }}</p>
           <v-row>
@@ -191,14 +225,12 @@
     </v-col>
   </v-card>
 </template>
-
 <script>
 import VueVideoThumbnail from "vue-video-thumbnail";
 import { mapGetters } from "vuex";
-import { mdiPencil, mdiDelete } from "@mdi/js";
-
+import { nanoid } from "nanoid";
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 export default {
-  name: "VideoCard",
   components: { VueVideoThumbnail },
   watchQuery: ["pk", "sk"],
   data() {
@@ -213,6 +245,8 @@ export default {
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
+      thumbnail: null,
+      loading: null,
     };
   },
   props: {
@@ -249,8 +283,59 @@ export default {
     owner() {
       return this.video.pk.substr(3);
     },
+    videoThumbnail() {
+      if (!this.video) return null
+
+      return this.thumbnail || this.video.videoThumbnail
+    }
   },
   methods: {
+    uploadThumbnail() {
+      document.getElementById('file-input').click()
+    },
+    async thumbnailSelected(event) {
+      const file = event.target.files[0]
+
+      const typeArr = file.type.split("/")
+
+      this.loading = true
+
+      try {
+        //  Delete old thumbnail
+        if (this.video.videoThumbnail) {
+          const urlArr = this.video.videoThumbnail.split("/")
+
+          const deleteKey = urlArr[urlArr.length - 1]
+
+          const deletePayload = {
+            Bucket: "videogenesis-thumbnails",
+            Key: deleteKey
+          }
+          
+          const deleteCommand = new DeleteObjectCommand(deletePayload);
+
+				  const deleteResp = await this.$s3.send(deleteCommand);
+        }
+
+        const putPayload = {
+          Bucket: "videogenesis-thumbnails",
+          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
+          Body: file,
+			  }
+
+				const putCommand = new PutObjectCommand(putPayload);
+
+				const putResp = await this.$s3.send(putCommand);
+
+        this.thumbnail = `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${putPayload.Key}`
+			} catch (error) {
+				console.error(error)
+			}
+      
+      this.loading = false
+
+      this.onVideoSave(true)
+    },
     openUserPage() {
 
     },
@@ -267,10 +352,11 @@ export default {
     onCardClick() {
       this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`);
     },
-    async onVideoSave() {
+    async onVideoSave(dialog = false) {
       const video = await this.$store.dispatch("videos/videosPut", {
         videoTitle: this.video.videoTitle,
         videoDescription: this.video.videoDescription,
+        videoThumbnail: this.videoThumbnail,
         pk: this.video.pk,
         sk: this.video.sk,
       });
@@ -282,7 +368,7 @@ export default {
           "videos/videosGet"
       )
       
-      this.dialog = false;
+      this.dialog = dialog;
     },
     async onDialogClose() {
       this.dialog = false;

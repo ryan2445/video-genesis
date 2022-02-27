@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <template v-if="!loading">
-          <VideoPlayer :video-data="videoData" :audio="videoAudio" />
+          <video-player :video-data="videoData" :audio="videoAudio" />
           <video-player-info :video="video" />
         </template>
       </v-col>
@@ -13,11 +13,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import VideoPlayerInfo from "../../components/VideoPlayerInfo.vue";
 export default {
-  name: "VideoCard",
   layout: "dashboard",
-  components: { VideoPlayerInfo },
   data() {
     return {
       bucket_url:
