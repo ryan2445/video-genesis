@@ -1,13 +1,8 @@
 <template>
-  <v-app-bar 
-    app 
-    color="white"
-    :elevation="2"
-    hide-on-scroll
-  >
+  <v-app-bar app color="white" :elevation="2" hide-on-scroll>
     <div>
       <h2 class="text-gray-800 text-lg strong">
-        {{ title }} 
+        {{ title }}
       </h2>
     </div>
     <v-spacer />
@@ -47,7 +42,7 @@
   </v-app-bar>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -55,40 +50,40 @@ export default {
         {
           title: "Account Settings",
           icon: "mdi-account",
-          route: "/account"
+          route: "/account",
         },
         {
           title: "Sign Out",
           icon: "mdi-logout-variant",
-          method: "signOut"
-        }
-      ]
-    }
+          method: "signOut",
+        },
+      ],
+    };
   },
   computed: {
     ...mapGetters({
-      user: "user/user"
-    })
+      user: "user/user",
+    }),
   },
   methods: {
     handleClick(item) {
-      if (item.route) return this.$router.push(item.route)
+      if (item.route) return this.$router.push(item.route);
 
-      if (item.method) return this[item.method]()
+      if (item.method) return this[item.method]();
     },
     async signOut() {
-      await this.$auth.signOut()
-      this.$store.commit("user/setUser", null)
-      this.$store.dispatch("auth/unauthorize", { axios: this.$axios })
-      this.$router.push("/")
-    }
+      await this.$auth.signOut();
+      this.$store.commit("user/setUser", null);
+      this.$store.dispatch("auth/unauthorize", { axios: this.$axios });
+      this.$router.push("/");
+    },
   },
   computed: {
     title() {
-      return this.$store.getters["app/route"]
-    }
-  }
-}
+      return this.$store.getters["app/route"];
+    },
+  },
+};
 </script>
 <style scoped>
 .v-application--is-ltr .v-list-item__action:first-child,

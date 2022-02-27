@@ -23,9 +23,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import VideoCard from "../../components/VideoCard.vue";
 export default {
-  components: { VideoCard },
   layout: "dashboard",
   data() {
     return {

@@ -26,7 +26,7 @@
             <h1 @click="changeTabSelection('About')">ABOUT</h1>
           </div>
         </div>
-        <transition>
+        <transition mode="out-in">
           <div
             v-if="tabSelected == 'Uploads' && loading == false"
             class="mt-10 ml-auto mr-auto w-3/4"
@@ -42,10 +42,8 @@
               />
             </div>
           </div>
-        </transition>
-        <transition>
           <div
-            v-if="tabSelected == 'About' && loading == false"
+            v-else-if="tabSelected == 'About' && loading == false"
             class="mt-10 ml-auto mr-auto w-3/4"
           >
             <profile-about />

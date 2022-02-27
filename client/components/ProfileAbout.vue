@@ -1,7 +1,7 @@
 <template>
   <div class="w-3/4">
-    <h1 class="text-xl font-bold mb-1">About</h1>
-    <hr class="border-t-2 border-solid border-black mb-3" />
+    <h1 class="text-xl font-bold mb-1 ml-2">About</h1>
+    <hr class="border-t-1 border-solid border-black mb-3" />
     <p class="text-base">
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit laboriosam
       enim voluptate reprehenderit facere laborum voluptas consequuntur harum

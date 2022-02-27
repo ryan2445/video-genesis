@@ -44,7 +44,6 @@
 import VueVideoThumbnail from "vue-video-thumbnail";
 import { mapGetters } from "vuex";
 export default {
-  name: "VideoCard",
   components: { VueVideoThumbnail },
   watchQuery: ["pk", "sk"],
   data() {

@@ -22,14 +22,11 @@
     <!-- <canvas ref="videoCanvas" class="" :width="width" :height="height"></canvas> -->
   </div>
 </template>
-
 <script>
 import videojs from "video.js";
 import "videojs-resolution-switcher-webpack";
-import { clipByValue, browser, scalar } from '@tensorflow/tfjs'
+// import { clipByValue, browser, scalar } from '@tensorflow/tfjs'
 export default {
-  name: "VideoPlayer",
-
   props: {
     videoData: {
       required: true,
@@ -41,35 +38,21 @@ export default {
       type: String
     }
   },
-
   data() {
     return {
       loading: true,      // Determines if the mounted hook is ongoing
-
       videoPlayer: null,  // Stores VideoJsPlayer
-
       audioPlayer: null,  // Stores Native HTML audio element (if audio is provided)
-
       bucketUrl: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-
       currentVideoSrc: null, // Stores the current src being played
-
       currentVideoRes: null, // Stores the current resolution of the video
-
       c1: null, // Stores the canvas player
-
       ctx1: null, // Store the context of the canvas
-
       c_tmp: null,
-
       ctx_tmp: null,
-
       width: null, // Stores the width of the video element
-
       height: null, // Stores the height of the video element
-
       playing: false,
-
       model: null
     };
   },
@@ -90,7 +73,6 @@ export default {
     async initModel() {
       this.model = await this.$tensor.loadModel()
     },
-
     initVideoPlayer() {
       if (!this.videoData) {
         console.error("videoData not provided so cannot load video player.")
@@ -133,7 +115,6 @@ export default {
       // Save the player to state
       this.videoPlayer = player
     },
-
     initAudioPlayer() {
       // If the audio is not enabled, do nothing
       if (!this.audioEnabled) {
@@ -152,7 +133,6 @@ export default {
       // Save the audio player to state
       this.audioPlayer = player
     },
-
     initCanvasPlayer() {
       if (!this.videoPlayer) {
         console.error("Video player is not initialized. Cannot initialize the canvas player")
@@ -174,7 +154,6 @@ export default {
       this.c_tmp.setAttribute('height', this.height);
       this.ctx_tmp = this.c_tmp.getContext('2d');
     },
-
     async computeCanvasFrame() {
       const video = this.$refs.videoPlayer;
 
@@ -194,7 +173,6 @@ export default {
 
       if (this.playing) setTimeout(this.computeCanvasFrame, 0)
     },
-
     onPlayerPlay(event) {
       // Continue if audio is enabled
       if (!this.audioEnabled) return
