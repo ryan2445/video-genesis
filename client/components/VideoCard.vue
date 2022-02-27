@@ -29,13 +29,13 @@
       >
         <template #snapshot="{ snapshot }">
           <img
-          v-if="snapshot"
-          :src="video.videoThumbnail || snapshot"
-          alt="snapshot"
-          :width="380"
-          :height="280"
-          style="object-fit:contain;"
-          >
+            v-if="snapshot"
+            :src="video.videoThumbnail || snapshot"
+            alt="snapshot"
+            :width="380"
+            :height="280"
+            style="object-fit: contain"
+          />
         </template>
       </VueVideoThumbnail>
       <div class="px-2 pb-1">
@@ -417,14 +417,12 @@ export default {
         pk: this.video.pk,
         sk: this.video.sk,
       });
-
       // If on the 'Explore' page get every user's video or get the user's videos
       await this.$store.dispatch(
         this.$router.history.current.name === "Explore"
           ? "videos/getAllVideos"
           : "videos/videosGet"
       );
-
       this.deleteDialogBox = false;
     },
     getLink(video) {
