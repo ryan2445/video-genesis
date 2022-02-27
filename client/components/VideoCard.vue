@@ -26,17 +26,18 @@
         :snapshot-at-duration-percent="70"
         :width="380"
         @snapshotCreated="onSnapshotCreated"
-      ></VueVideoThumbnail>
-      <template #snapshot="{snapshot}">
-        <img
+      >
+        <template #snapshot="{snapshot}">
+          <img
           v-if="snapshot"
           :src="video.videoThumbnail || snapshot"
           alt="snapshot"
           :width="380"
           :height="280"
           style="object-fit:contain; min-width:380px; min-height:280px; max-width:380px; max-height:280px;"
-        >
-      </template>
+          >
+        </template>
+      </VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
           <div class="flex justify-between w-full items-center">
