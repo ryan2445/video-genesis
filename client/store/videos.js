@@ -8,7 +8,7 @@ export const getters = {
   selected_video: (state) => state.selected_video,
   get_video_by_id: (state) => (sk) => {
     return state.videos.find((video) => video.sk == sk);
-  }
+  },
 };
 
 export const actions = {
@@ -24,21 +24,25 @@ export const actions = {
   },
   async videoGet({ commit, rootState }, params) {
     try {
-      const response = await this.$axios.get('videos', { params: params });
+      const response = await this.$axios.get("videos", { params: params });
 
       if (!response || !response.data || !response.data.Items) {
         return null;
       }
 
-      return response.data.Items[0]
-    }
-    catch (exception) {
+      return response.data.Items[0];
+    } catch (exception) {
       return null;
     }
   },
   async getAllVideos({ commit, rootState }) {
     try {
       const response = await this.$axios.get("videos/all");
+
+      response.data.Items = response.data.Items.filter(function (obj) {
+        return obj.pk !== "ID#" + rootState.user.user.username;
+      });
+
       commit("videosSet", response.data.Items);
     } catch (exception) {
       return null;
@@ -80,13 +84,13 @@ export const mutations = {
 
   videoUpdate(state, params) {
     if (params.idx == null) {
-      console.error("videoUpdate requires idx in the parameter")
+      console.error("videoUpdate requires idx in the parameter");
     }
 
-    const idx = params.idx
+    const idx = params.idx;
 
-    delete params['idx']
-    
-    Object.assign(state.videos[idx], params)
-  }
+    delete params["idx"];
+
+    Object.assign(state.videos[idx], params);
+  },
 };

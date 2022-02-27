@@ -12,7 +12,7 @@
   >
     <v-col style="padding: 0px" class="relative">
       <div
-        style="width:380px; height:250px;"
+        style="width: 380px; height: 250px"
         class="flex justify-center items-center bg-black"
         v-if="!thumbnailReady"
       >
@@ -20,28 +20,40 @@
       </div>
       <VueVideoThumbnail
         :style="{
-          opacity: thumbnailReady ? '1' : '0'
+          opacity: thumbnailReady ? '1' : '0',
         }"
         :video-src="getLink(video)"
         :snapshot-at-duration-percent="70"
         :width="380"
         @snapshotCreated="onSnapshotCreated"
       >
-        <template #snapshot="{snapshot}">
+        <template #snapshot="{ snapshot }">
           <img
-          v-if="snapshot"
-          :src="video.videoThumbnail || snapshot"
-          alt="snapshot"
-          :width="380"
-          :height="280"
-          style="object-fit:contain; min-width:380px; min-height:280px; max-width:380px; max-height:280px;"
-          >
+            v-if="snapshot"
+            :src="video.videoThumbnail || snapshot"
+            alt="snapshot"
+            :width="380"
+            :height="280"
+            style="
+              object-fit: contain;
+              min-width: 380px;
+              min-height: 280px;
+              max-width: 380px;
+              max-height: 280px;
+            "
+          />
         </template>
       </VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
           <div class="flex justify-between w-full items-center">
-            <div>{{ this.video.videoTitle }}</div>
+            <div v-if="this.video.videoTitle.length < 25">
+              {{ this.video.videoTitle }}
+            </div>
+            <div v-else>
+              {{ this.video.videoTitle.substring(0, 25) + "..." }}
+            </div>
+            <!-- <div>{{ this.video.videoTitle }}</div> -->
             <div class="mr-2">
               <v-menu
                 v-model="showSettingsMenu"
@@ -58,9 +70,7 @@
                     <v-icon>icon-cog-outline</v-icon>
                   </v-btn>
                 </template>
-                <v-list
-                  class="z-30"
-                >
+                <v-list class="z-30">
                   <v-list-item>
                     <v-dialog v-model="dialog" persistent max-width="600px">
                       <template v-slot:activator="{ on, attrs }">
@@ -85,11 +95,16 @@
                           <v-container>
                             <v-row>
                               <!-- Invisible file input menu - only opens when user clicks upload thumbnail -->
-                              <input id="file-input" type="file" name="name" style="display:none;" accept=".png, .jpg, .jpeg" @change="thumbnailSelected" />
+                              <input
+                                id="file-input"
+                                type="file"
+                                name="name"
+                                style="display: none"
+                                accept=".png, .jpg, .jpeg"
+                                @change="thumbnailSelected"
+                              />
                               <v-col v-if="videoThumbnail" cols="12">
-                                <div>
-                                  Video Thumbnail:
-                                </div>
+                                <div>Video Thumbnail:</div>
                               </v-col>
                               <v-col v-if="videoThumbnail" cols="12">
                                 <img :src="videoThumbnail" width="300px" />
@@ -97,10 +112,23 @@
                               <v-col cols="12">
                                 <div class="flex flex-row">
                                   <div>
-                                    <v-btn :loading="loading" small color="orange lighten-1" class="white--text" @click="uploadThumbnail">
+                                    <v-btn
+                                      :loading="loading"
+                                      small
+                                      color="orange lighten-1"
+                                      class="white--text"
+                                      @click="uploadThumbnail"
+                                    >
                                       <div class="flex flex-row items-center">
-                                        <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                                        <span>{{videoThumbnail ? 'Change' : 'Upload'}} Thumbnail</span>
+                                        <v-icon small class="mr-2"
+                                          >mdi-cloud-upload</v-icon
+                                        >
+                                        <span
+                                          >{{
+                                            videoThumbnail ? "Change" : "Upload"
+                                          }}
+                                          Thumbnail</span
+                                        >
                                       </div>
                                     </v-btn>
                                   </div>
@@ -144,7 +172,10 @@
                             @click="onDialogClose"
                             >Close</v-btn
                           >
-                          <v-btn color="blue darken-1" text @click="onVideoSave(false)"
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onVideoSave(false)"
                             >Save</v-btn
                           >
                         </v-card-actions>
@@ -299,64 +330,62 @@ export default {
       return this.video.pk.substr(3);
     },
     videoThumbnail() {
-      if (!this.video) return null
+      if (!this.video) return null;
 
-      return this.thumbnail || this.video.videoThumbnail
-    }
+      return this.thumbnail || this.video.videoThumbnail;
+    },
   },
   methods: {
     onSnapshotCreated() {
-      this.thumbnailReady = true
+      this.thumbnailReady = true;
     },
     uploadThumbnail() {
-      document.getElementById('file-input').click()
+      document.getElementById("file-input").click();
     },
     async thumbnailSelected(event) {
-      const file = event.target.files[0]
+      const file = event.target.files[0];
 
-      const typeArr = file.type.split("/")
+      const typeArr = file.type.split("/");
 
-      this.loading = true
+      this.loading = true;
 
       try {
         //  Delete old thumbnail
         if (this.video.videoThumbnail) {
-          const urlArr = this.video.videoThumbnail.split("/")
+          const urlArr = this.video.videoThumbnail.split("/");
 
-          const deleteKey = urlArr[urlArr.length - 1]
+          const deleteKey = urlArr[urlArr.length - 1];
 
           const deletePayload = {
             Bucket: "videogenesis-thumbnails",
-            Key: deleteKey
-          }
-          
+            Key: deleteKey,
+          };
+
           const deleteCommand = new DeleteObjectCommand(deletePayload);
 
-				  const deleteResp = await this.$s3.send(deleteCommand);
+          const deleteResp = await this.$s3.send(deleteCommand);
         }
 
         const putPayload = {
           Bucket: "videogenesis-thumbnails",
           Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
           Body: file,
-			  }
+        };
 
-				const putCommand = new PutObjectCommand(putPayload);
+        const putCommand = new PutObjectCommand(putPayload);
 
-				const putResp = await this.$s3.send(putCommand);
+        const putResp = await this.$s3.send(putCommand);
 
-        this.thumbnail = `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${putPayload.Key}`
-			} catch (error) {
-				console.error(error)
-			}
-      
-      this.loading = false
+        this.thumbnail = `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
+      } catch (error) {
+        console.error(error);
+      }
 
-      this.onVideoSave(true)
+      this.loading = false;
+
+      this.onVideoSave(true);
     },
-    openUserPage() {
-
-    },
+    openUserPage() {},
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {
         ...param,
@@ -377,11 +406,11 @@ export default {
 
       // If on the 'Explore' page get every user's video or get the user's videos
       await this.$store.dispatch(
-        this.$router.history.current.name === 'Explore' ?
-          "videos/getAllVideos" :
-          "videos/videosGet"
-      )
-      
+        this.$router.history.current.name === "Explore"
+          ? "videos/getAllVideos"
+          : "videos/videosGet"
+      );
+
       this.dialog = dialog;
     },
     async onDialogClose() {
@@ -398,11 +427,11 @@ export default {
 
       // If on the 'Explore' page get every user's video or get the user's videos
       await this.$store.dispatch(
-        this.$router.history.current.name === 'Explore' ?
-          "videos/getAllVideos" :
-          "videos/videosGet"
-      )
-      
+        this.$router.history.current.name === "Explore"
+          ? "videos/getAllVideos"
+          : "videos/videosGet"
+      );
+
       this.deleteDialogBox = false;
     },
     getLink(video) {

@@ -1,7 +1,7 @@
 <!-- This section calls the image link, shows it with text in the center of the image!  -->
 
 <template>
-  <v-main>
+  <v-main class="pt-0 pt-md-0 px-0 mx-0">
     <section>
       <v-parallax :src="imageLink.img" height="700">
         <v-layout column align-center justify-center class="white--text">
