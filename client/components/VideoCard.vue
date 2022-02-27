@@ -281,8 +281,7 @@ export default {
       right: false,
       dialog: false,
       deleteDialogBox: false,
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
       thumbnailReady: false,
       thumbnail: null,
@@ -357,7 +356,7 @@ export default {
 
           const deleteCommand = new DeleteObjectCommand(deletePayload);
 
-          const deleteResp = await this.$s3.send(deleteCommand);
+          const deleteResp = await this.$store.getters["auth/s3"].send(deleteCommand);
         }
 
         const putPayload = {
@@ -368,7 +367,7 @@ export default {
 
         const putCommand = new PutObjectCommand(putPayload);
 
-        const putResp = await this.$s3.send(putCommand);
+        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
 
         this.thumbnail = `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
       } catch (error) {

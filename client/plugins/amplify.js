@@ -1,26 +1,28 @@
-import Amplify, { Auth } from 'aws-amplify'
-import awsconfig from '../aws-exports.js'
-Amplify.configure(awsconfig)
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from '../aws-exports.js';
+Amplify.configure(awsconfig);
 
-import { Hub, Logger } from 'aws-amplify'
+import { Hub, Logger } from 'aws-amplify';
 
-const logger = new Logger('Auth')
+const logger = new Logger('Auth');
 
 const listener = data => {
 	switch (data.payload.event) {
 		case 'signIn':
-			logger.info('user signed in')
+			window.mitt.emit('SIGN_IN');
+			logger.info('user signed in');
 			break
-		case 'signUp':
-			logger.info('user signed up')
-			break
-		case 'signOut':
+			case 'signUp':
+				logger.info('user signed up')
+				break
+				case 'signOut':
 			logger.info('user signed out')
 			break
 		case 'signIn_failure':
 			logger.error('user sign in failed')
 			break
 		case 'tokenRefresh':
+			window.mitt.emit('TOKEN_REFRESH')
 			logger.info('token refresh succeeded')
 			break
 		case 'tokenRefresh_failure':

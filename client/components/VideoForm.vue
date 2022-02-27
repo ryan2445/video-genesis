@@ -103,20 +103,20 @@ export default {
 				const command = new PutObjectCommand(payload);
 
 				// Send the PutObject request to S3
-				const resp = await this.$s3.send(command);
+				const resp = await this.$store.getters["auth/s3"].send(command);
 
-                // After video is uploaded, post the video to database
-                const video = await this.$store.dispatch('videos/videosPost', {
-                    videoTitle: this.title,
-                    videoDescription: this.description,
-                    videoKey: key
-                })
+        // After video is uploaded, post the video to database
+        const video = await this.$store.dispatch('videos/videosPost', {
+            videoTitle: this.title,
+            videoDescription: this.description,
+            videoKey: key
+        })
 
-                //  If the request failed, do nothing for now
-                if (!video) return null
+        //  If the request failed, do nothing for now
+        if (!video) return null
 
-                //  Go to confirmation step
-                this.step = 2
+        //  Go to confirmation step
+        this.step = 2
 
 			} catch (err) {
 				alert('error uploading video')

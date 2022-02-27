@@ -19,13 +19,11 @@
       >
       </audio>
     </video>
-    <!-- <canvas ref="videoCanvas" class="" :width="width" :height="height"></canvas> -->
   </div>
 </template>
 <script>
 import videojs from "video.js";
 import "videojs-resolution-switcher-webpack";
-// import { clipByValue, browser, scalar } from '@tensorflow/tfjs'
 export default {
   props: {
     videoData: {
@@ -46,33 +44,21 @@ export default {
       bucketUrl: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       currentVideoSrc: null, // Stores the current src being played
       currentVideoRes: null, // Stores the current resolution of the video
-      c1: null, // Stores the canvas player
-      ctx1: null, // Store the context of the canvas
-      c_tmp: null,
-      ctx_tmp: null,
       width: null, // Stores the width of the video element
       height: null, // Stores the height of the video element
       playing: false,
-      model: null
     };
   },
   async mounted() {
-    await this.initModel()
-
     // Initialize the video player
     this.initVideoPlayer();
     
     // Initialize the audio player
     this.initAudioPlayer();
 
-    // this.initCanvasPlayer()
-
     this.loading = false;
   },
   methods: {
-    async initModel() {
-      this.model = await this.$tensor.loadModel()
-    },
     initVideoPlayer() {
       if (!this.videoData) {
         console.error("videoData not provided so cannot load video player.")
