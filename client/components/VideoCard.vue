@@ -29,19 +29,13 @@
       >
         <template #snapshot="{ snapshot }">
           <img
-            v-if="snapshot"
-            :src="video.videoThumbnail || snapshot"
-            alt="snapshot"
-            :width="380"
-            :height="280"
-            style="
-              object-fit: contain;
-              min-width: 380px;
-              min-height: 280px;
-              max-width: 380px;
-              max-height: 280px;
-            "
-          />
+          v-if="snapshot"
+          :src="video.videoThumbnail || snapshot"
+          alt="snapshot"
+          :width="380"
+          :height="280"
+          style="object-fit:contain;"
+          >
         </template>
       </VueVideoThumbnail>
       <div class="px-2 pb-1">
