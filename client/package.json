@@ -9,6 +9,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@aws-sdk/credential-providers": "^3.53.0",
+    "@aws-sdk/property-provider": "^3.53.0",
     "@emailjs/browser": "^3.4.0",
     "@mdi/js": "^6.5.95",
     "@tensorflow/tfjs": "^3.13.0",
