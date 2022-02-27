@@ -120,11 +120,11 @@ export default {
     // Form Type: String - 'signUp' | 'signIn'
     type: {
       validator: function (value) {
-        return ["signUp", "signIn"].indexOf(value) !== -1
+        return ["signUp", "signIn"].indexOf(value) !== -1;
       },
       required: false,
-      default: "signUp"
-    }
+      default: "signUp",
+    },
   },
   data() {
     return {
@@ -138,36 +138,36 @@ export default {
       loading: false,
       dialogText: null,
       dialogTitle: null,
-      dialog: null
-    }
+      dialog: null,
+    };
   },
   methods: {
     async onSubmit() {
       // If we are loading, return
-      if (this.loading) return
+      if (this.loading) return;
 
       // Indicate that we are loading
-      this.loading = true
+      this.loading = true;
 
       // Check if the form is valid
-      const isValid = await this.$refs.validationObservation.validate()
+      const isValid = await this.$refs.validationObservation.validate();
 
       // If the form is not valid, return
       if (!isValid) {
-        this.loading = false
-        return
+        this.loading = false;
+        return;
       }
 
       // Depending on the Auth type, sign up or sign in
       switch (this.type) {
         case "signUp":
-          this.signUp()
-          break
+          this.signUp();
+          break;
         case "signIn":
-          this.signIn()
-          break
+          this.signIn();
+          break;
         default:
-          break
+          break;
       }
     },
 
@@ -177,66 +177,69 @@ export default {
         username: this.username,
         password: this.password,
         attributes: {
-          email: this.email
-        }
-      }
+          email: this.email,
+          // usersFirstName: "",
+          // usersLastName: "",
+          // usersAboutMe: "",
+        },
+      };
 
       // Send a sign up request
       try {
-        const { user } = await this.$auth.signUp(request)
+        const { user } = await this.$auth.signUp(request);
 
-        console.log(user)
+        console.log(user);
 
         this.$store.commit("user/setUser", {
           ...user,
           username: this.username,
-          email: this.email
-        })
+          email: this.email,
+        });
 
-        this.$emit("signUp")
+        this.$emit("signUp");
       } catch (error) {
         switch (error.name) {
           case "UsernameExistsException":
-            this.dialogTitle = "Signup Error"
-            this.dialogText = "That username already exists"
-            this.dialog = true
+            this.dialogTitle = "Signup Error";
+            this.dialogText = "That username already exists";
+            this.dialog = true;
         }
       }
 
-      this.loading = false
+      this.loading = false;
     },
     async signIn() {
       // Send a sign in request
       try {
-        const user = await this.$auth.signIn(this.username, this.password)
+        const user = await this.$auth.signIn(this.username, this.password);
 
         this.$store.commit("user/setUser", {
           ...user,
-          username: this.username
-        })
+          username: this.username,
+        });
 
         // Commit it
         this.$store.dispatch("auth/authorize", {
           auth: this.$auth,
           axios: this.$axios,
-          aws: this.$aws
-        })
+          aws: this.$aws,
+        });
 
-        this.$emit("signIn")
+        this.$emit("signIn");
       } catch (error) {
-        this.dialogTitle = "Signin Error"
-        this.dialogText = "That username or password is incorrect"
-        this.dialog = true
+        this.dialogTitle = "Signin Error";
+        this.dialogText = "That username or password is incorrect";
+        this.dialog = true;
       }
 
-      this.loading = false
+      this.loading = false;
     },
     resetPassword() {
       this.$router.push({
         path: "/auth/reset",
-        query: { username: this.username }
-      })
-    }
-  }
-}
+        query: { username: this.username },
+      });
+    },
+  },
+};
 </script>
