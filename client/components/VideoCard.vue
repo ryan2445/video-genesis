@@ -4,16 +4,28 @@
     style="
       transition: box-shadow 0.33s ease-out;
       width: 380px;
+      height: 425px;
       border: 1px solid rgb(202, 202, 202);
     "
     outlined
     @click="onCardClick"
   >
-    <v-col style="padding: 0px">
+    <v-col style="padding: 0px" class="relative">
+      <div
+        style="width:378px; height:248.67px;"
+        class="flex justify-center items-center bg-black"
+        v-if="!thumbnailReady"
+      >
+        <v-progress-circular indeterminate color="orange" />
+      </div>
       <VueVideoThumbnail
+        :style="{
+          opacity: thumbnailReady ? '1' : '0'
+        }"
         :video-src="getLink(video)"
         :snapshot-at-duration-percent="70"
         :width="380"
+        @snapshotCreated="onSnapshotCreated"
       ></VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
@@ -24,6 +36,7 @@
                 v-model="showSettingsMenu"
                 offset-y
                 style="max-width: 480px"
+                class="z-30"
                 origin="top right"
                 transition="scroll-y-transition"
                 :nudge-left="100"
@@ -34,7 +47,9 @@
                     <v-icon>icon-cog-outline</v-icon>
                   </v-btn>
                 </template>
-                <v-list>
+                <v-list
+                  class="z-30"
+                >
                   <v-list-item>
                     <v-dialog v-model="dialog" persistent max-width="600px">
                       <template v-slot:activator="{ on, attrs }">
@@ -213,6 +228,7 @@ export default {
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
+      thumbnailReady: false
     };
   },
   props: {
@@ -251,14 +267,13 @@ export default {
     },
   },
   methods: {
+    onSnapshotCreated() {
+      this.thumbnailReady = true
+    },
     openUserPage() {
 
     },
     mutateVideo(param) {
-      console.log('mutateVideo')
-      console.log(param)
-      console.log(this.idx)
-
       this.$store.commit("videos/videoUpdate", {
         ...param,
         idx: this.idx,

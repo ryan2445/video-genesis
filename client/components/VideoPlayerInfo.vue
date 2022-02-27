@@ -3,7 +3,7 @@
     <v-card-title> {{ video.videoTitle }} </v-card-title>
     <v-card-text>
       <v-row align="center" class="mx-0">
-        <div class="mr-2">UserName</div>
+        <div class="mr-2">{{ owner }}</div>
         <div class="mr-2">-</div>
         <div>Nov 13, 2021</div>
       </v-row>
@@ -22,7 +22,17 @@
 <script>
 export default {
   name: "VideoPlayerInfo",
-  props: ["video"],
+  props: {
+    video: {
+      type: Object,
+      required: true
+    }
+  },
+  computed: {
+    owner() {
+      return this.video.pk.substr(3)
+    }
+  }
 };
 </script>
 

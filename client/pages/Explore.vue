@@ -15,7 +15,7 @@
     >
       <div>No videos found</div>
     </div>
-    <div class="grid md:grid-cols-3 grid-cols-1 gap-x-2 items-center place-items-center">
+    <div class="flex flex-row flex-wrap w-full justify-start items-start">
       <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
     </div>
   </div>

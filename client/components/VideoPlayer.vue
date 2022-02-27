@@ -19,7 +19,7 @@
       >
       </audio>
     </video>
-    <canvas ref="videoCanvas" class="" :width="width" :height="height"></canvas>
+    <!-- <canvas ref="videoCanvas" class="" :width="width" :height="height"></canvas> -->
   </div>
 </template>
 
@@ -82,14 +82,13 @@ export default {
     // Initialize the audio player
     this.initAudioPlayer();
 
-    this.initCanvasPlayer()
+    // this.initCanvasPlayer()
 
     this.loading = false;
   },
   methods: {
     async initModel() {
       this.model = await this.$tensor.loadModel()
-      console.log('model loaded')
     },
 
     initVideoPlayer() {
@@ -211,7 +210,7 @@ export default {
 
       this.playing = true
 
-      this.computeCanvasFrame();
+      // this.computeCanvasFrame();
     },
     onPlayerPause(videoPlayer) {
       // Continue if audio is enabled

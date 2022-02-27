@@ -1,7 +1,7 @@
 <!-- This section calls the image link, shows it with text in the center of the image!  -->
 
 <template>
-  <v-content>
+  <v-main>
     <section>
       <v-parallax :src="imageLink.img" height="700">
         <v-layout column align-center justify-center class="white--text">
@@ -109,7 +109,7 @@
         Copyright 2021 Genesis LLC. All Rights Reserved
       </div>
     </v-footer>
-  </v-content>
+  </v-main>
 </template>
 
 <script>
