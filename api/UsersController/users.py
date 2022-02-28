@@ -46,27 +46,27 @@ def usersPut(event, context):
     sk = body['sk']
     # videoTitle = body['videoTitle']
     # videoDescription = body['videoDescription']
-    usersFirstName = body['usersFirstName']
-    usersLastName = body['usersLastName']
-    usersAboutMe = body['usersAboutMe']
-    profilePicKey = body['profilePicKey']
-    coverPicKey = body['coverPicKey']
     
+    params = [
+        'usersFirstName',
+        'usersLastName',
+        'usersAboutMe',
+        'profilePicKey',
+        'coverPicKey'
+    ]
 
+    keys_with_value = list(filter(lambda x: body.get(x), params))
+    update_expr = " ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
+
+    expr_attrib_values = dict((f":{index}", body.get(key)) for index, key in enumerate(keys_with_value))
     
     response = dynamodb.update_item(
         Key = {
             'pk': pk,
             'sk': sk
         },
-        UpdateExpression = 'set usersFirstName=:0, usersLastName=:1, usersAboutMe=:2 profilePicKey=:3 coverPicKey=:4',
-        ExpressionAttributeValues = {
-            ':0': usersFirstName,
-            ':1': usersLastName,
-            ':2': usersAboutMe,
-            ':3': profilePicKey,
-            ':4': coverPicKey,
-        },
+        UpdateExpression = f"set {update_expr}",
+        ExpressionAttributeValues = expr_attrib_values
     )
 
     return {
