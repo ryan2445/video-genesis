@@ -47,7 +47,7 @@ def usersPut(event, context):
     # videoTitle = body['videoTitle']
     # videoDescription = body['videoDescription']
     
-    params = [
+    optional_keys = [
         'usersFirstName',
         'usersLastName',
         'usersAboutMe',
@@ -55,7 +55,10 @@ def usersPut(event, context):
         'coverPicKey'
     ]
 
-    keys_with_value = list(filter(lambda x: body.get(x), params))
+    keys_with_value = list(filter(lambda x: body.get(x), optional_keys))
+
+    if not keys_with_value:
+        raise ValueError("update request should not be empty")
     update_expr = " ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
 
     expr_attrib_values = dict((f":{index}", body.get(key)) for index, key in enumerate(keys_with_value))
