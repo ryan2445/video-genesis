@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
-    <validation-observer ref="validationObservation" v-slot="{ }">
+    <validation-observer ref="validationObservation" v-slot="{}">
       <v-form ref="videoDescriptionForm">
         <validation-provider
           name="Description"
@@ -14,12 +14,11 @@
             :error-messages="errors"
             filled
           />
-          
         </validation-provider>
         <v-btn @click="onSubmitAboutMe(false)">Submit</v-btn>
       </v-form>
-      
-      <br>
+
+      <br />
       <v-form>
         <validation-provider
           name="Description"
@@ -34,14 +33,11 @@
             filled
             rows="2"
           />
-         
-          
-          
         </validation-provider>
-        <v-btn @click="onSubmitfirstName(false)">Submit</v-btn>
+        <v-btn @click="onSubmitFirstName(false)">Submit</v-btn>
       </v-form>
-      
-      <br>
+
+      <br />
 
       <v-form>
         <validation-provider
@@ -55,16 +51,13 @@
             @change="onChange"
             :error-messages="errors"
             filled
-            rows = "2"
+            rows="2"
           />
-          
         </validation-provider>
-        <v-btn @click="onSubmitlastName(false)">Submit</v-btn>
+        <v-btn @click="onSubmitLastName(false)">Submit</v-btn>
       </v-form>
     </validation-observer>
   </div>
-
-  
 </template>
 
 <script>
@@ -76,7 +69,7 @@ export default {
       // The v-model bounded description
       aboutMe: null,
       firstName: null,
-      lastName: null
+      lastName: null,
     };
   },
   methods: {
@@ -85,24 +78,32 @@ export default {
         aboutMe: this.aboutMe,
       });
     },
-    
+
     resetaboutMe() {
       this.aboutMe = null;
+    },
+    resetfirstName() {
+      this.firstName = null;
+    },
+    resetlastName() {
+      this.lastName = null;
     },
     async onSubmitAboutMe() {
       const aboutMe = await this.$store.dispatch("users/userPut", {
         usersAboutMe: this.aboutMe,
       });
     },
+    async onSubmitFirstName() {
+      const firstName = await this.$store.dispatch("users/userPut", {
+        usersFirstName: this.firstName,
+      });
+    },
+    async onSubmitLastName() {
+      const lastName = await this.$store.dispatch("users/userPut", {
+        usersLastName: this.lastName,
+      });
+    },
   },
-  //  async onVideoSave(dialog = false) {
-  //     const video = await this.$store.dispatch("videos/videosPut", {
-  //       videoTitle: this.video.videoTitle,
-  //       videoDescription: this.video.videoDescription,
-  //       videoThumbnail: this.videoThumbnail,
-  //       pk: this.video.pk,
-  //       sk: this.video.sk,
-  //     });
 };
 </script>
 
