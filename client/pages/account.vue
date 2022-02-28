@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
-    <validation-observer ref="validationObservation" v-slot="{ invalid }">
+    <validation-observer ref="validationObservation" v-slot="{ }">
       <v-form ref="videoDescriptionForm">
         <validation-provider
           name="Description"
@@ -14,11 +14,57 @@
             :error-messages="errors"
             filled
           />
+          
         </validation-provider>
         <v-btn @click="onSubmitAboutMe(false)">Submit</v-btn>
       </v-form>
+      
+      <br>
+      <v-form>
+        <validation-provider
+          name="Description"
+          rules="max:1000"
+          v-slot="{ errors }"
+        >
+          <v-textarea
+            label="Enter your first name"
+            v-model="firstName"
+            @change="onChange"
+            :error-messages="errors"
+            filled
+            rows="2"
+          />
+         
+          
+          
+        </validation-provider>
+        <v-btn @click="onSubmitfirstName(false)">Submit</v-btn>
+      </v-form>
+      
+      <br>
+
+      <v-form>
+        <validation-provider
+          name="Description"
+          rules="max:1000"
+          v-slot="{ errors }"
+        >
+          <v-textarea
+            label="Enter your last name"
+            v-model="lastName"
+            @change="onChange"
+            :error-messages="errors"
+            filled
+            rows = "2"
+          />
+          
+        </validation-provider>
+        <v-btn @click="onSubmitlastName(false)">Submit</v-btn>
+      </v-form>
     </validation-observer>
   </div>
+
+  
 </template>
 
 <script>
@@ -29,6 +75,8 @@ export default {
     return {
       // The v-model bounded description
       aboutMe: null,
+      firstName: null,
+      lastName: null
     };
   },
   methods: {
@@ -37,6 +85,7 @@ export default {
         aboutMe: this.aboutMe,
       });
     },
+    
     resetaboutMe() {
       this.aboutMe = null;
     },
