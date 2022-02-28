@@ -33,10 +33,12 @@ export const actions = {
 
   async userPut({ commit, rootState }, params) {
     try {
-      const response = await this.$axios.post("users", {
+      const response = await this.$axios.put("users", {
         ...params,
-        username: rootState.user.user.username,
+        pk: `ID#${rootState.user.user.username}`,
+        sk: "USER",
       });
+      console.log(response.data);
       return response.data;
     } catch (exception) {
       return null;
