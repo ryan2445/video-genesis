@@ -90,9 +90,10 @@
         <v-layout row wrap>
           <v-flex xs12 sm6 md4 lg3 v-for="member in team" :key="member.name">
             <v-card flat class="orange text-xs-center ma-3">
-              <v-responsive class="pt-4">
-                <v-avatar size="150" class="grey lighten-2"> </v-avatar>
-              </v-responsive>
+              <v-avatar size="150" class="grey lighten-2">
+                <img :src="member.avatar" />
+              </v-avatar>
+
               <v-card-text>
                 <div class="subheading">{{ member.name }}</div>
                 <div class="grey--text">{{ member.role }}</div>
@@ -127,11 +128,39 @@ export default {
   data: function () {
     return {
       team: [
-        { name: "Mark Minkoff", role: "Web developer" },
-        { name: "Ryan Hoffman", role: "Web developer" },
-        { name: "Ritik Bhardwaj", role: "Web developer" },
-        { name: "Heriberto Martinez", role: "Web developer" },
-        { name: "Manoj Selvakumar", role: "Web developer" },
+        {
+          name: "Mark Minkoff",
+          role: "Web developer",
+          avatar:
+            "https://static0.gamerantimages.com/wordpress/wp-content/uploads/2021/10/marvels-avengers-3.jpg",
+        },
+
+        {
+          name: "Ryan Hoffman",
+          role: "Web developer",
+          avatar:
+            "https://i2.wp.com/www.comicsbeat.com/wp-content/uploads/2021/09/Eh-Steve.jpg?fit=1200%2C630&ssl=1",
+        },
+
+        {
+          name: "Ritik Bhardwaj",
+          role: "Web developer",
+          avatar:
+            "https://cdnb.artstation.com/p/assets/images/images/027/360/123/large/andrey-spiridonov-cosplay-aniventure-2018-27-thor-avengers-infinity-war-asp-0972p.jpg?1591301884",
+        },
+        {
+          name: "Heriberto Martinez",
+          role: "Web developer",
+          avatar:
+            "https://m.media-amazon.com/images/I/71A+RlBsJRL._AC_SX569_.jpg",
+        },
+
+        {
+          name: "Manoj Selvakumar",
+          role: "Web developer",
+          avatar:
+            "https://cdn.vox-cdn.com/thumbor/K5IUSjv1ArPfjh_IZUp4DPsoZMY=/1400x1400/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/22024938/marvels_spiderman_remastered_screenshot_01_disclaimer_en_01oct20.png",
+        },
       ],
       imageLink: {
         img: "https://cdn.pixabay.com/photo/2018/02/28/10/04/soap-bubble-3187617_1280.jpg",
