@@ -4,73 +4,69 @@
       <div>
         <profile-banner />
       </div>
-      <div class="absolute mt-0 w-full">
-        
-       
-      </div>
+      <div class="absolute mt-0 w-full"></div>
     </div>
-  
 
+    <template>
+      <v-card>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                label="First Name"
+                v-model="firstName"
+                color="orange"
+                @change="onChange"
+                required
+                filled
+                rows="2"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                label="Last Name"
+                v-model="lastName"
+                color="orange"
+                @change="onChange"
+                required
+                filled
+                rows="2"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-textarea v-model="aboutMe" color="orange" @change="onChange">
+                <template v-slot:label>
+                  <div>About Me</div>
+                </template>
+              </v-textarea>
+            </v-col>
+            <v-card-actions>
+              <v-btn text @click="resetForm"> Cancel </v-btn>
+              <v-spacer></v-spacer>
 
-
-  <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
-    <validation-observer ref="validationObservation" v-slot="{}">
-      <v-form ref="videoDescriptionForm">
-        <validation-provider
-          name="Description"
-          rules="max:1000"
-          v-slot="{ errors }"
-        >
-          <v-textarea
-            
-              label="Profile Picture"
-              v-model="profilepicture"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-            rows="2"
-             />
-           
-           <v-textarea
-            label="Enter your first name"
-            v-model="firstName"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-            rows="2"
-          />
-           <v-textarea
-            label="Enter your last name"
-            v-model="lastName"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-            rows="2"
-          />
-           <v-textarea
-            label="About Me"
-            v-model="aboutMe"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-          />
-        </validation-provider>
-       <v-btn @click="onSubmitAboutMe(false),onSubmitFirstName(false),onSubmitLastName(false)">Update</v-btn> 
-      </v-form>
-      
-
-     
-    </validation-observer>
-  </div>
+              <v-btn
+                right
+                color="orange"
+                @click="
+                  onSubmitAboutMe(false),
+                    onSubmitFirstName(false),
+                    onSubmitLastName(false)
+                "
+                >Update</v-btn
+              >
+            </v-card-actions>
+          </v-row>
+        </v-container>
+      </v-card>
+    </template>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import ProfileBanner from "../components/ProfileBanner.vue";
 
 export default {
-   components: { ProfileBanner },
+  components: { ProfileBanner },
   layout: "dashboard",
   layout: "dashboard",
   name: "UploadDescription",
@@ -128,4 +124,3 @@ export default {
   opacity: 0;
 }
 </style>
-
