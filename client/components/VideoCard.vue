@@ -47,7 +47,7 @@
             <div v-else>
               {{ this.video.videoTitle.substring(0, 25) + "..." }}
             </div>
-            <!-- <div>{{ this.video.videoTitle }}</div> -->
+
             <div class="mr-2">
               <v-menu
                 v-model="showSettingsMenu"
@@ -252,8 +252,11 @@
               </div>
             </template>
           </div>
-          <div class="text-base text-gray-700">
-            {{ video.videoDescription }}
+          <div v-if="this.video.videoDescription.length < 25">
+            {{ this.video.videoDescription }}
+          </div>
+          <div v-else>
+            {{ this.video.videoDescription.substring(0, 25) + "..." }}
           </div>
           <p v-if="!isEditing">{{ pros }}</p>
           <v-row>
