@@ -281,7 +281,8 @@ export default {
       right: false,
       dialog: false,
       deleteDialogBox: false,
-      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      bucket_url:
+        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
       thumbnailReady: false,
       thumbnail: null,
@@ -356,7 +357,9 @@ export default {
 
           const deleteCommand = new DeleteObjectCommand(deletePayload);
 
-          const deleteResp = await this.$store.getters["auth/s3"].send(deleteCommand);
+          const deleteResp = await this.$store.getters["auth/s3"].send(
+            deleteCommand
+          );
         }
 
         const putPayload = {

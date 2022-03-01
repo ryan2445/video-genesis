@@ -59,7 +59,7 @@ def usersPut(event, context):
 
     if not keys_with_value:
         raise ValueError("update request should not be empty")
-    update_expr = " ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
+    update_expr = ", ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
 
     expr_attrib_values = dict((f":{index}", body.get(key)) for index, key in enumerate(keys_with_value))
     

@@ -82,21 +82,27 @@ def videosPut(event, context):
 
     pk = body['pk']
     sk = body['sk']
-    videoTitle = body['videoTitle']
-    videoDescription = body['videoDescription']
-    videoThumbnail = body['videoThumbnail']
+
+    optional_keys = [
+        'videoTitle',
+        'videoDescription',
+        'videoThumbnail',
+    ]
+    keys_with_value = list(filter(lambda x: body.get(x), optional_keys))
+
+    if not keys_with_value:
+        raise ValueError("update request should not be empty")
+    update_expr = ", ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
+
+    expr_attrib_values = dict((f":{index}", body.get(key)) for index, key in enumerate(keys_with_value))
     
     response = dynamodb.update_item(
         Key = {
             'pk': pk,
             'sk': sk
         },
-        UpdateExpression = 'set videoTitle=:0, videoDescription=:1, videoThumbnail=:2',
-        ExpressionAttributeValues = {
-            ':0': videoTitle,
-            ':1': videoDescription,
-            ':2': videoThumbnail
-        }
+        UpdateExpression = f"set {update_expr}",
+        ExpressionAttributeValues = expr_attrib_values
     )
 
     return {
