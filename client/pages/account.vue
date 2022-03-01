@@ -8,24 +8,14 @@
           v-slot="{ errors }"
         >
           <v-textarea
-            label="About Me"
-            v-model="aboutMe"
+            label="URL of profile picture"
+            v-model="profilepicture"
             @change="onChange"
             :error-messages="errors"
             filled
+            rows="2"
           />
-        </validation-provider>
-        <v-btn @click="onSubmitAboutMe(false)">Submit</v-btn>
-      </v-form>
-
-      <br />
-      <v-form>
-        <validation-provider
-          name="Description"
-          rules="max:1000"
-          v-slot="{ errors }"
-        >
-          <v-textarea
+           <v-textarea
             label="Enter your first name"
             v-model="firstName"
             @change="onChange"
@@ -33,19 +23,7 @@
             filled
             rows="2"
           />
-        </validation-provider>
-        <v-btn @click="onSubmitFirstName(false)">Submit</v-btn>
-      </v-form>
-
-      <br />
-
-      <v-form>
-        <validation-provider
-          name="Description"
-          rules="max:1000"
-          v-slot="{ errors }"
-        >
-          <v-textarea
+           <v-textarea
             label="Enter your last name"
             v-model="lastName"
             @change="onChange"
@@ -53,9 +31,19 @@
             filled
             rows="2"
           />
+           <v-textarea
+            label="About Me"
+            v-model="aboutMe"
+            @change="onChange"
+            :error-messages="errors"
+            filled
+          />
         </validation-provider>
-        <v-btn @click="onSubmitLastName(false)">Submit</v-btn>
+       <v-btn @click="onSubmitAboutMe(false),onSubmitFirstName(false),onSubmitLastName(false)">Submit</v-btn> 
       </v-form>
+      
+
+     
     </validation-observer>
   </div>
 </template>
