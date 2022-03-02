@@ -90,9 +90,11 @@
         <v-layout row wrap>
           <v-flex xs12 sm6 md4 lg3 v-for="member in team" :key="member.name">
             <v-card flat class="orange text-xs-center ma-3">
-              <v-avatar size="150" class="grey lighten-2">
-                <img :src="member.avatar" />
-              </v-avatar>
+              <v-responsive class="pt-4">
+                <v-avatar size="150" class="grey lighten-2">
+                  <img :src="member.avatar" />
+                </v-avatar>
+              </v-responsive>
 
               <v-card-text>
                 <div class="subheading">{{ member.name }}</div>
