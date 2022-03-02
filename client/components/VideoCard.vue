@@ -1,5 +1,5 @@
 <template>
-  <v-card
+  <!--<v-card
     class="my-2 mx-auto shadow-sm hover:shadow-lg"
     style="
       transition: box-shadow 0.33s ease-out;
@@ -9,6 +9,16 @@
     "
     outlined
     @click="onCardClick"
+  > -->
+  <v-card
+    class="my-2 mx-auto shadow-sm hover:shadow-lg"
+    style="
+      transition: box-shadow 0.33s ease-out;
+      width: 380px;
+      height: 425px;
+      border: 1px solid rgb(202, 202, 202);
+    "
+    outlined
   >
     <v-col style="padding: 0px" class="relative">
       <div
@@ -35,12 +45,14 @@
             :width="380"
             :height="280"
             style="object-fit: contain"
+            class="cursor-pointer"
+            @click="onCardClick"
           />
         </template>
       </VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
-          <div class="flex justify-between w-full items-center">
+          <div class="flex justify-between w-full items-center cursor-pointer" @click="onCardClick">
             <div v-if="this.video.videoTitle.length < 25">
               {{ this.video.videoTitle }}
             </div>
@@ -252,11 +264,13 @@
               </div>
             </template>
           </div>
-          <div v-if="this.video.videoDescription.length < 25">
-            {{ this.video.videoDescription }}
-          </div>
-          <div v-else>
-            {{ this.video.videoDescription.substring(0, 25) + "..." }}
+          <div class="cursor-pointer" @click="onCardClick">
+            <div v-if="this.video.videoDescription.length < 25">
+              {{ this.video.videoDescription }}
+            </div>
+            <div v-else>
+              {{ this.video.videoDescription.substring(0, 25) + "..." }}
+            </div>
           </div>
           <p v-if="!isEditing">{{ pros }}</p>
           <v-row>
@@ -384,12 +398,15 @@ export default {
 
       this.onVideoSave(true);
     },
-    openUserPage() {},
+    openUserPage() 
+    {
+      this.$router.push(`Home`);
+    },
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {
         ...param,
         idx: this.idx,
-      });
+      }); 
     },
     onCardClick() {
       this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`);
