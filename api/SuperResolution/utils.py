@@ -1,4 +1,5 @@
 # This file demonstrates use of TensorFlow Hub Module for Enhanced Super Resolution Generative Adversarial Network (by Xintao Wang et.al.)
+from pickle import FALSE
 import subprocess, os
 import time
 from PIL import Image
@@ -29,10 +30,7 @@ def preprocess_image(image_path):
   if hr_image.shape[-1] == 4:
     hr_image = hr_image[...,:-1]
   
-  hr_size = (tf.convert_to_tensor(hr_image.shape[:-1]) // 4) * 4
-  hr_image = tf.image.crop_to_bounding_box(hr_image, 0, 0, hr_size[0], hr_size[1])
-  hr_image = tf.cast(hr_image, tf.float32)
-  return tf.expand_dims(hr_image, 0)
+  return preprocess_image_from_cv(hr_image)
 
 def preprocess_image_from_cv(image):
   """ Loads image from numpy and preprocesses to make it model ready
@@ -114,15 +112,17 @@ def downsample_video(video_path = "original.mp4"):
   if not success:
     raise RuntimeError("Cannot read video")
   
-  scaling_algorithm = "bicubic"
-  
   height = frame.shape[0]
   width = frame.shape[1]
+  scale_factor = 2
+  scaling_algorithm = "bicubic"
   
-  command = f'ffmpeg -i "{video_path}" -ss 0 -vf scale={width // 4 }:{height // 4} -sws_flags {scaling_algorithm} -c:a copy "{output_video}"'
+  command = f'ffmpeg -i "{video_path}" -vf scale=ceil({width // scale_factor}/2)*2:ceil({height // scale_factor}/2)*2 -sws_flags {scaling_algorithm} -c:a copy "{output_video}"'
   subprocess.call(command, shell=True)
 
 def downscale_image(image):
+  #! Depricated for videos, use downsample_video instead
+  
   image_size = []
   if len(image.shape) == 3:
     image_size = [image.shape[1], image.shape[0]]
@@ -142,7 +142,7 @@ def downscale_image(image):
   lr_image = tf.cast(lr_image, tf.float32)
   return lr_image
 
-def upscale_video(video_src = "lr.mp4"):
+def upscale_video(video_src = "lr.mp4", debug = False):
   if not os.path.isfile(video_src):
     raise RuntimeError("Video not found to upscale")
 
@@ -176,26 +176,40 @@ def upscale_video(video_src = "lr.mp4"):
     if success is False:
       break
     
+    # Prepare frame for model
     lr_image = preprocess_image_from_cv(frame)
-    fake_image = model(lr_image)
-    fake_image = tf.squeeze(fake_image)
-    fake_image = np.asarray(fake_image)
-    fake_image = tf.clip_by_value(fake_image, 0, 255)
-    fake_image = tf.cast(fake_image, tf.uint8).numpy()
     
-    cv2.imshow('Read', frame)
-    cv2.imshow('Write', fake_image)
-    if cv2.waitKey(25) & 0xFF == ord('q'):
-      break
+    # Generate the image
+    fake_image = model(lr_image)
+    
+    fake_image = postprocess_image(fake_image)
+    
+    # If debug enabled, show input and output images live
+    if debug:
+      cv2.imshow('Read', frame)
+      cv2.imshow('Write', fake_image)
+      if cv2.waitKey(25) & 0xFF == ord('q'):
+        break
+
     out.write(fake_image)
     success, frame = cap.read()
   
   cap.release()
   out.release()
-  
-# downscale_video("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/-xZxpyDAoWDinJf52gu9j/-xZxpyDAoWDinJf52gu9j_3000.mp4")
-# upscale_video()
 
-# test()
-downsample_video()
-upscale_video()
+def postprocess_image(image):
+  return tf.cast(tf.clip_by_value(np.asarray(tf.squeeze(image)), 0, 255), tf.uint8).numpy()
+
+def download_file(url, path, name):
+  # Get the path to output the bytes
+  full_path = os.path.join(path, name)
+  
+  # Download the file
+  r = requests.get(url, allow_redirects=True)
+  
+  # Write the contents to the path
+  open(full_path, 'wb').write(r.content)
+
+#download_file("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3LqQwB0qpB8ZyaQYyqYah/3LqQwB0qpB8ZyaQYyqYah_3000.mp4", "", "original.mp4")
+# downsample_video()
+upscale_video(video_src = "lr.mp4", debug = True)
