@@ -72,7 +72,6 @@ export default {
 
       // If the username is not provided, error
       if (!params.has('username')) {
-        console.error('username not provided')
         return;
       }
 
