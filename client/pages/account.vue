@@ -168,7 +168,7 @@ export default {
     },
     userCoverPic() {
       if (!this.user) return null;
-      return this.coverepic || this.user[0].coverPicKey;
+      return this.coverpic || this.user[0].coverPicKey;
     },
   },
   async mounted() {
@@ -262,7 +262,7 @@ export default {
       });
     },
     async onSubmitUserProfilePic() {
-      const userCoverPic = await this.$store.dispatch("users/userPut", {
+      const userProfilePic = await this.$store.dispatch("users/userPut", {
         profilePicKey: this.profilepic,
       });
     },
