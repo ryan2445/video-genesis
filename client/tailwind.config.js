@@ -1,10 +1,6 @@
 module.exports = {
   theme: {
-    extend: {
-      fontFamily: {
-        apptitle: ["Oswald"],
-      },
-    },
+    extend: {},
   },
   variants: {},
   plugins: [],

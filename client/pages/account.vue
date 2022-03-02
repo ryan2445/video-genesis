@@ -24,6 +24,7 @@
     />
 
     <!-- User Profile Pic -->
+
     <div class="mb-4">
       <div
         v-if="userProfilePic"
@@ -63,7 +64,7 @@
           alt="bird"
         />
       </div>
-      <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
+      <div v-else class="h-36 w-1/2 overflow-hidden mb-2">
         <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
       </div>
       <v-btn
@@ -79,7 +80,6 @@
         </div>
       </v-btn>
     </div>
-
     <!-- End of Upload Section -->
     <template>
       <v-card>
@@ -121,9 +121,7 @@
                 right
                 color="orange"
                 @click="
-                  onSubmitAboutMe(false),
-                    onSubmitFirstName(false),
-                    onSubmitLastName(false)
+                  onSubmitAboutMe(), onSubmitFirstName(), onSubmitLastName()
                 "
                 >Update</v-btn
               >
@@ -156,7 +154,6 @@ export default {
   computed: {
     ...mapGetters({
       user: "users/rootUser",
-      user2: "user/user",
     }),
   },
   async mounted() {
@@ -221,6 +218,7 @@ export default {
     resetlastName() {
       this.lastName = null;
     },
+    resetForm() {},
     async onSubmitAboutMe() {
       const aboutMe = await this.$store.dispatch("users/userPut", {
         usersAboutMe: this.aboutMe,
