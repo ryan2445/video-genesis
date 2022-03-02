@@ -22,7 +22,7 @@
 
     <div class="mb-4 my-4">
       <div
-        v-if="userProfilePic"
+        v-if="userProfilePic && !loading"
         class="w-32 h-32 rounded-full overflow-hidden mb-2"
       >
         <img
@@ -53,7 +53,7 @@
     <!-- User Cover Pic -->
     <div class="mb-4">
       <div
-        v-if="userCoverPic"
+        v-if="userCoverPic && !loading"
         class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500"
       >
         <img
@@ -74,7 +74,7 @@
       >
         <div class="flex flex-row items-center">
           <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span>{{ coverpic ? "Change" : "Upload" }} Cover Pic</span>
+          <span>{{ userCoverPic ? "Change" : "Upload" }} Cover Pic</span>
         </div>
       </v-btn>
     </div>
@@ -147,6 +147,7 @@ export default {
       lastName: null,
       loadingCoverPic: null,
       loadingProfilePic: null,
+      loading: true,
       profilepic: null,
       coverpic: null,
     };
@@ -156,11 +157,9 @@ export default {
       user: "users/rootUser",
     }),
     userProfilePic() {
-      if (!this.profilepic) return null;
       return this.profilepic || this.user[0].profilePicKey;
     },
     userCoverPic() {
-      if (!this.coverepic) return null;
       return this.coverepic || this.user[0].coverPicKey;
     },
   },
