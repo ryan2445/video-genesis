@@ -46,7 +46,10 @@
       >
         <div class="flex flex-row items-center">
           <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span>{{ userProfilePic ? "Change" : "Upload" }} Profile Pic</span>
+          <span
+            >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
+            Pic</span
+          >
         </div>
       </v-btn>
     </div>
@@ -74,7 +77,10 @@
       >
         <div class="flex flex-row items-center">
           <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span>{{ userCoverPic ? "Change" : "Upload" }} Cover Pic</span>
+          <span
+            >{{ userCoverPic && !loading ? "Change" : "Upload" }} Cover
+            Pic</span
+          >
         </div>
       </v-btn>
     </div>
@@ -157,9 +163,11 @@ export default {
       user: "users/rootUser",
     }),
     userProfilePic() {
+      if (!this.user) return null;
       return this.profilepic || this.user[0].profilePicKey;
     },
     userCoverPic() {
+      if (!this.user) return null;
       return this.coverepic || this.user[0].coverPicKey;
     },
   },
