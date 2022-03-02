@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="my-52 relative">
-      <div>
-        <profile-banner />
+      <div v-if="!loading">
+        <profile-banner :user="user2" />
       </div>
       <div class="absolute mt-0 w-full">
         <div class="flex mx-72 space-x-10 mt-5">
@@ -43,10 +43,10 @@
             </div>
           </div>
           <div
-            v-else-if="tabSelected == 'About' && loading == false"
+            v-else-if="tabSelected == 'About' && !loading"
             class="mt-10 ml-auto mr-auto w-3/4"
           >
-            <profile-about />
+            <profile-about :user="user2" />
           </div>
         </transition>
       </div>
@@ -56,16 +56,24 @@
 
 <script>
 import { mapGetters } from "vuex";
+import ProfileAbout from "../components/ProfileAbout.vue";
 import ProfileBanner from "../components/ProfileBanner.vue";
 export default {
-  components: { ProfileBanner },
+  components: { ProfileBanner, ProfileAbout },
   layout: "dashboard",
   data() {
-    return { tabSelected: "Uploads", loading: true };
+    return {
+      tabSelected: "Uploads",
+      loading: true,
+      profilepic: null,
+      coverpic: null,
+      usernull: null,
+    };
   },
   computed: {
     ...mapGetters({
       user: "user/user",
+      user2: "users/rootUser",
       videos: "videos/videos",
     }),
   },
@@ -80,6 +88,7 @@ export default {
   async mounted() {
     //  Send request to get videos
     await this.$store.dispatch("videos/videosGet");
+    await this.$store.dispatch("users/userGet");
 
     //  Stop loading
     this.loading = false;
