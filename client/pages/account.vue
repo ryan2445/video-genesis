@@ -1,134 +1,137 @@
 <template>
-  <div class="flex flex-col justify-center content-center bg-gray-200 p-10">
+  <div>
     <div v-if="loading" class="text-center" style="height: 100vh">
       <v-progress-circular indeterminate color="orange" style="top: 50%" />
     </div>
-    <validation-observer ref="validationObservation" v-slot="{}">
-      <v-form ref="videoDescriptionForm">
-        <validation-provider
-          name="Description"
-          rules="max:1000"
-          v-slot="{ errors }"
-        >
-          <!-- Upload Section -->
-          <input
-            id="file-input"
-            type="file"
-            name="name"
-            style="display: none"
-            accept=".png, .jpg, .jpeg"
-            @change="profilePicSelected"
-          />
-          <input
-            id="file-input2"
-            type="file"
-            name="name"
-            style="display: none"
-            accept=".png, .jpg, .jpeg"
-            @change="coverPicSelected"
-          />
-          <div class="mb-4 block">
-            <!-- User Profile Pic -->
-            <div class="mb-4">
-              <div
-                v-if="userProfilePic"
-                class="w-32 h-32 rounded-full overflow-hidden mb-2"
-              >
-                <img
-                  class="min-w-full min-h-full object-cover"
-                  :src="userProfilePic"
-                  alt="avatar"
-                />
-              </div>
-              <div
-                v-else
-                class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500"
-              >
-                <h1 class="text-center py-12 text-xl font-bold text-white">
-                  Upload
-                </h1>
-              </div>
+
+    <!-- Upload Section -->
+
+    <input
+      id="file-input"
+      type="file"
+      name="name"
+      style="display: none"
+      accept=".png, .jpg, .jpeg"
+      @change="profilePicSelected"
+    />
+    <input
+      id="file-input2"
+      type="file"
+      name="name"
+      style="display: none"
+      accept=".png, .jpg, .jpeg"
+      @change="coverPicSelected"
+    />
+
+    <!-- User Profile Pic -->
+    <div class="mb-4">
+      <div
+        v-if="userProfilePic"
+        class="w-32 h-32 rounded-full overflow-hidden mb-2"
+      >
+        <img
+          class="min-w-full min-h-full object-cover"
+          :src="userProfilePic"
+          alt="avatar"
+        />
+      </div>
+      <div
+        v-else
+        class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500"
+      >
+        <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
+      </div>
+      <v-btn
+        :loading="loading"
+        small
+        color="orange lighten-1"
+        class="white--text"
+        @click="uploadProfilePic"
+      >
+        <div class="flex flex-row items-center">
+          <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+          <span>{{ userProfilePic ? "Change" : "Upload" }} Profile Pic</span>
+        </div>
+      </v-btn>
+    </div>
+    <!-- User Cover Pic -->
+    <div class="mb-4">
+      <div v-if="userCoverPic" class="h-36 w-1/2 overflow-hidden mb-2">
+        <img
+          class="min-w-full min-h-full object-cover"
+          :src="userCoverPic"
+          alt="bird"
+        />
+      </div>
+      <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
+        <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
+      </div>
+      <v-btn
+        :loading="loading"
+        small
+        color="orange lighten-1"
+        class="white--text"
+        @click="uploadCoverPic"
+      >
+        <div class="flex flex-row items-center">
+          <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+          <span>{{ userCoverPic ? "Change" : "Upload" }} Cover Pic</span>
+        </div>
+      </v-btn>
+    </div>
+
+    <!-- End of Upload Section -->
+    <template>
+      <v-card>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                label="First Name"
+                v-model="firstName"
+                color="orange"
+                @change="onChange"
+                required
+                filled
+                rows="2"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                label="Last Name"
+                v-model="lastName"
+                color="orange"
+                @change="onChange"
+                required
+                filled
+                rows="2"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-textarea v-model="aboutMe" color="orange" @change="onChange">
+                <template v-slot:label>
+                  <div>About Me</div>
+                </template>
+              </v-textarea>
+            </v-col>
+            <v-card-actions>
+              <v-btn text @click="resetForm"> Cancel </v-btn>
+              <v-spacer></v-spacer>
               <v-btn
-                :loading="loading"
-                small
-                color="orange lighten-1"
-                class="white--text"
-                @click="uploadProfilePic"
+                right
+                color="orange"
+                @click="
+                  onSubmitAboutMe(false),
+                    onSubmitFirstName(false),
+                    onSubmitLastName(false)
+                "
+                >Update</v-btn
               >
-                <div class="flex flex-row items-center">
-                  <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                  <span
-                    >{{ userProfilePic ? "Change" : "Upload" }} Profile
-                    Pic</span
-                  >
-                </div>
-              </v-btn>
-            </div>
-            <!-- User Cover Pic -->
-            <div>
-              <div v-if="userCoverPic" class="h-36 w-1/2 overflow-hidden mb-2">
-                <img
-                  class="min-w-full min-h-full object-cover"
-                  :src="userCoverPic"
-                  alt="bird"
-                />
-              </div>
-              <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
-                <h1 class="text-center py-14 text-2xl font-bold text-white">
-                  Upload
-                </h1>
-              </div>
-              <v-btn
-                :loading="loading"
-                small
-                color="orange lighten-1"
-                class="white--text"
-                @click="uploadCoverPic"
-              >
-                <div class="flex flex-row items-center">
-                  <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                  <span
-                    >{{ userCoverPic ? "Change" : "Upload" }} Cover Pic</span
-                  >
-                </div>
-              </v-btn>
-            </div>
-          </div>
-          <!-- User First Name -->
-          <v-textarea
-            label="Enter your first name"
-            v-model="firstName"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-            rows="2"
-          />
-          <v-textarea
-            label="Enter your last name"
-            v-model="lastName"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-            rows="2"
-          />
-          <v-textarea
-            label="About Me"
-            v-model="aboutMe"
-            @change="onChange"
-            :error-messages="errors"
-            filled
-          />
-        </validation-provider>
-        <v-btn
-          @click="
-            onSubmitAboutMe(false),
-              onSubmitFirstName(false),
-              onSubmitLastName(false)
-          "
-          >Submit</v-btn
-        >
-      </v-form>
-    </validation-observer>
+            </v-card-actions>
+          </v-row>
+        </v-container>
+      </v-card>
+    </template>
   </div>
 </template>
 <script>
@@ -136,7 +139,6 @@ import { mapGetters } from "vuex";
 import { nanoid } from "nanoid";
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 export default {
-  components: { ProfileBanner },
   layout: "dashboard",
   layout: "dashboard",
   name: "account",
