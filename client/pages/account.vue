@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- Upload Section -->
-
     <input
       id="file-input"
       type="file"
@@ -21,7 +20,7 @@
 
     <!-- User Profile Pic -->
 
-    <div class="mb-4 mt-6">
+    <div class="mb-4 my-4">
       <div
         v-if="userProfilePic"
         class="w-32 h-32 rounded-full overflow-hidden mb-2"
@@ -81,7 +80,7 @@
     </div>
     <!-- End of Upload Section -->
     <template>
-      <v-card>
+      <v-card class="p-2 w-1/2">
         <v-container fluid>
           <v-row>
             <v-col cols="12" sm="6">
@@ -114,12 +113,12 @@
               </v-textarea>
             </v-col>
             <v-card-actions>
-              <v-btn text @click="resetForm"> Cancel </v-btn>
+              <v-btn class="mr-2" text @click="resetForm"> Cancel </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 right
                 color="orange"
-                text-color="white"
+                class="white--text"
                 @click="
                   onSubmitAboutMe(), onSubmitFirstName(), onSubmitLastName()
                 "
