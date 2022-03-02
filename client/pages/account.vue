@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-if="loading" class="text-center" style="height: 100vh">
+    <!-- <div v-if="loading" class="text-center" style="height: 100vh">
       <v-progress-circular indeterminate color="orange" style="top: 50%" />
-    </div>
+    </div> -->
 
     <!-- Upload Section -->
 
@@ -25,7 +25,7 @@
 
     <!-- User Profile Pic -->
 
-    <div class="mb-4">
+    <div class="mb-4 mt-5">
       <div
         v-if="userProfilePic"
         class="w-32 h-32 rounded-full overflow-hidden mb-2"
@@ -57,14 +57,17 @@
     </div>
     <!-- User Cover Pic -->
     <div class="mb-4">
-      <div v-if="userCoverPic" class="h-36 w-1/2 overflow-hidden mb-2">
+      <div
+        v-if="userCoverPic"
+        class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500"
+      >
         <img
           class="min-w-full min-h-full object-cover"
           :src="userCoverPic"
           alt="bird"
         />
       </div>
-      <div v-else class="h-36 w-1/2 overflow-hidden mb-2">
+      <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
         <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
       </div>
       <v-btn
@@ -147,7 +150,7 @@ export default {
       firstName: null,
       lastName: null,
       loading: null,
-      userProfilePic: null,
+      profilepic: null,
       userCoverPic: null,
     };
   },
@@ -155,6 +158,9 @@ export default {
     ...mapGetters({
       user: "users/rootUser",
     }),
+    userProfilePic() {
+      return this.profilepic || this.user[0].profilePicKey;
+    },
   },
   async mounted() {
     await this.$store.dispatch("users/userGet");
@@ -200,7 +206,7 @@ export default {
         const putCommand = new PutObjectCommand(putPayload);
 
         const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-        this.userProfilePic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
+        this.profilepic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
       } catch (error) {
         console.error(error);
       }
@@ -244,14 +250,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
+<style scoped></style>
