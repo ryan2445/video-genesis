@@ -1,5 +1,5 @@
 # This file demonstrates use of TensorFlow Hub Module for Enhanced Super Resolution Generative Adversarial Network (by Xintao Wang et.al.)
-import os
+import subprocess, os
 import time
 from PIL import Image
 import numpy as np
@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from config import SAVED_MODEL_PATH
 import cv2
 import requests
+from tqdm import tqdm
 os.environ["TFHUB_DOWNLOAD_PROGRESS"] = "True"
 
 def load_model(path=SAVED_MODEL_PATH):
@@ -16,15 +17,34 @@ def load_model(path=SAVED_MODEL_PATH):
   return model
 
 def preprocess_image(image_path):
+  """ Loads image from path and preprocesses to make it model ready
+      Args:
+        image_path: Path to the image file
+  """
+  
   hr_image = tf.image.decode_image(tf.io.read_file(image_path))
+  
   # If PNG, remove the alpha channel. The model only supports
   # images with 3 color channels.
   if hr_image.shape[-1] == 4:
     hr_image = hr_image[...,:-1]
+  
   hr_size = (tf.convert_to_tensor(hr_image.shape[:-1]) // 4) * 4
   hr_image = tf.image.crop_to_bounding_box(hr_image, 0, 0, hr_size[0], hr_size[1])
   hr_image = tf.cast(hr_image, tf.float32)
   return tf.expand_dims(hr_image, 0)
+
+def preprocess_image_from_cv(image):
+  """ Loads image from numpy and preprocesses to make it model ready
+      Args:
+        image: numpy representation of image
+  """
+  
+  hr_size = (tf.convert_to_tensor(image.shape[:-1]) // 4) * 4
+  image = tf.image.crop_to_bounding_box(image, 0, 0, hr_size[0], hr_size[1])
+  image = tf.cast(image, tf.float32)
+  
+  return tf.expand_dims(image, 0)
 
 def downscale_video(video_src):
   video_path = "original.mp4"
@@ -57,13 +77,14 @@ def downscale_video(video_src):
   height = frame.shape[0]
   width = frame.shape[1]
   fps = cap.get(cv2.CAP_PROP_FPS)
+  frames_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
   
   out = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'MP4V'), fps, (width // 4, height // 4))
   
-  while success is True:
-    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    cv2.imwrite(path, frame)
-    hr_image = preprocess_image(path)
+  for i in tqdm(range(frames_count)):
+    if success is False:
+      break
+    hr_image = preprocess_image_from_cv(frame)
     lr_image = downscale_image(tf.squeeze(hr_image))
     
     final = tf.squeeze(lr_image)
@@ -71,13 +92,35 @@ def downscale_video(video_src):
     final = tf.cast(final, tf.uint8).numpy()
     
     out.write(final)
-    os.remove(path)
     success, frame = cap.read()
   
   cap.release()
   out.release()
     
   return None
+
+def downsample_video(video_path = "original.mp4"):
+  if not os.path.isfile(video_path):
+    raise RuntimeError(f"Unknown file path {video_path}")
+  
+  output_video = 'lr.mp4'
+  
+  if os.path.isfile(output_video):
+    os.remove(output_video)
+  
+  cap = cv2.VideoCapture(video_path)
+  success, frame = cap.read()
+  
+  if not success:
+    raise RuntimeError("Cannot read video")
+  
+  scaling_algorithm = "bicubic"
+  
+  height = frame.shape[0]
+  width = frame.shape[1]
+  
+  command = f'ffmpeg -i "{video_path}" -ss 0 -vf scale={width // 4 }:{height // 4} -sws_flags {scaling_algorithm} -c:a copy "{output_video}"'
+  subprocess.call(command, shell=True)
 
 def downscale_image(image):
   image_size = []
@@ -112,6 +155,7 @@ def upscale_video(video_src = "lr.mp4"):
   height = frame.shape[0]
   width = frame.shape[1]
   fps = cap.get(cv2.CAP_PROP_FPS)
+  frames_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
   output_video_path="hr.mp4"
   dir = 'temp'
   path = dir + "/temp.jpeg"
@@ -128,32 +172,30 @@ def upscale_video(video_src = "lr.mp4"):
     
   out = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'MP4V'), fps, (width * 4, height * 4))
   
-  while success is True:
-    cv2.imshow('Read', frame)
-    if cv2.waitKey(25) & 0xFF == ord('q'):
+  for i in tqdm(range(frames_count - 1)):
+    if success is False:
       break
     
-    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-    cv2.imwrite(path, frame)
-    lr_image = preprocess_image(path)
+    lr_image = preprocess_image_from_cv(frame)
     fake_image = model(lr_image)
     fake_image = tf.squeeze(fake_image)
-    
-    
     fake_image = np.asarray(fake_image)
+    fake_image = tf.clip_by_value(fake_image, 0, 255)
     fake_image = tf.cast(fake_image, tf.uint8).numpy()
     
+    cv2.imshow('Read', frame)
     cv2.imshow('Write', fake_image)
-    
     if cv2.waitKey(25) & 0xFF == ord('q'):
       break
-    
     out.write(fake_image)
-    os.remove(path)
     success, frame = cap.read()
   
   cap.release()
   out.release()
+  
+# downscale_video("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/-xZxpyDAoWDinJf52gu9j/-xZxpyDAoWDinJf52gu9j_3000.mp4")
+# upscale_video()
 
-downscale_video("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/EvEABi1latkHGwtM-YiV0/EvEABi1latkHGwtM-YiV0_3000.mp4")
+# test()
+downsample_video()
 upscale_video()
