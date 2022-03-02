@@ -155,14 +155,6 @@ export default {
     ...mapGetters({
       user: "users/rootUser",
     }),
-    userProfilePic() {
-      if (!this.user) return null;
-      return this.profilepic || this.user[0].profilePicKey;
-    },
-    userCoverPic() {
-      if (!this.user) return null;
-      return this.coverpic || this.user[0].coverPicKey;
-    },
   },
   async mounted() {
     await this.$store.dispatch("users/userGet");
