@@ -20,10 +20,8 @@ else:
 
 def usersGet(event, context):
     queryParams = event['queryStringParameters']
-    
-    if queryParams is not None and 'username' in queryParams:
-        username = event['queryStringParameters']['username']
-        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').eq("USER"))
+    username = event['queryStringParameters']['username']
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').eq("USER"))
     # else:
     #     scan_kwargs = {
     #         'FilterExpression': Key('sk').begins_with('VIDEO')
@@ -32,7 +30,7 @@ def usersGet(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps({ 'Items': response['Items'] })
+        'body': json.dumps(response)
     }
 
 
@@ -83,7 +81,7 @@ def handle(event, context):
     
     methods = {
         'GET': {
-            '/users': usersGet
+            '/users/all': usersGet
         },
         
         'PUT': {
