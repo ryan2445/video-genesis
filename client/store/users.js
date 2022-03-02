@@ -5,25 +5,24 @@ export const state = () => ({
 
 export const getters = {
   selected_UserProfile: (state) => state.otherUserProfile,
-  get_user_by_id: (state) => (sk) => {
-    return state.videos.find((user) => user.sk == sk);
-  },
+  rootUser: (state) => state.user,
 };
 
 export const actions = {
-  async userGet({ commit, rootState }) {
+  async userGet({ commit, rootState }, params) {
     try {
-      const response = await this.$axios.get(
-        `users/all?username=${rootState.user.user.username}`
-      );
+      const response = await this.$axios.get("users/all?username=dalidrew");
+
       commit("userSet", response.data.Items);
     } catch (exception) {
       return null;
     }
   },
-  async usersGet({ commit, rootState }, params) {
+  async usersGet({ commit, rootState }) {
     try {
-      const response = await this.$axios.get(`users/all?username=${params}`);
+      const response = await this.$axios.get(
+        `users/?username=${rootState.user.user.username}`
+      );
 
       commit("setOtherUserProfile", response.data.Items);
     } catch (exception) {

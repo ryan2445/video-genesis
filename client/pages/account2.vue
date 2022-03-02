@@ -131,13 +131,12 @@
     </validation-observer>
   </div>
 </template>
+
 <script>
 import { mapGetters } from "vuex";
 import { nanoid } from "nanoid";
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 export default {
-  components: { ProfileBanner },
-  layout: "dashboard",
   layout: "dashboard",
   name: "account",
   data() {
@@ -244,14 +243,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>
+<style scoped></style>
