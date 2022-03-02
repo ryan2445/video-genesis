@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="loading" class="text-center" style="height: 100vh">
-      <v-progress-circular indeterminate color="orange" style="top: 50%" />
-    </div> -->
-
     <!-- Upload Section -->
 
     <input
@@ -25,7 +21,7 @@
 
     <!-- User Profile Pic -->
 
-    <div class="mb-4 mt-5">
+    <div class="mb-4 mt-6">
       <div
         v-if="userProfilePic"
         class="w-32 h-32 rounded-full overflow-hidden mb-2"
@@ -43,7 +39,7 @@
         <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
       </div>
       <v-btn
-        :loading="loading"
+        :loading="loadingProfilePic"
         small
         color="orange lighten-1"
         class="white--text"
@@ -71,7 +67,7 @@
         <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
       </div>
       <v-btn
-        :loading="loading"
+        :loading="loadingCoverPic"
         small
         color="orange lighten-1"
         class="white--text"
@@ -79,7 +75,7 @@
       >
         <div class="flex flex-row items-center">
           <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span>{{ userCoverPic ? "Change" : "Upload" }} Cover Pic</span>
+          <span>{{ coverpic ? "Change" : "Upload" }} Cover Pic</span>
         </div>
       </v-btn>
     </div>
@@ -93,7 +89,6 @@
                 label="First Name"
                 v-model="firstName"
                 color="orange"
-                @change="onChange"
                 required
                 filled
                 rows="2"
@@ -104,17 +99,18 @@
                 label="Last Name"
                 v-model="lastName"
                 color="orange"
-                @change="onChange"
                 required
                 filled
                 rows="2"
               ></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea v-model="aboutMe" color="orange" @change="onChange">
-                <template v-slot:label>
-                  <div>About Me</div>
-                </template>
+              <v-textarea
+                label="About Me"
+                v-model="aboutMe"
+                color="orange"
+                filled
+              >
               </v-textarea>
             </v-col>
             <v-card-actions>
@@ -123,6 +119,7 @@
               <v-btn
                 right
                 color="orange"
+                text-color="white"
                 @click="
                   onSubmitAboutMe(), onSubmitFirstName(), onSubmitLastName()
                 "
@@ -149,9 +146,10 @@ export default {
       aboutMe: null,
       firstName: null,
       lastName: null,
-      loading: null,
+      loadingCoverPic: null,
+      loadingProfilePic: null,
       profilepic: null,
-      userCoverPic: null,
+      coverpic: null,
     };
   },
   computed: {
@@ -159,7 +157,12 @@ export default {
       user: "users/rootUser",
     }),
     userProfilePic() {
+      if (!this.user) return null;
       return this.profilepic || this.user[0].profilePicKey;
+    },
+    userCoverPic() {
+      if (!this.user) return null;
+      return this.coverpic || this.user[0].coverPicKey;
     },
   },
   async mounted() {
@@ -168,11 +171,6 @@ export default {
   },
 
   methods: {
-    onChange() {
-      this.$emit("update", {
-        aboutMe: this.aboutMe,
-      });
-    },
     uploadProfilePic() {
       document.getElementById("file-input").click();
     },
@@ -182,10 +180,10 @@ export default {
     async profilePicSelected(event) {
       const file = event.target.files[0];
       const typeArr = file.type.split("/");
-      this.loading = true;
+      this.loadingProfilePic = true;
       try {
-        if (this.user[0].userProfilePic) {
-          const urlArr = this.user[0].userProfilePic.split("/");
+        if (this.user[0].profilePicKey) {
+          const urlArr = this.user[0].profilePicKey.split("/");
           const deleteKey = urlArr[urlArr.length - 1];
 
           const deletePayload = {
@@ -210,30 +208,61 @@ export default {
       } catch (error) {
         console.error(error);
       }
-      this.loading = false;
+      this.loadingProfilePic = false;
       this.onSubmitUserProfilePic();
     },
-    coverPicSelected() {},
+    async coverPicSelected(event) {
+      const file = event.target.files[0];
+      const typeArr = file.type.split("/");
+      this.loadingCoverPic = true;
+      try {
+        if (this.user[0].coverPicKey) {
+          const urlArr = this.user[0].coverPicKey.split("/");
+          const deleteKey = urlArr[urlArr.length - 1];
 
-    resetaboutMe() {
+          const deletePayload = {
+            Bucket: "videogenesis-profilepics",
+            Key: deleteKey,
+          };
+          const deleteCommand = new DeleteObjectCommand(deletePayload);
+          const deleteResp = await this.$store.getters["auth/s3"].send(
+            deleteCommand
+          );
+        }
+        const putPayload = {
+          Bucket: "videogenesis-profilepics",
+          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
+          Body: file,
+        };
+
+        const putCommand = new PutObjectCommand(putPayload);
+
+        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
+        this.coverpic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
+      } catch (error) {
+        console.error(error);
+      }
+      this.loadingCoverPic = false;
+      this.onSubmitUserCoverPic();
+    },
+    resetForm() {
       this.aboutMe = null;
-    },
-    resetfirstName() {
       this.firstName = null;
-    },
-    resetlastName() {
       this.lastName = null;
     },
-    resetForm() {},
     async onSubmitAboutMe() {
       const aboutMe = await this.$store.dispatch("users/userPut", {
         usersAboutMe: this.aboutMe,
       });
     },
     async onSubmitUserProfilePic() {
-      console.log(this.userProfilePic);
       const userCoverPic = await this.$store.dispatch("users/userPut", {
         profilePicKey: this.userProfilePic,
+      });
+    },
+    async onSubmitUserCoverPic() {
+      const userCoverPic = await this.$store.dispatch("users/userPut", {
+        coverPicKey: this.userCoverPic,
       });
     },
     async onSubmitFirstName() {

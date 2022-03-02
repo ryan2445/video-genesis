@@ -9,9 +9,11 @@ export const getters = {
 };
 
 export const actions = {
-  async userGet({ commit, rootState }, params) {
+  async userGet({ commit, rootState }) {
     try {
-      const response = await this.$axios.get("users/all?username=dalidrew");
+      const response = await this.$axios.get(
+        `users/all?username=${rootState.user.user.username}`
+      );
 
       commit("userSet", response.data.Items);
     } catch (exception) {
