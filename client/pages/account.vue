@@ -155,6 +155,14 @@ export default {
     ...mapGetters({
       user: "users/rootUser",
     }),
+    userProfilePic() {
+      if (!this.profilepic) return null;
+      return this.profilepic || this.user[0].profilePicKey;
+    },
+    userCoverPic() {
+      if (!this.coverepic) return null;
+      return this.coverepic || this.user[0].coverPicKey;
+    },
   },
   async mounted() {
     await this.$store.dispatch("users/userGet");
@@ -248,12 +256,12 @@ export default {
     },
     async onSubmitUserProfilePic() {
       const userCoverPic = await this.$store.dispatch("users/userPut", {
-        profilePicKey: this.userProfilePic,
+        profilePicKey: this.profilepic,
       });
     },
     async onSubmitUserCoverPic() {
       const userCoverPic = await this.$store.dispatch("users/userPut", {
-        coverPicKey: this.userCoverPic,
+        coverPicKey: this.coverpic,
       });
     },
     async onSubmitFirstName() {

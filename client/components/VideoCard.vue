@@ -23,7 +23,7 @@
     <v-col style="padding: 0px" class="relative">
       <div
         style="width: 380px; height: 250px"
-        class="flex justify-center items-center bg-black"
+        class="flex justify-center items-center"
         v-if="!thumbnailReady"
       >
         <v-progress-circular indeterminate color="orange" />
@@ -35,24 +35,26 @@
         :video-src="getLink(video)"
         :snapshot-at-duration-percent="70"
         :width="380"
+        :height="280"
+        class="cursor-pointer"
         @snapshotCreated="onSnapshotCreated"
       >
         <template #snapshot="{ snapshot }">
           <img
+            class="object-cover"
             v-if="snapshot"
             :src="video.videoThumbnail || snapshot"
             alt="snapshot"
-            :width="380"
-            :height="280"
-            style="object-fit: contain"
-            class="cursor-pointer"
             @click="onCardClick"
           />
         </template>
       </VueVideoThumbnail>
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
-          <div class="flex justify-between w-full items-center cursor-pointer" @click="onCardClick">
+          <div
+            class="flex justify-between w-full items-center cursor-pointer"
+            @click="onCardClick"
+          >
             <div v-if="this.video.videoTitle.length < 25">
               {{ this.video.videoTitle }}
             </div>
@@ -398,15 +400,14 @@ export default {
 
       this.onVideoSave(true);
     },
-    openUserPage() 
-    {
+    openUserPage() {
       this.$router.push(`Home`);
     },
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {
         ...param,
         idx: this.idx,
-      }); 
+      });
     },
     onCardClick() {
       this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`);
@@ -461,4 +462,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
