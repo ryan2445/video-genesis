@@ -2,7 +2,7 @@
   <div>
     <div class="my-52 relative">
       <div>
-        <profile-banner />
+        <profile-banner v-if="user" :user="user" />
       </div>
       <div class="absolute mt-0 w-full">
         <div class="flex mx-72 space-x-10 mt-5">
@@ -42,6 +42,12 @@
               />
             </div>
           </div>
+          <div
+            v-else-if="tabSelected == 'About' && !loading"
+            class="mt-10 ml-auto mr-auto w-3/4"
+          >
+            <profile-about v-if="user" :user="user" />
+          </div>
         </transition>
       </div>
     </div>
@@ -49,27 +55,33 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import ProfileBanner from "../../components/ProfileBanner.vue";
 export default {
   components: { ProfileBanner },
   layout: "dashboard",
   data() {
-    return { tabSelected: "Uploads", loading: true };
-  },
-  computed: {
-    ...mapGetters({
-      user: "user/user",
-      videos: "videos/videos",
-    }),
+    return { tabSelected: "Uploads", loading: true, username: "",  user: undefined, videos: [] };
   },
   methods: {
     changeTabSelection(tabName) {
       this.tabSelected = tabName;
     },
+    getQueryParamsAndSetKeys() {
+      const path = this.$route.fullPath.replace('/users/', '');
+      const params = new URLSearchParams(path);
+
+      // If the username is not provided, error
+      if (!params.has('username')) {
+        return;
+      }
+
+      const username = params.get('username');
+      this.username = username; 
+     
+    },
   },
   created() {
-    this.$store.commit("app/setRoute", this.user.username);
+    this.$store.commit("app/setRoute", "");
   },
   async mounted() {
     //  Send request to get videos
@@ -77,6 +89,11 @@ export default {
 
     //  Stop loading
     this.loading = false;
+    this.getQueryParamsAndSetKeys()
+    const user = await this.$store.dispatch("users/userGetByUsername", {username: this.username}); 
+    this.user = user;
+    const videos = await this.$store.dispatch("videos/videosGetByUsername", {username: this.username}); 
+    this.videos = videos;
   },
 };
 </script>

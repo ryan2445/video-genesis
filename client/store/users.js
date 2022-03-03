@@ -45,6 +45,20 @@ export const actions = {
       return null;
     }
   },
+  async userGetByUsername({commit, rootState}, params)
+  {
+    try {
+      const {username} = params; 
+      const response = await this.$axios.get(
+        `users/all?username=${username}`
+      );
+      return response.data.Items; 
+
+    } catch (exception) {
+      return null;
+    }
+
+  }
 };
 
 export const mutations = {

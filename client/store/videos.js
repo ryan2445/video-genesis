@@ -22,6 +22,17 @@ export const actions = {
       return null;
     }
   },
+  async videosGetByUsername({ commit, rootState }, params) {
+    try {
+      const {username} = params; 
+      const response = await this.$axios.get(
+        `videos/all?username=${username}`
+      );
+      return response.data.Items;
+    } catch (exception) {
+      return null;
+    }
+  },
   async videoGet({ commit, rootState }, params) {
     try {
       const response = await this.$axios.get("videos", { params: params });

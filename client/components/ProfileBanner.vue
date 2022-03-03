@@ -35,11 +35,11 @@ export default {
   computed: {
     userProfilePic() {
       if (!this.user) return null;
-      return this.profilepic || this.user[0].profilePicKey;
+      return this.profilepic || this.user[0]?.profilePicKey;
     },
     userCoverPic() {
       if (!this.user) return null;
-      return this.coverpic || this.user[0].coverPicKey;
+      return this.coverpic || this.user[0]?.coverPicKey;
     },
   },
   props: {
