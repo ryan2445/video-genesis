@@ -80,7 +80,7 @@
     </section>
 
     <!-- This piece of code creates a container in orange color and than by using v-card, we show names of our team members and their role-->
-    <!-- This piece of code creates a container in orange color and than by using v-card, we show names of our team members and their role-->
+
     <section>
       <!-- <v-container class="orange"> -->
       <div style="background-color: #ff9800">
