@@ -3,9 +3,9 @@
     <TopBar />
     <SideBar />
     <v-main style="background-color: #f0f2f5">
-      <v-container>
+        <v-container>
         <Nuxt />
-      </v-container>
+        </v-container>
     </v-main>
   </v-app>
 </template>
