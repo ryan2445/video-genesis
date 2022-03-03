@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="orange" :elevation="1" hide-on-scroll>
+  <v-app-bar app color="orange" :elevation="1" hide-on-scroll style="height:55.5px;">
     <div>
       <h2 class="text-gray-800 text-lg strong">
         {{ title }}
@@ -16,6 +16,7 @@
           color="grey lighten-1"
           width="45"
           height="45"
+          class="mb-2 shadow-md"
         >
           <v-icon> mdi-account </v-icon>
         </v-btn>

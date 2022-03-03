@@ -11,7 +11,7 @@
     @click="onCardClick"
   > -->
   <v-card
-    class="my-2 mx-auto shadow-sm hover:shadow-lg"
+    class="my-2 shadow-sm hover:shadow-lg overflow-hidden"
     style="
       transition: box-shadow 0.33s ease-out;
       width: 380px;
@@ -22,7 +22,7 @@
   >
     <v-col style="padding: 0px" class="relative">
       <div
-        style="width: 380px; height: 250px"
+        style="width: 380px; height: 280px"
         class="flex justify-center items-center"
         v-if="!thumbnailReady"
       >
@@ -36,12 +36,13 @@
         :snapshot-at-duration-percent="70"
         :width="380"
         :height="280"
-        class="cursor-pointer"
+        class="cursor-pointer justify-center items-center"
+        style="width:380px; height:280px; display:flex;"
         @snapshotCreated="onSnapshotCreated"
       >
         <template #snapshot="{ snapshot }">
           <img
-            class="object-cover"
+            class="object-cover h-full w-full"
             v-if="snapshot"
             :src="video.videoThumbnail || snapshot"
             alt="snapshot"
@@ -55,13 +56,9 @@
             class="flex justify-between w-full items-center cursor-pointer"
             @click="onCardClick"
           >
-            <div v-if="this.video.videoTitle.length < 25">
+            <div class="text-gray-800 truncate" style="height: 30px;">
               {{ this.video.videoTitle }}
             </div>
-            <div v-else>
-              {{ this.video.videoTitle.substring(0, 25) + "..." }}
-            </div>
-
             <div class="mr-2">
               <v-menu
                 v-model="showSettingsMenu"
@@ -250,29 +247,21 @@
             </div>
           </div>
           <v-divider class="mb-1"></v-divider>
-          <div class="flex flex-row items-center mb-3">
+          <div class="flex flex-row items-center">
             <v-icon small class="mr-1">icon-account-circle</v-icon>
-            <template>
-              <div>
-                <v-btn
-                  class="ma-2"
-                  width="15%"
-                  color="orange"
-                  plain
-                  @click="openUserPage"
-                >
-                  {{ this.owner }}
-                </v-btn>
-              </div>
-            </template>
+            <div>
+              <v-btn
+                color="orange"
+                plain
+                @click="openUserPage"
+                class="user-button px-0 text-left"
+              >
+                {{ this.owner }}
+              </v-btn>
+            </div>
           </div>
-          <div class="cursor-pointer" @click="onCardClick">
-            <div v-if="this.video.videoDescription.length < 25">
-              {{ this.video.videoDescription }}
-            </div>
-            <div v-else>
-              {{ this.video.videoDescription.substring(0, 25) + "..." }}
-            </div>
+          <div class="cursor-pointer text-base whitespace-normal truncate text-gray-700" style="line-height:1rem; max-height:50px;" @click="onCardClick">
+            {{ this.video.videoDescription }}
           </div>
           <p v-if="!isEditing">{{ pros }}</p>
           <v-row>
@@ -462,4 +451,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+button.user-button >>> span.v-btn__content {
+  align-items: flex-start;
+}
+</style>
