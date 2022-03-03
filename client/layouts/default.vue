@@ -4,9 +4,11 @@
       <AppBar />
     </v-app-bar>
     <v-main>
-      <v-container>
+      <!-- <v-container> -->
+      <div>
         <Nuxt />
-      </v-container>
+      </div>
+      <!-- </v-container> -->
     </v-main>
   </v-app>
 </template>
@@ -14,11 +16,13 @@
 <script>
 export default {
   created() {
-    const getS3 = () => { this.$store.dispatch('auth/inits3', this.$auth) }
-    window.mitt.on('SIGN_IN', getS3());
-    window.mitt.on('TOKEN_REFRESH', getS3());
+    const getS3 = () => {
+      this.$store.dispatch("auth/inits3", this.$auth);
+    };
+    window.mitt.on("SIGN_IN", getS3());
+    window.mitt.on("TOKEN_REFRESH", getS3());
   },
-}
+};
 </script>
 
 ##Testing out github

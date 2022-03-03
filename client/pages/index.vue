@@ -3,7 +3,7 @@
 <template>
   <v-main class="pt-0 pt-md-0 px-0 mx-0">
     <section>
-      <v-parallax :src="imageLink.img" height="700">
+      <v-parallax :src="imageLink.img">
         <v-layout column align-center justify-center class="white--text">
           <h1
             class="text-xs-center orange--text mb-2 display-1"
@@ -68,7 +68,8 @@
                   <v-card-text>
                     Video Genesis will allow users to create their own account
                     and users will be able to upload the video to their account
-                    and stream the video in high resolution!
+                    and stream the video in high resolution! Users will also
+                    have an option to edit or delete the metadata.
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -79,8 +80,10 @@
     </section>
 
     <!-- This piece of code creates a container in orange color and than by using v-card, we show names of our team members and their role-->
+    <!-- This piece of code creates a container in orange color and than by using v-card, we show names of our team members and their role-->
     <section>
-      <v-container class="orange">
+      <!-- <v-container class="orange"> -->
+      <div style="background-color: #ff9800">
         <v-row>
           <v-col lg="10">
             <v-icon x-large class="black--text text--lighten-2">Team</v-icon>
@@ -104,7 +107,7 @@
             </v-card>
           </v-flex>
         </v-layout>
-      </v-container>
+      </div>
     </section>
     <!-- This section creates a footer with text to show! -->
     <v-footer class="blue">
