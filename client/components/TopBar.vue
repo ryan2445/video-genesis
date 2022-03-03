@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="white" :elevation="2" hide-on-scroll>
+  <v-app-bar app color="orange" :elevation="1" hide-on-scroll>
     <div>
       <h2 class="text-gray-800 text-lg strong">
         {{ title }}
@@ -49,6 +49,7 @@ export default {
       topBarItems: [
         {
           title: "Account Settings",
+          color: "orange",
           icon: "mdi-account",
           route: "/account",
         },

@@ -2,9 +2,9 @@
   <div class="flex flex-col">
     <div class="flex justify-center">
       <svg
-        width="952"
+        width="999"
         height="800"
-        viewBox="0 0 952 1024"
+        viewBox="0 0 1230 1024"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
