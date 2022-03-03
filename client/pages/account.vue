@@ -174,6 +174,9 @@ export default {
   async mounted() {
     await this.$store.dispatch("users/userGet");
     this.loading = false;
+    this.firstName = this.user[0].usersFirstName;
+    this.lastName = this.user[0].usersLastName;
+    this.aboutMe = this.user[0].usersAboutMe;
   },
 
   methods: {
@@ -251,10 +254,14 @@ export default {
       this.loadingCoverPic = false;
       this.onSubmitUserCoverPic();
     },
-    resetForm() {
-      this.aboutMe = null;
-      this.firstName = null;
-      this.lastName = null;
+
+    // if user tries to cancel after they update, it will bring back the old values so call "users/userGet"
+    // so the values in the data store get updated
+    async resetForm() {
+      await this.$store.dispatch("users/userGet");
+      this.aboutMe = this.user[0].usersAboutMe;
+      this.firstName = this.user[0].usersFirstName;
+      this.lastName = this.user[0].usersLastName;
     },
     async onSubmitAboutMe() {
       const aboutMe = await this.$store.dispatch("users/userPut", {
