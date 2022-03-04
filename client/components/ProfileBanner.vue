@@ -21,7 +21,6 @@
         alt="avatar"
       />
     </div>
-  <div><button @click="Debug">debug</button></div>
   </div>
 </template>
 
