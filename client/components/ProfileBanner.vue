@@ -35,11 +35,11 @@ export default {
   computed: {
     userProfilePic() {
       if (!this.user) return null;
-      return this.profilepic || this.user[0]?.profilePicKey;
+      return this.profilepic || this.user[0]?.profilePicKey || "https://t4.ftcdn.net/jpg/04/06/91/91/360_F_406919161_J0pGxe1sewqnk5dnvyRS77MKmEd6SVac.jpg";
     },
     userCoverPic() {
       if (!this.user) return null;
-      return this.coverpic || this.user[0]?.coverPicKey;
+      return this.coverpic || this.user[0]?.coverPicKey || "https://t4.ftcdn.net/jpg/04/06/91/91/360_F_406919161_J0pGxe1sewqnk5dnvyRS77MKmEd6SVac.jpg";
     },
   },
   props: {
