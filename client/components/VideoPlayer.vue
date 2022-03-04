@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative" style="max-height: 1080px;">
     <video
       id="videoplayer"
       controls
@@ -65,6 +65,7 @@ export default {
         fluid: true,
         controls: true,
         sources: this.videoData,
+        responsive: true,
         plugins: {
           videoJsResolutionSwitcher: {
             default: "low",
@@ -183,7 +184,6 @@ export default {
       this.playing = false;
     },
     onVolumeChange(event) {
-      console.log(event);
       // Continue if audio is enabled
       if (!this.audioEnabled) return;
 

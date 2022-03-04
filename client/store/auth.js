@@ -4,12 +4,15 @@ const REGION = "us-west-2"
 
 export const state = () => ({
 	token: null,
-	s3: null
+	s3: null,
+	cognito_session: null,
 })
 
 export const getters = {
 	token: state => state.token,
-	s3: state => state.s3
+	s3: state => state.s3,
+	cognito_session: state => state.cognito_session,
+	session_username: state => state.cognito_session?.accessToken.payload.username
 }
 
 export const mutations = {
@@ -18,13 +21,23 @@ export const mutations = {
 	},
 	setS3(state, s3) {
 		state.s3 = s3
+	},
+	setCognitoSession(state, session) {
+		state.cognito_session = session
 	}
 }
 
 export const actions = {
 	async authorize({ commit, dispatch }, { auth, axios }) {
+		console.log('authorize')
+
+		// Get the current session
+		const session = await auth.currentSession();
+
+		commit('setCognitoSession', session)
+
 		// Get the JWT token
-		const jwtToken = (await auth.currentSession())
+		const jwtToken = session
 			.getAccessToken()
 			.getJwtToken()
 

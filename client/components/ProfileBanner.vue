@@ -110,7 +110,7 @@ export default {
     isRootUser() {
       if (!this.user) return null
 
-      return this.user.pk == this.$store.getters['users/rootUser'].pk
+      return this.user.username == this.$store.getters['auth/session_username']
     }
   },
   methods: {
