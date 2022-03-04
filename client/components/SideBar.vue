@@ -20,12 +20,18 @@
             :to="item.route"
             link
           >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            <v-tooltip right transition="slide-x-transition" :open-delay="500">
+              <template v-slot:activator=" {on, attrs} ">
+                <v-list-item-icon v-bind="attrs" v-on="on">
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+              </template>
+              <span>{{ item.title }}</span>
+            </v-tooltip>
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
+            
           </v-list-item>
         </v-list-item-group>
       </v-list>
