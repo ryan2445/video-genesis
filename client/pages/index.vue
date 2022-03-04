@@ -68,8 +68,9 @@
                   <v-card-text>
                     Video Genesis will allow users to create their own account
                     and users will be able to upload the video to their account
-                    and stream the video in high resolution! Users will also
-                    have an option to edit or delete the metadata.
+                    and stream the video in high resolution! Users will have an
+                    option to edit or delete their metadata and also have access
+                    to watch other users videos.
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -85,28 +86,32 @@
       <!-- <v-container class="orange"> -->
       <div style="background-color: #ff9800">
         <v-row>
-          <v-col lg="10">
+          <v-col lg="8">
             <v-icon x-large class="black--text text--lighten-2">Team</v-icon>
           </v-col>
         </v-row>
+        <center>
+          <v-layout row wrap justify-center>
+            <v-flex xs12 sm6 md4 lg3 v-for="member in team" :key="member.name">
+              <v-card flat class="orange text-xs-center ma-9">
+                <v-responsive class="pt-2" justify-center>
+                  <v-avatar size="150" class="grey lighten-2 center">
+                    <img :src="member.avatar" />
+                  </v-avatar>
+                </v-responsive>
 
-        <v-layout row wrap justify-center>
-          <v-flex xs12 sm6 md4 lg3 v-for="member in team" :key="member.name">
-            <v-card flat class="orange text-xs-center ma-9">
-              <v-responsive class="pt-4" justify-center>
-                <v-avatar size="150" class="grey lighten-2">
-                  <img :src="member.avatar" />
-                </v-avatar>
-              </v-responsive>
-
-              <v-card-text>
-                <div class="subheading">{{ member.name }}</div>
-                <div class="grey--text">{{ member.role }}</div>
-              </v-card-text>
-              <v-card-actions> </v-card-actions>
-            </v-card>
-          </v-flex>
-        </v-layout>
+                <v-card-text>
+                  <div class="subheading mb-1 text-xs-center">
+                    {{ member.name }}
+                  </div>
+                  <div class="grey--text mb-2 justify-center">
+                    {{ member.role }}
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </center>
       </div>
     </section>
     <!-- This section creates a footer with text to show! -->
