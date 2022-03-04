@@ -5,6 +5,8 @@ export default async function ({ $axios, $auth, route, store, redirect }) {
   //  Get the cognito user's session (checking if they're logged in)
   try {
     session = await $auth.currentSession()
+
+    store.commit('auth/setCognitoSession', session)
   } catch (error) {
     //  Ignore auth middleware on home, signin, and signup routes
     if (

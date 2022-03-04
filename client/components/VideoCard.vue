@@ -340,7 +340,9 @@ export default {
       document.getElementById("file-input").click();
     },
     async thumbnailSelected(event) {
-      const file = event.target.files[0];
+      const file = event.target?.files[0];
+
+      if (!file) return
 
       const typeArr = file.type.split("/");
 

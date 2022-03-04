@@ -45,11 +45,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ProfileAbout from "../components/ProfileAbout.vue";
-import ProfileBanner from "../components/ProfileBanner.vue";
 export default {
   name: "UserProfile",
-  components: { ProfileBanner, ProfileAbout },
   props: {
     user: {
       type: Object,
@@ -63,7 +60,6 @@ export default {
       profilepic: null,
       coverpic: null,
       usernull: null,
-      videos: null
     };
   },
   methods: {
@@ -74,9 +70,15 @@ export default {
   async mounted() {
     const videos = await this.$store.dispatch("videos/videosGetByUsername", { username: this.user.username });
 
-    this.videos = videos
+    this.$store.commit('videos/videosSet', videos)
+
     //  Stop loading
     this.loading = false;
+  },
+  computed: {
+    ...mapGetters({
+      videos: 'videos/videos'
+    })
   }
 }
 </script>
