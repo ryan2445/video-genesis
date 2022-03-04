@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("./icons.eot?25c08b7706147cef3af251fdbe2beae5#iefix") format("embedded-opentype"),
-url("./icons.woff2?25c08b7706147cef3af251fdbe2beae5") format("woff2"),
-url("./icons.woff?25c08b7706147cef3af251fdbe2beae5") format("woff");
+    src: url("./icons.eot?3b4bfa230e15228e1fe9a659bd2bcf4a#iefix") format("embedded-opentype"),
+url("./icons.woff2?3b4bfa230e15228e1fe9a659bd2bcf4a") format("woff2"),
+url("./icons.woff?3b4bfa230e15228e1fe9a659bd2bcf4a") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -28,6 +28,9 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-cog-outline:before {
     content: "\f104";
 }
-.icon-video:before {
+.icon-pencil-outline:before {
     content: "\f105";
+}
+.icon-video:before {
+    content: "\f106";
 }

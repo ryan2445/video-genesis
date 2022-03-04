@@ -3,6 +3,7 @@ export type IconsId =
   | "account"
   | "check-circle"
   | "cog-outline"
+  | "pencil-outline"
   | "video";
 
 export type IconsKey =
@@ -10,6 +11,7 @@ export type IconsKey =
   | "Account"
   | "CheckCircle"
   | "CogOutline"
+  | "PencilOutline"
   | "Video";
 
 export enum Icons {
@@ -17,6 +19,7 @@ export enum Icons {
   Account = "account",
   CheckCircle = "check-circle",
   CogOutline = "cog-outline",
+  PencilOutline = "pencil-outline",
   Video = "video",
 }
 
@@ -25,5 +28,6 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Account]: "61698",
   [Icons.CheckCircle]: "61699",
   [Icons.CogOutline]: "61700",
-  [Icons.Video]: "61701",
+  [Icons.PencilOutline]: "61701",
+  [Icons.Video]: "61702",
 };

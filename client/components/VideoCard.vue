@@ -385,7 +385,7 @@ export default {
       this.onVideoSave(true);
     },
     openUserPage() {
-      this.$router.push(`users/username=${this.owner}`);
+      this.$router.push(`/users/username=${this.owner}`);
     },
     mutateVideo(param) {
       this.$store.commit("videos/videoUpdate", {

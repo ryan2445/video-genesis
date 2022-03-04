@@ -1,11 +1,13 @@
 export const state = () => ({
-  user: null,
-  otherUserProfile: null,
+  rootUser: null,
+  users: null,
+  otherUserProfile: null
 });
 
 export const getters = {
   selected_UserProfile: (state) => state.otherUserProfile,
-  rootUser: (state) => state.user,
+  rootUser: (state) => state.rootUser,
+  users: (state) => state.users
 };
 
 export const actions = {
@@ -14,8 +16,12 @@ export const actions = {
       const response = await this.$axios.get(
         `users/all?username=${rootState.user.user.username}`
       );
+      
+      const user = response.data.Items[0]
 
-      commit("userSet", response.data.Items);
+      commit("rootUserSet", user);
+
+      return user
     } catch (exception) {
       return null;
     }
@@ -39,7 +45,6 @@ export const actions = {
         pk: `ID#${rootState.user.user.username}`,
         sk: "USER",
       });
-      console.log(response.data);
       return response.data;
     } catch (exception) {
       return null;
@@ -48,12 +53,12 @@ export const actions = {
   async userGetByUsername({commit, rootState}, params)
   {
     try {
-      const {username} = params; 
+      const { username } = params; 
       const response = await this.$axios.get(
         `users/all?username=${username}`
       );
-      return response.data.Items; 
-
+      
+      return response.data.Items[0];
     } catch (exception) {
       return null;
     }
@@ -62,11 +67,15 @@ export const actions = {
 };
 
 export const mutations = {
-  userSet(state, array) {
-    state.user = array;
+  rootUserSet(state, user) {
+    state.rootUser = user;
   },
 
   otherUserProfileSet(state, array) {
     state.otherUserProfile = array;
   },
+
+  usersSet(state, users) {
+    state.users = users
+  }
 };

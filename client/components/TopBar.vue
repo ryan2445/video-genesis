@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="orange" :elevation="1" hide-on-scroll style="height:55.5px;">
+  <v-app-bar app color="orange" :elevation="1" hide-on-scroll style="height:56px;">
     <div>
       <h2 class="text-gray-800 text-lg strong">
         {{ title }}

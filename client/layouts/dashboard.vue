@@ -2,10 +2,10 @@
   <v-app>
     <TopBar />
     <SideBar />
-    <v-main style="background-color: #f0f2f5">
-        <v-container>
+    <v-main style="background-color: #f0f2f5; padding-top: 44px;">
+      <v-container fluid>
         <Nuxt />
-        </v-container>
+      </v-container>
     </v-main>
   </v-app>
 </template>

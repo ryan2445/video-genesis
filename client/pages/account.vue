@@ -143,7 +143,6 @@ import { nanoid } from "nanoid";
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 export default {
   layout: "dashboard",
-  layout: "dashboard",
   name: "account",
   data() {
     return {
@@ -164,19 +163,21 @@ export default {
     }),
     userProfilePic() {
       if (!this.user) return null;
-      return this.profilepic || this.user[0].profilePicKey;
+      return this.profilepic || this.user.profilePicKey;
     },
     userCoverPic() {
       if (!this.user) return null;
-      return this.coverpic || this.user[0].coverPicKey;
+      return this.coverpic || this.user.coverPicKey;
     },
   },
   async mounted() {
     await this.$store.dispatch("users/userGet");
+    
+    this.firstName = this.user.usersFirstName;
+    this.lastName = this.user.usersLastName;
+    this.aboutMe = this.user.usersAboutMe;
+
     this.loading = false;
-    this.firstName = this.user[0].usersFirstName;
-    this.lastName = this.user[0].usersLastName;
-    this.aboutMe = this.user[0].usersAboutMe;
   },
 
   methods: {
@@ -191,8 +192,8 @@ export default {
       const typeArr = file.type.split("/");
       this.loadingProfilePic = true;
       try {
-        if (this.user[0].profilePicKey) {
-          const urlArr = this.user[0].profilePicKey.split("/");
+        if (this.user.profilePicKey) {
+          const urlArr = this.user.profilePicKey.split("/");
           const deleteKey = urlArr[urlArr.length - 1];
 
           const deletePayload = {
@@ -225,8 +226,8 @@ export default {
       const typeArr = file.type.split("/");
       this.loadingCoverPic = true;
       try {
-        if (this.user[0].coverPicKey) {
-          const urlArr = this.user[0].coverPicKey.split("/");
+        if (this.user.coverPicKey) {
+          const urlArr = this.user.coverPicKey.split("/");
           const deleteKey = urlArr[urlArr.length - 1];
 
           const deletePayload = {
@@ -259,9 +260,9 @@ export default {
     // so the values in the data store get updated
     async resetForm() {
       await this.$store.dispatch("users/userGet");
-      this.aboutMe = this.user[0].usersAboutMe;
-      this.firstName = this.user[0].usersFirstName;
-      this.lastName = this.user[0].usersLastName;
+      this.aboutMe = this.user.usersAboutMe;
+      this.firstName = this.user.usersFirstName;
+      this.lastName = this.user.usersLastName;
     },
     async onSubmitAboutMe() {
       const aboutMe = await this.$store.dispatch("users/userPut", {
