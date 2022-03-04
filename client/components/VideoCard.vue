@@ -1,15 +1,4 @@
 <template>
-  <!--<v-card
-    class="my-2 mx-auto shadow-sm hover:shadow-lg"
-    style="
-      transition: box-shadow 0.33s ease-out;
-      width: 380px;
-      height: 425px;
-      border: 1px solid rgb(202, 202, 202);
-    "
-    outlined
-    @click="onCardClick"
-  > -->
   <v-card
     class="my-2 shadow-sm hover:shadow-lg overflow-hidden"
     style="
@@ -37,7 +26,7 @@
         :width="380"
         :height="280"
         class="cursor-pointer justify-center items-center"
-        style="width:380px; height:280px; display:flex;"
+        style="width: 380px; height: 280px; display: flex"
         @snapshotCreated="onSnapshotCreated"
       >
         <template #snapshot="{ snapshot }">
@@ -56,7 +45,7 @@
             class="flex justify-between w-full items-center cursor-pointer"
             @click="onCardClick"
           >
-            <div class="text-gray-800 truncate" style="height: 30px;">
+            <div class="text-gray-800 truncate" style="height: 30px">
               {{ this.video.videoTitle }}
             </div>
             <div class="mr-2">
@@ -161,7 +150,9 @@
                                   :value="video.videoDescription"
                                   @change="
                                     ($event) =>
-                                      mutateVideo({ videoDescription: $event })
+                                      mutateVideo({
+                                        videoDescription: $event,
+                                      })
                                   "
                                 />
                               </v-col>
@@ -260,7 +251,11 @@
               </v-btn>
             </div>
           </div>
-          <div class="cursor-pointer text-base whitespace-normal truncate text-gray-700" style="line-height:1rem; max-height:50px;" @click="onCardClick">
+          <div
+            class="cursor-pointer text-base whitespace-normal truncate text-gray-700"
+            style="line-height: 1rem; max-height: 50px"
+            @click="onCardClick"
+          >
             {{ this.video.videoDescription }}
           </div>
           <p v-if="!isEditing">{{ pros }}</p>
@@ -399,7 +394,7 @@ export default {
       });
     },
     onCardClick() {
-      this.$router.push(`videos/pk=${this.videoPK}&sk=${this.videoSK}`);
+      this.$router.push(`/videos/pk=${this.videoPK}&sk=${this.videoSK}`);
     },
     async onVideoSave(dialog = false) {
       const video = await this.$store.dispatch("videos/videosPut", {
