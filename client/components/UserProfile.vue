@@ -54,11 +54,6 @@ export default {
     user: {
       type: Object,
       required: true
-    },
-    root: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
   data() {

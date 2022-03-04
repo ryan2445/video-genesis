@@ -6,7 +6,7 @@
         <img class="w-full h-full object-cover" :src="bannerSrc" alt="banner" />
         <v-fade-transition>
           <v-btn
-            v-if="hover || bannerPictureLoading"
+            v-if="isRootUser && (hover || bannerPictureLoading)"
             icon
             absolute
             right
@@ -42,7 +42,7 @@
         <img class="w-full h-full object-cover rounded-full" :src="userProfilePic" alt="avatar" />
         <v-fade-transition>
           <v-btn
-            v-if="hover || profilePictureLoading"
+            v-if="isRootUser && (hover || profilePictureLoading)"
             icon
             absolute
             outlined
@@ -107,9 +107,16 @@ export default {
 
       return this.user.coverPicKey || "https://www.unr.edu/main/images/top-6/visit/components/campus-360.jpg";
     },
+    isRootUser() {
+      if (!this.user) return null
+
+      return this.user.pk == this.$store.getters['users/rootUser'].pk
+    }
   },
   methods: {
     onProfilePictureEdit() {
+      if (!this.isRootUser) return
+
       const el = this.$refs.profileEditFile?.$el
       if (!el) return
 
@@ -119,6 +126,8 @@ export default {
       file_button.click()
     },
     onBannerEdit() {
+      if (!this.isRootUser) return
+
       const el = this.$refs.bannerEditFile?.$el
       if (!el) return
 
@@ -128,6 +137,8 @@ export default {
       file_button.click()
     },
     async onProfilePictureChange(file) {
+      if (!this.isRootUser) return
+
       if (!file || !file.type) return
 
       const typeArr = file.type.split("/");
@@ -179,6 +190,8 @@ export default {
       this.profilePictureLoading = false
     },
     async onBannerChange(file) {
+      if (!this.isRootUser) return
+      
       if (!file || !file.type) return
 
       const typeArr = file.type.split("/");
