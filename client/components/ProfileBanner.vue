@@ -21,6 +21,7 @@
         alt="avatar"
       />
     </div>
+  <div><button @click="Debug">debug</button></div>
   </div>
 </template>
 
@@ -35,11 +36,11 @@ export default {
   computed: {
     userProfilePic() {
       if (!this.user) return null;
-      return this.profilepic || this.user[0]?.profilePicKey || "https://t4.ftcdn.net/jpg/04/06/91/91/360_F_406919161_J0pGxe1sewqnk5dnvyRS77MKmEd6SVac.jpg";
+      return this.profilepic || this.user[0]?.profilePicKey || "https://www.unr.edu/main/images/divisions/president/marketing-communications/brand/brand-athletics-2.png";
     },
     userCoverPic() {
       if (!this.user) return null;
-      return this.coverpic || this.user[0]?.coverPicKey || "https://t4.ftcdn.net/jpg/04/06/91/91/360_F_406919161_J0pGxe1sewqnk5dnvyRS77MKmEd6SVac.jpg";
+      return this.coverpic || this.user[0]?.coverPicKey || "https://www.unr.edu/main/images/top-6/visit/components/campus-360.jpg";
     },
   },
   props: {
