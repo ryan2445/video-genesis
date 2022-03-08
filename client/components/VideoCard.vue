@@ -270,11 +270,10 @@
 <script>
 import VueVideoThumbnail from "vue-video-thumbnail";
 import { mapGetters } from "vuex";
-import { nanoid } from "nanoid";
-import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import s3 from '../mixins/s3'
 export default {
   components: { VueVideoThumbnail },
-  watchQuery: ["pk", "sk"],
+  mixins: [s3],
   data() {
     return {
       pros: "",
@@ -340,51 +339,39 @@ export default {
       document.getElementById("file-input").click();
     },
     async thumbnailSelected(event) {
+      // Find the selected file
       const file = event.target?.files[0];
 
+      // If the file does not exist, return
       if (!file) return
 
-      const typeArr = file.type.split("/");
-
+      // Indicate that we are loading
       this.loading = true;
 
-      try {
-        //  Delete old thumbnail
-        if (this.video.videoThumbnail) {
-          const urlArr = this.video.videoThumbnail.split("/");
+      // Get the bucket for video thumbnails
+      const bucket = "videogenesis-thumbnails"
 
-          const deleteKey = urlArr[urlArr.length - 1];
+      // If there is an existing thumbnail, delete it
+      if (this.video.videoThumbnail) {
+        const delete_key = this.key_from_string(this.video.videoThumbnail)
 
-          const deletePayload = {
-            Bucket: "videogenesis-thumbnails",
-            Key: deleteKey,
-          };
-
-          const deleteCommand = new DeleteObjectCommand(deletePayload);
-
-          const deleteResp = await this.$store.getters["auth/s3"].send(
-            deleteCommand
-          );
-        }
-
-        const putPayload = {
-          Bucket: "videogenesis-thumbnails",
-          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-          Body: file,
-        };
-
-        const putCommand = new PutObjectCommand(putPayload);
-
-        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-
-        this.thumbnail = `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
-      } catch (error) {
-        console.error(error);
+        await this.s3_delete(bucket, delete_key)
       }
 
-      this.loading = false;
+      // Construct a unique key from the file
+      const put_key = this.key_from_file(file)
 
-      this.onVideoSave(true);
+      // Upload the thumbnail
+      const thumbnail_url = await this.s3_put(bucket, put_key, file)
+
+      // Update the local thumbnail url
+      this.thumbnail = thumbnail_url
+
+      // re-query the updated videos
+      await this.onVideoSave(true);
+
+      // Indicate that we are done loading
+      this.loading = false;
     },
     openUserPage() {
       this.$router.push(`/users/username=${this.owner}`);
