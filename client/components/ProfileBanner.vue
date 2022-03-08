@@ -76,8 +76,7 @@
 </template>
 
 <script>
-import { nanoid } from "nanoid";
-import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import s3 from '../mixins/s3'
 export default {
   props: {
     user: {
@@ -85,6 +84,7 @@ export default {
       required: true,
     },
   },
+  mixins: [s3],
   data() {
     return {
       fileRules: [
@@ -137,50 +137,35 @@ export default {
       file_button.click()
     },
     async onProfilePictureChange(file) {
-      if (!this.isRootUser) return
+      if (!this.isRootUser || !file || !file.type) return
 
-      if (!file || !file.type) return
-
-      const typeArr = file.type.split("/");
       this.profilePictureLoading = true
-      
 
       try {
         const bucket = "videogenesis-profilepics"
 
-        //  Delete old profile
+        // If the user has an existing profile picture, delete it
         if (this.user.profilePicKey) {
-          const urlArr = this.user.profilePicKey.split("/");
-          const deleteKey = urlArr[urlArr.length - 1];
+          const delete_key = this.key_from_string(this.user.profilePicKey)
 
-          const deletePayload = {
-            Bucket: bucket,
-            Key: deleteKey,
-          };
-
-          const deleteCommand = new DeleteObjectCommand(deletePayload);
-          await this.$store.getters["auth/s3"].send(
-            deleteCommand
-          );
+          this.s3_delete(bucket, delete_key)
         }
 
-        const putPayload = {
-          Bucket: bucket,
-          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-          Body: file,
-        };
+        // Construct the put key from the file
+        const put_key = this.key_from_file(file)
 
-        const putCommand = new PutObjectCommand(putPayload);
-        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-        const profilePicKey = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
+        // Upload the profile picture to s3
+        const profile_pic_key = await this.s3_put(bucket, put_key, file)
 
+        // Update the root user locally
         this.$store.commit('users/rootUserSet', {
           ...this.user,
-          profilePicKey: profilePicKey
+          profilePicKey: profile_pic_key
         })
 
+        // Update the users on the server
         await this.$store.dispatch("users/userPut", {
-          profilePicKey: profilePicKey,
+          profilePicKey: profile_pic_key,
         });
 
       } catch (error) {
@@ -190,11 +175,8 @@ export default {
       this.profilePictureLoading = false
     },
     async onBannerChange(file) {
-      if (!this.isRootUser) return
+      if (!this.isRootUser || !file || !file.type) return
       
-      if (!file || !file.type) return
-
-      const typeArr = file.type.split("/");
       this.bannerPictureLoading = true;
 
       try {
@@ -202,37 +184,22 @@ export default {
 
         //  Delete old banner
         if (this.bannerSrc) {
-          const urlArr = this.bannerSrc.split("/");
-          const deleteKey = urlArr[urlArr.length - 1];
+          const delete_key = this.key_from_string(this.bannerSrc)
 
-          const deletePayload = {
-            Bucket: bucket,
-            Key: deleteKey,
-          };
-
-          const deleteCommand = new DeleteObjectCommand(deletePayload);
-          await this.$store.getters["auth/s3"].send(
-            deleteCommand
-          );
+          await this.s3_delete(bucket, delete_key)
         }
 
-        const putPayload = {
-          Bucket: bucket,
-          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-          Body: file,
-        };
+        const put_key = this.key_from_file(file)
 
-        const putCommand = new PutObjectCommand(putPayload);
-        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-        const coverPicKey = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
+        const banner_key = await this.s3_put(bucket, put_key, file)
 
         this.$store.commit('users/rootUserSet', {
           ...this.user,
-          coverPicKey: coverPicKey
+          coverPicKey: banner_key
         })
 
         await this.$store.dispatch("users/userPut", {
-          coverPicKey: coverPicKey,
+          coverPicKey: banner_key,
         });
 
       } catch (error) {
@@ -244,6 +211,3 @@ export default {
   }
 };
 </script>
-
-<style></style>
-
