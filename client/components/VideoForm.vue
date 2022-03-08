@@ -44,66 +44,56 @@
 </template>
 
 <script lang="js">
-import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { nanoid } from "nanoid";
+import s3 from '../mixins/s3'
 export default {
     name: "VideoForm",
-    props: {
-
-    },
+    mixins: [s3],
     data() {
-        return {
-            // The title of the video
-            title: null,
-            // The description of the video
-            description: null,
-            // The video
-            video: null,
-            // Determines if we are currently uploading
-            uploading: false,
-            //  Shows if a video has been successfully uploaded
-            uploaded: false,
-            //  Step number for the v-stepper
-            step: 1
-        }
+      return {
+          // The title of the video
+          title: null,
+          // The description of the video
+          description: null,
+          // The video
+          video: null,
+          // Determines if we are currently uploading
+          uploading: false,
+          //  Shows if a video has been successfully uploaded
+          uploaded: false,
+          //  Step number for the v-stepper
+          step: 1
+      }
     },
     methods: {
-        onVideoDescriptionUpdate(object) {
-            this.title = object.title
-            this.description = object.description
-        },
-        async onUpload() {
-			// If the video was not set, alert the user
-			if (!this.video) {
-				alert("Select a video before uploading");
-				return;
-			} else if (this.video.type !== "video/mp4") {
-				alert("Only mp4 files are supported");
-				return;
-			} else if (this.video.size > 5.12e8) {
-				alert("The file size must be less than 512MB");
-				return;
-			}
+      onVideoDescriptionUpdate(object) {
+        this.title = object.title
+        this.description = object.description
+      },
+      async onUpload() {
+        // If the video was not set, alert the user
+        if (!this.video) {
+          alert("Select a video before uploading");
+          return;
+        } else if (this.video.type !== "video/mp4") {
+          alert("Only mp4 files are supported");
+          return;
+        } else if (this.video.size > 5.12e8) {
+          alert("The file size must be less than 512MB");
+          return;
+        }
 
-			// Indicate that we are uploading the video
-			this.uploading = true;
+        // Indicate that we are uploading the video
+        this.uploading = true;
 
-			// Generate a key for the payload (this will be the file name)
-			const key = nanoid() + '.mp4'
+        // Generate a key for the payload (this will be the file name)
+        const key = nanoid() + '.mp4'
 
-			// Generate the payload
-			const payload = {
-				Bucket: "genesis2vod-staging-input-q1h5l756",
-				Key: key,
-				Body: this.video,
-			};
+        // Get the input video bucket
+        const bucket = "genesis2vod-staging-input-q1h5l756";
 
-			try {
-				// Get the PutObjectCommand for S3
-				const command = new PutObjectCommand(payload);
-
-				// Send the PutObject request to S3
-				const resp = await this.$store.getters["auth/s3"].send(command);
+        // Upload the video to s3
+        await this.s3_put(bucket, key, this.video)
 
         // After video is uploaded, post the video to database
         const video = await this.$store.dispatch('videos/videosPost', {
@@ -118,24 +108,26 @@ export default {
         //  Go to confirmation step
         this.step = 2
 
-			} catch (err) {
-				alert('error uploading video')
-				console.log(err);
-			}
+        // Generate the payload
+        const payload = {
+          Bucket: "genesis2vod-staging-input-q1h5l756",
+          Key: key,
+          Body: this.video,
+        };
 
-			this.uploading = false;
-		},
-        onVideoUpdate(video) {
-            this.video = video
-        },
-        resetVideoForm() {
-            this.$refs.uploadBox.resetUploadBox()
-            this.$refs.uploadDescription.resetUploadDescritpion()
-            this.title = null
-            this.description = null
-            this.video = null
-            this.step = 1
-        }
+        this.uploading = false;
+      },
+      onVideoUpdate(video) {
+          this.video = video
+      },
+      resetVideoForm() {
+          this.$refs.uploadBox.resetUploadBox()
+          this.$refs.uploadDescription.resetUploadDescritpion()
+          this.title = null
+          this.description = null
+          this.video = null
+          this.step = 1
+      }
     }
 }
 </script>

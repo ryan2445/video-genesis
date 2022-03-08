@@ -301,8 +301,6 @@ export default {
       required: true,
     },
   },
-
-  mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
