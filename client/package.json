@@ -21,8 +21,7 @@
     "nanoid": "^3.2.0",
     "nuxt": "^2.15.8",
     "vee-validate": "^3.4.14",
-    "videojs-resolution-switcher-webpack": "^0.4.6",
-    "vue-video-thumbnail": "^0.1.12"
+    "videojs-resolution-switcher-webpack": "^0.4.6"
   },
   "devDependencies": {
     "@nuxtjs/pwa": "^3.3.5",

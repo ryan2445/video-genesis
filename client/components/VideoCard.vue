@@ -10,35 +10,11 @@
     outlined
   >
     <v-col style="padding: 0px" class="relative">
-      <div
-        style="width: 380px; height: 280px"
-        class="flex justify-center items-center"
-        v-if="!thumbnailReady"
-      >
-        <v-progress-circular indeterminate color="orange" />
-      </div>
-      <VueVideoThumbnail
-        :style="{
-          opacity: thumbnailReady ? '1' : '0',
-        }"
+      <video-thumbnail
         :video-src="getLink(video)"
-        :snapshot-at-duration-percent="70"
-        :width="380"
-        :height="280"
-        class="cursor-pointer justify-center items-center"
-        style="width: 380px; height: 280px; display: flex"
-        @snapshotCreated="onSnapshotCreated"
-      >
-        <template #snapshot="{ snapshot }">
-          <img
-            class="object-cover h-full w-full"
-            v-if="snapshot"
-            :src="video.videoThumbnail || snapshot"
-            alt="snapshot"
-            @click="onCardClick"
-          />
-        </template>
-      </VueVideoThumbnail>
+        :thumbnail-src="video.videoThumbnail || null"
+        :video-key="video.videoKey"
+      />
       <div class="px-2 pb-1">
         <div class="text-2xl font-medium mt-2">
           <div
@@ -286,7 +262,6 @@ export default {
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       showSettingsMenu: false,
-      thumbnailReady: false,
       thumbnail: null,
       loading: null,
     };
@@ -330,9 +305,6 @@ export default {
     },
   },
   methods: {
-    onSnapshotCreated() {
-      this.thumbnailReady = true;
-    },
     uploadThumbnail() {
       document.getElementById("file-input").click();
     },
