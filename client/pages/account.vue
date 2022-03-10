@@ -1,296 +1,284 @@
 <template>
-  <div>
-    <!-- Upload Section -->
-    <input
-      id="file-input"
-      type="file"
-      name="name"
-      style="display: none"
-      accept=".png, .jpg, .jpeg"
-      @change="profilePicSelected"
-    />
-    <input
-      id="file-input2"
-      type="file"
-      name="name"
-      style="display: none"
-      accept=".png, .jpg, .jpeg"
-      @change="coverPicSelected"
-    />
-
-    <!-- User Profile Pic -->
-
-    <div class="mb-4 my-4">
-      <div
-        v-if="userProfilePic && !loading"
-        class="w-32 h-32 rounded-full overflow-hidden mb-2"
-      >
-        <img
-          class="min-w-full min-h-full object-cover"
-          :src="userProfilePic"
-          alt="avatar"
+    <div>
+        <!-- Upload Section -->
+        <input
+            id="file-input"
+            type="file"
+            name="name"
+            style="display: none"
+            accept=".png, .jpg, .jpeg"
+            @change="profilePicSelected"
         />
-      </div>
-      <div
-        v-else
-        class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500"
-      >
-        <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
-      </div>
-      <v-btn
-        :loading="loadingProfilePic"
-        small
-        color="orange lighten-1"
-        class="white--text"
-        @click="uploadProfilePic"
-      >
-        <div class="flex flex-row items-center">
-          <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span
-            >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
-            Pic</span
-          >
-        </div>
-      </v-btn>
-    </div>
-    <!-- User Cover Pic -->
-    <div class="mb-4">
-      <div
-        v-if="userCoverPic && !loading"
-        class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500"
-      >
-        <img
-          class="min-w-full min-h-full object-cover"
-          :src="userCoverPic"
-          alt="bird"
+        <input
+            id="file-input2"
+            type="file"
+            name="name"
+            style="display: none"
+            accept=".png, .jpg, .jpeg"
+            @change="coverPicSelected"
         />
-      </div>
-      <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
-        <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
-      </div>
-      <v-btn
-        :loading="loadingCoverPic"
-        small
-        color="orange lighten-1"
-        class="white--text"
-        @click="uploadCoverPic"
-      >
-        <div class="flex flex-row items-center">
-          <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-          <span
-            >{{ userCoverPic && !loading ? "Change" : "Upload" }} Cover
-            Pic</span
-          >
-        </div>
-      </v-btn>
-    </div>
-    <!-- End of Upload Section -->
-    <template>
-      <v-card class="p-2 w-1/2">
-        <v-container fluid>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                label="First Name"
-                v-model="firstName"
-                color="orange"
-                required
-                filled
-                rows="2"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
-                label="Last Name"
-                v-model="lastName"
-                color="orange"
-                required
-                filled
-                rows="2"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
-                label="About Me"
-                v-model="aboutMe"
-                color="orange"
-                filled
-              >
-              </v-textarea>
-            </v-col>
-            <v-card-actions>
-              <v-btn class="mr-2" text @click="resetForm"> Cancel </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn
-                right
-                color="orange"
+
+        <!-- User Profile Pic -->
+
+        <div class="mb-4 my-4">
+            <div
+                v-if="userProfilePic && !loading"
+                class="w-32 h-32 rounded-full overflow-hidden mb-2"
+            >
+                <img
+                    class="min-w-full min-h-full object-cover"
+                    :src="userProfilePic"
+                    alt="avatar"
+                />
+            </div>
+            <div v-else class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500">
+                <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
+            </div>
+            <v-btn
+                :loading="loadingProfilePic"
+                small
+                color="orange lighten-1"
                 class="white--text"
-                @click="
-                  onSubmitAboutMe(), onSubmitFirstName(), onSubmitLastName()
-                "
-                >Update</v-btn
-              >
-            </v-card-actions>
-          </v-row>
-        </v-container>
-      </v-card>
-    </template>
-  </div>
+                @click="uploadProfilePic"
+            >
+                <div class="flex flex-row items-center">
+                    <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                    <span
+                        >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
+                        Pic</span
+                    >
+                </div>
+            </v-btn>
+        </div>
+        <!-- User Cover Pic -->
+        <div class="mb-4">
+            <div
+                v-if="userCoverPic && !loading"
+                class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500"
+            >
+                <img
+                    class="min-w-full min-h-full object-cover"
+                    :src="userCoverPic"
+                    alt="bird"
+                />
+            </div>
+            <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
+                <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
+            </div>
+            <v-btn
+                :loading="loadingCoverPic"
+                small
+                color="orange lighten-1"
+                class="white--text"
+                @click="uploadCoverPic"
+            >
+                <div class="flex flex-row items-center">
+                    <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                    <span
+                        >{{ userCoverPic && !loading ? "Change" : "Upload" }} Cover
+                        Pic</span
+                    >
+                </div>
+            </v-btn>
+        </div>
+        <!-- End of Upload Section -->
+        <template>
+            <v-card class="p-2 w-1/2">
+                <v-container fluid>
+                    <v-row>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                label="First Name"
+                                v-model="firstName"
+                                color="orange"
+                                required
+                                filled
+                                rows="2"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-text-field
+                                label="Last Name"
+                                v-model="lastName"
+                                color="orange"
+                                required
+                                filled
+                                rows="2"
+                            ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                            <v-textarea
+                                label="About Me"
+                                v-model="aboutMe"
+                                color="orange"
+                                filled
+                            >
+                            </v-textarea>
+                        </v-col>
+                        <v-card-actions>
+                            <v-btn class="mr-2" text @click="resetForm"> Cancel </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                right
+                                color="orange"
+                                class="white--text"
+                                :loading="loading"
+                                @click="submit()"
+                                >Update</v-btn
+                            >
+                        </v-card-actions>
+                    </v-row>
+                </v-container>
+            </v-card>
+        </template>
+    </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
-import { nanoid } from "nanoid";
-import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { mapGetters } from "vuex"
+import { nanoid } from "nanoid"
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3"
 export default {
-  layout: "dashboard",
-  name: "account",
-  data() {
-    return {
-      // The v-model bounded description
-      aboutMe: null,
-      firstName: null,
-      lastName: null,
-      loadingCoverPic: null,
-      loadingProfilePic: null,
-      loading: true,
-      profilepic: null,
-      coverpic: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      user: "users/rootUser",
-    }),
-    userProfilePic() {
-      if (!this.user) return null;
-      return this.profilepic || this.user.profilePicKey;
-    },
-    userCoverPic() {
-      if (!this.user) return null;
-      return this.coverpic || this.user.coverPicKey;
-    },
-  },
-  async mounted() {
-    await this.$store.dispatch("users/userGet");
-    
-    this.firstName = this.user.usersFirstName;
-    this.lastName = this.user.usersLastName;
-    this.aboutMe = this.user.usersAboutMe;
-
-    this.loading = false;
-  },
-
-  methods: {
-    uploadProfilePic() {
-      document.getElementById("file-input").click();
-    },
-    uploadCoverPic() {
-      document.getElementById("file-input2").click();
-    },
-    async profilePicSelected(event) {
-      const file = event.target.files[0];
-      const typeArr = file.type.split("/");
-      this.loadingProfilePic = true;
-      try {
-        if (this.user.profilePicKey) {
-          const urlArr = this.user.profilePicKey.split("/");
-          const deleteKey = urlArr[urlArr.length - 1];
-
-          const deletePayload = {
-            Bucket: "videogenesis-profilepics",
-            Key: deleteKey,
-          };
-          const deleteCommand = new DeleteObjectCommand(deletePayload);
-          const deleteResp = await this.$store.getters["auth/s3"].send(
-            deleteCommand
-          );
+    layout: "dashboard",
+    name: "account",
+    data() {
+        return {
+            // The v-model bounded description
+            aboutMe: null,
+            firstName: null,
+            lastName: null,
+            loadingCoverPic: null,
+            loadingProfilePic: null,
+            loading: true,
+            profilepic: null,
+            coverpic: null
         }
-        const putPayload = {
-          Bucket: "videogenesis-profilepics",
-          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-          Body: file,
-        };
-
-        const putCommand = new PutObjectCommand(putPayload);
-
-        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-        this.profilepic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
-      } catch (error) {
-        console.error(error);
-      }
-      this.loadingProfilePic = false;
-      this.onSubmitUserProfilePic();
     },
-    async coverPicSelected(event) {
-      const file = event.target.files[0];
-      const typeArr = file.type.split("/");
-      this.loadingCoverPic = true;
-      try {
-        if (this.user.coverPicKey) {
-          const urlArr = this.user.coverPicKey.split("/");
-          const deleteKey = urlArr[urlArr.length - 1];
-
-          const deletePayload = {
-            Bucket: "videogenesis-profilepics",
-            Key: deleteKey,
-          };
-          const deleteCommand = new DeleteObjectCommand(deletePayload);
-          const deleteResp = await this.$store.getters["auth/s3"].send(
-            deleteCommand
-          );
+    computed: {
+        ...mapGetters({
+            user: "users/rootUser"
+        }),
+        userProfilePic() {
+            if (!this.user) return null
+            return this.profilepic || this.user.profilePicKey
+        },
+        userCoverPic() {
+            if (!this.user) return null
+            return this.coverpic || this.user.coverPicKey
         }
-        const putPayload = {
-          Bucket: "videogenesis-profilepics",
-          Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-          Body: file,
-        };
+    },
+    async mounted() {
+        await this.$store.dispatch("users/userGet")
 
-        const putCommand = new PutObjectCommand(putPayload);
+        this.firstName = this.user.usersFirstName
+        this.lastName = this.user.usersLastName
+        this.aboutMe = this.user.usersAboutMe
 
-        const putResp = await this.$store.getters["auth/s3"].send(putCommand);
-        this.coverpic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`;
-      } catch (error) {
-        console.error(error);
-      }
-      this.loadingCoverPic = false;
-      this.onSubmitUserCoverPic();
+        this.loading = false
     },
 
-    // if user tries to cancel after they update, it will bring back the old values so call "users/userGet"
-    // so the values in the data store get updated
-    async resetForm() {
-      await this.$store.dispatch("users/userGet");
-      this.aboutMe = this.user.usersAboutMe;
-      this.firstName = this.user.usersFirstName;
-      this.lastName = this.user.usersLastName;
-    },
-    async onSubmitAboutMe() {
-      const aboutMe = await this.$store.dispatch("users/userPut", {
-        usersAboutMe: this.aboutMe,
-      });
-    },
-    async onSubmitUserProfilePic() {
-      const userProfilePic = await this.$store.dispatch("users/userPut", {
-        profilePicKey: this.profilepic,
-      });
-    },
-    async onSubmitUserCoverPic() {
-      const userCoverPic = await this.$store.dispatch("users/userPut", {
-        coverPicKey: this.coverpic,
-      });
-    },
-    async onSubmitFirstName() {
-      const firstName = await this.$store.dispatch("users/userPut", {
-        usersFirstName: this.firstName,
-      });
-    },
-    async onSubmitLastName() {
-      const lastName = await this.$store.dispatch("users/userPut", {
-        usersLastName: this.lastName,
-      });
-    },
-  },
-};
+    methods: {
+        uploadProfilePic() {
+            document.getElementById("file-input").click()
+        },
+        uploadCoverPic() {
+            document.getElementById("file-input2").click()
+        },
+        async profilePicSelected(event) {
+            const file = event.target.files[0]
+            const typeArr = file.type.split("/")
+            this.loadingProfilePic = true
+            try {
+                if (this.user.profilePicKey) {
+                    const urlArr = this.user.profilePicKey.split("/")
+                    const deleteKey = urlArr[urlArr.length - 1]
+
+                    const deletePayload = {
+                        Bucket: "videogenesis-profilepics",
+                        Key: deleteKey
+                    }
+                    const deleteCommand = new DeleteObjectCommand(deletePayload)
+                    const deleteResp = await this.$store.getters["auth/s3"].send(
+                        deleteCommand
+                    )
+                }
+                const putPayload = {
+                    Bucket: "videogenesis-profilepics",
+                    Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
+                    Body: file
+                }
+
+                const putCommand = new PutObjectCommand(putPayload)
+
+                const putResp = await this.$store.getters["auth/s3"].send(putCommand)
+                this.profilepic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
+            } catch (error) {
+                console.error(error)
+            }
+            this.loadingProfilePic = false
+            this.submit()
+        },
+        async coverPicSelected(event) {
+            const file = event.target.files[0]
+            const typeArr = file.type.split("/")
+            this.loadingCoverPic = true
+            try {
+                if (this.user.coverPicKey) {
+                    const urlArr = this.user.coverPicKey.split("/")
+                    const deleteKey = urlArr[urlArr.length - 1]
+
+                    const deletePayload = {
+                        Bucket: "videogenesis-profilepics",
+                        Key: deleteKey
+                    }
+                    const deleteCommand = new DeleteObjectCommand(deletePayload)
+                    const deleteResp = await this.$store.getters["auth/s3"].send(
+                        deleteCommand
+                    )
+                }
+                const putPayload = {
+                    Bucket: "videogenesis-profilepics",
+                    Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
+                    Body: file
+                }
+
+                const putCommand = new PutObjectCommand(putPayload)
+
+                const putResp = await this.$store.getters["auth/s3"].send(putCommand)
+                this.coverpic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
+            } catch (error) {
+                console.error(error)
+            }
+            this.loadingCoverPic = false
+            this.submit()
+        },
+
+        // if user tries to cancel after they update, it will bring back the old values so call "users/userGet"
+        // so the values in the data store get updated
+        async resetForm() {
+            await this.$store.dispatch("users/userGet")
+            this.aboutMe = this.user.usersAboutMe
+            this.firstName = this.user.usersFirstName
+            this.lastName = this.user.usersLastName
+        },
+        async submit() {
+            this.loading = true
+
+            const response = await this.$store.dispatch("users/userPut", {
+                usersFirstName: this.firstName,
+                usersLastName: this.lastName,
+                usersAboutMe: this.aboutMe,
+                profilePicKey: this.profilepic,
+                coverPicKey: this.coverpic
+            })
+
+            this.loading = false
+
+            if (!response) return
+
+            return true
+        }
+    }
+}
 </script>
 
 <style scoped></style>
