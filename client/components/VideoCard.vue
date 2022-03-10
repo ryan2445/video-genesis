@@ -26,8 +26,8 @@
               class="flex justify-between w-full items-center cursor-pointer"
               @click="onCardClick"
             >
-              <div class="text-gray-800 truncate" style="height: 30px">
-                {{ video.videoTitle }}
+              <div class="text-gray-800 cardTitle">
+                  {{ video.videoTitle }}
               </div>
               <div 
                 v-if="video && isOwner"
@@ -57,9 +57,7 @@
               </div>
             </div>
             <div
-              class="cursor-pointer text-base whitespace-normal truncate text-gray-700"
-              style="line-height: 1rem; max-height: 50px"
-              @click="onCardClick"
+              class="cardDescription text-gray-700"
             >
               {{ video.videoDescription }}
             </div>
@@ -147,5 +145,25 @@ button.user-button >>> span.v-btn__content {
 .card-hover {
   z-index: 40;
   transform: scale(1.15);
+}
+
+.cardTitle, .cardDescription {
+  line-height: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardTitle {
+  max-height: 33px;
+  font-size: 16px;
+  -webkit-line-clamp: 2; 
+}
+
+.cardDescription {
+  max-height: 42px;
+  font-size: 14px;
+  -webkit-line-clamp: 3;
+  padding: 2px 0;
 }
 </style>
