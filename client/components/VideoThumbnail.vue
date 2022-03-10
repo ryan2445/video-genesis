@@ -35,6 +35,27 @@
                 :src="thumbnailLink"
                 class="w-full h-full object-cover"
             />
+            <div 
+                v-if="videoCanPlay && (hover || play)"
+                class="absolute bottom-2 left-3 z-50"
+            >
+                <div 
+                    class="px-1"
+                    style="background: rgba(29, 29, 29, 0.5);"
+                >
+                    <span class="text-white" style="font-size:12px;">
+                        {{ readableCurrentTime }} / {{ readableDuration }}
+                    </span>
+                </div>
+            </div>
+            <v-progress-linear 
+                absolute
+                bottom
+                :active="videoCanPlay && (hover || play)"
+                color="orange"
+                :height="6"
+                :value="videoProgress"
+            />
         </div>
     </v-hover>
 </template>
@@ -76,12 +97,17 @@ export default {
         return {
             videoCanPlay: false,
             playing: false,
-            currentTime: 0
+            currentTime: 0,
+            duration: 10e9
         }
     },
     methods: {
         onCanPlay($event) {
             this.videoCanPlay = true
+
+            const video = this.$refs.videoRef
+
+            this.duration = video.duration
         },
         onClick() {
             this.$emit('click')
@@ -117,6 +143,31 @@ export default {
     computed: {
         thumbnailLink() {
             return this.thumbnailSrc || `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000000.jpg`
+        },
+        videoProgress() {
+            return (this.currentTime / this.duration) * 100
+        },
+        readableCurrentTime() {
+            if (this.currentTime == null) return "00:00"
+
+            let time = new Date(this.currentTime * 1000).toISOString().substr(11, 8)
+
+            if (time.at(0) == '0' && time.at(1) == '0') {
+                return time.substr(3)
+            }
+
+            return time
+        },
+        readableDuration() {
+            if (this.duration == null) return "00:00"
+
+            let time = new Date(this.duration * 1000).toISOString().substr(11, 8)
+
+            if (time.at(0) == '0' && time.at(1) == '0') {
+                return time.substr(3)
+            }
+
+            return time
         }
     }
 }
