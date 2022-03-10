@@ -1,5 +1,4 @@
 <template>
-    <div>
     <v-hover 
         v-slot="{ hover }"
     >
@@ -26,14 +25,13 @@
                 class="object-cover w-full h-full"
             />
             <img
-                v-show="!hover"
+                v-show="!hover || !videoCanPlay"
                 alt="Video Thumbnail"
                 :src="thumbnailLink"
                 class="w-full h-full object-cover"
             />
         </div>
     </v-hover>
-    </div>
 </template>
 
 <script>
