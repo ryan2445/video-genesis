@@ -3,16 +3,42 @@
         {
             "type": "aws-sam",
             "request": "direct-invoke",
-            "name": "api:eventListeners",
+            "name": "videosPut",
             "invokeTarget": {
-                "target": "template",
+                "target": "api",
                 "templatePath": "${workspaceFolder}/api/template.yaml",
-                "logicalId": "eventListeners"
+                "logicalId": "videosController"
             },
-            "lambda": {
-                "payload": {},
-                "environmentVariables": {}
-            }
+            "api": {
+                "path": "/videos",
+                "httpMethod": "put",
+                "payload": {
+                    "json": {
+                        "pk": "testPk",
+                        "sk": "testSk",
+                        "videoTitle": "Test title",
+                        "videoDescription": "Test description"
+                    }
+                }
+            },
+            "sam": {},
+            "aws": {}
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "videosGet",
+            "invokeTarget": {
+                "target": "api",
+                "templatePath": "${workspaceFolder}/api/template.yaml",
+                "logicalId": "videosController"
+            },
+            "api": {
+                "path": "/videos/all",
+                "httpMethod": "get"
+            },
+            "sam": {},
+            "aws": {}
         }
     ]
 }
