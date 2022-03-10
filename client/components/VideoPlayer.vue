@@ -30,6 +30,11 @@ export default {
       default: null,
       type: String,
     },
+    startTime: {
+      required: false,
+      default: null,
+      type: String | Number
+    }
   },
   data() {
     return {
@@ -97,6 +102,11 @@ export default {
 
       // Save the player to state
       this.videoPlayer = player;
+
+      // Update the start time
+      if (this.startTime != null) {
+        this.$refs.videoPlayer.currentTime = typeof this.startTime == 'string' ? Number(this.startTime) : this.startTime
+      }
     },
     initAudioPlayer() {
       // If the audio is not enabled, do nothing

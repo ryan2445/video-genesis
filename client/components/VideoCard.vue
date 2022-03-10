@@ -18,6 +18,7 @@
           :video-key="video.videoKey"
           @click="onCardClick"
           :play="hover"
+          @videoTimeChange="onVideoTimeChange"
         />
         <div class="px-2 pb-1">
           <div class="text-2xl font-medium mt-2">
@@ -78,9 +79,7 @@ export default {
     return {
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      cardHoverStyle: {
-
-      }
+      startTime: 0
     };
   },
   props: {
@@ -126,17 +125,14 @@ export default {
       this.$router.push(`/users/username=${this.owner}`);
     },
     onCardClick() {
-      this.$router.push(`/videos/pk=${this.videoPK}&sk=${this.videoSK}`);
+      this.$router.push(`/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`);
     },
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
     },
-    onChange() {
-      this.$emit("update", {
-        // title: this.title,
-        // description: video.videoDescription,
-      });
-    },
+    onVideoTimeChange(newTime) {
+      this.startTime = newTime
+    }
   },
 };
 </script>

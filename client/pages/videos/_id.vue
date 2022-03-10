@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <template v-if="!loading">
-          <video-player :video-data="videoData" :audio="videoAudio" />
+          <video-player :video-data="videoData" :audio="videoAudio" :start-time="startTime" />
           <video-player-info :video="video" />
         </template>
       </v-col>
@@ -22,7 +22,8 @@ export default {
       video: null,
       loading: true,
       pk: null,
-      sk: null
+      sk: null,
+      startTime: null
     };
   },
   created() {
@@ -86,15 +87,15 @@ export default {
         return;
       }
 
-      console.log(params.get('pk'))
-
       const pk = params.has('pk') 
                   ? params.get('pk') 
                   : this.$store.getters('user/user').id;
       const sk = params.get('sk');
+      const time = params.get('time')
 
       this.pk = pk
       this.sk = sk
+      this.startTime = time
     },
     async getAndSetVideo() {
       if (!this.pk || !this.sk) {

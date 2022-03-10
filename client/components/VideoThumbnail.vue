@@ -15,6 +15,7 @@
                 :active="(hover || play) && !videoCanPlay"
             />
             <video
+                ref="videoRef"
                 v-show="videoCanPlay && (hover || play)"
                 :controls="false"
                 height="100%"
@@ -22,6 +23,8 @@
                 loop
                 autoplay
                 muted
+                @play="onPlay"
+                @pause="onPause"
                 @canplay="onCanPlay"
                 :src="videoSrc"
                 class="object-cover w-full h-full"
@@ -71,7 +74,9 @@ export default {
     },
     data() {
         return {
-            videoCanPlay: false
+            videoCanPlay: false,
+            playing: false,
+            currentTime: 0
         }
     },
     methods: {
@@ -80,6 +85,33 @@ export default {
         },
         onClick() {
             this.$emit('click')
+        },
+        onPlay() {
+            this.playing = true
+            this.getCurrentTime()
+        },
+        onPause() {
+            this.playing = false
+        },
+        getCurrentTime() {
+            if (!this.playing) return
+            
+            // Get the video element
+            const videoEl = this.$refs.videoRef
+
+            // If the video element does not exist, return
+            if (!videoEl) return
+            
+            // Get the current time the video is at
+            const time = videoEl.currentTime;
+            
+            // Set the current time
+            this.currentTime = time
+            
+            // Emit the videoTimeChange event with the current time
+            this.$emit('videoTimeChange', time)
+
+            setTimeout(this.getCurrentTime, 50)
         }
     },
     computed: {
