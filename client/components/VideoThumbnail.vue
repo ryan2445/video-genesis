@@ -107,6 +107,8 @@ export default {
 
             const video = this.$refs.videoRef
 
+            if (!video) return
+
             this.duration = video.duration
         },
         onClick() {
