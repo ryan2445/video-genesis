@@ -1,19 +1,21 @@
 <template>
     <v-hover 
         v-slot="{ hover }"
+        :open-delay="300"
     >
         <div
             class="relative"
             style="height: 280px; width: 380px;"
+            @click.prevent="onClick"
         >
             <v-progress-linear
                 absolute
                 top
                 indeterminate
-                :active="hover && !videoCanPlay"
+                :active="(hover || play) && !videoCanPlay"
             />
             <video
-                v-show="hover && videoCanPlay"
+                v-show="videoCanPlay && (hover || play)"
                 :controls="false"
                 height="100%"
                 width="100%"
@@ -25,7 +27,7 @@
                 class="object-cover w-full h-full"
             />
             <img
-                v-show="!hover || !videoCanPlay"
+                v-show="!videoCanPlay || (!hover && !play)"
                 alt="Video Thumbnail"
                 :src="thumbnailLink"
                 class="w-full h-full object-cover"
@@ -59,6 +61,12 @@ export default {
         videoKey: {
             type: String,
             required: true
+        },
+        // Plays the video
+        play: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
     data() {
@@ -69,6 +77,9 @@ export default {
     methods: {
         onCanPlay($event) {
             this.videoCanPlay = true
+        },
+        onClick() {
+            this.$emit('click')
         }
     },
     computed: {
