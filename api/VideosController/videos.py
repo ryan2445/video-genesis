@@ -4,22 +4,22 @@ import json
 import os
 import uuid
 
+if os.getenv('AWS_SAM_LOCAL'):
+    dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://dynamodb-local:8000').Table('system')
+else:
+    dynamodb = boto3.resource('dynamodb').Table('system')
+
 def badRequest(msg: str) -> dict:
     return {
         'statusCode': 400,
         'body': msg
     }
 
-if os.getenv('AWS_SAM_LOCAL'):
-    dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://dynamodb-local:8000').Table('system')
-else:
-    dynamodb = boto3.resource('dynamodb').Table('system')
-
 #   Returns an array of all videos for a given user
 def videosGet(event, context):
     queryParams = event['queryStringParameters']
     
-    if queryParams is not None and 'username' in queryParams:
+    if queryParams and 'username' in queryParams:
         username = event['queryStringParameters']['username']
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
     else:
@@ -82,27 +82,25 @@ def videosPut(event, context):
 
     pk = body['pk']
     sk = body['sk']
-
     optional_keys = [
         'videoTitle',
         'videoDescription',
-        'videoThumbnail',
+        'videoThumbnail'
     ]
-    keys_with_value = list(filter(lambda x: body.get(x), optional_keys))
 
-    if not keys_with_value:
-        raise ValueError("update request should not be empty")
-    update_expr = ", ".join([f"{key}=:{index}" for index, key in enumerate(keys_with_value)])
+    keys = list(filter(lambda x: body.get(x), optional_keys))
+    if not keys: return badRequest("No attributes to update.")
 
-    expr_attrib_values = dict((f":{index}", body.get(key)) for index, key in enumerate(keys_with_value))
+    update_keys = []
+    update_attributes = []
+    for index, key in enumerate(keys):
+        update_keys.append(f"{key}=:{index}")
+        update_attributes.append((f":{index}", body.get(key)))
     
     response = dynamodb.update_item(
-        Key = {
-            'pk': pk,
-            'sk': sk
-        },
-        UpdateExpression = f"set {update_expr}",
-        ExpressionAttributeValues = expr_attrib_values
+        Key = { 'pk': pk, 'sk': sk },
+        UpdateExpression = f"set {', '.join(update_keys)}",
+        ExpressionAttributeValues = dict(update_attributes)
     )
 
     return {
@@ -160,7 +158,8 @@ def handle(event, context):
         }
 
     response['headers'] = {
-        'Access-Control-Allow-Origin': '*'        
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
     }
 
     return response
