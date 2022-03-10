@@ -57,9 +57,14 @@
               </div>
             </div>
             <div
-              class="cardDescription text-gray-700"
+              class="py-1 overflow-hidden"
+              style="max-height: 49px;"
             >
-              {{ video.videoDescription }}
+              <div
+                class="cardDescription text-gray-700"
+              >
+                {{ video.videoDescription }}
+              </div>
             </div>
             <v-row>
               <v-card-actions class="justify-left"></v-card-actions>
@@ -151,7 +156,6 @@ button.user-button >>> span.v-btn__content {
   line-height: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .cardTitle {
