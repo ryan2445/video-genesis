@@ -44,7 +44,19 @@
             </div>
             <v-divider class="mb-1"></v-divider>
             <div class="flex flex-row items-center">
-              <v-icon small class="mr-1">icon-account-circle</v-icon>
+              <div
+                v-if="videoUser && !!videoUser.profilePicKey"
+                @click="openUserPage"
+                style="width:36px; height:36px;"
+                class="mr-1"
+              >
+                <img
+                  :src="videoUser.profilePicKey"
+                  :alt="videoUser.username"
+                  class="rounded-full w-full h-full object-cover cursor-pointer"
+                />
+              </div>
+              <v-icon v-else large class="mr-1" @click="openUserPage">icon-account-circle</v-icon>
               <div>
                 <v-btn
                   color="orange"
@@ -82,7 +94,9 @@ export default {
     return {
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      startTime: 0
+      startTime: 0,
+
+      videoUser: null
     };
   },
   props: {
@@ -94,6 +108,9 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  mounted() {
+    this.getUser()
   },
   computed: {
     ...mapGetters({
@@ -135,6 +152,11 @@ export default {
     },
     onVideoTimeChange(newTime) {
       this.startTime = newTime
+    },
+    async getUser() {
+      const videoUser = await this.$store.dispatch('users/userGetByUsername', { username: this.owner });
+
+      this.videoUser = videoUser
     }
   },
 };
