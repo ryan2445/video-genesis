@@ -1,6 +1,6 @@
 import boto3
 from boto3.dynamodb.conditions import Key
-import json
+import simplejson as json
 import os
 import uuid
 
