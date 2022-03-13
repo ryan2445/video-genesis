@@ -3,31 +3,7 @@
         {
             "type": "aws-sam",
             "request": "direct-invoke",
-            "name": "videosPut",
-            "invokeTarget": {
-                "target": "api",
-                "templatePath": "${workspaceFolder}/api/template.yaml",
-                "logicalId": "videosController"
-            },
-            "api": {
-                "path": "/videos",
-                "httpMethod": "put",
-                "payload": {
-                    "json": {
-                        "pk": "testPk",
-                        "sk": "testSk",
-                        "videoTitle": "Test title",
-                        "videoDescription": "Test description"
-                    }
-                }
-            },
-            "sam": {},
-            "aws": {}
-        },
-        {
-            "type": "aws-sam",
-            "request": "direct-invoke",
-            "name": "videosGet",
+            "name": "videosAll",
             "invokeTarget": {
                 "target": "api",
                 "templatePath": "${workspaceFolder}/api/template.yaml",
@@ -37,7 +13,54 @@
                 "path": "/videos/all",
                 "httpMethod": "get"
             },
-            "sam": {},
+            "sam": {
+                "dockerNetwork": "sam-backend"
+            },
+            "aws": {}
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "votesPost",
+            "invokeTarget": {
+                "target": "api",
+                "templatePath": "${workspaceFolder}/api/template.yaml",
+                "logicalId": "userVotesController"
+            },
+            "api": {
+                "path": "/users/votes",
+                "httpMethod": "post",
+                "payload": {
+                    "json": {
+                        "videoId": "5",
+                        "videoUserId": "ryan",
+                        "userId": "ryan2",
+                        "upvoted": true
+                    }
+                }
+            },
+            "sam": {
+                "dockerNetwork": "sam-backend"
+            },
+            "aws": {}
+        },
+        {
+            "type": "aws-sam",
+            "request": "direct-invoke",
+            "name": "votesGet",
+            "invokeTarget": {
+                "target": "api",
+                "templatePath": "${workspaceFolder}/api/template.yaml",
+                "logicalId": "userVotesController"
+            },
+            "api": {
+                "path": "/users/votes",
+                "httpMethod": "get",
+                "querystring": "?userId=ryan&videoId=4"
+            },
+            "sam": {
+                "dockerNetwork": "sam-backend"
+            },
             "aws": {}
         }
     ]
