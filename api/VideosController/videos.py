@@ -52,9 +52,10 @@ def videoGet(event, context):
 #   Creates a new video
 def videosPost(event, context):
     body = json.loads(event['body'])
+    userId = event['requestContext']['authorizer']['claims']['cognito:username']
 
     #   Assemble video object
-    pk = "ID#" + body['username']
+    pk = "ID#" + userId
     sk = "VIDEO#" + str(uuid.uuid4())
     videoTitle = body['videoTitle']
     videoDescription = body['videoDescription']
@@ -79,8 +80,9 @@ def videosPost(event, context):
 #   Update a video with given data
 def videosPut(event, context):
     body = json.loads(event['body'])
+    userId = event['requestContext']['authorizer']['claims']['cognito:username']
 
-    pk = body['pk']
+    pk = "ID#" + userId
     sk = body['sk']
     optional_keys = [
         'videoTitle',
@@ -111,8 +113,9 @@ def videosPut(event, context):
 #   Deletes some attributes based on a primary key and sort key
 def videosDelete(event, context):
     body = json.loads(event['body'])
+    userId = event['requestContext']['authorizer']['claims']['cognito:username']
 
-    pk = body['pk']
+    pk = "ID#" + userId
     sk = body['sk']
 
     response = dynamodb.delete_item(

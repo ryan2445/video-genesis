@@ -37,11 +37,7 @@ export const actions = {
     },
     async userPut({ commit, rootState }, params) {
         try {
-            const response = await this.$axios.put("users", {
-                ...params,
-                pk: `ID#${rootState.user.user.username}`,
-                sk: "USER"
-            })
+            const response = await this.$axios.put("users", params)
             return response.data
         } catch (exception) {
             return null

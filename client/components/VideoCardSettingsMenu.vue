@@ -1,17 +1,17 @@
 <template>
-	<v-menu
-		v-model="display"
-		offset-y
-		origin="top right"
-		transition="scroll-y-transition"
-		:nudge-left="100"
-	>
-		<template v-slot:activator="{ on, attrs }">
-			<v-btn icon v-bind="attrs" v-on="on">
-				<v-icon> icon-cog-outline </v-icon>
-			</v-btn>
-		</template>
-		<div style="max-width: 480px; background: white">
+    <v-menu
+        v-model="display"
+        offset-y
+        origin="top right"
+        transition="scroll-y-transition"
+        :nudge-left="100"
+    >
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon> icon-cog-outline </v-icon>
+            </v-btn>
+        </template>
+        <div style="max-width: 480px; background: white">
             <v-list class="z-30">
                 <v-list-item>
                     <v-dialog v-model="dialog" persistent max-width="600px">
@@ -62,11 +62,17 @@
                                                         class="white--text"
                                                         @click="uploadThumbnail"
                                                     >
-                                                        <div class="flex flex-row items-center">
-                                                            <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                                                        <div
+                                                            class="flex flex-row items-center"
+                                                        >
+                                                            <v-icon small class="mr-2"
+                                                                >mdi-cloud-upload</v-icon
+                                                            >
                                                             <span
                                                                 >{{
-                                                                    videoThumbnail ? "Change" : "Upload"
+                                                                    videoThumbnail
+                                                                        ? "Change"
+                                                                        : "Upload"
                                                                 }}
                                                                 Thumbnail</span
                                                             >
@@ -83,7 +89,12 @@
                                                 full-width
                                                 rows="2"
                                                 :value="video.videoTitle"
-                                                @change="($event) => mutateVideo({ videoTitle: $event })"
+                                                @change="
+                                                    $event =>
+                                                        mutateVideo({
+                                                            videoTitle: $event
+                                                        })
+                                                "
                                             ></v-text-field>
                                         </v-col>
                                         <v-col cols="12">
@@ -93,9 +104,9 @@
                                                 filled
                                                 :value="video.videoDescription"
                                                 @change="
-                                                    ($event) =>
+                                                    $event =>
                                                         mutateVideo({
-                                                            videoDescription: $event,
+                                                            videoDescription: $event
                                                         })
                                                 "
                                             />
@@ -109,7 +120,11 @@
                                 <v-btn color="blue darken-1" text @click="onDialogClose">
                                     Close
                                 </v-btn>
-                                <v-btn color="blue darken-1" text @click="onVideoSave(false)">
+                                <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="onVideoSave(false)"
+                                >
                                     Save
                                 </v-btn>
                             </v-card-actions>
@@ -172,124 +187,122 @@
                 </v-list-item>
             </v-list>
         </div>
-	</v-menu>
+    </v-menu>
 </template>
 
 <script>
-import s3 from "../mixins/s3";
+import s3 from "../mixins/s3"
 export default {
-	name: "VideoCardSettingsMenu",
-	mixins: [s3],
-	props: {
-		videoThumbnail: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		idx: {
-			type: Number,
-			required: true,
-		},
-		video: {
-			type: Object,
-			required: true,
-		},
-	},
-	data() {
-		return {
-			display: false,
-			dialog: false,
-			loading: false,
-			thumbnail: null,
-			deleteDialogBox: false,
-		};
-	},
+    name: "VideoCardSettingsMenu",
+    mixins: [s3],
+    props: {
+        videoThumbnail: {
+            type: String,
+            required: false,
+            default: null
+        },
+        idx: {
+            type: Number,
+            required: true
+        },
+        video: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            display: false,
+            dialog: false,
+            loading: false,
+            thumbnail: null,
+            deleteDialogBox: false
+        }
+    },
     mounted() {
         this.thumbnail = this.videoThumbnail
     },
-	methods: {
-		uploadThumbnail() {
-			document.getElementById("file-input").click();
-		},
-		async thumbnailSelected(event) {
-			// Find the selected file
-			const file = event.target?.files[0];
+    methods: {
+        uploadThumbnail() {
+            document.getElementById("file-input").click()
+        },
+        async thumbnailSelected(event) {
+            // Find the selected file
+            const file = event.target?.files[0]
 
-			// If the file does not exist, return
-			if (!file) return;
+            // If the file does not exist, return
+            if (!file) return
 
-			// Indicate that we are loading
-			this.loading = true;
+            // Indicate that we are loading
+            this.loading = true
 
-			// Get the bucket for video thumbnails
-			const bucket = "videogenesis-thumbnails";
+            // Get the bucket for video thumbnails
+            const bucket = "videogenesis-thumbnails"
 
-			// If there is an existing thumbnail, delete it
-			if (this.video.videoThumbnail) {
-				const delete_key = this.key_from_string(this.video.videoThumbnail);
+            // If there is an existing thumbnail, delete it
+            if (this.video.videoThumbnail) {
+                const delete_key = this.key_from_string(this.video.videoThumbnail)
 
-				await this.s3_delete(bucket, delete_key);
-			}
+                await this.s3_delete(bucket, delete_key)
+            }
 
-			// Construct a unique key from the file
-			const put_key = this.key_from_file(file);
+            // Construct a unique key from the file
+            const put_key = this.key_from_file(file)
 
-			// Upload the thumbnail
-			const thumbnail_url = await this.s3_put(bucket, put_key, file);
+            // Upload the thumbnail
+            const thumbnail_url = await this.s3_put(bucket, put_key, file)
 
-			// Update the local thumbnail url
-			this.thumbnail = thumbnail_url;
+            // Update the local thumbnail url
+            this.thumbnail = thumbnail_url
 
-			// re-query the updated videos
-			await this.onVideoSave(true);
+            // re-query the updated videos
+            await this.onVideoSave(true)
 
-			// Indicate that we are done loading
-			this.loading = false;
-		},
-		async onVideoSave(dialog = false) {
-			await this.$store.dispatch("videos/videosPut", {
-				videoTitle: this.video.videoTitle,
-				videoDescription: this.video.videoDescription,
-				videoThumbnail: this.thumbnail,
-				pk: this.video.pk,
-				sk: this.video.sk,
-			});
+            // Indicate that we are done loading
+            this.loading = false
+        },
+        async onVideoSave(dialog = false) {
+            await this.$store.dispatch("videos/videosPut", {
+                videoTitle: this.video.videoTitle,
+                videoDescription: this.video.videoDescription,
+                videoThumbnail: this.thumbnail,
+                sk: this.video.sk
+            })
 
-			// If on the 'Explore' page get every user's video or get the user's videos
-			await this.$store.dispatch(
-				this.$router.history.current.name === "Explore"
-					? "videos/getAllVideos"
-					: "videos/videosGet"
-			);
+            // If on the 'Explore' page get every user's video or get the user's videos
+            await this.$store.dispatch(
+                this.$router.history.current.name === "Explore"
+                    ? "videos/getAllVideos"
+                    : "videos/videosGet"
+            )
 
-			this.dialog = dialog;
-		},
-		async onDialogClose() {
-			this.dialog = false;
-		},
-		async onDeleteDialogClose() {
-			this.deleteDialogBox = false;
-		},
-		async onVideoDelete() {
-			await this.$store.dispatch("videos/videosDelete", {
-				pk: this.video.pk,
-				sk: this.video.sk,
-			});
-			// If on the 'Explore' page get every user's video or get the user's videos
-			await this.$store.dispatch(
-				this.$router.history.current.name === "Explore"
-					? "videos/getAllVideos"
-					: "videos/videosGet"
-			);
+            this.dialog = dialog
+        },
+        async onDialogClose() {
+            this.dialog = false
+        },
+        async onDeleteDialogClose() {
+            this.deleteDialogBox = false
+        },
+        async onVideoDelete() {
+            await this.$store.dispatch("videos/videosDelete", {
+                sk: this.video.sk
+            })
+            // If on the 'Explore' page get every user's video or get the user's videos
+            await this.$store.dispatch(
+                this.$router.history.current.name === "Explore"
+                    ? "videos/getAllVideos"
+                    : "videos/videosGet"
+            )
 
-			this.deleteDialogBox = false;
-		},
-		mutateVideo(param) {
-			this.$store.commit("videos/videoUpdate", {
-				...param,
-				idx: this.idx,
-			});
-		},
-	},
-};
+            this.deleteDialogBox = false
+        },
+        mutateVideo(param) {
+            this.$store.commit("videos/videoUpdate", {
+                ...param,
+                idx: this.idx
+            })
+        }
+    }
+}
 </script>

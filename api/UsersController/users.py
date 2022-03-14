@@ -25,9 +25,10 @@ def usersGet(event, context):
 
 def usersPut(event, context):
     body = json.loads(event['body'])
+    userId = event['requestContext']['authorizer']['claims']['cognito:username']
 
-    pk = body['pk']
-    sk = body['sk']
+    pk = "ID#" + userId
+    sk = "USER"
     optional_keys = [
         'usersFirstName',
         'usersLastName',
