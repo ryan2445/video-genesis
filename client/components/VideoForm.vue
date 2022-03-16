@@ -55,6 +55,7 @@ export default {
           title: null,
           // The description of the video
           description: null,
+          isPrivate: false,
           // The video
           video: null,
           // Determines if we are currently uploading
@@ -67,8 +68,11 @@ export default {
     },
     methods: {
       onVideoDescriptionUpdate(object) {
+
         this.title = object.title
         this.description = object.description
+        this.isPrivate = object.isPrivate
+        console.log("onvideodes", object.isPrivate, this.isPrivate)
       },
       async onUpload() {
         // If the video was not set, alert the user
@@ -99,6 +103,7 @@ export default {
         const video = await this.$store.dispatch('videos/videosPost', {
             videoTitle: this.title,
             videoDescription: this.description,
+            isPrivate: this.isPrivate,
             videoKey: key
         })
 
