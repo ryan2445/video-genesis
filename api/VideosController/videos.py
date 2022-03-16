@@ -24,7 +24,7 @@ def videosGet(event, context):
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('VIDEO'))
     else:
         scan_kwargs = {
-            'FilterExpression': Key('sk').begins_with('VIDEO')
+            'FilterExpression': Key('sk').begins_with('VIDEO') & Key('isPrivate').eq(False)
         }
         response = dynamodb.scan(**scan_kwargs) 
 
@@ -42,7 +42,7 @@ def videoGet(event, context):
     pk = event['queryStringParameters']['pk']
     sk = event['queryStringParameters']['sk']
     
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk))
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk) )
     
     return {
         'statusCode': 200,
@@ -60,6 +60,7 @@ def videosPost(event, context):
     videoTitle = body['videoTitle']
     videoDescription = body['videoDescription']
     videoKey = body['videoKey'].replace('.mp4', '')
+    isPrivate = body.get('isPrivate', False)
     
     # Put the entry in dynamodb
     response = dynamodb.put_item(
@@ -68,7 +69,8 @@ def videosPost(event, context):
             'sk': sk,
             'videoTitle': videoTitle,
             'videoDescription': videoDescription,
-            'videoKey': videoKey
+            'videoKey': videoKey,
+            'isPrivate': isPrivate
         }
     )
 
