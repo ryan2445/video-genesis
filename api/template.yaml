@@ -52,14 +52,14 @@ Resources:
             Handler: playlists.handle
             Runtime: python3.8
             Events:
-                videosApiEventDefault:
+                playlistsApiEventDefault:
                     Type: Api
                     Properties:
                         Path: /playlists
                         Method: ANY
                         Auth:
                             Authorizer: globalApiAuth
-                videosApiEventProxy:
+                playlistsApiEventProxy:
                     Type: Api
                     Properties:
                         Path: /playlists/{proxy+}
