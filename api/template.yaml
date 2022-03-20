@@ -44,6 +44,32 @@ Resources:
             Policies:
                 DynamoDBCrudPolicy:
                     TableName: !Ref systemDB
+    
+    playlistsController:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: PlaylistsController/
+            Handler: playlists.handle
+            Runtime: python3.8
+            Events:
+                videosApiEventDefault:
+                    Type: Api
+                    Properties:
+                        Path: /playlists
+                        Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
+                videosApiEventProxy:
+                    Type: Api
+                    Properties:
+                        Path: /playlists/{proxy+}
+                        Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
+            Policies:
+                DynamoDBCrudPolicy:
+                    TableName: !Ref systemDB
+
 
     userVotesController:
         Type: AWS::Serverless::Function
