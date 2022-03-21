@@ -1,102 +1,116 @@
 <template>
-  <v-hover v-slot="{ hover }" :open-delay="300">
-    <v-card
-      class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden z-30"
-      style="
-        width: 380px;
-        height: 425px;
-        border: 1px solid rgb(202, 202, 202);
-      "
-      :class="{'card-hover' : hover}"
-      outlined
-    >
-      <v-col style="padding: 0px" class="relative">
-        <video-thumbnail
-          class="cursor-pointer"
-          :video-src="getLink(video)"
-          :thumbnail-src="video.videoThumbnail || null"
-          :video-key="video.videoKey"
-          @click="onCardClick"
-          :play="hover"
-          @videoTimeChange="onVideoTimeChange"
-        />
-        <div class="px-2 pb-1">
-          <div class="text-2xl font-medium mt-2">
-            <div
-              class="flex justify-between w-full items-center cursor-pointer"
-              @click="onCardClick"
-            >
-              <div class="text-gray-800 cardTitle">
-                  {{ video.videoTitle }}
-              </div>
-              <div 
-                v-if="video && isOwner"
-                class="mr-2"
-              >
-                <v-hover>
-                  <video-card-settings-menu
-                    :video-thumbnail="videoThumbnail"
-                    :idx="idx"
-                    :video="video"
-                  />
-                </v-hover>
-              </div>
-            </div>
-            <v-divider class="mb-1"></v-divider>
-            <div class="flex flex-row items-center">
+  <div>
+    <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="300">
+      <v-card
+        class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden z-30"
+        style="
+          width: 380px;
+          height: 425px;
+          border: 1px solid rgb(202, 202, 202);
+        "
+        :class="{'card-hover' : hover}"
+        outlined
+      >
+        <v-col style="padding: 0px" class="relative">
+          <video-thumbnail
+            class="cursor-pointer"
+            :video-src="getLink(video)"
+            :thumbnail-src="video.videoThumbnail || null"
+            :video-key="video.videoKey"
+            :play="hover"
+            @click="onCardClick"
+            @videoTimeChange="onVideoTimeChange"
+            @thumbnail:loaded="onThumbnailLoaded"
+          />
+          <div class="px-2 pb-1">
+            <div class="text-2xl font-medium mt-2">
               <div
-                v-if="videoUser && !!videoUser.profilePicKey"
-                @click="openUserPage"
-                style="width:36px; height:36px;"
-                class="mr-1"
+                class="flex justify-between w-full items-center cursor-pointer"
+                @click="onCardClick"
               >
-                <img
-                  :src="videoUser.profilePicKey"
-                  :alt="videoUser.username"
-                  class="rounded-full w-full h-full object-cover cursor-pointer"
-                />
-              </div>
-              <v-icon v-else large class="mr-1" @click="openUserPage">icon-account-circle</v-icon>
-              <div>
-                <v-btn
-                  color="orange"
-                  plain
-                  @click="openUserPage"
-                  class="user-button px-0 text-left"
+                <div class="text-gray-800 cardTitle">
+                    {{ video.videoTitle }}
+                </div>
+                <div 
+                  v-if="video && isOwner"
+                  class="mr-2"
                 >
-                  {{ owner }}
-                </v-btn>
+                  <v-hover>
+                    <video-card-settings-menu
+                      :video-thumbnail="videoThumbnail"
+                      :idx="idx"
+                      :video="video"
+                    />
+                  </v-hover>
+                </div>
               </div>
-            </div>
-            <div
-              class="py-1 overflow-hidden"
-              style="max-height: 49px;"
-            >
+              <v-divider class="mb-1"></v-divider>
+              <div class="flex flex-row items-center">
+                <div
+                  v-if="videoUser && !!videoUser.profilePicKey"
+                  @click="openUserPage"
+                  style="width:36px; height:36px;"
+                  class="mr-1"
+                >
+                  <img
+                    :src="videoUser.profilePicKey"
+                    :alt="videoUser.username"
+                    class="rounded-full w-full h-full object-cover cursor-pointer"
+                  />
+                </div>
+                <v-icon v-else large class="mr-1" @click="openUserPage">icon-account-circle</v-icon>
+                <div>
+                  <v-btn
+                    color="orange"
+                    plain
+                    @click="openUserPage"
+                    class="user-button px-0 text-left"
+                  >
+                    {{ owner }}
+                  </v-btn>
+                </div>
+              </div>
               <div
-                class="cardDescription text-gray-700"
+                class="py-1 overflow-hidden"
+                style="max-height: 49px;"
               >
-                {{ video.videoDescription }}
+                <div
+                  class="cardDescription text-gray-700"
+                >
+                  {{ video.videoDescription }}
+                </div>
               </div>
+              <v-row>
+                <v-card-actions class="justify-left"></v-card-actions>
+              </v-row>
             </div>
-            <v-row>
-              <v-card-actions class="justify-left"></v-card-actions>
-            </v-row>
           </div>
-        </div>
-      </v-col>
-    </v-card>
-  </v-hover>
+        </v-col>
+      </v-card>
+    </v-hover>
+    <v-skeleton-loader
+      v-show="!loaded"
+      class="mx-auto"
+      :width="380"
+      :height="425"
+      type="image, card-heading, list-item-avatar, list-item-two-line"
+    >
+
+    </v-skeleton-loader>
+  </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+
       startTime: 0,
 
-      videoUser: null
+      videoUser: null,
+
+      thumbnailLoaded: false
     };
   },
   props: {
@@ -139,6 +153,9 @@ export default {
 
       return this.video.videoThumbnail;
     },
+    loaded() {
+      return !!this.videoUser && this.thumbnailLoaded
+    }
   },
   methods: {
     openUserPage() {
@@ -157,7 +174,10 @@ export default {
       const videoUser = await this.$store.dispatch('users/userGetByUsername', { username: this.owner });
 
       this.videoUser = videoUser
-    }
+    },
+    onThumbnailLoaded() {
+      this.thumbnailLoaded = true
+    },
   },
 };
 </script>

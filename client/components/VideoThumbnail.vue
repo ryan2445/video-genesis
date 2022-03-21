@@ -16,7 +16,7 @@
             />
             <video
                 ref="videoRef"
-                v-show="videoCanPlay && (hover || play)"
+                v-show="videoCanPlay && (hover || play || thumbnailError)"
                 :controls="false"
                 height="100%"
                 width="100%"
@@ -30,10 +30,12 @@
                 class="object-cover w-full h-full"
             />
             <img
-                v-show="!videoCanPlay || (!hover && !play)"
+                v-show="!videoCanPlay || (!hover && !play && !thumbnailError)"
                 alt="Video Thumbnail"
                 :src="thumbnailLink"
                 class="w-full h-full object-cover"
+                @load="onThumbnailLoad"
+                @error="onThumbnailError"
             />
             <div 
                 v-if="videoCanPlay && (hover || play)"
@@ -63,6 +65,7 @@
 <script>
 export default {
     name: "VideoThumbnail",
+    emits: ['video:loaded', 'click', 'videoTimeChange', 'thumbnail:loaded'],
     props: {
         // The source url of the video (for preview)
         videoSrc: {
@@ -98,18 +101,30 @@ export default {
             videoCanPlay: false,
             playing: false,
             currentTime: 0,
-            duration: 10e9
+            thumbnailTime: 0,
+            duration: 10e9,
+            thumbnailError: false,
+            
+            // True if the video has played at least once
+            playedAtLeastOnce: false
         }
     },
     methods: {
         onCanPlay($event) {
             this.videoCanPlay = true
 
+            this.$emit('video:loaded')
+
             const video = this.$refs.videoRef
 
             if (!video) return
 
             this.duration = video.duration
+            
+            // This error occurs whenever the image cannot be loaded due to an invalid link
+            if (this.thumbnailError) {
+                this.onThumbnailLoad()
+            }
         },
         onClick() {
             this.$emit('click')
@@ -140,6 +155,31 @@ export default {
             this.$emit('videoTimeChange', time)
 
             setTimeout(this.getCurrentTime, 50)
+        },
+        onThumbnailLoad() {
+            this.$emit('thumbnail:loaded')
+        },
+        onThumbnailError() {
+            this.thumbnailError = true
+
+            this.waitForVideoLoad()
+        },
+        waitForVideoLoad() {
+            if (!this.videoCanPlay) 
+                setTimeout(this.waitForVideoLoad, 30)
+            else
+                this.loadVideoForThumbnail()
+        },
+        loadVideoForThumbnail() {
+            const video = this.$refs.videoRef
+
+            if (!video) return
+
+            this.thumbnailTime = video.currentTime * 0.1
+
+            video.currentTime = this.thumbnailTime
+
+            video.pause()
         }
     },
     computed: {
@@ -170,6 +210,29 @@ export default {
             }
 
             return time
+        }
+    },
+    watch: {
+        play(isPlay) {
+            const video = this.$refs.videoRef
+
+            if (isPlay) {
+                if (!video.playedAtLeastOnce) {
+                    this.playedAtLeastOnce = true
+                    this.currentTime = 0
+                }
+                else {
+                    video.currentTime = currentTime
+                }
+
+                video.play()
+            }
+            else {
+                if (this.thumbnailError) 
+                    video.currentTime = this.thumbnailTime
+                
+                video.pause()
+            } 
         }
     }
 }
