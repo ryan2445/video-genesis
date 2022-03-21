@@ -18,7 +18,18 @@
           height="45"
           class="mb-2 shadow-md"
         >
-          <v-icon> mdi-account </v-icon>
+      <!-- <v-icon> mdi-account </v-icon> -->
+        <div
+            v-if="userProfilePic"
+            class="w-14 h-14 rounded-full overflow-hidden mb-2"
+        >
+          <img
+              class="min-w-full min-h-full object-cover"
+              :src="userProfilePic"
+              alt="avatar"
+          />
+        </div>
+          
         </v-btn>
       </template>
       <v-list>
@@ -62,11 +73,6 @@ export default {
       ],
     };
   },
-  computed: {
-    ...mapGetters({
-      user: "user/user",
-    }),
-  },
   methods: {
     handleClick(item) {
       if (item.route) return this.$router.push(item.route);
@@ -83,6 +89,15 @@ export default {
   computed: {
     title() {
       return this.$store.getters["app/route"];
+    },
+    ...mapGetters({
+      user: "users/rootUser",
+    }),
+    userProfilePic() {
+      // If the user does not exist, return null
+      if (!this.user) return null;
+
+      return this.user.profilePicKey || "https://www.unr.edu/main/images/divisions/president/marketing-communications/brand/brand-athletics-2.png";
     },
   },
 };
