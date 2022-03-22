@@ -17,7 +17,7 @@ export const actions = {
       const response = await this.$axios.get(
         `videos/all?username=${rootState.user.user.username}`
       );
-      commit("videosSet", response.data.Items);
+      commit("videosSet", response.data);
     } catch (exception) {
       return null;
     }
@@ -26,7 +26,7 @@ export const actions = {
     try {
       const { username } = params;
       const response = await this.$axios.get(`videos/all?username=${username}`);
-      return response.data.Items;
+      return response.data;
     } catch (exception) {
       return null;
     }
@@ -35,11 +35,11 @@ export const actions = {
     try {
       const response = await this.$axios.get("videos", { params: params });
 
-      if (!response || !response.data || !response.data.Items) {
+      if (!response || !response.data || !response.data) {
         return null;
       }
 
-      return response.data.Items[0];
+      return response.data;
     } catch (exception) {
       return null;
     }
@@ -52,14 +52,13 @@ export const actions = {
         return obj.pk !== "ID#" + rootState.user.user.username;
       });
 
-      commit("videosSet", response.data.Items);
+      commit("videosSet", response.data);
     } catch (exception) {
       return null;
     }
   },
   async videosPost({}, params) {
     try {
-      console.log("videopost", params);
       const response = await this.$axios.post("videos", {
         ...params,
       });

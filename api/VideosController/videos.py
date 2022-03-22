@@ -26,11 +26,30 @@ def videosGet(event, context):
         scan_kwargs = {
             'FilterExpression': Key('sk').begins_with('VIDEO') & Key('isPrivate').eq(False)
         }
-        response = dynamodb.scan(**scan_kwargs) 
+        response = dynamodb.scan(**scan_kwargs)
+    
+    # Init a dict to map users
+    userMap = {}
+
+    def addUser(video):
+        pk = video['pk']
+        if pk in userMap:
+            video["user"] = userMap[pk]
+        else:
+            # Get the user
+            user = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq('USER'), Limit=1)
+            # If the user exists, attach them to the video
+            if (user["Count"] >= 1):
+                video["user"] = user["Items"][0]
+                userMap[pk] = user["Items"][0]
+        return video
+    
+    # Add the user to each video
+    response = [addUser(v) for v in response['Items']]
 
     return {
         'statusCode': 200,
-        'body': json.dumps({ 'Items': response['Items'] })
+        'body': json.dumps(response)
     }
     
 def videoGet(event, context):
@@ -42,7 +61,22 @@ def videoGet(event, context):
     pk = event['queryStringParameters']['pk']
     sk = event['queryStringParameters']['sk']
     
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk) )
+    # Get the video
+    video = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk), Limit=1)
+
+    # If the video does not exist, return bad request
+    if (video["Count"] == 0):
+        badRequest("Video does not exist")
+    
+    # Initialize the response
+    response = video["Items"][0]
+    
+    # Get the user who uploaded the video
+    user = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq('USER'), Limit=1)
+    
+    # If the user exists, attach them to the video
+    if (user["Count"] == 1):
+        response["user"] = user["Items"][0]
     
     return {
         'statusCode': 200,

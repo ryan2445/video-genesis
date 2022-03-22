@@ -57,9 +57,6 @@ export default {
     return {
       tabSelected: "Uploads",
       loading: true,
-      profilepic: null,
-      coverpic: null,
-      usernull: null,
     };
   },
   methods: {

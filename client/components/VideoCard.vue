@@ -47,14 +47,14 @@
               <v-divider class="mb-1"></v-divider>
               <div class="flex flex-row items-center">
                 <div
-                  v-if="videoUser && !!videoUser.profilePicKey"
+                  v-if="video.user && !!video.user.profilePicKey"
                   @click="openUserPage"
                   style="width:36px; height:36px;"
                   class="mr-1"
                 >
                   <img
-                    :src="videoUser.profilePicKey"
-                    :alt="videoUser.username"
+                    :src="video.user.profilePicKey"
+                    :alt="video.user.username"
                     class="rounded-full w-full h-full object-cover cursor-pointer"
                   />
                 </div>
@@ -108,8 +108,6 @@ export default {
 
       startTime: 0,
 
-      videoUser: null,
-
       thumbnailLoaded: false
     };
   },
@@ -124,7 +122,6 @@ export default {
     },
   },
   mounted() {
-    this.getUser()
   },
   computed: {
     ...mapGetters({
@@ -146,6 +143,8 @@ export default {
       return this.owner === this.user.username;
     },
     owner() {
+      if (!this.video) return null
+      if (!this.video.pk) return null
       return this.video.pk.substr(3);
     },
     videoThumbnail() {
@@ -154,7 +153,7 @@ export default {
       return this.video.videoThumbnail;
     },
     loaded() {
-      return !!this.videoUser && this.thumbnailLoaded
+      return this.thumbnailLoaded
     }
   },
   methods: {
@@ -169,11 +168,6 @@ export default {
     },
     onVideoTimeChange(newTime) {
       this.startTime = newTime
-    },
-    async getUser() {
-      const videoUser = await this.$store.dispatch('users/userGetByUsername', { username: this.owner });
-
-      this.videoUser = videoUser
     },
     onThumbnailLoaded() {
       this.thumbnailLoaded = true

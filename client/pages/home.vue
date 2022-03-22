@@ -12,10 +12,6 @@ export default {
   data() {
     return {
       tabSelected: "Uploads",
-      loading: true,
-      profilepic: null,
-      coverpic: null,
-      usernull: null,
     };
   },
   computed: {
