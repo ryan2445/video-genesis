@@ -35,7 +35,7 @@ export const actions = {
     try {
       const response = await this.$axios.get("videos", { params: params });
 
-      if (!response || !response.data || !response.data) {
+      if (!response || !response.data) {
         return null;
       }
 
@@ -48,7 +48,7 @@ export const actions = {
     try {
       const response = await this.$axios.get("videos/all");
 
-      response.data.Items = response.data.Items.filter(function (obj) {
+      response.data = response.data.filter(function (obj) {
         return obj.pk !== "ID#" + rootState.user.user.username;
       });
 
