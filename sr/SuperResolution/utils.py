@@ -9,6 +9,7 @@ import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import cv2
 import requests
+import urllib.request
 from tqdm import tqdm
 os.environ["TFHUB_DOWNLOAD_PROGRESS"] = "True"
 
@@ -123,7 +124,6 @@ def downsample_video(input_path = "original.mp4", output_path = "lr.mp4"):
   new_height = height // scale_factor
   
   command = f'ffmpeg -i "{input_path}" -vf scale="ceil({new_width}/2)*2:ceil({new_height}/2)*2" -sws_flags {scaling_algorithm} -c:a copy "{output_path}"'
-  print(command)
   subprocess.call(command, shell=True)
 
 def downscale_image(image):
@@ -229,15 +229,28 @@ def postprocess_image(image):
   
   return image
 
+class DownloadProgressBar(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
+  
+
 def download_file(url, path, name):
   # Get the path to output the bytes
   full_path = os.path.join(path, name)
   
+  with DownloadProgressBar(unit='B', unit_scale=True,
+                            miniters=1, desc=url.split('/')[-1]) as t:
+      urllib.request.urlretrieve(url, filename=full_path, reporthook=t.update_to)
+  
+
+  
   # Download the file
-  r = requests.get(url, allow_redirects=True)
+  #r = requests.get(url, allow_redirects=True)
   
   # Write the contents to the path
-  open(full_path, 'wb').write(r.content)
+  #open(full_path, 'wb').write(r.content)
 
 # download_file("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3LqQwB0qpB8ZyaQYyqYah/3LqQwB0qpB8ZyaQYyqYah_3000.mp4", "", "original.mp4")
 # downsample_video(input_path = "original.mp4", output_path = "lr.mp4")

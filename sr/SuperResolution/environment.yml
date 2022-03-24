@@ -13,3 +13,4 @@ dependencies:
   - flask
   - requests
   - python-dotenv
+  - boto3
