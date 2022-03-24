@@ -1,0 +1,15 @@
+name: super-resolution
+channels:
+  - conda-forge
+dependencies:
+  - python=3.8
+  - pillow
+  - numpy
+  - tensorflow
+  - tensorflow-hub
+  - matplotlib
+  - opencv
+  - tqdm
+  - flask
+  - requests
+  - python-dotenv

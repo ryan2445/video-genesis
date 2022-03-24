@@ -7,14 +7,13 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
-from config import SAVED_MODEL_PATH
 import cv2
 import requests
 from tqdm import tqdm
 os.environ["TFHUB_DOWNLOAD_PROGRESS"] = "True"
 
-def load_model(path=SAVED_MODEL_PATH):
-  model = hub.load(SAVED_MODEL_PATH)
+def load_model(path="https://tfhub.dev/captain-pool/esrgan-tf2/1"):
+  model = hub.load(path)
   return model
 
 def preprocess_image(image_path):
@@ -120,7 +119,11 @@ def downsample_video(input_path = "original.mp4", output_path = "lr.mp4"):
   scale_factor = 4
   scaling_algorithm = "bicubic" # Chose a different scaling algorithm here: https://ffmpeg.org/ffmpeg-scaler.html
   
-  command = f'ffmpeg -i "{input_path}" -vf scale=ceil({width // scale_factor}/2)*2:ceil({height // scale_factor}/2)*2 -sws_flags {scaling_algorithm} -c:a copy "{output_path}"'
+  new_width = width // scale_factor
+  new_height = height // scale_factor
+  
+  command = f'ffmpeg -i "{input_path}" -vf scale="ceil({new_width}/2)*2:ceil({new_height}/2)*2" -sws_flags {scaling_algorithm} -c:a copy "{output_path}"'
+  print(command)
   subprocess.call(command, shell=True)
 
 def downscale_image(image):
@@ -237,5 +240,5 @@ def download_file(url, path, name):
   open(full_path, 'wb').write(r.content)
 
 # download_file("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3LqQwB0qpB8ZyaQYyqYah/3LqQwB0qpB8ZyaQYyqYah_3000.mp4", "", "original.mp4")
-downsample_video(input_path = "original.mp4", output_path = "lr.mp4")
-upscale_video(input_path = "lr.mp4", output_path= "hr.mp4", debug = True)
+# downsample_video(input_path = "original.mp4", output_path = "lr.mp4")
+# upscale_video(input_path = "lr.mp4", output_path= "hr.mp4", debug = True)
