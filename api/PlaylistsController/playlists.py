@@ -58,7 +58,7 @@ def playlistsPost(event, context):
     pk = "ID#" + userId
     sk = "playlist#" + str(uuid.uuid4())
     playlistTitle = body['playlistTitle']
-    videos = body.get(videos, [])
+    videos = body.get("videos", "")
     isPrivate = body.get('isPrivate', False)
     
     # Put the entry in dynamodb
