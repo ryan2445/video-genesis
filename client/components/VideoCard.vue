@@ -253,28 +253,13 @@ export default {
         isPrivate: this.isPrivate,
         videos: videoKey,
       });
-
-      // testing add a new video to the playlist.
-      // const video = await this.$store.dispatch("playlists/playlistsPut", {
-      //   videos: "VIDEO#bcab6f01-8983-4375-90f0-3e34f59de0cf",
-      //   sk: "playlist#8ef21c6e-de73-4e69-acf5-9d2b63000ac5",
-      // });playlists/playlists
-      // const playlistNames = await this.$store.dispatch("playlists/playlists");
-      // console.log(playlistNames);
     },
     async UpdatePlaylist() {
-      //-----------------------------------------
       const playlistNames = await this.$store.dispatch(
         "playlists/playlistsGet"
       );
       console.log("playlistNames: ");
       console.log(this.playlist);
-      // for (let index = 0; index < this.playlist.length; index++) {
-      //   this.addToPlaylist.push(false);
-      // }
-      // console.log(this.addToPlaylist);
-      // console.log(playlistNames);
-      //-----------------------------------------
     },
 
     onChange() {
