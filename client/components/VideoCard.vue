@@ -8,7 +8,7 @@
           height: 425px;
           border: 1px solid rgb(202, 202, 202);
         "
-        :class="{'card-hover' : hover}"
+        :class="{ 'card-hover': hover }"
         outlined
       >
         <v-col style="padding: 0px" class="relative">
@@ -29,17 +29,15 @@
                 @click="onCardClick"
               >
                 <div class="text-gray-800 cardTitle">
-                    {{ video.videoTitle }}
+                  {{ video.videoTitle }}
                 </div>
-                <div 
-                  v-if="video && isOwner"
-                  class="mr-2"
-                >
+                <div v-if="video && isOwner" class="mr-2">
                   <v-hover>
                     <video-card-settings-menu
                       :video-thumbnail="videoThumbnail"
                       :idx="idx"
                       :video="video"
+                      :playlist="playlist"
                     />
                   </v-hover>
                 </div>
@@ -49,7 +47,7 @@
                 <div
                   v-if="video.user && !!video.user.profilePicKey"
                   @click="openUserPage"
-                  style="width:36px; height:36px;"
+                  style="width: 36px; height: 36px"
                   class="mr-1"
                 >
                   <img
@@ -58,7 +56,9 @@
                     class="rounded-full w-full h-full object-cover cursor-pointer"
                   />
                 </div>
-                <v-icon v-else large class="mr-1" @click="openUserPage">icon-account-circle</v-icon>
+                <v-icon v-else large class="mr-1" @click="openUserPage"
+                  >icon-account-circle</v-icon
+                >
                 <div>
                   <v-btn
                     color="orange"
@@ -70,13 +70,75 @@
                   </v-btn>
                 </div>
               </div>
-              <div
-                class="py-1 overflow-hidden"
-                style="max-height: 49px;"
-              >
-                <div
-                  class="cardDescription text-gray-700"
+              <div class="mr-3">
+                <v-dialog
+                  v-model="playlistsDialogBox"
+                  persistent
+                  max-width="600px"
                 >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      fab
+                      depressed
+                      color="grey lighten-1"
+                      width="30"
+                      height="30"
+                      class="mb-2 shadow-md justify-right"
+                      @click="UpdatePlaylist"
+                    >
+                      <v-icon>playlist_add</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title>
+                      <span class="text-h5"> Playlist </span>
+                    </v-card-title>
+                    <v-card-text>
+                      <v-container>
+                        <v-row>
+                          <v-col cols="12">
+                            <v-text-field
+                              label="Create a new playlist"
+                              type="text"
+                              filled
+                              v-model="newPlayListName"
+                            />
+                          </v-col>
+                        </v-row>
+                        <v-container fluid>
+                          <v-checkbox
+                            v-model="isPrivate"
+                            label="Make the Playlist Private"
+                            @change="onChange"
+                          ></v-checkbox>
+
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="blue darken-1"
+                              text
+                              @click="onDialogClose"
+                            >
+                              Close
+                            </v-btn>
+                            <v-btn
+                              color="blue darken-1"
+                              text
+                              @click="createNewPlaylist(video.sk)"
+                            >
+                              Create
+                            </v-btn>
+                          </v-card-actions>
+                        </v-container>
+                      </v-container>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </div>
+              <div class="py-1 overflow-hidden" style="max-height: 49px">
+                <div class="cardDescription text-gray-700">
                   {{ video.videoDescription }}
                 </div>
               </div>
@@ -95,20 +157,38 @@
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"
     >
-
     </v-skeleton-loader>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import "material-design-icons-iconfont/dist/material-design-icons.css"; // Ensure you are using css-loader
+import Vue from "vue";
+import Vuetify from "vuetify/lib";
+
+Vue.use(Vuetify);
+
 export default {
+  icons: {
+    iconfont: "md",
+  },
+
   data() {
     return {
-      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      loading: false,
+      dialog: false,
+      playlistsDialogBox: false,
+      bucket_url:
+        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
 
       startTime: 0,
 
-      thumbnailLoaded: false
+      thumbnailLoaded: false,
+      newPlayListName: null,
+      isPrivate: false,
+      playlistNames: {
+        addToPlaylist: [],
+      },
     };
   },
   props: {
@@ -120,12 +200,18 @@ export default {
       type: Number,
       required: true,
     },
+    playlist: {
+      type: Object,
+      required: true,
+    },
   },
   mounted() {
+    console.log(this);
   },
   computed: {
     ...mapGetters({
       user: "user/user",
+      playlist: "playlists/playlists",
     }),
     videoPK() {
       // If the video does not exist, return null
@@ -143,8 +229,8 @@ export default {
       return this.owner === this.user.username;
     },
     owner() {
-      if (!this.video) return null
-      if (!this.video.pk) return null
+      if (!this.video) return null;
+      if (!this.video.pk) return null;
       return this.video.pk.substr(3);
     },
     videoThumbnail() {
@@ -153,24 +239,65 @@ export default {
       return this.video.videoThumbnail;
     },
     loaded() {
-      return this.thumbnailLoaded
-    }
+      return this.thumbnailLoaded;
+    },
   },
   methods: {
+    async onDialogClose() {
+      this.dialog = false;
+    },
+    async createNewPlaylist(videoKey) {
+      //  Create playlist
+      await this.$store.dispatch("playlists/playlistsPost", {
+        playlistTitle: this.newPlayListName,
+        isPrivate: this.isPrivate,
+        videos: videoKey,
+      });
+
+      // testing add a new video to the playlist.
+      // const video = await this.$store.dispatch("playlists/playlistsPut", {
+      //   videos: "VIDEO#bcab6f01-8983-4375-90f0-3e34f59de0cf",
+      //   sk: "playlist#8ef21c6e-de73-4e69-acf5-9d2b63000ac5",
+      // });playlists/playlists
+      // const playlistNames = await this.$store.dispatch("playlists/playlists");
+      // console.log(playlistNames);
+    },
+    async UpdatePlaylist() {
+      //-----------------------------------------
+      const playlistNames = await this.$store.dispatch(
+        "playlists/playlistsGet"
+      );
+      console.log("playlistNames: ");
+      console.log(this.playlist);
+      // for (let index = 0; index < this.playlist.length; index++) {
+      //   this.addToPlaylist.push(false);
+      // }
+      // console.log(this.addToPlaylist);
+      // console.log(playlistNames);
+      //-----------------------------------------
+    },
+
+    onChange() {
+      this.$emit("update", {
+        isPrivate: this.isPrivate,
+      });
+    },
     openUserPage() {
       this.$router.push(`/users/username=${this.owner}`);
     },
     onCardClick() {
-      this.$router.push(`/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`);
+      this.$router.push(
+        `/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`
+      );
     },
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
     },
     onVideoTimeChange(newTime) {
-      this.startTime = newTime
+      this.startTime = newTime;
     },
     onThumbnailLoaded() {
-      this.thumbnailLoaded = true
+      this.thumbnailLoaded = true;
     },
   },
 };
@@ -188,7 +315,8 @@ button.user-button >>> span.v-btn__content {
   transform: scale(1.15);
 }
 
-.cardTitle, .cardDescription {
+.cardTitle,
+.cardDescription {
   line-height: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -197,7 +325,7 @@ button.user-button >>> span.v-btn__content {
 .cardTitle {
   max-height: 33px;
   font-size: 16px;
-  -webkit-line-clamp: 2; 
+  -webkit-line-clamp: 2;
 }
 
 .cardDescription {
