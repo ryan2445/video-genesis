@@ -59,19 +59,6 @@ export default {
 
     //  Stop loading
     this.loading = false;
-
-    console.log("Split Playlist");
-    console.log(this.playlists[1].videos.split(","));
-    // alert("don't break yet");
-    console.log(this.playlists.length);
-    console.log(this.playlists);
-
-    for (let i = 0; i < this.playlists.length; i++) {
-      console.log(i);
-      console.log(this.playlists[i].videos.split(","));
-      // this.playlistVideos.push(this.playlists[i].videos.split(","));
-    }
-    console.log(this.playlistVideos);
   },
   computed: {
     ...mapGetters({
