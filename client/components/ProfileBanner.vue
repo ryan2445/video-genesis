@@ -40,6 +40,7 @@
     <v-hover v-slot="{ hover }" :open-delay="100">
       <div v-if="userProfilePic" class="-bottom-16 left-14 absolute w-44 h-44">
         <img class="w-full h-full object-cover rounded-full" :src="userProfilePic" alt="avatar" />
+        <p>Welcome, {{user.username}}</p>
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || profilePictureLoading)"
@@ -56,6 +57,7 @@
             <v-icon small>icon-pencil-outline</v-icon>
           </v-btn>
         </v-fade-transition>
+
         <v-file-input
           class="absolute"
           ref="profileEditFile"
@@ -114,6 +116,7 @@ export default {
     }
   },
   methods: {
+    
     onProfilePictureEdit() {
       if (!this.isRootUser) return
 
