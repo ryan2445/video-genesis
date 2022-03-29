@@ -15,9 +15,7 @@
     >
       <div>No videos found</div>
     </div>
-    <div class="flex flex-row flex-wrap justify-start">
-      <video-card v-for="(video, i) in videos" :key="i" :video="video" :idx="i" />
-    </div>
+    <video-list :videos="videos" />
   </div>
   <!-- <VideoList /> -->
 </template>

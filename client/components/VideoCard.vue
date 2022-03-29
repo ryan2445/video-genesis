@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="300">
+    <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden z-30"
         style="
-          width: 380px;
+          max-width: 380px;
           height: 425px;
           border: 1px solid rgb(202, 202, 202);
         "
@@ -152,7 +152,7 @@
     </v-hover>
     <v-skeleton-loader
       v-show="!loaded"
-      class="mx-auto"
+      class="mx-auto opacity-80"
       :width="380"
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"

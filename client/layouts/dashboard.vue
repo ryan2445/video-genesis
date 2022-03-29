@@ -4,7 +4,11 @@
     <SideBar />
     <v-main style="background-color: #f0f2f5; padding-top: 44px;">
       <v-container fluid>
-        <Nuxt />
+        <div class="flex justify-center items-center w-full h-full">
+          <div style="width: 1280px;">
+            <Nuxt />
+          </div>
+        </div>
       </v-container>
     </v-main>
   </v-app>

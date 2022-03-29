@@ -1,72 +1,62 @@
 <template>
-  <div class="w-full flex justify-center">
-    <div class="relative" style="min-width: 1280px">
-      <div v-if="!loading">
-        <profile-banner :user="user" />
-        <div style="border: 1px solid black">
-          <div class="flex flex-row py-3">
-            <div
-              class="text-xl hover:text-yellow-500 cursor-pointer ml-64"
-              :class="{
-                'border-b-4 border-yellow-500  border-solid text-yellow-500':
-                  tabSelected == 'Uploads',
-              }"
-            >
-              <h1 @click="changeTabSelection('Uploads')">UPLOADS</h1>
-            </div>
-
-            <div
-              class="text-xl hover:text-yellow-500 cursor-pointer mx-4"
-              :class="{
-                'border-b-4 border-yellow-500  border-solid text-yellow-500':
-                  tabSelected == 'About',
-              }"
-            >
-              <h1 @click="changeTabSelection('About')">ABOUT</h1>
-            </div>
-            <div
-              class="text-xl hover:text-yellow-500 cursor-pointer mx-4"
-              :class="{
-                'border-b-4 border-yellow-500  border-solid text-yellow-500':
-                  tabSelected == 'Playlists',
-              }"
-            >
-              <h1 @click="changeTabSelection('Playlists')">PLAYLISTS</h1>
-            </div>
+  <div class="flex flex-1 relative flex-col">
+    <div v-if="!loading">
+      <profile-banner :user="user" />
+      <div style="border: 1px solid black">
+        <div class="flex flex-row py-3">
+          <div
+            class="text-xl hover:text-yellow-500 cursor-pointer ml-64"
+            :class="{
+              'border-b-4 border-yellow-500  border-solid text-yellow-500':
+                tabSelected == 'Uploads',
+            }"
+          >
+            <h1 @click="changeTabSelection('Uploads')">UPLOADS</h1>
+          </div>
+          <div
+            class="text-xl hover:text-yellow-500 cursor-pointer mx-4"
+            :class="{
+              'border-b-4 border-yellow-500  border-solid text-yellow-500':
+                tabSelected == 'About',
+            }"
+          >
+            <h1 @click="changeTabSelection('About')">ABOUT</h1>
+          </div>
+          <div
+            class="text-xl hover:text-yellow-500 cursor-pointer mx-4"
+            :class="{
+              'border-b-4 border-yellow-500  border-solid text-yellow-500':
+                tabSelected == 'Playlists',
+            }"
+          >
+            <h1 @click="changeTabSelection('Playlists')">PLAYLISTS</h1>
           </div>
         </div>
       </div>
-      <div class="absolute mt-0 w-full">
-        <transition mode="out-in">
-          <div
-            v-if="tabSelected == 'Uploads' && loading == false"
-            class="mt-10 ml-auto mr-auto"
-          >
-            <div class="flex flex-row flex-wrap justify-start">
-              <video-card
-                v-for="(video, i) in videos"
-                :key="i"
-                :video="video"
-                :idx="i"
-              />
-            </div>
+    </div>
+    <div class="flex flex-1">
+      <transition mode="out-in">
+        <div
+          v-if="tabSelected == 'Uploads'"
+          class="mt-10 ml-auto mr-auto"
+        >
+          <video-list :videos="videos" />
+        </div>
+        <div
+          v-else-if="tabSelected == 'About'"
+          class="mt-10 ml-auto mr-auto w-3/4"
+        >
+          <profile-about :user="user" />
+        </div>
+        <div
+          v-if="tabSelected == 'Playlists'"
+          class="mt-10 ml-auto mr-auto"
+        >
+          <div class="flex flex-row flex-wrap justify-start">
+            <profile-playlists :user="user" />
           </div>
-          <div
-            v-else-if="tabSelected == 'About' && !loading"
-            class="mt-10 ml-auto mr-auto w-3/4"
-          >
-            <profile-about :user="user" />
-          </div>
-          <div
-            v-if="tabSelected == 'Playlists' && loading == false"
-            class="mt-10 ml-auto mr-auto"
-          >
-            <div class="flex flex-row flex-wrap justify-start">
-              <profile-playlists :user="user" />
-            </div>
-          </div>
-        </transition>
-      </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
