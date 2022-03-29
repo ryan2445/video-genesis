@@ -2,7 +2,7 @@
   <div>
     <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
       <v-card
-        class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden z-30"
+        class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden"
         style="
           max-width: 380px;
           height: 425px;

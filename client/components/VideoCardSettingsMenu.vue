@@ -7,7 +7,7 @@
             </v-btn>
         </template>
         <div style="max-width: 480px; background: white">
-            <v-list class="z-30">
+            <v-list>
                 <v-list-item>
                     <v-dialog v-model="dialog" persistent max-width="600px">
                         <template v-slot:activator="{ on, attrs }">
