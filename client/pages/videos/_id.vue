@@ -1,14 +1,17 @@
 <template>
-  <v-container class="">
-    <v-row>
-      <v-col>
-        <template v-if="!loading">
-          <video-player :video-data="videoData" :audio="videoAudio" :start-time="startTime" />
-          <video-player-info :video="video" />
-        </template>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row justify="center">
+    <v-col>
+      <template v-if="!loading">
+        <video-container
+          :video="video"
+          :audio="videoAudio"
+          :start-time="startTime"
+          :video-data="videoData"
+        >
+        </video-container>
+      </template>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

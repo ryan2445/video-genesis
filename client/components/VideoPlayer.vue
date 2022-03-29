@@ -1,21 +1,27 @@
 <template>
-  <div class="relative" style="max-height: 1080px;">
+  <div
+    class="relative"
+  >
     <video
       id="videoplayer"
       controls
       preload="auto"
       ref="videoPlayer"
-      crossorigin="anonymous"
-      class="video-js vjs-big-play-centered z-10 w-full h-full"
+      class="video-js vjs-big-play-centered vjs-16-9"
       @play="onPlayerPlay($event)"
       @pause="onPlayerPause($event)"
       @volumechange="onVolumeChange($event)"
       @resolutionchange="onResChange($event)"
     >
-      <audio v-if="audioEnabled" :src="audio" ref="audioPlayer"></audio>
+      <audio 
+        v-if="audioEnabled" 
+        :src="audio" 
+        ref="audioPlayer">
+      </audio>
     </video>
   </div>
 </template>
+
 <script>
 import videojs from "video.js";
 import "videojs-resolution-switcher-webpack";
@@ -67,10 +73,12 @@ export default {
       }
 
       const player = videojs(this.$refs.videoPlayer, {
-        fluid: true,
+        fluid: false,
         controls: true,
         sources: this.videoData,
-        responsive: true,
+        responsive: false,
+        aspectRatio: '16:9',
+        fill: true,
         plugins: {
           videoJsResolutionSwitcher: {
             default: "low",
@@ -126,49 +134,9 @@ export default {
       // Save the audio player to state
       this.audioPlayer = player;
     },
-    initCanvasPlayer() {
-      if (!this.videoPlayer) {
-        console.error(
-          "Video player is not initialized. Cannot initialize the canvas player"
-        );
-        return;
-      }
-
-      const canvas = this.$refs.videoCanvas;
-      const video = this.$refs.videoPlayer;
-
-      if (!canvas || !video) {
-        console.error("Canvas or video ref not found");
-        return;
-      }
-
-      this.c1 = canvas;
-      this.ctx1 = this.c1.getContext("2d");
-      this.c_tmp = document.createElement("canvas");
-      this.c_tmp.setAttribute("width", this.width);
-      this.c_tmp.setAttribute("height", this.height);
-      this.ctx_tmp = this.c_tmp.getContext("2d");
-    },
-    async computeCanvasFrame() {
-      const video = this.$refs.videoPlayer;
-
-      this.ctx_tmp.drawImage(video, 0, 0, this.width, this.height);
-
-      let frame = this.ctx_tmp.getImageData(0, 0, this.width, this.height);
-
-      // let processed = this.$tensor.preprocess(frame);
-
-      // const p = this.model.predict(processed);
-
-      // const clip = clipByValue(p.squeeze(), 0, 255).cast('int32')
-
-      // await browser.toPixels(clip, this.c1)
-
-      this.ctx1.putImageData(frame, 0, 0);
-
-      if (this.playing) setTimeout(this.computeCanvasFrame, 0);
-    },
     onPlayerPlay(event) {
+      this.$emit('play')
+      
       // Continue if audio is enabled
       if (!this.audioEnabled) return;
 
@@ -182,15 +150,16 @@ export default {
       this.audioPlayer.play();
 
       this.playing = true;
-
-      // this.computeCanvasFrame();
     },
     onPlayerPause(videoPlayer) {
+      this.$emit('pause')
+
       // Continue if audio is enabled
       if (!this.audioEnabled) return;
 
       // Pause the audio
       this.audioPlayer.pause();
+
       this.playing = false;
     },
     onVolumeChange(event) {
@@ -223,6 +192,14 @@ export default {
     setCurrentVideoRes(currentResolution) {
       this.currentVideoRes = currentResolution.label;
     },
+    getCurrentTime() {
+      return this.$refs.videoPlayer?.currentTime
+    },
+    isPaused() {
+      const el = this.$refs.videoPlayer
+      if (!el) return true
+      return this.$refs.videoPlayer.paused
+    }
   },
   computed: {
     audioEnabled() {
