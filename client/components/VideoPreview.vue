@@ -15,7 +15,6 @@
       <video 
         ref="videoPlayer"
         muted
-        controls
       >
         <source 
           :src="src" 
