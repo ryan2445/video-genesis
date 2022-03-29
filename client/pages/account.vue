@@ -204,7 +204,8 @@ export default {
                 const putPayload = {
                     Bucket: "videogenesis-profilepics",
                     Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-                    Body: file
+                    Body: file,
+                    CacheControl: "max-age=31536000"
                 }
 
                 const putCommand = new PutObjectCommand(putPayload)
@@ -238,7 +239,8 @@ export default {
                 const putPayload = {
                     Bucket: "videogenesis-profilepics",
                     Key: nanoid() + `.${typeArr[typeArr.length - 1]}`,
-                    Body: file
+                    Body: file,
+                    CacheControl: "max-age=31536000"
                 }
 
                 const putCommand = new PutObjectCommand(putPayload)

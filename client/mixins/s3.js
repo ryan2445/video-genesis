@@ -40,7 +40,8 @@ export default {
         const putPayload = {
           Bucket: bucket,
           Key: key,
-          Body: body
+          Body: body,
+          CacheControl: "max-age=31536000"
         };
         
         // Prepare s3 the put command
