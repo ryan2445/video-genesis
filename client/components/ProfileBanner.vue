@@ -39,7 +39,7 @@
     </v-hover>
     <v-hover v-slot="{ hover }" :open-delay="100">
       <div v-if="userProfilePic" class="-bottom-16 left-14 absolute w-44 h-44">
-        <img class="w-full h-full object-cover rounded-full" :src="userProfilePic" alt="avatar" />
+        <img class="w-full h-full object-cover rounded-full" :src="userProfilePic" alt="avatar" style="border: solid 2px #e1e1e1;" />
         <p>Welcome, {{user.username}}</p>
         <v-fade-transition>
           <v-btn
