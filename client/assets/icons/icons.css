@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("./icons.eot?3b4bfa230e15228e1fe9a659bd2bcf4a#iefix") format("embedded-opentype"),
-url("./icons.woff2?3b4bfa230e15228e1fe9a659bd2bcf4a") format("woff2"),
-url("./icons.woff?3b4bfa230e15228e1fe9a659bd2bcf4a") format("woff");
+    src: url("./icons.eot?2a576e558dd72132a9331009e3690d4e#iefix") format("embedded-opentype"),
+url("./icons.woff2?2a576e558dd72132a9331009e3690d4e") format("woff2"),
+url("./icons.woff?2a576e558dd72132a9331009e3690d4e") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -33,4 +33,10 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 }
 .icon-video:before {
     content: "\f106";
+}
+.icon-wifi-cancel:before {
+    content: "\f107";
+}
+.icon-wifi-check:before {
+    content: "\f108";
 }

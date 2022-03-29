@@ -10,14 +10,14 @@ from service import processVideo
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app, origins=['http://localhost:3000, https://localhost:3000', 'https://video-genesis.xyz'])
+cors = CORS(app)
 dynamo = boto3.resource('dynamodb').Table('system')
 s3 = boto3.client('s3')
 queue = Queue(connection=conn, default_timeout=6000)
 
 @app.route("/")
 def index():
-  return "<p>SR Server is Running!</p>"
+  return "SR Server is Running!"
 
 @app.route("/process", methods=['POST'])
 def process():

@@ -202,7 +202,7 @@ export default {
     },
     playlist: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   mounted() {

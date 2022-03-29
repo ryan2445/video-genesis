@@ -6,6 +6,23 @@
       </h2>
     </div>
     <v-spacer />
+    <div
+      class="mx-6"
+    >
+      <v-tooltip>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            {{ srRunning ? 'icon-wifi-check' : 'icon-wifi-cancel'}}
+          </v-icon>
+        </template>
+        <span>
+          Super Resolution server is {{ srRunning ? '' : 'not'}} running!
+        </span>
+      </v-tooltip>
+    </div>
     <v-menu offset-y min-width="200px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -92,6 +109,7 @@ export default {
     },
     ...mapGetters({
       user: "users/rootUser",
+      srRunning: 'sr/running'
     }),
     userProfilePic() {
       // If the user does not exist, return null
