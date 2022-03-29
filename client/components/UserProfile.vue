@@ -62,7 +62,7 @@
             class="mt-10 ml-auto mr-auto"
           >
             <div class="flex flex-row flex-wrap justify-start">
-              <profile-playlists />
+              <profile-playlists :user="user" />
             </div>
           </div>
         </transition>

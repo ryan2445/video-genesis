@@ -19,7 +19,6 @@
               color="orange"
               dark
               v-bind="attrs"
-              v-on="on"
               v-ripple="{ class: 'red--text' }"
               @click="onPlaylistDelete(playlist.sk)"
             >
@@ -44,6 +43,12 @@ export default {
   icons: {
     iconfont: "md",
   },
+  props: {
+    user: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       loading: true,
@@ -54,8 +59,14 @@ export default {
     };
   },
   async mounted() {
-    //  Send request to get videos
-    await this.$store.dispatch("playlists/playlistsGet");
+    console.log(this.user);
+    const playlists = await this.$store.dispatch(
+      "playlists/playlistsGetByUsername",
+      {
+        username: this.user.username,
+      }
+    );
+    this.$store.commit("playlists/playlistsSet", playlists);
 
     //  Stop loading
     this.loading = false;

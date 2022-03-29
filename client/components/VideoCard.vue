@@ -244,7 +244,7 @@ export default {
   },
   methods: {
     async onDialogClose() {
-      this.dialog = false;
+      this.playlistsDialogBox = false;
     },
     async createNewPlaylist(videoKey) {
       //  Create playlist
@@ -253,6 +253,7 @@ export default {
         isPrivate: this.isPrivate,
         videos: videoKey,
       });
+      this.playlistsDialogBox = false;
     },
     async UpdatePlaylist() {
       const playlistNames = await this.$store.dispatch(

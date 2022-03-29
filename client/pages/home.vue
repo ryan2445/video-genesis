@@ -26,7 +26,7 @@ export default {
     },
   },
   async mounted() {
-    await this.$store.dispatch("users/userGet")
+    await this.$store.dispatch("users/userGet");
 
     //  Stop loading
     this.loading = false;
