@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+button {
+  text-transform: capitalize !important;
+}
+
 div.video-context-menu > div.v-list {
   background: #625e5e8f !important;
 }
