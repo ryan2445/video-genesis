@@ -3,13 +3,9 @@
     <TopBar />
     <SideBar />
     <v-main style="background-color:#f0f2f5; padding-top:44px;">
-      <v-container fluid>
-        <div class="flex w-full justify-center items-center">
-          <div style="width:1280px;">
-            <Nuxt />
-          </div>
-        </div>
-      </v-container>
+      <div class="ma-8">
+        <Nuxt />
+      </div>
     </v-main>
   </v-app>
 </template>
