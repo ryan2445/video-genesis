@@ -230,7 +230,7 @@ def postprocess_image(image):
   return image
 
 def compressMP4(input_path, output_path):
-  command = f'fffmpeg -i ${input_path} -vcodec h264 -acodec mp2 {output_path}'
+  command = f'ffmpeg -i {input_path} -vcodec h264 -acodec mp2 {output_path}'
   subprocess.call(command, shell=True)
 
 class DownloadProgressBar(tqdm):

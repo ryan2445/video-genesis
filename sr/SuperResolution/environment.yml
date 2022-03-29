@@ -14,3 +14,8 @@ dependencies:
   - requests
   - python-dotenv
   - boto3
+  - rq
+  - redis
+  - wheel
+  - flask-cors
+  - waitress

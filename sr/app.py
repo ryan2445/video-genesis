@@ -3,10 +3,17 @@ import werkzeug
 from SuperResolution import utils
 import boto3
 from boto3.dynamodb.conditions import Key
+from rq import Queue
+from rq.job import Job
+from worker import conn
+from service import processVideo
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app, origins=['http://localhost:3000, https://localhost:3000', 'https://video-genesis.xyz'])
 dynamo = boto3.resource('dynamodb').Table('system')
 s3 = boto3.client('s3')
+queue = Queue(connection=conn, default_timeout=6000)
 
 @app.route("/")
 def index():
@@ -20,7 +27,7 @@ def process():
     abort(400)
   if 'video_key' not in body:
     abort(400)
-  
+    
   # Query the DB for the video based on the videoKey
   resp = dynamo.query(
     IndexName="videoKey-index",
@@ -35,66 +42,17 @@ def process():
   video = resp['Items'][0]
   
   if 'videoData' not in video:
+    print('here')
     return 'Video not yet uploaded', 401
   
-  filePath = "SuperResolution/files"
-  lrPath = f"{filePath}/lr.mp4"
-  hrPath = f"{filePath}/hr.mp4"
-  ogPath = f"{filePath}/original.mp4"
-  finalPath = f"{filePath}/out.mp4"
+  if 'lrBaseURL' in video and 'hrBaseURL' in video:
+    return "Video already processed"
   
-  # Download the video
-  utils.download_file(body['video_url'], filePath, "original.mp4")
-  
-  # Downsample the video
-  utils.downsample_video(ogPath, lrPath)
-  
-  # Upscale the video
-  utils.upscale_video(lrPath, hrPath)
-  
-  # Compress the upscaled video
-  utils.compressMP4(hrPath, finalPath)
-  
-  # Assemble Payload for LR and HR video
-  bucket = "genesis2vod-staging-output-q1h5l756"
-  key = body['video_key']
-  
-  # Load the downsampled video
-  lr = open(lrPath, 'rb')
-  
-  # Upload the downsampled video
-  resp = s3.put_object(
-    Body=lr,
-    Bucket=bucket,
-    Key=f'{key}/lr.mp4'
+  job = queue.enqueue_call(
+    func=processVideo, args=(video, body['video_url'], body['video_key'],), result_ttl=86400
   )
   
-  lr.close()
-  
-  # Load the fake video
-  hr = open(finalPath, 'rb')
-  
-  # Upload the fake video
-  resp = s3.put_object(
-    Body=hr,
-    Bucket=bucket,
-    Key=f'{key}/hr.mp4'
-  )
-  
-  hr.close()
-  
-  response = dynamo.update_item(
-    Key={
-      'pk': video['pk'],
-      'sk': video['sk']
-    },
-    UpdateExpression="set lrBaseURL=:l, hrBaseURL=:h",
-    ExpressionAttributeValues={
-      ':l': 'lr.mp4',
-      ':h': 'hr.mp4'
-    },
-    ReturnValues="UPDATED_NEW"
-  )
+  print(job.get_id())
   
   return "Success"
 
