@@ -32,7 +32,7 @@
             <img
                 v-show="!videoCanPlay || (!hover && !play && !thumbnailError)"
                 alt="Video Thumbnail"
-                :src="thumbnailLink"
+                :src="thumbnailSrc || 'https://images.unsplash.com/photo-1551972251-12070d63502a?ixlib=rb-1.2.1'"
                 class="w-full h-full object-cover"
                 @load="onThumbnailLoad"
                 @error="onThumbnailError"
