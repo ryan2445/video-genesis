@@ -48,6 +48,9 @@ def process():
   if 'lrBaseURL' in video and 'hrBaseURL' in video:
     return "Video already processed"
   
+  if 'srProcessing' in video and video['srProcessing'] is True:
+    return 'Video is already being processed'
+  
   job = queue.enqueue_call(
     func=processVideo, args=(video, body['video_url'], body['video_key'],), result_ttl=86400
   )

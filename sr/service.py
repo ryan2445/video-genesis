@@ -6,6 +6,19 @@ dynamo = boto3.resource('dynamodb').Table('system')
 s3 = boto3.client('s3')
 
 def processVideo(video, video_url, video_key):
+  # Indicate that the video is currently being processed
+  response = dynamo.update_item(
+    Key={
+      'pk': video['pk'],
+      'sk': video['sk']
+    },
+    UpdateExpression="set srProcessing=:s",
+    ExpressionAttributeValues={
+      ':s': True,
+    },
+    ReturnValues="UPDATED_NEW"
+  )
+    
   filePath = "SuperResolution/files"
   lrPath = f"{filePath}/lr.mp4"
   hrPath = f"{filePath}/hr.mp4"
@@ -64,3 +77,5 @@ def processVideo(video, video_url, video_key):
     },
     ReturnValues="UPDATED_NEW"
   )
+  
+  return 'Success'
