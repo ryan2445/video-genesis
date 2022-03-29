@@ -41,6 +41,7 @@ def process():
   lrPath = f"{filePath}/lr.mp4"
   hrPath = f"{filePath}/hr.mp4"
   ogPath = f"{filePath}/original.mp4"
+  finalPath = f"{filePath}/out.mp4"
   
   # Download the video
   utils.download_file(body['video_url'], filePath, "original.mp4")
@@ -51,12 +52,15 @@ def process():
   # Upscale the video
   utils.upscale_video(lrPath, hrPath)
   
+  # Compress the upscaled video
+  utils.compressMP4(hrPath, finalPath)
+  
   # Assemble Payload for LR and HR video
   bucket = "genesis2vod-staging-output-q1h5l756"
   key = body['video_key']
   
   # Load the downsampled video
-  lr = open('SuperResolution/files/lr.mp4', 'rb')
+  lr = open(lrPath, 'rb')
   
   # Upload the downsampled video
   resp = s3.put_object(
@@ -68,7 +72,7 @@ def process():
   lr.close()
   
   # Load the fake video
-  hr = open('SuperResolution/files/hr.mp4', 'rb')
+  hr = open(finalPath, 'rb')
   
   # Upload the fake video
   resp = s3.put_object(
