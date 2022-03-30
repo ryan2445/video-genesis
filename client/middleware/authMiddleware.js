@@ -35,5 +35,8 @@ export default async function ({ $axios, $auth, route, store, redirect }) {
     username: identity.payload["cognito:username"]
   })
 
-  return store.dispatch("users/userGet")
+  //  If the user's profile isn't loaded, fetch their profile
+  if (!store.getters['users/rootUser']) store.dispatch("users/userGet")
+
+  return
 }
