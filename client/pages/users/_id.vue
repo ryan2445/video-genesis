@@ -37,7 +37,7 @@ export default {
   },
   async mounted() {
     this.getQueryParamsAndSetKeys()
-    const user = await this.$store.dispatch("users/userGetByUsername", { username: this.username });
+    const user = await this.$store.dispatch("users/userGetByUsername", this.username);
     
     this.user = user;
 
