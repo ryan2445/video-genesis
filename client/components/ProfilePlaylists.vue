@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Playlists</h1>
     <div v-if="loading">loading...</div>
 
     <div v-else>

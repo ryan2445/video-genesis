@@ -2,7 +2,7 @@
   <div>
     <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
       <v-card
-        class="video-card my-2 shadow-sm hover:shadow-lg overflow-hidden"
+        class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
         style="
           max-width: 380px;
           height: 425px;
@@ -11,7 +11,6 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
-        <v-col style="padding: 0px" class="relative">
           <video-thumbnail
             class="cursor-pointer"
             :video-src="getLink(video)"

@@ -20,29 +20,27 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-1 px-3 rounded-lg" style="background:#FFF;">
-      <transition mode="out-in">
-        <div
-          v-if="tabSelected == 0"
-          class="ml-auto mr-auto"
+    <div style="background:#FFF;" class="rounded-lg px-3 py-2">
+      <v-carousel 
+        v-model="tabSelected"
+        hide-delimiter-background
+        hide-delimiters
+        touchless
+        :show-arrows="false"
+      >
+        <v-carousel-item
+          v-for="(comp, i) of tabComponents"
+          :key="`carousel-${i}`"
         >
-          <video-list :videos="videos || []" />
-        </div>
-        <div
-          v-else-if="tabSelected == 1"
-          class="ml-auto mr-auto w-3/4"
-        >
-          <profile-about :user="user" />
-        </div>
-        <div
-          v-else-if="tabSelected == 2"
-          class="ml-auto mr-auto"
-        >
-          <div class="flex flex-row flex-wrap justify-start">
-            <profile-playlists :user="user" />
+          <div>
+            <h2 class="text-lg font-bold">
+              {{ tabs[tabSelected] }}
+            </h2>
+            <v-divider></v-divider>
           </div>
-        </div>
-      </transition>
+          <component v-bind:is="comp.name" v-bind="comp.props"></component>
+        </v-carousel-item>
+      </v-carousel>
     </div>
   </div>
 </template>
@@ -60,7 +58,7 @@ export default {
   data() {
     return {
       tabs: ['Uploads', 'About', 'Playlists'],
-      tabSelected: 'Uploads',
+      tabSelected: 0,
       loading: true,
     };
   },
@@ -82,6 +80,29 @@ export default {
     ...mapGetters({
       videos: "videos/videos"
     }),
+    tabComponents() {
+      return [
+        {
+          name: 'video-list',
+          props: {
+            videos: this.videos
+          },
+          title: true
+        },
+        {
+          name: 'profile-about',
+          props: {
+            user: this.user
+          }
+        },
+        {
+          name: 'profile-playlists',
+          props: {
+            user: this.user
+          }
+        }
+      ]
+    }
   }
 };
 </script>
