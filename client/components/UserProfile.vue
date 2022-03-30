@@ -26,7 +26,7 @@
           v-if="tabSelected == 0"
           class="ml-auto mr-auto"
         >
-          <video-list :videos="videos" />
+          <video-list :videos="videos || []" />
         </div>
         <div
           v-else-if="tabSelected == 1"

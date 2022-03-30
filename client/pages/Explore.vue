@@ -15,7 +15,7 @@
     >
       <div>No videos found</div>
     </div>
-    <video-list :videos="videos" />
+    <video-list :videos="videos || []" />
   </div>
   <!-- <VideoList /> -->
 </template>
