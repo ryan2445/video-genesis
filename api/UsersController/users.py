@@ -16,11 +16,10 @@ def badRequest(msg: str) -> dict:
 
 def usersGet(event, context):
     username = event['queryStringParameters']['username']
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').eq("USER"))
-
+    response = dynamodb.get_item(Key = { 'pk': 'ID#' + username, 'sk': "USER" })
     return {
         'statusCode': 200,
-        'body': json.dumps(response)
+        'body': json.dumps(response['Item'])
     }
 
 def usersPut(event, context):
