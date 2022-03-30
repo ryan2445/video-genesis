@@ -27,10 +27,14 @@
         hide-delimiters
         touchless
         :show-arrows="false"
+        class="userProfileCarousel"
+        active-class="user-carousel-item"
+        height="100%"
       >
         <v-carousel-item
           v-for="(comp, i) of tabComponents"
           :key="`carousel-${i}`"
+          active-class="user-carousel-item"
         >
           <div>
             <h2 class="text-lg font-bold">
