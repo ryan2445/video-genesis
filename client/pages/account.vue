@@ -167,7 +167,7 @@ export default {
         }
     },
     async mounted() {
-        await this.$store.dispatch("users/userGet")
+        if (!this.user) await this.$store.dispatch("users/userGet")
 
         this.firstName = this.user.usersFirstName
         this.lastName = this.user.usersLastName

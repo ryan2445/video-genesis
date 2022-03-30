@@ -31,7 +31,9 @@ export default async function ({ $axios, $auth, route, store, redirect }) {
   $axios.defaults.headers.common["Authorization"] = token
 
   //  If there is a logged in user, set the user in the store
-  return store.commit("user/setUser", {
+  store.commit("user/setUser", {
     username: identity.payload["cognito:username"]
   })
+
+  return store.dispatch("users/userGet")
 }
