@@ -7,5 +7,6 @@ s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-183tuxfhh6tm2"
 s3_prefix = "video-genesis"
 region = "us-west-2"
 confirm_changeset = true
+disable_rollback = true
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
