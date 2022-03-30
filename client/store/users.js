@@ -7,29 +7,6 @@ export const getters = {
     selected_UserProfile: state => state.otherUserProfile,
     rootUser: state => state.rootUser,
     users: state => state.users,
-    display_name: state => {
-        const user = state.rootUser
-
-        if (!!user.usersFirstName) {
-            let name = user.usersFirstName
-
-            if (!!user.usersLastName) {
-                name = name.concat(' ', user.usersLastName)
-            }
-
-            return name
-        }
-
-        else if (!!user.usersLastName) {
-            return user.usersLastName
-        }
-
-        if (!!user.username) {
-            return user.username
-        }
-        
-        return 'Unknown User'
-    }
 }
 export const actions = {
     async userGet({ commit, rootState }) {

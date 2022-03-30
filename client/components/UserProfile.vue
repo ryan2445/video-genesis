@@ -2,7 +2,6 @@
   <div class="flex flex-1 relative flex-col">
     <div class="mb-4 rounded-br-lg rounded-bl-lg" style="background:#FFF;">
       <profile-banner :user="user" />
- 
       <div>
         <div>
           <v-tabs

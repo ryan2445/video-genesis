@@ -1,9 +1,9 @@
 <template>
   <div class="relative">
-    <div class="absolute -bottom-5 left-64 z-10">
+    <div class="absolute -bottom-7 left-64 z-10">
       <h3>
         <strong>
-          {{ display_name }}
+          {{ user | userDisplayName }}
         </strong>
       </h3>
     </div>
