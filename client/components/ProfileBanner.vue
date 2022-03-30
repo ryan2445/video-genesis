@@ -1,5 +1,12 @@
 <template>
   <div class="relative">
+    <div class="absolute -bottom-5 left-64 z-10">
+      <h3>
+        <strong>
+          {{ display_name }}
+        </strong>
+      </h3>
+    </div>
     <!-- This is the cover image for the banner -->
     <v-hover v-slot="{ hover }" :open-delay="100">
       <div v-if="bannerSrc" class="w-full h-32 relative">
@@ -40,7 +47,6 @@
     <v-hover v-slot="{ hover }" :open-delay="100">
       <div v-if="userProfilePic" class="-bottom-16 left-14 absolute w-44 h-44">
         <img class="w-full h-full object-cover rounded-full" :src="userProfilePic" alt="avatar" style="border: solid 2px #e1e1e1;" />
-        <p>Welcome, {{user.username}}</p>
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || profilePictureLoading)"
@@ -79,6 +85,7 @@
 
 <script>
 import s3 from '../mixins/s3'
+import { mapGetters } from 'vuex'
 export default {
   props: {
     user: {
@@ -97,6 +104,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({display_name: 'users/display_name'}),
     userProfilePic() {
       // If the user does not exist, return null
       if (!this.user) return null;

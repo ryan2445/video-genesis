@@ -1,8 +1,9 @@
 <template>
   <div class="flex flex-1 relative flex-col">
-    <div v-if="!loading">
+    <div class="mb-4 rounded-br-lg rounded-bl-lg" style="background:#FFF;">
       <profile-banner :user="user" />
-      <div style="border: 1px solid black">
+ 
+      <div>
         <div>
           <v-tabs
             v-model="tabSelected"
@@ -20,23 +21,23 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-1">
+    <div class="flex flex-1 px-3 rounded-lg" style="background:#FFF;">
       <transition mode="out-in">
         <div
           v-if="tabSelected == 0"
-          class="mt-10 ml-auto mr-auto"
+          class="ml-auto mr-auto"
         >
           <video-list :videos="videos" />
         </div>
         <div
           v-else-if="tabSelected == 1"
-          class="mt-10 ml-auto mr-auto w-3/4"
+          class="ml-auto mr-auto w-3/4"
         >
           <profile-about :user="user" />
         </div>
         <div
           v-else-if="tabSelected == 2"
-          class="mt-10 ml-auto mr-auto"
+          class="ml-auto mr-auto"
         >
           <div class="flex flex-row flex-wrap justify-start">
             <profile-playlists :user="user" />
@@ -80,7 +81,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-        videos: "videos/videos",
+      videos: "videos/videos"
     }),
   }
 };

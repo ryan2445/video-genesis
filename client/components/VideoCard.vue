@@ -305,6 +305,7 @@ button.user-button >>> span.v-btn__content {
   line-height: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .cardTitle {
