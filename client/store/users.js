@@ -14,23 +14,9 @@ export const actions = {
             const response = await this.$axios.get(
                 `users/all?username=${rootState.user.user.username}`
             )
-
-            const user = response.data.Items[0]
-
+            const user = response.data
             commit("rootUserSet", user)
-
             return user
-        } catch (exception) {
-            return null
-        }
-    },
-    async usersGet({ commit, rootState }) {
-        try {
-            const response = await this.$axios.get(
-                `users/?username=${rootState.user.user.username}`
-            )
-
-            commit("setOtherUserProfile", response.data.Items)
         } catch (exception) {
             return null
         }
