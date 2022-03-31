@@ -9,7 +9,7 @@
             <v-img
               src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
               height="200px"
-              @click="onCardClick(playlist.sk)"
+              @click="onCardClick(playlist.sk, playlist.pk)"
             ></v-img>
 
             <v-card-title> {{ playlist.playlistTitle }} </v-card-title>
@@ -123,8 +123,8 @@ export default {
   },
   methods: {
     async playlistsGet() {},
-    onCardClick(sk) {
-      this.$router.push(`/playlist?sk=${sk}`);
+    onCardClick(sk, pk) {
+      this.$router.push(`/playlist?sk=${sk}&pk=${pk}`);
     },
     async onPlaylistDelete(playlistSK) {
       // alert(playlistSK);

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row class="justify-center">
-      <div v-for="(video, index) in videoCardsVideo" :key="index">
+      <div v-for="(video, index) in videos" :key="index">
         <video-card :video="video" />
       </div>
     </v-row>
@@ -26,26 +26,45 @@ export default {
 
   computed: {
     ...mapGetters({
+      videos2: "videos/videos",
       user: "user/user",
     }),
   },
   async mounted() {
-    const videos = await this.$store.dispatch("videos/videosGetByUsername", {
-      username: this.user.username,
-    });
-    this.videos = videos;
+    this.videos = this.playlist["videos"]['Items'];
+    console.log("here<<<", this.videos, this.videos2);
+    // await this.$store.dispatch("videos/getAllVideos");
+    // var userVideos = await this.$store.dispatch("videos/videosGetByUsername", {
+    //   username: this.user.username,
 
-    const videoSks = String(this.playlist.videos).split(",");
+    // console.log("explore videos");
+    // console.log(this.videos);
+    // console.log("user videos");
+    // console.log(userVideos);
+    // console.log("end");
 
-    let videoCardsVideo = [];
+    // const videoSks = String(this.playlist.videos).split(",");
+    // console.log(videoSks);
 
-    videos.forEach((video) => {
-      if (videoSks.includes(video.sk)) {
-        videoCardsVideo.push(video);
-      }
-    });
+    // let videoCardsVideo = [];
 
-    this.videoCardsVideo = videoCardsVideo;
+    // // view videos from other users
+    // this.videos.forEach((video) => {
+    //   if (videoSks.includes(video.sk)) {
+    //     videoCardsVideo.push(video);
+    //     alert("pushed a video");
+    //   }
+    // });
+
+    // // view users own videos
+    // userVideos.forEach((video) => {
+    //   if (videoSks.includes(video.sk)) {
+    //     videoCardsVideo.push(video);
+    //     alert("pushed a video");
+    //   }
+    // });
+
+    //   this.videoCardsVideo = videoCardsVideo;
   },
 };
 </script>
