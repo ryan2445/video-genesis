@@ -42,12 +42,22 @@ def playlistGet(event, context):
     pk = event['queryStringParameters']['pk']
     sk = event['queryStringParameters']['sk']
     
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk) )
+    playlist = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq(sk) )
+    video_ids = playlist['Items'][0]['videos'].split(",")
+    
+    ExpressionAttributeValues = dict((f":{index}", video_sk) for (index, video_sk) in enumerate(video_ids))
+    values_list = ", ".join([f":{i}" for i in range(len(video_ids))])
+    videos = dynamodb.scan(
+        FilterExpression=f"sk in ({values_list})",
+        ExpressionAttributeValues=ExpressionAttributeValues
+    )
+    playlist['Items'][0]['videos'] = videos
     
     return {
         'statusCode': 200,
-        'body': json.dumps(response)
+        'body': json.dumps(playlist)
     }
+
 
 #   Creates a new playlist
 def playlistsPost(event, context):

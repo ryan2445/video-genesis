@@ -11,142 +11,141 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
-          <video-thumbnail
-            class="cursor-pointer"
-            :video-src="getLink(video)"
-            :thumbnail-src="video.videoThumbnail || null"
-            :video-key="video.videoKey"
-            :play="hover"
-            @click="onCardClick"
-            @videoTimeChange="onVideoTimeChange"
-            @thumbnail:loaded="onThumbnailLoaded"
-          />
-          <div class="px-2 pb-1">
-            <div class="text-2xl font-medium mt-2">
-              <div
-                class="flex justify-between w-full items-center cursor-pointer"
-                @click="onCardClick"
-              >
-                <div class="text-gray-800 cardTitle">
-                  {{ video.videoTitle }}
-                </div>
-                <div v-if="video && isOwner" class="mr-2">
-                  <v-hover>
-                    <video-card-settings-menu
-                      :video-thumbnail="videoThumbnail"
-                      :idx="idx"
-                      :video="video"
-                      :playlist="playlist"
-                    />
-                  </v-hover>
-                </div>
+        <video-thumbnail
+          class="cursor-pointer"
+          :video-src="getLink(video)"
+          :thumbnail-src="video.videoThumbnail || null"
+          :video-key="video.videoKey"
+          :play="hover"
+          @click="onCardClick"
+          @videoTimeChange="onVideoTimeChange"
+          @thumbnail:loaded="onThumbnailLoaded"
+        />
+        <div class="px-2 pb-1">
+          <div class="text-2xl font-medium mt-2">
+            <div
+              class="flex justify-between w-full items-center cursor-pointer"
+              @click="onCardClick"
+            >
+              <div class="text-gray-800 cardTitle">
+                {{ video.videoTitle }}
               </div>
-              <v-divider class="mb-1"></v-divider>
-              <div class="flex flex-row items-center">
-                <div
-                  v-if="video.user && !!video.user.profilePicKey"
-                  @click="openUserPage"
-                  style="width: 36px; height: 36px"
-                  class="mr-1"
-                >
-                  <img
-                    :src="video.user.profilePicKey"
-                    :alt="video.user.username"
-                    class="rounded-full w-full h-full object-cover cursor-pointer"
+              <div v-if="video && isOwner" class="mr-2">
+                <v-hover>
+                  <video-card-settings-menu
+                    :video-thumbnail="videoThumbnail"
+                    :idx="idx"
+                    :video="video"
+                    :playlist="playlist"
                   />
-                </div>
-                <v-icon v-else large class="mr-1" @click="openUserPage"
-                  >icon-account-circle</v-icon
-                >
-                <div>
-                  <v-btn
-                    color="orange"
-                    plain
-                    @click="openUserPage"
-                    class="user-button px-0 text-left"
-                  >
-                    {{ owner }}
-                  </v-btn>
-                </div>
+                </v-hover>
               </div>
-              <div class="mr-3">
-                <v-dialog
-                  v-model="playlistsDialogBox"
-                  persistent
-                  max-width="600px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      fab
-                      depressed
-                      color="grey lighten-1"
-                      width="30"
-                      height="30"
-                      class="mb-2 shadow-md justify-right"
-                      @click="UpdatePlaylist"
-                    >
-                      <v-icon>playlist_add</v-icon>
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title>
-                      <span class="text-h5"> Playlist </span>
-                    </v-card-title>
-                    <v-card-text>
-                      <v-container>
-                        <v-row>
-                          <v-col cols="12">
-                            <v-text-field
-                              label="Create a new playlist"
-                              type="text"
-                              filled
-                              v-model="newPlayListName"
-                            />
-                          </v-col>
-                        </v-row>
-                        <v-container fluid>
-                          <v-checkbox
-                            v-model="isPrivate"
-                            label="Make the Playlist Private"
-                            @change="onChange"
-                          ></v-checkbox>
-
-                          <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn
-                              color="blue darken-1"
-                              text
-                              @click="onDialogClose"
-                            >
-                              Close
-                            </v-btn>
-                            <v-btn
-                              color="blue darken-1"
-                              text
-                              @click="createNewPlaylist(video.sk)"
-                            >
-                              Create
-                            </v-btn>
-                          </v-card-actions>
-                        </v-container>
-                      </v-container>
-                    </v-card-text>
-                  </v-card>
-                </v-dialog>
-              </div>
-              <div class="py-1 overflow-hidden" style="max-height: 49px">
-                <div class="cardDescription text-gray-700">
-                  {{ video.videoDescription }}
-                </div>
-              </div>
-              <v-row>
-                <v-card-actions class="justify-left"></v-card-actions>
-              </v-row>
             </div>
+            <v-divider class="mb-1"></v-divider>
+            <div class="flex flex-row items-center">
+              <div
+                v-if="video.user && !!video.user.profilePicKey"
+                @click="openUserPage"
+                style="width: 36px; height: 36px"
+                class="mr-1"
+              >
+                <img
+                  :src="video.user.profilePicKey"
+                  :alt="video.user.username"
+                  class="rounded-full w-full h-full object-cover cursor-pointer"
+                />
+              </div>
+              <v-icon v-else large class="mr-1" @click="openUserPage"
+                >icon-account-circle</v-icon
+              >
+              <div>
+                <v-btn
+                  color="orange"
+                  plain
+                  @click="openUserPage"
+                  class="user-button px-0 text-left"
+                >
+                  {{ owner }}
+                </v-btn>
+              </div>
+            </div>
+            <div class="mr-3">
+              <v-dialog
+                v-model="playlistsDialogBox"
+                persistent
+                max-width="600px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-bind="attrs"
+                    v-on="on"
+                    fab
+                    depressed
+                    color="grey lighten-1"
+                    width="30"
+                    height="30"
+                    class="mb-2 shadow-md justify-right"
+                    @click="UpdatePlaylist"
+                  >
+                    <v-icon>playlist_add</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5"> Playlist </span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-text-field
+                            label="Create a new playlist"
+                            type="text"
+                            filled
+                            v-model="newPlayListName"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-container fluid>
+                        <v-checkbox
+                          v-model="isPrivate"
+                          label="Make the Playlist Private"
+                          @change="onChange"
+                        ></v-checkbox>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="onDialogClose"
+                          >
+                            Close
+                          </v-btn>
+                          <v-btn
+                            color="blue darken-1"
+                            text
+                            @click="createNewPlaylist(video.sk)"
+                          >
+                            Create
+                          </v-btn>
+                        </v-card-actions>
+                      </v-container>
+                    </v-container>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </div>
+            <div class="py-1 overflow-hidden" style="max-height: 49px">
+              <div class="cardDescription text-gray-700">
+                {{ video.videoDescription }}
+              </div>
+            </div>
+            <v-row>
+              <v-card-actions class="justify-left"></v-card-actions>
+            </v-row>
           </div>
-        </v-col>
+        </div>
       </v-card>
     </v-hover>
     <v-skeleton-loader
@@ -204,12 +203,11 @@ export default {
       required: false,
     },
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
-      playlist: "playlists/playlists",
+      //playlist: "playlists/playlists",
     }),
     videoPK() {
       // If the video does not exist, return null
