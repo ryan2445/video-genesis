@@ -72,7 +72,7 @@ Resources:
     commentsController:
         Type: AWS::Serverless::Function
         Properties:
-            CodeUri: CommentsController/
+            CodeUri: VideosController/
             Handler: comments.handle
             Runtime: python3.8
             Events:
