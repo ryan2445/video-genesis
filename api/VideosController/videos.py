@@ -3,6 +3,7 @@ from boto3.dynamodb.conditions import Key
 import simplejson as json
 import os
 import uuid
+import sys
 
 if os.getenv('AWS_SAM_LOCAL'):
     dynamodb = boto3.resource('dynamodb', endpoint_url = 'http://dynamodb-local:8000').Table('system')

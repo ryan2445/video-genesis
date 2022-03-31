@@ -69,8 +69,30 @@ Resources:
             Policies:
                 DynamoDBCrudPolicy:
                     TableName: !Ref systemDB
-
-
+    commentsController:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: VideosController/
+            Handler: comments.handle
+            Runtime: python3.8
+            Events:
+                commentsApiEventDefault:
+                    Type: Api
+                    Properties:
+                        Path: /comments
+                        Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
+                commentsApiEventProxy:
+                    Type: Api
+                    Properties:
+                        Path: /comments/{proxy+}
+                        Method: ANY
+                        Auth:
+                            Authorizer: globalApiAuth
+            Policies:
+                DynamoDBCrudPolicy:
+                    TableName: !Ref systemDB
     userVotesController:
         Type: AWS::Serverless::Function
         Properties:
