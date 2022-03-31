@@ -12,12 +12,20 @@ export default {
   data() {
     return {
       sk: undefined,
+      pk: undefined,
       playlist: undefined,
     };
   },
   async mounted() {
-    await this.$store.dispatch("playlists/playlistsGet");
     this.getQueryParamsAndSetKeys();
+    if (this.sk) {
+      const playlist = await this.$store.dispatch("playlists/playlistGet", {
+        sk: this.sk,
+        pk: this.pk,
+      });
+      this.playlist = playlist;
+    }
+    //await this.$store.dispatch("playlists/playlistsGet");
     console.log(this);
   },
   methods: {
@@ -31,17 +39,8 @@ export default {
         return;
       }
 
-      const sk = params.get("sk");
-
-      this.sk = sk;
-
-      for (let index = 0; index < this.playlists.length; index++) {
-        var element = this.playlists[index];
-        if (element.sk == this.sk) {
-          this.playlist = element;
-          break;
-        }
-      }
+      this.sk = params.get("sk");
+      this.pk = params.get("pk");
     },
   },
 

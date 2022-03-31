@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-1 relative flex-col">
-    <div class="mb-4 rounded-br-lg rounded-bl-lg" style="background:#FFF;">
+    <div class="mb-4 rounded-br-lg rounded-bl-lg" style="background: #fff">
       <profile-banner :user="user" />
       <div>
         <div>
@@ -10,18 +10,15 @@
             background-color="#0000"
             color="orange"
           >
-            <v-tab
-              v-for="(tab) in tabs"
-              :key="tab"
-            >
+            <v-tab v-for="tab in tabs" :key="tab">
               {{ tab }}
             </v-tab>
           </v-tabs>
         </div>
       </div>
     </div>
-    <div style="background:#FFF;" class="rounded-lg px-3 py-2">
-      <v-carousel 
+    <div style="background: #fff" class="rounded-lg px-3 py-2">
+      <v-carousel
         v-model="tabSelected"
         hide-delimiter-background
         hide-delimiters
@@ -46,18 +43,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "UserProfile",
   props: {
     user: {
       type: Object,
-      required: true
+      required: true,
+    },
+    playlist: {
+      type: Object,
+      required: true,
     },
   },
   data() {
     return {
-      tabs: ['Uploads', 'About', 'Playlists'],
+      tabs: ["Uploads", "About", "Playlists"],
       tabSelected: 0,
       loading: true,
     };
@@ -71,38 +72,38 @@ export default {
     const videos = await this.$store.dispatch("videos/videosGetByUsername", {
       username: this.user.username,
     });
-    
+
     this.$store.commit("videos/videosSet", videos);
 
     this.loading = false;
   },
   computed: {
     ...mapGetters({
-      videos: "videos/videos"
+      videos: "videos/videos",
     }),
     tabComponents() {
       return [
         {
-          name: 'video-list',
+          name: "video-list",
           props: {
-            videos: this.videos
+            videos: this.videos,
           },
-          title: true
+          title: true,
         },
         {
-          name: 'profile-about',
+          name: "profile-about",
           props: {
-            user: this.user
-          }
+            user: this.user,
+          },
         },
         {
-          name: 'profile-playlists',
+          name: "profile-playlists",
           props: {
-            user: this.user
-          }
-        }
-      ]
-    }
-  }
+            user: this.user,
+          },
+        },
+      ];
+    },
+  },
 };
 </script>
