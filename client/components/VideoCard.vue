@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div v-if="loading">loading...</div>
+
+  <div v-else>
     <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
@@ -130,6 +132,23 @@
                             Create
                           </v-btn>
                         </v-card-actions>
+                        <v-layout row wrap>
+                          <v-flex
+                            v-for="(title, index) in playlist"
+                            :key="playlist[index].playlistTitle"
+                            xs6
+                          >
+                            <v-checkbox
+                              light
+                              :label="title.playlistTitle"
+                              @click="
+                                addVideoToPlaylist(title.sk, title.videos)
+                              "
+                            >
+                              <!-- v-model="this.addToPlaylist[index]" -->
+                            </v-checkbox>
+                          </v-flex>
+                        </v-layout>
                       </v-container>
                     </v-container>
                   </v-card-text>
@@ -200,14 +219,14 @@ export default {
     },
     playlist: {
       type: Object,
-      required: false,
+      required: true,
     },
   },
   mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
-      //playlist: "playlists/playlists",
+      playlist: "playlists/playlists",
     }),
     videoPK() {
       // If the video does not exist, return null
@@ -258,7 +277,19 @@ export default {
       console.log("playlistNames: ");
       console.log(this.playlist);
     },
-
+    async addVideoToPlaylist(playlistKey, videos) {
+      // alert(this.video.sk);
+      // alert(playlistKey);
+      const playlistNames = await this.$store.dispatch(
+        "playlists/playlistsPut",
+        {
+          sk: playlistKey,
+          videos: videos + "," + this.video.sk,
+        }
+      );
+      // console.log("playlistNames: ");
+      // console.log(this.playlist);
+    },
     onChange() {
       this.$emit("update", {
         isPrivate: this.isPrivate,
