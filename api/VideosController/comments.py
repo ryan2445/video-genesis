@@ -39,7 +39,8 @@ def updateUserComment(event, context):
     content = body['content']
     
     response = dynamodb.update_item(
-        Key={'pk': pk, 'sk': sk}, UpdateExpression = 'set content = :value', 
+        Key={'pk': pk, 'sk': sk}, ExpressionAttributeNames ={ '#c' : 'content'},
+        UpdateExpression = 'set #c = :value', 
         ExpressionAttributeValues = {':value' : content})
 
 
