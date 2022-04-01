@@ -1,5 +1,6 @@
 from ast import Expression
 from urllib import response
+from xmlrpc.client import ResponseError
 import boto3
 from boto3.dynamodb.conditions import Key
 import simplejson as json
@@ -23,8 +24,11 @@ def getVideoComments(event, context):
     quearyParams = event['queryStringParameters']
     videoId = quearyParams['videoId']
     response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False)
+    items = response['Items']
     
-    print("test")
+    while 'LastEvluatedKey' in response:
+        key = response['LastEvaluatedKey']
+        response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key)
 
 
     
