@@ -4,10 +4,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import ProfileAbout from "../components/ProfileAbout.vue";
-import ProfileBanner from "../components/ProfileBanner.vue";
 export default {
-  components: { ProfileBanner, ProfileAbout },
   layout: "dashboard",
   data() {
     return {
