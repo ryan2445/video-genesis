@@ -13,6 +13,9 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
+        <super-resolution-banner 
+          v-if="superResEnabled"
+        />
         <video-thumbnail
           class="cursor-pointer"
           :video-src="getLink(video)"
@@ -256,6 +259,9 @@ export default {
     loaded() {
       return this.thumbnailLoaded;
     },
+    superResEnabled() {
+      return !!this.video && !!this.video.lrBaseURL && !!this.video.hrBaseURL
+    }
   },
   methods: {
     async onDialogClose() {
@@ -274,8 +280,6 @@ export default {
       const playlistNames = await this.$store.dispatch(
         "playlists/playlistsGet"
       );
-      console.log("playlistNames: ");
-      console.log(this.playlist);
     },
     async addVideoToPlaylist(playlistKey, videos) {
       // alert(this.video.sk);

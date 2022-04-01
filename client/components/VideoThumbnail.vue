@@ -184,7 +184,7 @@ export default {
     },
     computed: {
         thumbnailLink() {
-            return this.thumbnailSrc || `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000000.jpg`
+            return this.thumbnailSrc || `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000001.jpg`
         },
         videoProgress() {
             return (this.currentTime / this.duration) * 100

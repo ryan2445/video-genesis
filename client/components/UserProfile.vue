@@ -19,6 +19,7 @@
     </div>
     <div style="background: #fff" class="rounded-lg px-3 py-2">
       <v-carousel
+        v-if="!loading"
         v-model="tabSelected"
         hide-delimiter-background
         hide-delimiters
@@ -57,7 +58,7 @@ export default {
     },
     playlist: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
   data() {
