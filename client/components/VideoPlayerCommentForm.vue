@@ -51,6 +51,7 @@ export default {
     },
     async submitComment() {
       try {
+        this.isLoading = true;
         console.log(this.video.sk);
         const response = await this.$axios.put("comments", {
           videoId: this.video.sk,
@@ -65,6 +66,8 @@ export default {
       // } catch (exception) {
       //   return null;
       // }
+      this.isLoading = false;
+      this.content = "";
     },
   },
 };
