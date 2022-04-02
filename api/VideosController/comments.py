@@ -34,7 +34,8 @@ def getVideoComments(event, context):
     
 def updateUserComment(event, context):
     body = json.loads(event['body'])
-    pk = "VIDEO#" + body['videoId']
+    print(body['videoId'])
+    pk = body['videoId']
     sk = "COMMENT#" + body['commentId']
     content = body['content']
     
@@ -47,8 +48,8 @@ def updateUserComment(event, context):
 def createUserComment(event, context):
     body = json.loads(event['body'])
     
-    pk = "VIDEO#" + body['videoId']
-    sk = "COMMENT#" + ulid.new()
+    pk = body['videoId']
+    sk = "COMMENT#" + ulid.new().str
     userId = event['requestContext']['authorizer']['claims']['cognito:username']
     
     content = body['content']

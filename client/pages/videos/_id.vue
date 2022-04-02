@@ -10,7 +10,7 @@
         >
         </video-container>
       </template>
-      <video-player-comment-form />
+      <video-player-comment-form :video="video" />
     </v-col>
   </v-row>
 </template>

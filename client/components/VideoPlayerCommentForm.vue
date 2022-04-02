@@ -9,23 +9,65 @@
       color="orange orange-darken-4"
       rows="3"
     ></v-textarea>
-    <div class="p-2 flex justify-end gap-2 -mt-7">
-      <v-btn :disable="!form" :loading="isLoading" depressed>Cancel</v-btn>
-      <v-btn
-        :disable="!form"
-        :loading="isLoading"
-        class="white--text"
-        color="#FF7A45"
-        depressed
-        >Comment</v-btn
-      >
-    </div>
+    <v-card-actions
+      ><div class="p-2 flex justify-end gap-2 -mt-7">
+        <v-btn @click="resetTextArea" depressed>Cancel</v-btn>
+        <v-btn
+          :disabled="checkTextArea"
+          :loading="isLoading"
+          @click="submitComment"
+          class="white--text"
+          color="#FF7A45"
+          depressed
+          >Comment</v-btn
+        >
+      </div></v-card-actions
+    >
   </v-card>
 </template>
 
 <script>
 import VideoCard from "./VideoCard.vue";
-export default {};
+export default {
+  props: {
+    video: {
+      type: Object,
+      required: true,
+    },
+  },
+  data: () => ({
+    form: false,
+    content: "",
+    isLoading: false,
+  }),
+  computed: {
+    checkTextArea() {
+      return !this.content;
+    },
+  },
+  methods: {
+    resetTextArea() {
+      this.content = "";
+    },
+    async submitComment() {
+      try {
+        console.log(this.video.sk);
+        const response = await this.$axios.put("comments", {
+          videoId: this.video.sk,
+          content: this.content,
+        });
+      } catch (exception) {
+        return null;
+      }
+      // try {
+      //   const response = await this.$axios.put("videos", params);
+      //   return response.data;
+      // } catch (exception) {
+      //   return null;
+      // }
+    },
+  },
+};
 </script>
 
 <style></style>
