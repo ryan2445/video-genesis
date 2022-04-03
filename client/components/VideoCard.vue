@@ -131,23 +131,7 @@
                             Create
                           </v-btn>
                         </v-card-actions>
-                        <!-- <v-layout row wrap>
-                          <v-flex
-                            v-for="(title, index) in playlist"
-                            :key="playlist[index].playlistTitle"
-                            xs6
-                          >
-                            <v-checkbox
-                              light
-                              :label="title.playlistTitle"
-                              @click="
-                                addVideoToPlaylist(title.sk, title.videos)
-                              "
-                            >
-                              
-                            </v-checkbox>
-                          </v-flex>
-                        </v-layout> -->
+
                         <form @submit.prevent="handleSubmit">
                           <div
                             class="form-group form-check"
@@ -164,10 +148,7 @@
                               :value="item"
                             />
                           </div>
-                          <!-- print result -->
-                          <!-- <div class="form-group">
-                            {{ user.namesOfThePlaylists }}
-                          </div> -->
+
                           <div class="form-group">
                             <button class="btn btn-primary">Submit</button>
                           </div>
@@ -298,8 +279,6 @@ export default {
           }
 
           if (deleteVideoFromPlaylist) {
-            // alert("remove video from");
-            // alert(this.playlist[index].playlistTitle);
             await this.removeVideoFromPlaylist(
               this.playlist[index].sk,
               this.playlist[index].videos,
@@ -339,27 +318,13 @@ export default {
         "playlists/playlistsGet"
       );
 
-      // console.log(this.playlist);
       for (let index = 0; index < this.playlist.length; index++) {
-        // alert(this.playlist[index].videos);
-        // alert(String(this.playlist[index].videos).includes(videoSk));
         if (String(this.playlist[index].videos).includes(videoSk)) {
           this.user.namesOfThePlaylists.push(this.playlist[index]);
         }
       }
-      // var videoPlaylistInfo = await this.$store.dispatch(
-      //   "playlists/getPlaylistsByVideo",
-      //   {
-      //     username: this.owner,
-      //     video: videoSk,
-      //   }
-      // );
-
-      // console.log(videoPlaylistInfo);
     },
     async addVideoToPlaylist(playlistKey, videos) {
-      // alert(this.video.sk);
-      // alert(playlistKey);
       const playlistNames = await this.$store.dispatch(
         "playlists/playlistsPut",
         {
@@ -367,12 +332,8 @@ export default {
           videos: videos + "," + this.video.sk,
         }
       );
-      // console.log("playlistNames: ");
-      // console.log(this.playlist);
     },
     async removeVideoFromPlaylist(playlistKey, videos, videoToRemove) {
-      // alert("video to remove:    " + videoToRemove);
-      // alert(videos);
       videos = String(videos).replace(videoToRemove + ",", "");
       videos = String(videos).replace(",,", "");
       videos = String(videos).replace("," + videoToRemove, "");
@@ -385,8 +346,6 @@ export default {
           videos: videos,
         }
       );
-      // console.log("playlistNames: ");
-      // console.log(this.playlist);
     },
     onChange() {
       this.$emit("update", {
