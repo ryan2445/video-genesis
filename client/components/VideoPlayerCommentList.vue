@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <div></div>
+</template>
 
 <script>
 export default {
@@ -13,7 +15,7 @@ export default {
     comments: null,
   }),
   async mounted() {
-    await this.getCommentsForVideo();
+    this.comments = await this.getCommentsForVideo();
     console.log("hello");
   },
   methods: {
@@ -23,7 +25,6 @@ export default {
         const response = await this.$axios.get(
           `comments?videoId=${this.video.sk.split("#")[1]}`
         );
-        console.log(response.data);
         return response.data;
       } catch (exception) {
         return null;
