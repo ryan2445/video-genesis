@@ -26,6 +26,7 @@
                       v-on="on"
                       v-ripple="{ class: 'red--text' }"
                       style="min-width: 112px"
+                      @click="setVideoSKToDelete(playlist.sk)"
                     >
                       <v-icon left> mdi-delete </v-icon>
                     </v-btn>
@@ -59,7 +60,7 @@
                         width="1%"
                         color="orange"
                         plain
-                        @click="onPlaylistDelete(playlist.sk)"
+                        @click="onPlaylistDeleteConfirmation"
                       >
                         Delete
                       </v-btn>
@@ -96,6 +97,7 @@ export default {
   data() {
     return {
       loading: true,
+      videoSKToDelete: null,
 
       playlistNames: null,
       playlistVideos: [],
@@ -126,14 +128,15 @@ export default {
     onCardClick(sk, pk) {
       this.$router.push(`/playlist?sk=${sk}&pk=${pk}`);
     },
-    async onPlaylistDelete(playlistSK) {
-      // alert(playlistSK);
+    async onPlaylistDeleteConfirmation() {
+      // alert(this.videoSKToDelete);
       await this.$store.dispatch("playlists/playlistsDelete", {
-        sk: playlistSK,
+        sk: this.videoSKToDelete,
       });
-      this.$forceUpdate();
-
       this.deleteDialogBox = false;
+    },
+    async setVideoSKToDelete(playlistSK) {
+      this.videoSKToDelete = playlistSK;
     },
     async onDeleteDialogClose() {
       this.deleteDialogBox = false;
