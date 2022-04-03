@@ -16,7 +16,6 @@ export default {
   }),
   async mounted() {
     this.comments = await this.getCommentsForVideo();
-    console.log("hello");
   },
   methods: {
     async getCommentsForVideo() {
@@ -25,11 +24,11 @@ export default {
         const response = await this.$axios.get(
           `comments?videoId=${this.video.sk.split("#")[1]}`
         );
+        this.loading = false;
         return response.data;
       } catch (exception) {
         return null;
       }
-      this.loading = false;
     },
   },
 };
