@@ -23,13 +23,17 @@ def badRequest(msg):
 def getVideoComments(event, context):
     quearyParams = event['queryStringParameters']
     videoId = quearyParams['videoId']
-    response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False)
-    items = response['Items']
+    response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False)
     
     while 'LastEvluatedKey' in response:
         key = response['LastEvaluatedKey']
         response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key)
-
+        
+        
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response['Items'])
+    }
 
     
 def updateUserComment(event, context):

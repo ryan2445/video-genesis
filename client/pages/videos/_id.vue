@@ -10,14 +10,19 @@
         >
         </video-container>
       </template>
-      <video-player-comment-form :video="video" />
+      <div v-if="!loading">
+        <video-player-comment-form :video="video" />
+        <video-player-comment-list :video="video" />
+      </div>
     </v-col>
   </v-row>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import VideoPlayerCommentList from "../../components/VideoPlayerCommentList.vue";
 export default {
+  components: { VideoPlayerCommentList },
   layout: "dashboard",
   data() {
     return {
