@@ -33,6 +33,17 @@ export const actions = {
       return null;
     }
   },
+  async playlistsGetByVideo({ commit, rootState }, params) {
+    try {
+      const { username, video } = params;
+      const response = await this.$axios.get(
+        `playlists/all?username=${username}&video=${video}`
+      );
+      return response.data.Items;
+    } catch (exception) {
+      return null;
+    }
+  },
   async playlistGet({ commit, rootState }, params) {
     try {
       const response = await this.$axios.get("playlists", { params: params });
