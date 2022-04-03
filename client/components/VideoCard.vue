@@ -1,7 +1,5 @@
 <template>
-  <div v-if="loading">loading...</div>
-
-  <div v-else>
+  <div>
     <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
@@ -13,9 +11,7 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
-        <super-resolution-banner 
-          v-if="superResEnabled"
-        />
+        <super-resolution-banner v-if="superResEnabled" />
         <video-thumbnail
           class="cursor-pointer"
           :video-src="getLink(video)"
@@ -90,7 +86,7 @@
                     width="30"
                     height="30"
                     class="mb-2 shadow-md justify-right"
-                    @click="UpdatePlaylist"
+                    @click="UpdatePlaylist(video.sk)"
                   >
                     <v-icon>playlist_add</v-icon>
                   </v-btn>
@@ -135,7 +131,7 @@
                             Create
                           </v-btn>
                         </v-card-actions>
-                        <v-layout row wrap>
+                        <!-- <v-layout row wrap>
                           <v-flex
                             v-for="(title, index) in playlist"
                             :key="playlist[index].playlistTitle"
@@ -148,10 +144,34 @@
                                 addVideoToPlaylist(title.sk, title.videos)
                               "
                             >
-                              <!-- v-model="this.addToPlaylist[index]" -->
+                              
                             </v-checkbox>
                           </v-flex>
-                        </v-layout>
+                        </v-layout> -->
+                        <form @submit.prevent="handleSubmit">
+                          <div
+                            class="form-group form-check"
+                            v-for="item in playlist"
+                            v-bind:key="item.id"
+                          >
+                            <label class="form-check-label" :for="item.id">{{
+                              item.playlistTitle
+                            }}</label>
+                            <input
+                              type="checkbox"
+                              v-model="user.namesOfThePlaylists"
+                              :id="item.playlistTitle"
+                              :value="item"
+                            />
+                          </div>
+                          <!-- print result -->
+                          <!-- <div class="form-group">
+                            {{ user.namesOfThePlaylists }}
+                          </div> -->
+                          <div class="form-group">
+                            <button class="btn btn-primary">Submit</button>
+                          </div>
+                        </form>
                       </v-container>
                     </v-container>
                   </v-card-text>
@@ -195,6 +215,9 @@ export default {
 
   data() {
     return {
+      user: {
+        namesOfThePlaylists: [],
+      },
       loading: false,
       dialog: false,
       playlistsDialogBox: false,
@@ -260,10 +283,43 @@ export default {
       return this.thumbnailLoaded;
     },
     superResEnabled() {
-      return !!this.video && !!this.video.lrBaseURL && !!this.video.hrBaseURL
-    }
+      return !!this.video && !!this.video.lrBaseURL && !!this.video.hrBaseURL;
+    },
   },
   methods: {
+    async handleSubmit() {
+      for (let index = 0; index < this.playlist.length; index++) {
+        if (String(this.playlist[index].videos).includes(this.video.sk)) {
+          var deleteVideoFromPlaylist = true;
+          for (let i = 0; i < this.user.namesOfThePlaylists.length; i++) {
+            if (this.playlist[index] === this.user.namesOfThePlaylists[i]) {
+              deleteVideoFromPlaylist = false;
+            }
+          }
+
+          if (deleteVideoFromPlaylist) {
+            // alert("remove video from");
+            // alert(this.playlist[index].playlistTitle);
+            await this.removeVideoFromPlaylist(
+              this.playlist[index].sk,
+              this.playlist[index].videos,
+              this.video.sk
+            );
+          }
+        }
+      }
+
+      for (
+        let index = 0;
+        index < this.user.namesOfThePlaylists.length;
+        index++
+      ) {
+        await this.addVideoToPlaylist(
+          this.user.namesOfThePlaylists[index].sk,
+          this.user.namesOfThePlaylists[index].videos
+        );
+      }
+    },
     async onDialogClose() {
       this.playlistsDialogBox = false;
     },
@@ -276,10 +332,30 @@ export default {
       });
       this.playlistsDialogBox = false;
     },
-    async UpdatePlaylist() {
+    async UpdatePlaylist(videoSk) {
+      // alert(videoSk);
+      // alert(this.owner);
       const playlistNames = await this.$store.dispatch(
         "playlists/playlistsGet"
       );
+
+      // console.log(this.playlist);
+      for (let index = 0; index < this.playlist.length; index++) {
+        // alert(this.playlist[index].videos);
+        // alert(String(this.playlist[index].videos).includes(videoSk));
+        if (String(this.playlist[index].videos).includes(videoSk)) {
+          this.user.namesOfThePlaylists.push(this.playlist[index]);
+        }
+      }
+      // var videoPlaylistInfo = await this.$store.dispatch(
+      //   "playlists/getPlaylistsByVideo",
+      //   {
+      //     username: this.owner,
+      //     video: videoSk,
+      //   }
+      // );
+
+      // console.log(videoPlaylistInfo);
     },
     async addVideoToPlaylist(playlistKey, videos) {
       // alert(this.video.sk);
@@ -289,6 +365,24 @@ export default {
         {
           sk: playlistKey,
           videos: videos + "," + this.video.sk,
+        }
+      );
+      // console.log("playlistNames: ");
+      // console.log(this.playlist);
+    },
+    async removeVideoFromPlaylist(playlistKey, videos, videoToRemove) {
+      // alert("video to remove:    " + videoToRemove);
+      // alert(videos);
+      videos = String(videos).replace(videoToRemove + ",", "");
+      videos = String(videos).replace(",,", "");
+      videos = String(videos).replace("," + videoToRemove, "");
+      videos = String(videos).replace(videoToRemove, "");
+      // alert(videos);
+      const playlistNames = await this.$store.dispatch(
+        "playlists/playlistsPut",
+        {
+          sk: playlistKey,
+          videos: videos,
         }
       );
       // console.log("playlistNames: ");
