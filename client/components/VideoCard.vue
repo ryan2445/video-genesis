@@ -88,7 +88,7 @@
                     class="mb-2 shadow-md justify-right"
                     @click="UpdatePlaylist(video.sk)"
                   >
-                    <v-icon>playlist_add</v-icon>
+                    <v-icon>icon-playlist-plus</v-icon>
                   </v-btn>
                 </template>
                 <v-card>
@@ -132,7 +132,7 @@
                           </v-btn>
                         </v-card-actions>
 
-                        <form @submit.prevent="handleSubmit">
+                        <form @submit.prevent="handlePlaylistSubmit" class="playlist-form">
                           <div
                             class="form-group form-check"
                             v-for="item in playlist"
@@ -143,7 +143,7 @@
                             }}</label>
                             <input
                               type="checkbox"
-                              v-model="user.namesOfThePlaylists"
+                              v-model="namesOfThePlaylists"
                               :id="item.playlistTitle"
                               :value="item"
                             />
@@ -183,30 +183,17 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import "material-design-icons-iconfont/dist/material-design-icons.css"; // Ensure you are using css-loader
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-
-Vue.use(Vuetify);
 
 export default {
-  icons: {
-    iconfont: "md",
-  },
-
+  name: "VideoCard",
   data() {
     return {
-      user: {
-        namesOfThePlaylists: [],
-      },
+      namesOfThePlaylists: [],
       loading: false,
       dialog: false,
       playlistsDialogBox: false,
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       startTime: 0,
-
       thumbnailLoaded: false,
       newPlayListName: null,
       isPrivate: false,
@@ -223,13 +210,8 @@ export default {
     idx: {
       type: Number,
       required: true,
-    },
-    playlist: {
-      type: Object,
-      required: true,
-    },
+    }
   },
-  mounted() {},
   computed: {
     ...mapGetters({
       user: "user/user",
@@ -268,12 +250,13 @@ export default {
     },
   },
   methods: {
-    async handleSubmit() {
+    async handlePlaylistSubmit() {
       for (let index = 0; index < this.playlist.length; index++) {
         if (String(this.playlist[index].videos).includes(this.video.sk)) {
-          var deleteVideoFromPlaylist = true;
-          for (let i = 0; i < this.user.namesOfThePlaylists.length; i++) {
-            if (this.playlist[index] === this.user.namesOfThePlaylists[i]) {
+          let deleteVideoFromPlaylist = true;
+
+          for (let i = 0; i < this.namesOfThePlaylists.length; i++) {
+            if (this.playlist[index] === this.namesOfThePlaylists[i]) {
               deleteVideoFromPlaylist = false;
             }
           }
@@ -290,12 +273,12 @@ export default {
 
       for (
         let index = 0;
-        index < this.user.namesOfThePlaylists.length;
+        index < this.namesOfThePlaylists.length;
         index++
       ) {
         await this.addVideoToPlaylist(
-          this.user.namesOfThePlaylists[index].sk,
-          this.user.namesOfThePlaylists[index].videos
+          this.namesOfThePlaylists[index].sk,
+          this.namesOfThePlaylists[index].videos
         );
       }
     },
@@ -312,15 +295,13 @@ export default {
       this.playlistsDialogBox = false;
     },
     async UpdatePlaylist(videoSk) {
-      // alert(videoSk);
-      // alert(this.owner);
       const playlistNames = await this.$store.dispatch(
         "playlists/playlistsGet"
       );
 
       for (let index = 0; index < this.playlist.length; index++) {
         if (String(this.playlist[index].videos).includes(videoSk)) {
-          this.user.namesOfThePlaylists.push(this.playlist[index]);
+          this.namesOfThePlaylists.push(this.playlist[index]);
         }
       }
     },

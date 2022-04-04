@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("./icons.eot?2a576e558dd72132a9331009e3690d4e#iefix") format("embedded-opentype"),
-url("./icons.woff2?2a576e558dd72132a9331009e3690d4e") format("woff2"),
-url("./icons.woff?2a576e558dd72132a9331009e3690d4e") format("woff");
+    src: url("./icons.eot?11b6245fb231a911aa35574363862339#iefix") format("embedded-opentype"),
+url("./icons.woff2?11b6245fb231a911aa35574363862339") format("woff2"),
+url("./icons.woff?11b6245fb231a911aa35574363862339") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -31,12 +31,15 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-pencil-outline:before {
     content: "\f105";
 }
-.icon-video:before {
+.icon-playlist-plus:before {
     content: "\f106";
 }
-.icon-wifi-cancel:before {
+.icon-video:before {
     content: "\f107";
 }
-.icon-wifi-check:before {
+.icon-wifi-cancel:before {
     content: "\f108";
+}
+.icon-wifi-check:before {
+    content: "\f109";
 }
