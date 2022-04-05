@@ -64,7 +64,7 @@ def badRequest(msg: str) -> dict:
         'body': msg
     }
 
-#   Returns an array of all playlists for a given user
+# Returns an array of all playlists for a given user
 def playlistsGet(event, context):
     queryParams = event['queryStringParameters']
     
@@ -102,7 +102,7 @@ def playlistGet(event, context):
         'body': json.dumps(playlist)
     }
 
-#   Creates a new playlist
+# Creates a new playlist
 def playlistsPost(event, context):
     body = json.loads(event['body'])
     userId = event['requestContext']['authorizer']['claims']['cognito:username']
@@ -158,7 +158,7 @@ def playlistsPost(event, context):
         'body': json.dumps(playlist)
     }
 
-#   Update a playlist with given data
+# Update a playlist with given data
 def playlistsPut(event, context):
     body = json.loads(event['body'])
     userId = event['requestContext']['authorizer']['claims']['cognito:username']
@@ -191,7 +191,7 @@ def playlistsPut(event, context):
         'body': json.dumps({ 'response': response })
     }
 
-#   Deletes some attributes based on a primary key and sort key
+# Deletes some attributes based on a primary key and sort key
 def playlistsDelete(event, context):
     body = json.loads(event['body'])
     userId = event['requestContext']['authorizer']['claims']['cognito:username']
@@ -353,6 +353,45 @@ def playlistDeleteVideos(event, context):
         'body': json.dumps(playlist)
     }
 
+def getPlaylistsWithoutVideo(event, context):
+    if 'userPK' not in event['queryStringParameters']:
+        return badRequest("Error: userPK required in request")
+    if 'videoSK' not in event['queryStringParameters']:
+        return badRequest('Error: videoSK required in request')
+    
+    userPK = event['queryStringParameters']['userPK'] # ID{user}
+    videoSK = event['queryStringParameters']['videoSK'] # playlist#{playlistID}
+    
+    # Query for user's playlists
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(userPK) & Key('sk').begins_with('playlist#'))
+    
+    # If the user has no playlists, return the empty array
+    if response['Count'] <= 0:
+        return {
+            'statusCode': 200,
+            'body': json.dumps([])
+        }
+    
+    # Get the playlists
+    playlists = response['Items'][0]
+    
+    # Clear the response
+    response = []
+
+    # Add each playlist to the response that does not have the video in question
+    for playlist in playlists:
+        playlistSK = playlist['sk']
+        
+        playlistItems = dynamodb.query(KeyConditionExpression = Key('pk').eq(playlistSK) & Key('sk').begins_with('playlistVideo#') & Key('videoSK').eq(videoSK))
+        
+        if playlistItems['Count'] == 0:
+            response.append(playlist)
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response)
+    }
+    
 def handle(event, context):
     response = None
     
@@ -360,7 +399,8 @@ def handle(event, context):
         'GET': {
             '/playlists/all': playlistsGet,
             '/playlists': playlistGet,
-            '/playlists/video': getPlaylistsByVideo 
+            '/playlists/video': getPlaylistsByVideo,
+            '/playlists/without-video': getPlaylistsWithoutVideo
         },
         'POST': {
             '/playlists': playlistsPost,
