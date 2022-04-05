@@ -48,11 +48,11 @@ export const actions = {
     try {
       const response = await this.$axios.get("playlists", { params: params });
 
-      if (!response || !response.data || !response.data.Items) {
+      if (!response) {
         return null;
       }
 
-      return response.data.Items[0];
+      return response.data;
     } catch (exception) {
       return null;
     }

@@ -11,7 +11,9 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
-        <super-resolution-banner v-if="superResEnabled" />
+        <super-resolution-banner 
+          v-if="superResEnabled" 
+        />
         <video-thumbnail
           class="cursor-pointer"
           :video-src="getLink(video)"
@@ -23,7 +25,7 @@
           @thumbnail:loaded="onThumbnailLoaded"
         />
         <div class="px-2 pb-1">
-          <div class="text-2xl font-medium mt-2">
+          <div class="mt-2">
             <div
               class="flex justify-between w-full items-center cursor-pointer"
               @click="onCardClick"
@@ -126,7 +128,7 @@
                           <v-btn
                             color="blue darken-1"
                             text
-                            @click="createNewPlaylist(video.sk)"
+                            @click="createNewPlaylist(video)"
                           >
                             Create
                           </v-btn>
@@ -171,14 +173,15 @@
         </div>
       </v-card>
     </v-hover>
+
+    <!-- While the video is still loading, show the skeleton-loader -->
     <v-skeleton-loader
       v-show="!loaded"
       class="mx-auto opacity-80"
       :width="380"
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"
-    >
-    </v-skeleton-loader>
+    />
   </div>
 </template>
 <script>
@@ -285,12 +288,12 @@ export default {
     async onDialogClose() {
       this.playlistsDialogBox = false;
     },
-    async createNewPlaylist(videoKey) {
+    async createNewPlaylist(video) {
       //  Create playlist
       await this.$store.dispatch("playlists/playlistsPost", {
         playlistTitle: this.newPlayListName,
         isPrivate: this.isPrivate,
-        videos: videoKey,
+        video: video,
       });
       this.playlistsDialogBox = false;
     },

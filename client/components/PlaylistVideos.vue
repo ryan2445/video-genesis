@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-row class="justify-center">
-      <div v-for="(video, index) in videos" :key="index">
-        <video-card :video="video" />
+    <v-row v-if="!!playlist.videos" class="justify-center">
+      <div v-for="(playlistItem, index) in playlist.videos" :key="index">
+        <video-card :video="playlistItem.video" />
       </div>
     </v-row>
   </div>
@@ -11,6 +11,7 @@
 import { mapGetters } from "vuex";
 
 export default {
+  name: "PlaylistVideos",
   props: {
     playlist: {
       type: Object,
@@ -19,19 +20,17 @@ export default {
   },
   data() {
     return {
-      videos: [],
-      videoCardsVideo: [],
+
     };
   },
 
   computed: {
     ...mapGetters({
-      videos2: "videos/videos",
       user: "user/user",
     }),
   },
   async mounted() {
-    this.videos = this.playlist["videos"]["Items"];
+
   },
 };
 </script>

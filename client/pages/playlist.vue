@@ -6,29 +6,35 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  name: "Playlist",
   created() {
     this.$store.commit("app/setRoute", "playlist");
   },
   data() {
     return {
-      sk: undefined,
-      pk: undefined,
-      playlist: undefined,
+      sk: null,
+      pk: null,
+      playlist: null,
     };
   },
-  async mounted() {
+  mounted() {
     this.getQueryParamsAndSetKeys();
-    if (this.sk) {
+
+    if (this.sk && this.pk)
+      this.getPlaylist()
+    else 
+      this.$router.push('/home')
+  },
+  methods: {
+    async getPlaylist() {
+      console.log('getPlaylist')
       const playlist = await this.$store.dispatch("playlists/playlistGet", {
         sk: this.sk,
         pk: this.pk,
       });
+      console.log('playlist', playlist)
       this.playlist = playlist;
-    }
-    //await this.$store.dispatch("playlists/playlistsGet");
-    console.log(this);
-  },
-  methods: {
+    },
     getQueryParamsAndSetKeys() {
       const path = this.$route.fullPath.replace("/playlist", "");
       const params = new URLSearchParams(path);
