@@ -17,7 +17,7 @@ def getPlaylist_(playlistPK, playlistSK):
     
     # If the playlist does not exist, return an error
     if response['Count'] == 0:
-        badRequest("Error: Playlist does not exist")
+        return None
     
     # Get the playlist
     playlist = response['Items'][0]
@@ -93,6 +93,9 @@ def playlistGet(event, context):
     sk = event['queryStringParameters']['sk'] # playlist#{playlistID}
     
     playlist = getPlaylist_(pk, sk)
+    
+    if playlist is None:
+        return badRequest('Error: Playlist does not exist')
 
     return {
         'statusCode': 200,
