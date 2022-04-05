@@ -3,7 +3,7 @@
     <TopBar />
     <SideBar />
     <v-main style="background-color:#f0f2f5; padding-top:44px;">
-      <v-container fluid>
+      <v-container fluid style="padding-left:0px; padding-right:0px;">
         <div class="flex w-full justify-center items-center">
           <div style="width:1280px;">
             <Nuxt />

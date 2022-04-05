@@ -45,33 +45,7 @@
               </div>
             </div>
             <v-divider class="mb-1"></v-divider>
-            <div class="flex flex-row items-center">
-              <div
-                v-if="video.user && !!video.user.profilePicKey"
-                @click="openUserPage"
-                style="width: 36px; height: 36px"
-                class="mr-1"
-              >
-                <img
-                  :src="video.user.profilePicKey"
-                  :alt="video.user.username"
-                  class="rounded-full w-full h-full object-cover cursor-pointer"
-                />
-              </div>
-              <v-icon v-else large class="mr-1" @click="openUserPage"
-                >icon-account-circle</v-icon
-              >
-              <div>
-                <v-btn
-                  color="orange"
-                  plain
-                  @click="openUserPage"
-                  class="user-button px-0 text-left"
-                >
-                  {{ owner }}
-                </v-btn>
-              </div>
-            </div>
+            <profile-picture-and-username v-if="video.user" :user="video.user"/>
             <div class="mr-3">
               <v-dialog
                 v-model="playlistsDialogBox"
@@ -335,9 +309,6 @@ export default {
       this.$emit("update", {
         isPrivate: this.isPrivate,
       });
-    },
-    openUserPage() {
-      this.$router.push(`/users/username=${this.owner}`);
     },
     onCardClick() {
       this.$router.push(

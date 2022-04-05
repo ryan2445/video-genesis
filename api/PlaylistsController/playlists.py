@@ -56,6 +56,13 @@ def getPlaylist_(playlistPK, playlistSK):
     else:
         playlist['videos'] = []
     
+    # Query the user who made the playlist
+    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(playlistPK) & Key('sk').eq('USER'), Limit=1)
+    
+    # If we found the user, attach it to the response
+    if response['Count'] >= 1:
+        playlist['user'] = response['Items'][0]
+    
     return playlist
 
 def badRequest(msg: str) -> dict:
