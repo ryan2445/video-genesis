@@ -70,7 +70,7 @@ def playlistsGet(event, context):
     
     if queryParams and 'username' in queryParams:
         username = event['queryStringParameters']['username']
-        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist'))
+        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist#'))
     else:
         scan_kwargs = {
             'FilterExpression': Key('sk').begins_with('playlist') & Key('isPrivate').eq(False)
@@ -118,6 +118,7 @@ def playlistsPost(event, context):
     playlistTitle = body['playlistTitle']
     video = body['video']
     isPrivate = body.get('isPrivate', False)
+    description = body.get('description', '')
     createdAt = datetime.datetime.now(timezone.utc).isoformat()
     
     # Ensure that the video exists
@@ -136,6 +137,7 @@ def playlistsPost(event, context):
             'sk': playlistSK,
             'playlistTitle': playlistTitle,
             'isPrivate': isPrivate,
+            'description': description,
             'createdAt': createdAt
         }
     )
@@ -168,7 +170,8 @@ def playlistsPut(event, context):
     optional_keys = [
         'playlistTitle',
         'playlistThumbnail',
-        'isPrivate'
+        'isPrivate',
+        'description'
     ]
 
     keys = list(filter(lambda x: body.get(x), optional_keys))

@@ -137,6 +137,25 @@ export const actions = {
       console.error('playlistAddVideos Exception', e)
       return null
     }
+  },
+  /*
+    params: {
+      videoSK: string
+      userPK: string
+    }
+  */
+  async getPlaylistsWithoutVideo(_, { videoSK, userPK }) {
+    try {
+      console.log('getPlaylistsWithoutVideo params', params)
+      const response = await this.$axios.get(`playlists/without-video?userPK=${userPK}&videoSK=${videoSK}`)
+      console.log('getPlaylistsWithoutVideo resp', response)
+      return response.data
+    }
+    catch(e)
+    {
+      console.error('playlistAddVideos Exception', e)
+      return null
+    }
   }
 };
 

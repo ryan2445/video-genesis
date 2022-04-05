@@ -5,8 +5,10 @@
     "cog-outline": 61700,
     "delete": 61701,
     "pencil-outline": 61702,
-    "playlist-plus": 61703,
-    "video": 61704,
-    "wifi-cancel": 61705,
-    "wifi-check": 61706
+    "play": 61703,
+    "playlist-play": 61704,
+    "playlist-plus": 61705,
+    "video": 61706,
+    "wifi-cancel": 61707,
+    "wifi-check": 61708
 }
