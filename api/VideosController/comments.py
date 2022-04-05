@@ -6,6 +6,7 @@ from boto3.dynamodb.conditions import Key
 import simplejson as json
 import ulid
 import os
+import base64
 
 #This part of the code connects to the database
 if os.getenv('AWS_SAM_LOCAL'):
@@ -21,13 +22,17 @@ def badRequest(msg):
 
 
 def getVideoComments(event, context):
+    cursor = None
     quearyParams = event['queryStringParameters']
     videoId = quearyParams['videoId']
-    response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False)
+    response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  ScanIndexForward = False, Limit = 10)
+    print(response['LastEvaluatedKey'])
+    if(cursor):
+        while 'LastEvaluatedKey' in response:
+            key = response['LastEvaluatedKey']
+            print(key)
+            response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key)
     
-    while 'LastEvluatedKey' in response:
-        key = response['LastEvaluatedKey']
-        response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key)
         
         
     return {
