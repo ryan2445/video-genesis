@@ -28,7 +28,7 @@
                       style="min-width: 112px"
                       @click="setVideoSKToDelete(playlist.sk)"
                     >
-                      <v-icon left> mdi-delete </v-icon>
+                      <v-icon left> icon-delete </v-icon>
                     </v-btn>
                   </template>
                   <div class="text-center">
@@ -78,16 +78,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import "material-design-icons-iconfont/dist/material-design-icons.css"; // Ensure you are using css-loader
-import Vue from "vue";
-import Vuetify from "vuetify/lib";
-
-Vue.use(Vuetify);
-
 export default {
-  icons: {
-    iconfont: "md",
-  },
   props: {
     user: {
       type: Object,

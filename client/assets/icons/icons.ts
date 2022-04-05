@@ -3,6 +3,7 @@ export type IconsId =
   | "account"
   | "check-circle"
   | "cog-outline"
+  | "delete"
   | "pencil-outline"
   | "playlist-plus"
   | "video"
@@ -14,6 +15,7 @@ export type IconsKey =
   | "Account"
   | "CheckCircle"
   | "CogOutline"
+  | "Delete"
   | "PencilOutline"
   | "PlaylistPlus"
   | "Video"
@@ -25,6 +27,7 @@ export enum Icons {
   Account = "account",
   CheckCircle = "check-circle",
   CogOutline = "cog-outline",
+  Delete = "delete",
   PencilOutline = "pencil-outline",
   PlaylistPlus = "playlist-plus",
   Video = "video",
@@ -37,9 +40,10 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Account]: "61698",
   [Icons.CheckCircle]: "61699",
   [Icons.CogOutline]: "61700",
-  [Icons.PencilOutline]: "61701",
-  [Icons.PlaylistPlus]: "61702",
-  [Icons.Video]: "61703",
-  [Icons.WifiCancel]: "61704",
-  [Icons.WifiCheck]: "61705",
+  [Icons.Delete]: "61701",
+  [Icons.PencilOutline]: "61702",
+  [Icons.PlaylistPlus]: "61703",
+  [Icons.Video]: "61704",
+  [Icons.WifiCancel]: "61705",
+  [Icons.WifiCheck]: "61706",
 };
