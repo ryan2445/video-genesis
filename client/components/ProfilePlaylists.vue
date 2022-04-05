@@ -1,17 +1,30 @@
 <template>
-  <div class="mt-1">
-    <v-row v-if="playlists" justify="center" align="center" >
+  <div class="mt-3">
+    <v-row class="relative" v-if="playlists" justify="center" align="center" >
+      <v-menu v-model="showPlaylistForm" offset-y nudge-left="435" nudge-bottom="2" :close-on-content-click="false">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            absolute
+            right top
+            v-bind="attrs"
+            v-on="on"
+          >
+            <span class="text-app-orange">
+              New Playlist
+            </span>
+          </v-btn>
+        </template>
+        <playlist-form @close="showPlaylistForm = false"></playlist-form>
+      </v-menu>
       <v-col>
         <div 
-          v-for="(playlist) in playlists"
+          v-for="(playlist, i) in playlists"
           :key="playlist.sk"
-          class="flex flex-1"
+          class="flex flex-1 flex-col"
         >
           <playlist-card :playlist="playlist"></playlist-card>
-          <v-divider />
+          <v-divider v-if="i !== playlists.length - 1"  />
         </div>
-
-        
       </v-col>
     </v-row>
   </div>
@@ -34,6 +47,8 @@ export default {
       playlistNames: null,
       playlistVideos: [],
       deleteDialogBox: false,
+
+      showPlaylistForm: false
     };
   },
   async mounted() {

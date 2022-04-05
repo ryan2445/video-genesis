@@ -107,8 +107,6 @@ def playlistsPost(event, context):
     body = json.loads(event['body'])
     userId = event['requestContext']['authorizer']['claims']['cognito:username']
     
-    if 'video' not in body:
-        return badRequest("Error: video required in request")
     if 'playlistTitle' not in body:
         return badRequest('Error: playlistTitle required in request')
 
@@ -116,19 +114,20 @@ def playlistsPost(event, context):
     pk = "ID#" + userId
     playlistSK = "playlist#" + str(uuid.uuid4())
     playlistTitle = body['playlistTitle']
-    video = body['video']
+    video = body.get('video', None)
     isPrivate = body.get('isPrivate', False)
     description = body.get('description', '')
     createdAt = datetime.datetime.now(timezone.utc).isoformat()
     
-    # Ensure that the video exists
-    response = dynamodb.query(KeyConditionExpression = Key('pk').eq(video['pk']) & Key('sk').eq(video['sk']), Limit=1)
-    
-    # If the video does not exist, return bad request
-    if (response["Count"] == 0):
-        badRequest("Error: Video does not exist")
-    
-    video = response['Items'][0]
+    if video is not None:
+        # Ensure that the video exists
+        response = dynamodb.query(KeyConditionExpression = Key('pk').eq(video['pk']) & Key('sk').eq(video['sk']), Limit=1)
+        
+        # If the video does not exist, return bad request
+        if (response["Count"] == 0):
+            badRequest("Error: Video does not exist")
+        
+        video = response['Items'][0]
     
     # Create the standard playlist entry
     response = dynamodb.put_item(
@@ -143,15 +142,16 @@ def playlistsPost(event, context):
     )
     
     # Create the first playlist item
-    response = dynamodb.put_item(
-        Item = {
-            'pk': playlistSK,
-            'sk': 'playlistVideo#' + str(uuid.uuid4()),
-            'videoPK': video['pk'],
-            'videoSK': video['sk'],
-            'createdAt': createdAt
-        }
-    )
+    if video is not None:
+        response = dynamodb.put_item(
+            Item = {
+                'pk': playlistSK,
+                'sk': 'playlistVideo#' + str(uuid.uuid4()),
+                'videoPK': video['pk'],
+                'videoSK': video['sk'],
+                'createdAt': createdAt
+            }
+        )
     
     playlist = getPlaylist_(pk, playlistSK)
 
