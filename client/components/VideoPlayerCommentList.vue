@@ -1,5 +1,8 @@
 <template>
   <div class="mt-10">
+    <div v-if="loadingInitial">
+      <v-progress-circular indeterminate color="amber"></v-progress-circular>
+    </div>
     <div v-if="!loadingInitial" ref="listComponent">
       <video-player-comment-box
         v-for="(comment, index) in allcomments"
@@ -7,7 +10,14 @@
         :comment="comment"
         :user="users[index]"
       />
-      <infinite-loading @infinite="loadMoreComments"></infinite-loading>
+      <infinite-loading @infinite="loadMoreComments">
+        <div slot="spinner">
+          <v-progress-circular
+            indeterminate
+            color="amber"
+          ></v-progress-circular>
+        </div>
+      </infinite-loading>
     </div>
   </div>
 </template>
