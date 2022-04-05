@@ -44,16 +44,19 @@ export default {
   methods: {
     async getCommentsForVideo() {
       try {
-        const response = await this.$axios.get(
-          `comments?videoId=${this.video.sk.split("#")[1]}`
-        );
-        this.currentcomments = response.data;
-        let pk = response.data[9].pk;
-        let sk = response.data[9].sk;
-        let LastKey = { pk, sk };
-        console.log(LastKey);
+        // const response = await this.$axios.get(
+        //   `comments?videoId=${this.video.sk.split("#")[1]}`
+        // );
+        const response = await this.$axios.get("comments", {
+          params: {
+            videoId: this.video.sk.split("#")[1],
+            lastKey: "initialQuery",
+          },
+        });
         console.log(response);
-        return response.data;
+        this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
+        this.currentcomments = response.data.Items;
+        return response.data.Items;
       } catch (exception) {
         return null;
       }
@@ -75,12 +78,27 @@ export default {
       return data;
     },
     async loadMoreComments($state) {
-      this.currentcomments = await this.getCommentsForVideo();
-      let currentusers = await this.getUsersForComments();
-      $state.loaded();
-      console.log(this.currentcomments);
-      this.allcomments.push(...this.currentcomments);
-      this.users.push(...currentusers);
+      try {
+        const response = await this.$axios.get("comments", {
+          params: {
+            videoId: this.video.sk.split("#")[1],
+            lastKey: this.arrOfPageKey.pop(),
+          },
+        });
+        this.currentcomments = response.data.Items;
+        let currentusers = await this.getUsersForComments();
+        $state.loaded();
+        if (response.data.LastEvaluatedKey == undefined) {
+          $state.complete();
+        }
+        this.allcomments.push(...this.currentcomments);
+        this.users.push(...currentusers);
+        console.log(response.data.LastEvaluatedKey.sk.split("#")[1]);
+        this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
+        return response.data;
+      } catch (exception) {
+        return null;
+      }
     },
   },
 };

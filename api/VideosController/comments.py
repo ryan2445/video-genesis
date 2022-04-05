@@ -22,22 +22,25 @@ def badRequest(msg):
 
 
 def getVideoComments(event, context):
-    cursor = None
-    quearyParams = event['queryStringParameters']
-    videoId = quearyParams['videoId']
-    response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  ScanIndexForward = False, Limit = 10)
-    print(response['LastEvaluatedKey'])
-    if(cursor):
-        while 'LastEvaluatedKey' in response:
-            key = response['LastEvaluatedKey']
-            print(key)
-            response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key)
-    
+    #cursor = None
+    queryParams = event['queryStringParameters']
+    videoId = queryParams['videoId']
+    lastKey = queryParams['lastKey']
+    lastEvaluatedKey = {"pk": f"VIDEO#{videoId}", "sk": f"COMMENT#{lastKey}"}
+    exclusiveStartKey = lastEvaluatedKey
+    if lastKey != "initialQuery":
+        response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  ScanIndexForward = False, Limit = 10, ExclusiveStartKey = exclusiveStartKey)
+    else:
+        response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  ScanIndexForward = False, Limit = 10)
         
-        
+    # if(cursor):
+    #     while 'LastEvaluatedKey' in response:
+    #         key = response['LastEvaluatedKey']
+    #         print(key)
+    #         response = dynamodb.query(KeyConditionExpression= Key('pk').eq('VIDEO#' + videoId) & Key('sk').begins_with('COMMENT'),  Limit = 10, ScanIndexForward = False, ExclusiveStartKey=key) 
     return {
         'statusCode': 200,
-        'body': json.dumps(response['Items'])
+        'body': json.dumps(response)
     }
 
     
