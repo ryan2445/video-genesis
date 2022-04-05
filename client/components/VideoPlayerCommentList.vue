@@ -1,6 +1,6 @@
 <template>
   <div class="mt-10">
-    <div v-if="loadingInitial">
+    <div v-if="loadingInitial && allcomments != null">
       <v-progress-circular indeterminate color="amber"></v-progress-circular>
     </div>
     <div v-if="!loadingInitial" ref="listComponent">
