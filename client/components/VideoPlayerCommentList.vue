@@ -1,6 +1,13 @@
 <template>
   <div>
-    <video-player-comment-box />
+    <div v-if="!loadingInitial">
+      <video-player-comment-box
+        v-for="(comment, index) in comments"
+        :key="index"
+        :comment="comment"
+        :user="users[index]"
+      />
+    </div>
   </div>
 </template>
 
@@ -18,14 +25,11 @@ export default {
     loadingInitial: true,
     comments: null,
     users: null,
-    UsersAndComments: null,
   }),
   async mounted() {
     try {
       this.comments = await this.getCommentsForVideo();
       this.users = await this.getUsersForComments();
-      this.UsersAndComments = { comments: this.comments, users: this.users };
-      console.log(this.UsersAndComments);
       this.loadingInitial = false;
     } catch (e) {
       return null;
