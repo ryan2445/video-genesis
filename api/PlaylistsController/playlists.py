@@ -231,8 +231,6 @@ def playlistAddVideos(event, context):
     
     if 'videos' not in body:
         return badRequest("Error: videos required in request")
-    if 'playlistTitle' not in body:
-        return badRequest('Error: playlistTitle required in request')
     if 'sk' not in body:
         return badRequest('Error: sk required in request')
     

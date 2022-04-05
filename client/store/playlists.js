@@ -100,6 +100,44 @@ export const actions = {
       return null;
     }
   },
+  /*
+    params: {
+      videos: Video[],
+      sk: playlist sk
+    }
+  */
+  async playlistAddVideos(_, params) {
+    try {
+      console.log('playlistAddVideos params', params)
+      const response = await this.$axios.post('playlists/add-videos', params)
+      console.log('playlistAddVideos resp', response)
+      return response.data
+    }
+    catch(e)
+    {
+      console.error('playlistAddVideos Exception', e)
+      return null
+    }
+  },
+  /*
+    params: {
+      videos: Video[],
+      sk: playlist sk
+    }
+  */
+  async playlistDeleteVideos(_, params) {
+    try {
+      console.log('playlistDeleteVideos params', params)
+      const response = await this.$axios.post('playlists/delete-videos', params)
+      console.log('playlistDeleteVideos resp', response)
+      return response.data
+    }
+    catch(e)
+    {
+      console.error('playlistAddVideos Exception', e)
+      return null
+    }
+  }
 };
 
 export const mutations = {
