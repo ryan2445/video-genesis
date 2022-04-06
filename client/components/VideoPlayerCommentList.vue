@@ -24,10 +24,14 @@
           ></v-progress-circular>
         </div>
         <div slot="no-more" class="-mb-2">
-          <p class="text-gray-500">No More Comments</p>
+          <p class="text-gray-500">End of Comments</p>
         </div>
-        <div slot="no-results" class="-mb-2">
+
+        <div slot="no-results" v-if="allcomments.length == 0" class="-mb-2">
           <p class="text-gray-500">Add a comment</p>
+        </div>
+        <div slot="no-results" v-else class="-mb - 2">
+          <p class="text-gray-500">End of Comments</p>
         </div>
       </infinite-loading>
     </div>
