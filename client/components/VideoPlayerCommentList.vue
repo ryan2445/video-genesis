@@ -16,10 +16,7 @@
         :user="users[index]"
       />
 
-      <infinite-loading
-        v-if="allcomments.length > 10"
-        @infinite="loadMoreComments"
-      >
+      <infinite-loading @infinite="loadMoreComments">
         <div slot="spinner">
           <v-progress-circular
             indeterminate
@@ -51,6 +48,7 @@ export default {
     allcomments: null,
     arrOfPageKey: [],
     users: null,
+    lastKey: "initialQuery",
   }),
   async mounted() {
     try {
@@ -72,7 +70,7 @@ export default {
         const response = await this.$axios.get("comments/all", {
           params: {
             videoId: this.video.sk.split("#")[1],
-            lastKey: "initialQuery",
+            lastKey: this.lastKey,
           },
         });
 
@@ -109,23 +107,34 @@ export default {
     },
     async loadMoreComments($state) {
       try {
-        const response = await this.$axios.get("comments/all", {
-          params: {
-            videoId: this.video.sk.split("#")[1],
-            lastKey: this.arrOfPageKey.pop(),
-          },
-        });
-        this.currentcomments = response.data.Items;
-        let currentusers = await this.getUsersForComments();
-        $state.loaded();
-        if (response.data.LastEvaluatedKey == undefined) {
+        if (this.allcomments.length >= 10) {
+          const response = await this.$axios.get("comments/all", {
+            params: {
+              videoId: this.video.sk.split("#")[1],
+              lastKey: this.arrOfPageKey.pop(),
+            },
+          });
+          $state.loaded();
+          this.currentcomments = response.data.Items;
+          let currentusers = await this.getUsersForComments();
+          this.allcomments.push(...this.currentcomments);
+          this.users.push(...currentusers);
+          if (response.data.LastEvaluatedKey) {
+            console.log(response.data.LastEvaluatedKey.sk.split("#")[1]);
+            this.arrOfPageKey.push(
+              response.data.LastEvaluatedKey.sk.split("#")[1]
+            );
+          }
+
+          console.log(this.arrOfPageKey);
+          if (!this.arrOfPageKey.length) {
+            $state.complete();
+          }
+
+          return response.data;
+        } else {
           $state.complete();
         }
-        this.allcomments.push(...this.currentcomments);
-        this.users.push(...currentusers);
-        console.log(response.data.LastEvaluatedKey.sk.split("#")[1]);
-        this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
-        return response.data;
       } catch (exception) {
         return null;
       }
