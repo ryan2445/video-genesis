@@ -26,6 +26,9 @@
         <div slot="no-more" class="-mb-2">
           <p class="text-gray-500">No More Comments</p>
         </div>
+        <div slot="no-results" class="-mb-2">
+          <p class="text-gray-500">Add a comment</p>
+        </div>
       </infinite-loading>
     </div>
   </div>
