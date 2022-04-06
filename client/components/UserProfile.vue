@@ -40,7 +40,11 @@
             </h2>
             <v-divider></v-divider>
           </div>
-          <component v-bind:is="comp.name" v-bind="comp.props"></component>
+          <component
+            v-bind:is="comp.name"
+            v-bind="comp.props"
+            :playlists="playlists"
+          ></component>
         </v-carousel-item>
       </v-carousel>
     </div>
@@ -55,10 +59,6 @@ export default {
     user: {
       type: Object,
       required: true,
-    },
-    playlist: {
-      type: Object,
-      required: false,
     },
   },
   data() {
@@ -80,11 +80,20 @@ export default {
 
     this.$store.commit("videos/videosSet", videos);
 
+    const playlists = await this.$store.dispatch(
+      "playlists/playlistsGetByUsername",
+      {
+        username: this.user.username,
+      }
+    );
+    this.$store.commit("playlists/playlistsSet", playlists);
+
     this.loading = false;
   },
   computed: {
     ...mapGetters({
       videos: "videos/videos",
+      playlists: "playlists/playlists",
     }),
     tabComponents() {
       return [
