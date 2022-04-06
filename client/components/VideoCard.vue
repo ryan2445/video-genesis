@@ -11,9 +11,7 @@
         :class="{ 'card-hover': hover }"
         outlined
       >
-        <super-resolution-banner 
-          v-if="superResEnabled" 
-        />
+        <super-resolution-banner v-if="superResEnabled" />
         <video-thumbnail
           class="cursor-pointer"
           :video-src="getLink(video)"
@@ -45,96 +43,16 @@
               </div>
             </div>
             <v-divider class="mb-1"></v-divider>
-            <profile-picture-and-username v-if="video.user" :user="video.user"/>
-            <div class="mr-3">
-              <v-dialog
-                v-model="playlistsDialogBox"
-                persistent
-                max-width="600px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    v-bind="attrs"
-                    v-on="on"
-                    fab
-                    depressed
-                    color="grey lighten-1"
-                    width="30"
-                    height="30"
-                    class="mb-2 shadow-md justify-right"
-                    @click="UpdatePlaylist(video.sk)"
-                  >
-                    <v-icon>icon-playlist-plus</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-title>
-                    <span class="text-h5"> Playlist </span>
-                  </v-card-title>
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field
-                            label="Create a new playlist"
-                            type="text"
-                            filled
-                            v-model="newPlayListName"
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-container fluid>
-                        <v-checkbox
-                          v-model="isPrivate"
-                          label="Make the Playlist Private"
-                          @change="onChange"
-                        ></v-checkbox>
+            <profile-picture-and-username
+              v-if="video.user"
+              :user="video.user"
+            />
 
-                        <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="onDialogClose"
-                          >
-                            Close
-                          </v-btn>
-                          <v-btn
-                            color="blue darken-1"
-                            text
-                            @click="createNewPlaylist(video)"
-                          >
-                            Create
-                          </v-btn>
-                        </v-card-actions>
-
-                        <form @submit.prevent="handlePlaylistSubmit" class="playlist-form">
-                          <div
-                            class="form-group form-check"
-                            v-for="item in playlist"
-                            v-bind:key="item.id"
-                          >
-                            <label class="form-check-label" :for="item.id">{{
-                              item.playlistTitle
-                            }}</label>
-                            <input
-                              type="checkbox"
-                              v-model="namesOfThePlaylists"
-                              :id="item.playlistTitle"
-                              :value="item"
-                            />
-                          </div>
-
-                          <div class="form-group">
-                            <button class="btn btn-primary">Submit</button>
-                          </div>
-                        </form>
-                      </v-container>
-                    </v-container>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
-            </div>
+            <save-to-play-list
+              :playlist="playlist"
+              :video="video"
+              :user="user"
+            />
             <div class="py-1 overflow-hidden" style="max-height: 49px">
               <div class="cardDescription text-gray-700">
                 {{ video.videoDescription }}
@@ -160,23 +78,26 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import SaveToPlayList from "../components/savetoplaylist.vue";
 
 export default {
   name: "VideoCard",
+  components: { SaveToPlayList },
   data() {
     return {
-      namesOfThePlaylists: [],
+      // namesOfThePlaylists: [],
       loading: false,
       dialog: false,
-      playlistsDialogBox: false,
-      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      // playlistsDialogBox: false,
+      bucket_url:
+        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       startTime: 0,
       thumbnailLoaded: false,
-      newPlayListName: null,
-      isPrivate: false,
-      playlistNames: {
-        addToPlaylist: [],
-      },
+      // newPlayListName: null,
+      // isPrivate: false,
+      // playlistNames: {
+      //   addToPlaylist: [],
+      // },
     };
   },
   props: {
@@ -187,13 +108,32 @@ export default {
     idx: {
       type: Number,
       required: true,
+    },
+    playlists: {
+      type: Array,
+      required: false,
+    },
+  },
+  async mounted() {
+    if (this.playlists) {
+      return;
     }
+    const playlists = await this.$store.dispatch(
+      "playlists/playlistsGetByUsername",
+      {
+        username: this.user.username,
+      }
+    );
+    this.$store.commit("playlists/playlistsSet", playlists);
   },
   computed: {
     ...mapGetters({
       user: "user/user",
-      playlist: "playlists/playlists",
+      playlistStore: "playlists/playlists",
     }),
+    playlist() {
+      return this.playlistStore || this.playlists;
+    },
     videoPK() {
       // If the video does not exist, return null
       if (!this.video) return null;
@@ -227,89 +167,24 @@ export default {
     },
   },
   methods: {
-    async handlePlaylistSubmit() {
-      for (let index = 0; index < this.playlist.length; index++) {
-        if (String(this.playlist[index].videos).includes(this.video.sk)) {
-          let deleteVideoFromPlaylist = true;
+    /*
+   
 
-          for (let i = 0; i < this.namesOfThePlaylists.length; i++) {
-            if (this.playlist[index] === this.namesOfThePlaylists[i]) {
-              deleteVideoFromPlaylist = false;
-            }
-          }
-
-          if (deleteVideoFromPlaylist) {
-            await this.removeVideoFromPlaylist(
-              this.playlist[index].sk,
-              this.playlist[index].videos,
-              this.video.sk
-            );
-          }
-        }
-      }
-
-      for (
-        let index = 0;
-        index < this.namesOfThePlaylists.length;
-        index++
-      ) {
-        await this.addVideoToPlaylist(
-          this.namesOfThePlaylists[index].sk,
-          this.namesOfThePlaylists[index].videos
-        );
+      for (let index = 0; index < this.namesOfThePlaylists.length; index++) {
+        await this.addVideoToPlaylist(this.namesOfThePlaylists[index].sk, [
+          {
+            sk: this.video.sk,
+            pk: this.video.pk,
+          },
+        ]);
       }
     },
-    async onDialogClose() {
-      this.playlistsDialogBox = false;
-    },
-    async createNewPlaylist(video) {
-      //  Create playlist
-      await this.$store.dispatch("playlists/playlistsPost", {
-        playlistTitle: this.newPlayListName,
-        isPrivate: this.isPrivate,
-        video: video,
-      });
-      this.playlistsDialogBox = false;
-    },
-    async UpdatePlaylist(videoSk) {
-      const playlistNames = await this.$store.dispatch(
-        "playlists/playlistsGet"
-      );
+  
+   
+    
+      
 
-      for (let index = 0; index < this.playlist.length; index++) {
-        if (String(this.playlist[index].videos).includes(videoSk)) {
-          this.namesOfThePlaylists.push(this.playlist[index]);
-        }
-      }
-    },
-    async addVideoToPlaylist(playlistKey, videos) {
-      const playlistNames = await this.$store.dispatch(
-        "playlists/playlistsPut",
-        {
-          sk: playlistKey,
-          videos: videos + "," + this.video.sk,
-        }
-      );
-    },
-    async removeVideoFromPlaylist(playlistKey, videos, videoToRemove) {
-      videos = String(videos).replace(videoToRemove + ",", "");
-      videos = String(videos).replace(",,", "");
-      videos = String(videos).replace("," + videoToRemove, "");
-      videos = String(videos).replace(videoToRemove, "");
-      // alert(videos);
-      const playlistNames = await this.$store.dispatch(
-        "playlists/playlistsPut",
-        {
-          sk: playlistKey,
-          videos: videos,
-        }
-      );
-    },
-    onChange() {
-      this.$emit("update", {
-        isPrivate: this.isPrivate,
-      });
-    },
+    */
     onCardClick() {
       this.$router.push(
         `/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`
