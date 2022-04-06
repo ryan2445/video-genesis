@@ -43,7 +43,6 @@
           <component
             v-bind:is="comp.name"
             v-bind="comp.props"
-            :playlists="playlists"
           ></component>
         </v-carousel-item>
       </v-carousel>
@@ -101,6 +100,7 @@ export default {
           name: "video-list",
           props: {
             videos: this.videos,
+            playlists: this.playlists
           },
           title: true,
         },
@@ -113,7 +113,7 @@ export default {
         {
           name: "profile-playlists",
           props: {
-            user: this.user,
+            user: this.user
           },
         },
       ];

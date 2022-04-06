@@ -1,14 +1,14 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-3 relative">
+    <new-playlist-button />
     <v-row class="relative" v-if="playlists" justify="center" align="center" >
-      <new-playlist-button />
       <v-col>
         <div 
           v-for="(playlist, i) in playlists"
           :key="playlist.sk"
           class="flex flex-1 flex-col"
         >
-          <playlist-card :playlist="playlist"></playlist-card>
+          <playlist-card :playlist="playlist" @playlist:deleted="onPlaylistDeleted"></playlist-card>
           <v-divider v-if="i !== playlists.length - 1"  />
         </div>
       </v-col>
@@ -38,14 +38,7 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.user);
-    const playlists = await this.$store.dispatch(
-      "playlists/playlistsGetByUsername",
-      {
-        username: this.user.username,
-      }
-    );
-    this.$store.commit("playlists/playlistsSet", playlists);
+    await this.getPlaylists()
 
     //  Stop loading
     this.loading = false;
@@ -56,11 +49,23 @@ export default {
     })
   },
   methods: {
+    async getPlaylists() {
+      const playlists = await this.$store.dispatch(
+        "playlists/playlistsGetByUsername",
+        {
+          username: this.user.username,
+        }
+      );
+
+      this.$store.commit("playlists/playlistsSet", playlists);
+    },
     async onPlaylistDeleteConfirmation() {
-      // alert(this.videoSKToDelete);
       await this.$store.dispatch("playlists/playlistsDelete", {
         sk: this.videoSKToDelete,
       });
+
+      await this.getPlaylists()
+      
       this.deleteDialogBox = false;
     },
     async setVideoSKToDelete(playlistSK) {
@@ -69,6 +74,9 @@ export default {
     async onDeleteDialogClose() {
       this.deleteDialogBox = false;
     },
+    async onPlaylistDeleted(playlist) {
+      
+    }
   },
 };
 </script>

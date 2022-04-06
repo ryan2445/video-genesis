@@ -102,7 +102,9 @@ export default {
           sk: this.playlistFull.sk
         }
 
-        this.$store.dispatch('playlists/playlistsDelete', params)
+        await this.$store.dispatch('playlists/playlistsDelete', params)
+
+        this.$emit('playlist:deleted', this.playlistFull)
       }
       catch(e) {
         console.error('Playlist delete error')
