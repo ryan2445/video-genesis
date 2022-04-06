@@ -11,7 +11,6 @@
         </video-container>
       </template>
       <div v-if="!loading">
-        <video-player-comment-form :video="video" />
         <video-player-comment-list :video="video" />
       </div>
     </v-col>

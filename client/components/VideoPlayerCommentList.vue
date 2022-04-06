@@ -1,5 +1,6 @@
 <template>
-  <div class="mt-10">
+  <div class="mt-4">
+    <video-player-comment-form :video="video" class="mb-4" />
     <div v-if="loadingInitial && allcomments != null">
       <v-progress-circular indeterminate color="amber"></v-progress-circular>
     </div>
@@ -16,6 +17,9 @@
             indeterminate
             color="amber"
           ></v-progress-circular>
+        </div>
+        <div slot="no-more" class="-mb-2">
+          <p class="text-gray-500">No More Comments</p>
         </div>
       </infinite-loading>
     </div>
