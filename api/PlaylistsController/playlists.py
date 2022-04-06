@@ -283,7 +283,10 @@ def playlistAddVideos(event, context):
         vid = resp['Items'][0]
         
         # Query the playlist item
-        resp = dynamodb.query(KeyConditionExpression = Key('pk').eq(playlist['sk']) & Key('sk').begins_with('playlistVideo#') & Key('videoPK').eq(vid['pk']) & Key('videoSK').eq(vid['sk']), Limit=1)
+        resp = dynamodb.query(
+            KeyConditionExpression = Key('pk').eq(playlist['sk']) & Key('sk').begins_with('playlistVideo#'),
+            FilterExpression = Key('videoSK').eq(vid['sk']) & Key('videoPK').eq(vid['pk'])
+        )
         
         # If the playlist item already exists, continue
         if (resp['Count'] >= 1):
@@ -313,8 +316,6 @@ def playlistDeleteVideos(event, context):
     
     if 'videos' not in body:
         return badRequest("Error: videos required in request")
-    if 'playlistTitle' not in body:
-        return badRequest('Error: playlistTitle required in request')
     if 'sk' not in body:
         return badRequest('Error: sk required in request')
     
@@ -340,7 +341,10 @@ def playlistDeleteVideos(event, context):
         videoPK = video['pk']
         videoSK = video['sk']
         
-        resp = dynamodb.query(KeyConditionExpression = Key('pk').eq(playlist['sk']) & Key('sk').begins_with('playlistVideo#') & Key('videoPK').eq(videoPK) & Key('videoSK').eq(videoSK), Limit=1)
+        resp = dynamodb.query(
+            KeyConditionExpression = Key('pk').eq(playlist['sk']) & Key('sk').begins_with('playlistVideo#'),
+            FilterExpression = Key('videoSK').eq(videoSK) & Key('videoPK').eq(videoPK)
+        )
         
         if resp['Count'] <= 0:
             print('could not find playlist item {videoPK} {videoSK}')
@@ -415,7 +419,7 @@ def handle(event, context):
         'POST': {
             '/playlists': playlistsPost,
             '/playlists/add-videos': playlistAddVideos,
-            '/playlist/delete-videos': playlistDeleteVideos,
+            '/playlists/delete-videos': playlistDeleteVideos,
         },
         'PUT': {
             '/playlists': playlistsPut
