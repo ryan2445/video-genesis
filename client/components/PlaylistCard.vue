@@ -34,6 +34,22 @@
         </div>
       </div>
     </div>
+    <div
+      class="flex flex-1"
+    >
+      <div class="ml-auto my-auto mr-3">
+        <v-btn
+          icon
+          @click="onDelete"
+          :loading="deleting"
+          :disabled="deleting"
+        >
+          <v-icon>
+            icon-delete
+          </v-icon>
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,6 +66,7 @@ export default {
     return {
       playlistFull: null,
       thumbnail: null,
+      deleting: false,
     }
   },
   async mounted() {
@@ -64,6 +81,24 @@ export default {
       const playlist = await this.$store.dispatch('playlists/playlistGet', params)
 
       this.playlistFull = playlist
+    },
+    async onDelete() {
+      this.deleting = true
+
+      try {
+        const params = {
+          pk: this.playlistFull.pk,
+          sk: this.playlistFull.sk
+        }
+
+        this.$store.dispatch('playlists/playlistsDelete', params)
+      }
+      catch(e) {
+        console.error('Playlist delete error')
+      }
+      finally {
+        this.deleting = false
+      }
     }
   },
   computed: {
