@@ -85,19 +85,13 @@ export default {
   components: { SaveToPlayList },
   data() {
     return {
-      // namesOfThePlaylists: [],
       loading: false,
       dialog: false,
-      // playlistsDialogBox: false,
+
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       startTime: 0,
       thumbnailLoaded: false,
-      // newPlayListName: null,
-      // isPrivate: false,
-      // playlistNames: {
-      //   addToPlaylist: [],
-      // },
     };
   },
   props: {
@@ -167,24 +161,6 @@ export default {
     },
   },
   methods: {
-    /*
-   
-
-      for (let index = 0; index < this.namesOfThePlaylists.length; index++) {
-        await this.addVideoToPlaylist(this.namesOfThePlaylists[index].sk, [
-          {
-            sk: this.video.sk,
-            pk: this.video.pk,
-          },
-        ]);
-      }
-    },
-  
-   
-    
-      
-
-    */
     onCardClick() {
       this.$router.push(
         `/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`
