@@ -1,70 +1,37 @@
 <template>
-    <v-hover 
-        v-slot="{ hover }"
-        :open-delay="300"
-    >
-        <div
-            class="relative"
-            :style="`height: ${height}px; width: ${width}px;`"
-            @click.prevent="onClick"
-        >
-            <v-progress-linear
-                absolute
-                top
-                indeterminate
-                :active="(hover || play) && !videoCanPlay"
-            />
-            <video
-                ref="videoRef"
-                v-show="videoCanPlay && (hover || play || thumbnailError)"
-                :controls="false"
-                height="100%"
-                width="100%"
-                loop
-                autoplay
-                muted
-                @play="onPlay"
-                @pause="onPause"
-                @canplay="onCanPlay"
-                :src="videoSrc"
-                class="object-cover w-full h-full"
-            />
-            <img
-                v-show="!videoCanPlay || (!hover && !play && !thumbnailError)"
-                alt="Video Thumbnail"
-                :src="thumbnailLink"
-                class="w-full h-full object-cover"
-                @load="onThumbnailLoad"
-                @error="onThumbnailError"
-            />
-            <div 
-                v-if="videoCanPlay && (hover || play)"
-                class="absolute bottom-2 left-3 z-50"
-            >
-                <div 
-                    class="px-1"
-                    style="background: rgba(29, 29, 29, 0.5);"
-                >
+    <v-hover v-slot="{ hover }" :open-delay="300">
+        <div class="relative" :style="`height: ${height}px; width: ${width}px;`"
+            @click.prevent="onClick">
+            <v-progress-linear absolute top indeterminate
+                :active="(hover || play) && !videoCanPlay" />
+            <video ref="videoRef" v-show="videoCanPlay && (hover || play)"
+                :controls="false" height="100%" width="100%" loop autoplay muted
+                @play="onPlay" @pause="onPause" @canplay="onCanPlay" :src="videoSrc"
+                class="object-cover w-full h-full" />
+            <img v-show="!videoCanPlay || (!hover && !play && !thumbnailError)"
+                alt="Video Thumbnail" :src="thumbnailLink"
+                class="w-full h-full object-cover" @load="onThumbnailLoad"
+                @error="onThumbnailError" />
+            <div v-if="!videoCanPlay || (!hover && !play && thumbnailError)"
+                class="w-full h-full" style="background-color:grey;">
+            </div>
+            <div v-if="videoCanPlay && (hover || play)"
+                class="absolute bottom-2 left-3 z-50">
+                <div class="px-1" style="background: rgba(29, 29, 29, 0.5);">
                     <span class="text-white" style="font-size:12px;">
                         {{ readableCurrentTime }} / {{ readableDuration }}
                     </span>
                 </div>
             </div>
-            <v-progress-linear 
-                absolute
-                bottom
-                :active="videoCanPlay && (hover || play)"
-                color="orange"
-                :height="6"
-                :value="videoProgress"
-            />
+            <v-progress-linear absolute bottom :active="videoCanPlay && (hover || play)"
+                color="orange" :height="6" :value="videoProgress" />
         </div>
     </v-hover>
 </template>
 
 <script>
 export default {
-    name: "VideoThumbnail",
+    name: 'VideoThumbnail',
     emits: ['video:loaded', 'click', 'videoTimeChange', 'thumbnail:loaded'],
     props: {
         // The source url of the video (for preview)
@@ -114,7 +81,7 @@ export default {
             thumbnailTime: 0,
             duration: 10e9,
             thumbnailError: false,
-            
+
             // True if the video has played at least once
             playedAtLeastOnce: false
         }
@@ -130,7 +97,7 @@ export default {
             if (!video) return
 
             this.duration = video.duration
-            
+
             // This error occurs whenever the image cannot be loaded due to an invalid link
             if (this.thumbnailError) {
                 this.onThumbnailLoad()
@@ -148,19 +115,19 @@ export default {
         },
         getCurrentTime() {
             if (!this.playing) return
-            
+
             // Get the video element
             const videoEl = this.$refs.videoRef
 
             // If the video element does not exist, return
             if (!videoEl) return
-            
+
             // Get the current time the video is at
-            const time = videoEl.currentTime;
-            
+            const time = videoEl.currentTime
+
             // Set the current time
             this.currentTime = time
-            
+
             // Emit the videoTimeChange event with the current time
             this.$emit('videoTimeChange', time)
 
@@ -175,10 +142,8 @@ export default {
             this.waitForVideoLoad()
         },
         waitForVideoLoad() {
-            if (!this.videoCanPlay) 
-                setTimeout(this.waitForVideoLoad, 30)
-            else
-                this.loadVideoForThumbnail()
+            if (!this.videoCanPlay) setTimeout(this.waitForVideoLoad, 30)
+            else this.loadVideoForThumbnail()
         },
         loadVideoForThumbnail() {
             const video = this.$refs.videoRef
@@ -194,13 +159,16 @@ export default {
     },
     computed: {
         thumbnailLink() {
-            return this.thumbnailSrc || `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000001.jpg`
+            return (
+                this.thumbnailSrc ||
+                `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000001.jpg`
+            )
         },
         videoProgress() {
             return (this.currentTime / this.duration) * 100
         },
         readableCurrentTime() {
-            if (this.currentTime == null) return "00:00"
+            if (this.currentTime == null) return '00:00'
 
             let time = new Date(this.currentTime * 1000).toISOString().substr(11, 8)
 
@@ -211,7 +179,7 @@ export default {
             return time
         },
         readableDuration() {
-            if (this.duration == null) return "00:00"
+            if (this.duration == null) return '00:00'
 
             let time = new Date(this.duration * 1000).toISOString().substr(11, 8)
 
@@ -230,19 +198,16 @@ export default {
                 if (!video.playedAtLeastOnce) {
                     this.playedAtLeastOnce = true
                     this.currentTime = 0
-                }
-                else {
+                } else {
                     video.currentTime = currentTime
                 }
 
                 video.play()
-            }
-            else {
-                if (this.thumbnailError) 
-                    video.currentTime = this.thumbnailTime
-                
+            } else {
+                if (this.thumbnailError) video.currentTime = this.thumbnailTime
+
                 video.pause()
-            } 
+            }
         }
     }
 }
