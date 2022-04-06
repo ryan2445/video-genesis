@@ -15,7 +15,11 @@
         :comment="comment"
         :user="users[index]"
       />
-      <infinite-loading @infinite="loadMoreComments">
+
+      <infinite-loading
+        v-if="allcomments.length > 10"
+        @infinite="loadMoreComments"
+      >
         <div slot="spinner">
           <v-progress-circular
             indeterminate
@@ -53,7 +57,6 @@ export default {
       await this.getCommentsForVideo();
       this.users = await this.getUsersForComments();
       this.loadingInitial = false;
-      window.addEventListener("scroll", handleScroll);
     } catch (e) {
       return null;
     }
@@ -74,8 +77,14 @@ export default {
         });
 
         console.log(response);
-        this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
+        if (response.data.LastEvaluatedKey) {
+          this.arrOfPageKey.push(
+            response.data.LastEvaluatedKey.sk.split("#")[1]
+          );
+        }
+
         this.currentcomments = response.data.Items;
+
         this.allcomments = this.currentcomments;
         return response.data.Items;
       } catch (exception) {
