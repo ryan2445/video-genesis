@@ -135,7 +135,7 @@ export default {
         return `playlists?pk=${this.playlist.pk}&sk=${this.playlist.sk}`
       }
 
-      return `videos/pk=${this.playlistFull.videos[0].videoPK}&sk=${this.playlistFull.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
+      return `/videos/pk=${this.playlistFull.videos[0].videoPK}&sk=${this.playlistFull.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
 
     }
   }
