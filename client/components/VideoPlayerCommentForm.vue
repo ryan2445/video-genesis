@@ -67,6 +67,7 @@ export default {
       //   return null;
       // }
       this.isLoading = false;
+      this.$emit("addCommentToTheTop");
       this.content = "";
     },
   },

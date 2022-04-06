@@ -1,6 +1,10 @@
 <template>
   <div class="mt-4">
-    <video-player-comment-form :video="video" class="mb-4" />
+    <video-player-comment-form
+      :video="video"
+      class="mb-4"
+      v-on:addCommentToTheTop="addCommentToTheTop()"
+    />
     <div v-if="loadingInitial && allcomments != null">
       <v-progress-circular indeterminate color="amber"></v-progress-circular>
     </div>
@@ -46,7 +50,7 @@ export default {
   }),
   async mounted() {
     try {
-      this.allcomments = await this.getCommentsForVideo();
+      await this.getCommentsForVideo();
       this.users = await this.getUsersForComments();
       this.loadingInitial = false;
       window.addEventListener("scroll", handleScroll);
@@ -56,20 +60,23 @@ export default {
   },
 
   methods: {
-    async getCommentsForVideo() {
+    async getCommentsForVideo($state) {
       try {
         // const response = await this.$axios.get(
         //   `comments?videoId=${this.video.sk.split("#")[1]}`
         // );
-        const response = await this.$axios.get("comments", {
+
+        const response = await this.$axios.get("comments/all", {
           params: {
             videoId: this.video.sk.split("#")[1],
             lastKey: "initialQuery",
           },
         });
+
         console.log(response);
         this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
         this.currentcomments = response.data.Items;
+        this.allcomments = this.currentcomments;
         return response.data.Items;
       } catch (exception) {
         return null;
@@ -93,7 +100,7 @@ export default {
     },
     async loadMoreComments($state) {
       try {
-        const response = await this.$axios.get("comments", {
+        const response = await this.$axios.get("comments/all", {
           params: {
             videoId: this.video.sk.split("#")[1],
             lastKey: this.arrOfPageKey.pop(),
@@ -110,6 +117,22 @@ export default {
         console.log(response.data.LastEvaluatedKey.sk.split("#")[1]);
         this.arrOfPageKey.push(response.data.LastEvaluatedKey.sk.split("#")[1]);
         return response.data;
+      } catch (exception) {
+        return null;
+      }
+    },
+
+    async addCommentToTheTop() {
+      try {
+        const response = await this.$axios.get("comments", {
+          params: {
+            videoId: this.video.sk.split("#")[1],
+          },
+        });
+        this.currentcomments = response.data.Items;
+        let currentusers = await this.getUsersForComments();
+        this.allcomments.unshift(...this.currentcomments);
+        this.users.unshift(...currentusers);
       } catch (exception) {
         return null;
       }

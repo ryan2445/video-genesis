@@ -98,12 +98,21 @@ def deleteUserComment(event, context):
         'body': json({'response': response})
     }
 
+def getSingleVideoComment(event, context):
+    videoId = event['queryStringParameters']['videoId']
+    response = dynamodb.query(KeyConditionExpression= Key('pk').eq("VIDEO#" + videoId) & Key('sk').begins_with('COMMENT'),  ScanIndexForward = False, Limit = 1)
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response)
+    }
 
 def handle(event, context):
     response = None
     
     methods = {
-        'GET': {'/comments': getVideoComments},
+        'GET': {'/comments/all': getVideoComments, 
+                '/comments': getSingleVideoComment},
         'POST': {'/comments': updateUserComment},
         'PUT': {'/comments': createUserComment},
         'DELETE': {'/comments': deleteUserComment},
