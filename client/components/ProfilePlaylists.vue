@@ -19,6 +19,7 @@
 import { mapGetters } from "vuex";
 
 export default {
+  name: "ProfilePlaylists",
   props: {
     user: {
       type: Object,
@@ -75,7 +76,7 @@ export default {
       this.deleteDialogBox = false;
     },
     async onPlaylistDeleted(playlist) {
-      
+
     }
   },
 };

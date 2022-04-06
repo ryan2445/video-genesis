@@ -28,35 +28,22 @@
               class="flex justify-between w-full items-center cursor-pointer"
               @click="onCardClick"
             >
-              <div class="text-gray-800 cardTitle">
-                {{ video.videoTitle }}
-              </div>
+              <div class="text-gray-800 cardTitle">{{ video.videoTitle }}</div>
               <div v-if="video && isOwner" class="mr-2">
                 <v-hover>
                   <video-card-settings-menu
                     :video-thumbnail="videoThumbnail"
                     :idx="idx"
                     :video="video"
-                    :playlist="playlist"
                   />
                 </v-hover>
               </div>
             </div>
             <v-divider class="mb-1"></v-divider>
-            <profile-picture-and-username
-              v-if="video.user"
-              :user="video.user"
-            />
-
-            <save-to-play-list
-              :playlist="playlist"
-              :video="video"
-              :user="user"
-            />
+            <profile-picture-and-username v-if="video.user" :user="video.user" />
+            <save-to-playlist :video="video" :user="user" />
             <div class="py-1 overflow-hidden" style="max-height: 49px">
-              <div class="cardDescription text-gray-700">
-                {{ video.videoDescription }}
-              </div>
+              <div class="cardDescription text-gray-700">{{ video.videoDescription }}</div>
             </div>
             <v-row>
               <v-card-actions class="justify-left"></v-card-actions>
@@ -78,18 +65,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import SaveToPlayList from "../components/savetoplaylist.vue";
-
 export default {
   name: "VideoCard",
-  components: { SaveToPlayList },
   data() {
     return {
       loading: false,
       dialog: false,
-
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       startTime: 0,
       thumbnailLoaded: false,
     };
@@ -103,54 +85,36 @@ export default {
       type: Number,
       required: true,
     },
-    playlists: {
-      type: Array,
-      required: false,
-    },
-  },
-  async mounted() {
-    if (this.playlists) {
-      return;
-    }
-    const playlists = await this.$store.dispatch(
-      "playlists/playlistsGetByUsername",
-      {
-        username: this.user.username,
-      }
-    );
-    this.$store.commit("playlists/playlistsSet", playlists);
   },
   computed: {
     ...mapGetters({
       user: "user/user",
-      playlistStore: "playlists/playlists",
     }),
-    playlist() {
-      return this.playlistStore || this.playlists;
-    },
     videoPK() {
       // If the video does not exist, return null
-      if (!this.video) return null;
-
+      if (!this.video)
+        return null;
       return this.video.pk;
     },
     videoSK() {
       // If the video does not exist, return null
-      if (!this.video) return null;
-
+      if (!this.video)
+        return null;
       return this.video.sk;
     },
     isOwner() {
       return this.owner === this.user.username;
     },
     owner() {
-      if (!this.video) return null;
-      if (!this.video.pk) return null;
+      if (!this.video)
+        return null;
+      if (!this.video.pk)
+        return null;
       return this.video.pk.substr(3);
     },
     videoThumbnail() {
-      if (!this.video) return null;
-
+      if (!this.video)
+        return null;
       return this.video.videoThumbnail;
     },
     loaded() {
@@ -162,9 +126,7 @@ export default {
   },
   methods: {
     onCardClick() {
-      this.$router.push(
-        `/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`
-      );
+      this.$router.push(`/videos/pk=${this.videoPK}&sk=${this.videoSK}&time=${this.startTime}`);
     },
     getLink(video) {
       return `${this.bucket_url}/${video.videoKey}/${video.videoKey}_1500.mp4`;
@@ -175,7 +137,7 @@ export default {
     onThumbnailLoaded() {
       this.thumbnailLoaded = true;
     },
-  },
+  }
 };
 </script>
 

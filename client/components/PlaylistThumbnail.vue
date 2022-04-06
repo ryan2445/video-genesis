@@ -8,7 +8,7 @@
           :src="thumbnail" 
           :alt="`${playlist.playlistTitle} thumbnail`"
         />
-        <alternate-video-thumbnail />
+        <alternate-video-thumbnail v-else />
         <div class="playlist-thumbnail-views-container absolute right-0 top-0 bottom-0 h-full grid place-items-center px-2">
           <div class="flex flex-col">
             <div>
