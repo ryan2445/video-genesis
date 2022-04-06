@@ -12,9 +12,9 @@
                 alt="Video Thumbnail" :src="thumbnailLink"
                 class="w-full h-full object-cover" @load="onThumbnailLoad"
                 @error="onThumbnailError" />
-            <div v-if="!videoCanPlay || (!hover && !play && thumbnailError)"
-                class="w-full h-full" style="background-color:grey;">
-            </div>
+            <alternate-video-thumbnail 
+                v-if="!videoCanPlay || (!hover && !play && thumbnailError)"
+            />
             <div v-if="videoCanPlay && (hover || play)"
                 class="absolute bottom-2 left-3 z-50">
                 <div class="px-1" style="background: rgba(29, 29, 29, 0.5);">

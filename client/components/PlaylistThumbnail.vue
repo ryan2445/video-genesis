@@ -8,14 +8,7 @@
           :src="thumbnail" 
           :alt="`${playlist.playlistTitle} thumbnail`"
         />
-        <div
-          v-else
-          class="playlist-thumbnail thumbnail-blank w-full h-full grid place-content-center"
-        >
-          <v-icon color="white" large>
-            icon-video
-          </v-icon>
-        </div>
+        <alternate-video-thumbnail />
         <div class="playlist-thumbnail-views-container absolute right-0 top-0 bottom-0 h-full grid place-items-center px-2">
           <div class="flex flex-col">
             <div>
@@ -106,8 +99,5 @@ export default {
 }
 .playlist-thumbnail-play-all-container {
   background: rgba(0, 0, 0, 0.80);
-}
-.thumbnail-blank {
-  background: radial-gradient(circle at center, orange 0, black 80%);
 }
 </style>
