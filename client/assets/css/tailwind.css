@@ -22,3 +22,16 @@ div.video-context-menu > div.v-list {
 div.userProfileCarousel, .user-carousel-item > div {
   overflow: visible !important;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background: #636363;
+}
+::-webkit-scrollbar-thumb:active {
+    background: #494949;
+}
+::-webkit-scrollbar-track {
+    background: lightgrey;
+}
