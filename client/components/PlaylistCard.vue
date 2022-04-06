@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-row w-full my-3">
+  <div 
+    v-if="playlistFull"
+    class="flex flex-row w-full my-3" 
+  >
     <playlist-thumbnail 
-      v-if="playlistFull" 
       :playlist="playlistFull"
       :to="`playlists?pk=${playlist.pk}&sk=${playlist.sk}`" 
     />
@@ -12,7 +14,6 @@
         </h1>
       </div>
       <playlist-card-user-link 
-        v-if="playlistFull" 
         :user="playlistFull.user" 
       />
       <div

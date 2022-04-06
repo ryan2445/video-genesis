@@ -5,7 +5,7 @@
     >
         <div
             class="relative"
-            style="height: 280px; width: 380px;"
+            :style="`height: ${height}px; width: ${width}px;`"
             @click.prevent="onClick"
         >
             <v-progress-linear
@@ -94,6 +94,16 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+        height: {
+            type: String | Number,
+            required: false,
+            default: '280'
+        },
+        width: {
+            type: String | Number,
+            required: false,
+            default: '380'
         }
     },
     data() {

@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-row w-full">
+  <div class="flex flex-row w-screen">
     <playlist-page-info-column v-if="playlist" :playlist="playlist" />
+    <playlist-table v-if="playlist" :playlist="playlist" />
   </div>
 </template>
 

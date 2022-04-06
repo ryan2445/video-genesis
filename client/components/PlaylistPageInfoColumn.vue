@@ -1,6 +1,6 @@
 <template>
   <div
-    class="playlist-info-container h-screen bg-gray-200"
+    class="playlist-info-container h-screen bg-gray-200 flex"
   >
     <div class="flex flex-col w-full pt-4 px-2">
       <div class="playlist-info-thumbnail-container mb-4">
