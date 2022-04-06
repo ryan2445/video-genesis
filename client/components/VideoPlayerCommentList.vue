@@ -13,6 +13,7 @@
         v-for="(comment, index) in allcomments"
         :key="index"
         :comment="comment"
+        :index="index"
         :user="users[index]"
       />
 
