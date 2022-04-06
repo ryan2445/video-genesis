@@ -5,7 +5,7 @@
   >
     <playlist-thumbnail 
       :playlist="playlistFull"
-      :to="`playlists?pk=${playlist.pk}&sk=${playlist.sk}`" 
+      :to="playlistThumbnailLink" 
     />
     <div class="playlist-info-container py-2">
       <div class="playlist-title text-base font-bold">
@@ -38,6 +38,17 @@
       class="flex flex-1"
     >
       <div class="ml-auto my-auto mr-3">
+        <NuxtLink
+          :to="`playlists?pk=${playlist.pk}&sk=${playlist.sk}`"
+        >
+          <v-btn
+            icon
+          >
+            <v-icon>
+              icon-pencil-outline
+            </v-icon>
+          </v-btn>
+        </NuxtLink>
         <v-btn
           icon
           @click="onDelete"
@@ -117,6 +128,15 @@ export default {
       }
 
       return latestVideosTitles
+    },
+    playlistThumbnailLink() {
+      if (!this.playlistFull) return null
+      if (this.playlistFull.videos.length === 0) {
+        return `playlists?pk=${this.playlist.pk}&sk=${this.playlist.sk}`
+      }
+
+      return `videos/pk=${this.playlistFull.videos[0].videoPK}&sk=${this.playlistFull.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
+
     }
   }
 }

@@ -11,6 +11,8 @@
         :audio="audio"
         :start-time="startTime" 
         :video-data="videoData" 
+        :autoplay="autoplay"
+        @ended="onEnded"
       />
       <video-preview
         v-if="previewLowRes"
@@ -72,6 +74,11 @@ export default {
     videoData: {
       type: Array,
       required: true
+    },
+    autoplay: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -149,6 +156,9 @@ export default {
     },
     showDefaultPlayer(bool) {
       this.previewDefault = bool
+    },
+    onEnded() {
+      this.$emit('video:ended')
     }
   }
   

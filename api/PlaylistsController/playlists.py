@@ -28,6 +28,22 @@ def getPlaylist_(playlistPK, playlistSK):
     if response['Count'] > 0:
         playlistItems = response['Items']
         
+        # Init a dict to map users
+        userMap = {}
+
+        def addUser(video):
+            pk = video['pk']
+            if pk in userMap:
+                video["user"] = userMap[pk]
+            else:
+                # Get the user
+                user = dynamodb.query(KeyConditionExpression = Key('pk').eq(pk) & Key('sk').eq('USER'), Limit=1)
+                # If the user exists, attach them to the video
+                if (user["Count"] >= 1):
+                    video["user"] = user["Items"][0]
+                    userMap[pk] = user["Items"][0]
+            return video
+        
         # Init a dict to map videos
         videoMap = {}
 
@@ -43,8 +59,10 @@ def getPlaylist_(playlistPK, playlistSK):
                 
                 # If the video exists, attach them to the playlistItem
                 if (resp["Count"] >= 1):
-                    print("got video for playlist")
                     video = resp['Items'][0]
+                    
+                    video = addUser(video)
+                    
                     playlistItem["video"] = video
                     videoMap[videoSK] = video
             return playlistItem

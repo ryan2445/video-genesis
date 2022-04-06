@@ -3,6 +3,7 @@
     class="relative"
   >
     <video
+      v-if="!autoplay"
       id="videoplayer"
       controls
       preload="auto"
@@ -12,6 +13,27 @@
       @pause="onPlayerPause($event)"
       @volumechange="onVolumeChange($event)"
       @resolutionchange="onResChange($event)"
+      @ended="onEnded($event)"
+    >
+      <audio 
+        v-if="audioEnabled" 
+        :src="audio" 
+        ref="audioPlayer">
+      </audio>
+    </video>
+    <video
+      v-else-if="autoplay"
+      id="videoplayer"
+      controls
+      autoplay
+      preload="auto"
+      ref="videoPlayer"
+      class="video-js vjs-big-play-centered vjs-16-9"
+      @play="onPlayerPlay($event)"
+      @pause="onPlayerPause($event)"
+      @volumechange="onVolumeChange($event)"
+      @resolutionchange="onResChange($event)"
+      @ended="onEnded($event)"
     >
       <audio 
         v-if="audioEnabled" 
@@ -40,6 +62,11 @@ export default {
       required: false,
       default: null,
       type: String | Number
+    },
+    autoplay: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
@@ -78,6 +105,7 @@ export default {
         sources: this.videoData,
         responsive: false,
         aspectRatio: '16:9',
+        autoplay: this.autoplay,
         fill: true,
         plugins: {
           videoJsResolutionSwitcher: {
@@ -199,6 +227,9 @@ export default {
       const el = this.$refs.videoPlayer
       if (!el) return true
       return this.$refs.videoPlayer.paused
+    },
+    onEnded() {
+      this.$emit('ended')
     }
   },
   computed: {
@@ -217,6 +248,9 @@ export default {
     videoData() {
       this.initVideoPlayer();
     },
+    autoplay() {
+      this.initVideoPlayer();
+    }
   },
 };
 </script>
