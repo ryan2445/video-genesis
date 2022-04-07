@@ -1,6 +1,6 @@
 <template>
   <div class="mr-3">
-    <v-dialog v-model="playlistsDialogBox" persistent max-width="300px">
+    <v-dialog v-model="playlistsDialogBox" persistent max-width="255px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
@@ -15,24 +15,27 @@
           <v-icon>icon-playlist-plus</v-icon>
         </v-btn>
       </template>
-      <v-card>
-        <v-card-title>
-          <span class="text-h5"> Save to... </span>
+      <v-card class="mx-auto" height="400" width="500">
+        <v-card-title class="orange">
+          <span class="text-h5 white--text">Save to...</span>
+
+          <!-- <v-card-title>
+          <span class="text-h5"> Save to... </span> -->
         </v-card-title>
         <v-card-text>
           <v-container>
-              <div
-                class="form-group form-check"
-                v-for="item in playlists"
-                v-bind:key="item.id"
-              >
-                <v-checkbox
-                  @change="onPlaylistSelected(item)"
-                  :value="item"
-                  v-model="selectedPlaylists"
-                  :label="item.playlistTitle"
-                ></v-checkbox>
-              </div>
+            <div
+              class="form-group form-check"
+              v-for="item in playlists"
+              v-bind:key="item.id"
+            >
+              <v-checkbox
+                @change="onPlaylistSelected(item)"
+                :value="item"
+                v-model="selectedPlaylists"
+                :label="item.playlistTitle"
+              ></v-checkbox>
+            </div>
           </v-container>
           <v-divider class="my-2" />
           <v-container>
@@ -77,7 +80,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "SaveToPlayList",
   props: {
@@ -99,19 +102,20 @@ export default {
     };
   },
   created() {
-    if (this.playlistsDialogBox) this.getPlaylists()
+    if (this.playlistsDialogBox) this.getPlaylists();
   },
   methods: {
     onPlaylistSelected(playlist) {
-      const index = this.selectedPlaylists.findIndex(p => p.pk == playlist.pk && p.sk == playlist.sk)
+      const index = this.selectedPlaylists.findIndex(
+        (p) => p.pk == playlist.pk && p.sk == playlist.sk
+      );
 
-      const addToPlaylist = index != -1
+      const addToPlaylist = index != -1;
 
       if (addToPlaylist) {
-        this.addVideoToPlaylist(playlist)
-      }
-      else {
-        this.removeVideoFromPlaylist(playlist)
+        this.addVideoToPlaylist(playlist);
+      } else {
+        this.removeVideoFromPlaylist(playlist);
       }
     },
     async onDialogClose() {
@@ -124,7 +128,7 @@ export default {
     },
     async createNewPlaylist(video) {
       // Do not continue if the video does not exist, or the video is null
-      if (!video || !this.newPlayListName) return
+      if (!video || !this.newPlayListName) return;
 
       //  Create playlist
       await this.$store.dispatch("playlists/playlistsPost", {
@@ -147,20 +151,20 @@ export default {
       });
     },
     async getPlaylists() {
-      await this.$store.dispatch('playlists/playlistsGet')
-    }
+      await this.$store.dispatch("playlists/playlistsGet");
+    },
   },
   computed: {
     ...mapGetters({
-      playlists: 'playlists/playlists'
-    })
+      playlists: "playlists/playlists",
+    }),
   },
   watch: {
     playlistsDialogBox(val) {
       if (val && !this.playlists) {
-        this.getPlaylists()
+        this.getPlaylists();
       }
-    }
-  }
+    },
+  },
 };
 </script>
