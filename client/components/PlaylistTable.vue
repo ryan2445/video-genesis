@@ -18,7 +18,8 @@
           :key="`${playlistItem.sk}`"
         >
           <v-list-item-icon>
-            <video-thumbnail 
+            <video-thumbnail
+              :video="playlistItem.video"
               :thumbnailSrc="playlistItem.video.videoThumbnail"
               :videoSrc="`${bucket_url}/${playlistItem.video.videoKey}/${playlistItem.video.videoKey}_1500.mp4`"
               :video-key="playlistItem.video.videoKey"

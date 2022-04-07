@@ -58,24 +58,14 @@ export default {
     }),
     videoData() {
       // If the video is not loaded, return null
-      if (!this.video) {
+      if (!this.video || !this.video.videoData) {
         return null;
       }
 
-      this.$store.commit("app/setRoute", this.video.videoTitle);
+      //this.$store.commit("app/setRoute", this.video.videoTitle);
 
-      // Parse the videoData json string
-      const json = JSON.parse(this.video.videoData);
 
-      // If the json cannot be parsed,
-      if (!json) {
-        console.error(
-          "videoData undefined. There is an issue with the video data json string"
-        );
-        return null;
-      }
-
-      const data = json.map((data) => {
+      const data = this.video.videoData.map((data) => {
         return {
           type: "video/mp4",
           src: `${this.bucket_url}/${this.video.videoKey}/${data.baseURL}`,
@@ -161,6 +151,8 @@ export default {
         pk: this.pk,
         sk: this.sk,
       });
+
+      console.log(video)
 
       this.video = video;
     },

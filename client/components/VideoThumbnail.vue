@@ -4,11 +4,11 @@
             @click.prevent="onClick">
             <v-progress-linear absolute top indeterminate
                 :active="(hover || play) && !videoCanPlay" />
-            <video ref="videoRef" v-if="videoCanPlay && (hover || play)"
+            <video ref="videoRef" v-show="videoCanPlay && (hover || play)"
                 :controls="false" height="100%" width="100%" loop autoplay muted
                 @play="onPlay" @pause="onPause" @canplay="onCanPlay" :src="videoSrc"
                 class="object-cover w-full h-full" />
-            <img v-else-if="!videoCanPlay || (!hover && !play && !thumbnailError)"
+            <img v-if="!videoCanPlay || (!hover && !play && !thumbnailError)"
                 alt="Video Thumbnail" :src="thumbnailLink"
                 class="w-full h-full object-cover" @load="onThumbnailLoad"
                 @error="onThumbnailError" />
@@ -34,6 +34,10 @@ export default {
     name: 'VideoThumbnail',
     emits: ['video:loaded', 'click', 'videoTimeChange', 'thumbnail:loaded'],
     props: {
+        video: {
+            type: Object,
+            required: true
+        },
         // The source url of the video (for preview)
         videoSrc: {
             type: String,
@@ -159,10 +163,14 @@ export default {
     },
     computed: {
         thumbnailLink() {
-            return (
-                this.thumbnailSrc ||
-                `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.videoKey}Thumbnails.0000001.jpg`
-            )
+            if (this.thumbnailSrc) return this.thumbnailSrc
+            if (this.video.altThumbnails && this.video.altThumbnails.length > 0) {
+                const l = this.video.altThumbnails.length
+                const index = l > 3 ? 3 : l > 2 ? 2 : l > 1 ? 1 : 0
+
+                return  `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.video.altThumbnails[index]}`
+            }
+            return null
         },
         videoProgress() {
             return (this.currentTime / this.duration) * 100
@@ -193,6 +201,8 @@ export default {
     watch: {
         play(isPlay) {
             const video = this.$refs.videoRef
+
+            if (!video) return
 
             if (isPlay) {
                 if (!video.playedAtLeastOnce) {

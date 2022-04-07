@@ -123,6 +123,8 @@ export default {
       for (let i = 0; i < Math.min(this.playlistFull.videos.length, 2); i++) {
         const video = this.playlistFull.videos[i]
 
+        if (!video.video) continue
+
         latestVideosTitles.push({
           title: video.video.videoTitle,
           to: `videos/pk=${video.videoPK}&sk=${video.videoSK}`

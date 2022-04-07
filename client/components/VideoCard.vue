@@ -13,6 +13,7 @@
       >
         <super-resolution-banner v-if="superResEnabled" />
         <video-thumbnail
+          :video="video"
           class="cursor-pointer"
           :video-src="getLink(video)"
           :thumbnail-src="video.videoThumbnail || null"

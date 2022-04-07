@@ -1,3 +1,18 @@
+const deserializeVideoData = (videos) => {
+  videos = videos.map((video) => {
+    if (video.videoData) {
+      video.videoData = JSON.parse(video.videoData)
+    }
+    if (video.altThumbnails) {
+      video.altThumbnails = JSON.parse(video.altThumbnails)
+    }
+    
+    return video
+  })
+
+  return videos
+}
+
 export const state = () => ({
   videos: null,
   selected_video: null,
@@ -17,6 +32,9 @@ export const actions = {
       const response = await this.$axios.get(
         `videos/all?username=${rootState.user.user.username}`
       );
+      
+      response.data = deserializeVideoData(response.data)
+
       commit("videosSet", response.data);
     } catch (exception) {
       return null;
@@ -26,6 +44,7 @@ export const actions = {
     try {
       const { username } = params;
       const response = await this.$axios.get(`videos/all?username=${username}`);
+      response.data = deserializeVideoData(response.data)
       return response.data;
     } catch (exception) {
       return null;
@@ -39,6 +58,8 @@ export const actions = {
         return null;
       }
 
+      response.data = deserializeVideoData([response.data])[0]
+
       return response.data;
     } catch (exception) {
       return null;
@@ -47,10 +68,11 @@ export const actions = {
   async getAllVideos({ commit, rootState }) {
     try {
       const response = await this.$axios.get("videos/all");
-
       response.data = response.data.filter(function (obj) {
         return obj.pk !== "ID#" + rootState.user.user.username;
       });
+
+      response.data = deserializeVideoData(response.data)
 
       commit("videosSet", response.data);
     } catch (exception) {
