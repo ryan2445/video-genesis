@@ -22,7 +22,13 @@
         v-if="comment.userId == rootUser.username"
         class="opacity-0 group-hover:opacity-100"
       >
-        <v-btn class="mr-2" outlined small color="#FF7A45">
+        <v-btn
+          class="mr-2"
+          @click="deleteComment"
+          outlined
+          small
+          color="#FF7A45"
+        >
           <v-icon class="p-1" center> mdi-minus </v-icon>
         </v-btn>
 
@@ -55,6 +61,20 @@ export default {
     ...mapGetters({
       rootUser: "user/user",
     }),
+  },
+  methods: {
+    async deleteComment() {
+      try {
+        const response = await this.$axios.delete("comments", {
+          data: { videoId: this.comment.pk, commentId: this.comment.sk },
+        });
+        console.log("Why");
+        this.$emit("deleteCommentFromTheTop", this.index);
+        return response.data;
+      } catch (exception) {
+        return null;
+      }
+    },
   },
 };
 </script>

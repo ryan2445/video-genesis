@@ -83,8 +83,8 @@ def createUserComment(event, context):
 
 def deleteUserComment(event, context):
     body = json.loads(event['body'])
-    pk = "VIDEO#" + body['videoId']
-    sk = "COMMENT#" + body['commentId']
+    pk = body['videoId']
+    sk = body['commentId']
     
     response = dynamodb.delete_item(
         Key = {
@@ -95,7 +95,7 @@ def deleteUserComment(event, context):
     
     return {
         'statusCode': 200,
-        'body': json({'response': response})
+        'body': json.dumps({'response': response})
     }
 
 def getSingleVideoComment(event, context):

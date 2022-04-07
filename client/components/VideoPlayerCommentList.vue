@@ -15,6 +15,7 @@
         :comment="comment"
         :index="index"
         :user="users[index]"
+        v-on:deleteCommentFromTheTop="deleteCommentFromTheTop"
       />
 
       <infinite-loading @infinite="loadMoreComments">
@@ -162,6 +163,9 @@ export default {
       } catch (exception) {
         return null;
       }
+    },
+    deleteCommentFromTheTop(index) {
+      this.allcomments.splice(index, 1);
     },
   },
 };
