@@ -7,7 +7,6 @@
       :key="i"
       :video="video"
       :idx="i"
-      :playlists="playlists"
     />
   </div>
 </template>
@@ -19,11 +18,7 @@ export default {
     videos: {
       type: Array,
       required: true,
-    },
-    playlists: {
-      type: Array,
-      required: true,
-    },
+    }
   },
 };
 </script>

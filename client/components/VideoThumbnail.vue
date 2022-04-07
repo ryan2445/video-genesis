@@ -4,16 +4,16 @@
             @click.prevent="onClick">
             <v-progress-linear absolute top indeterminate
                 :active="(hover || play) && !videoCanPlay" />
-            <video ref="videoRef" v-show="videoCanPlay && (hover || play)"
+            <video ref="videoRef" v-if="videoCanPlay && (hover || play)"
                 :controls="false" height="100%" width="100%" loop autoplay muted
                 @play="onPlay" @pause="onPause" @canplay="onCanPlay" :src="videoSrc"
                 class="object-cover w-full h-full" />
-            <img v-show="!videoCanPlay || (!hover && !play && !thumbnailError)"
+            <img v-else-if="!videoCanPlay || (!hover && !play && !thumbnailError)"
                 alt="Video Thumbnail" :src="thumbnailLink"
                 class="w-full h-full object-cover" @load="onThumbnailLoad"
                 @error="onThumbnailError" />
             <alternate-video-thumbnail 
-                v-if="!videoCanPlay || (!hover && !play && thumbnailError)"
+                v-else-if="!videoCanPlay || (!hover && !play && thumbnailError)"
             />
             <div v-if="videoCanPlay && (hover || play)"
                 class="absolute bottom-2 left-3 z-50">
