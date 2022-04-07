@@ -43,7 +43,7 @@ def lambda_handler(event, context):
             videos[VideoKey] = video
         
         if 'altThumbnails' in video:
-            thumbnails = thumbnails + json.loads(video['altThumbnails'])
+          thumbnails = thumbnails + json.loads(video['altThumbnails'])
         
     if len(thumbnails) == 0:
         return
@@ -54,14 +54,14 @@ def lambda_handler(event, context):
     altThumbnails = json.dumps(thumbnails)
     
     for videoKey, video in videos.items():
-        resp = db_client.update_item(
-            Key={
-                'pk': video['pk'],
-                'sk': video['sk']
-            },
-            UpdateExpression="set altThumbnails=:a",
-            ExpressionAttributeValues={
-                ':a': altThumbnails
-            },
-            ReturnValues="UPDATED_NEW"
-        )
+      resp = db_client.update_item(
+        Key={
+            'pk': video['pk'],
+            'sk': video['sk']
+        },
+        UpdateExpression="set altThumbnails=:a",
+        ExpressionAttributeValues={
+            ':a': altThumbnails
+        },
+        ReturnValues="UPDATED_NEW"
+      )
