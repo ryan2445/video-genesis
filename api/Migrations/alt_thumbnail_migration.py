@@ -13,17 +13,15 @@ def main():
   }
   
   for object in bucket.objects.all():
-    Key = object.key
-    VideoKey = re.search('.+?(?=\/)', Key).group(0)
-    ThumbnailKey = Key[len(VideoKey) + 1:]
-    
-    print(VideoKey)
+    BucketKey = f"{object.key}"
+    VideoKey = re.search('.+?(?=\/)', BucketKey).group(0)
+    ThumbnailKey = BucketKey[len(VideoKey) + 1:]
     
     if VideoKey not in videos:
       # Query the expected video
       resp = db_client.query(
-          IndexName="videoKey-index",
-          KeyConditionExpression=Key('videoKey').eq(VideoKey)
+        IndexName="videoKey-index",
+        KeyConditionExpression=Key('videoKey').eq(VideoKey)
       )
       
       # If the video does not exist, return
@@ -40,7 +38,7 @@ def main():
     thumbnails = []
     
     if 'altThumbnails' in videos[VideoKey]:
-      thumbnails = thumbnails + json.loads(videos[VideoKey['altThumbnails']])
+      thumbnails = thumbnails + json.loads(videos[VideoKey]['altThumbnails'])
 
     thumbnails = thumbnails + [ThumbnailKey]
     
@@ -48,7 +46,7 @@ def main():
       
     thumbnails = json.dumps(thumbnails)
     
-    VideoKey['altThumbnails'] = thumbnails
+    videos[VideoKey]['altThumbnails'] = thumbnails
     
   for videoKey, video in videos.items():
     resp = db_client.update_item(
