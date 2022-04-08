@@ -16,8 +16,8 @@
           <div>
             <h2 class="font-semibold">{{ user.username }}</h2>
           </div>
-          <div class="comment-content">
-            {{ comment.content }}
+          <div class="whitespace-pre-wrap">
+            <span class="line-clamp-4">{{ comment.content }}</span>
           </div>
         </div>
         <!-- buttons -->
@@ -145,8 +145,4 @@ export default {
 };
 </script>
 
-<style>
-.comment-content {
-  white-space: normal;
-}
-</style>
+<style></style>
