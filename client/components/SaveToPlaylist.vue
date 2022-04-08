@@ -15,15 +15,18 @@
           <v-icon>icon-playlist-plus</v-icon>
         </v-btn>
       </template>
-      <v-card class="mx-auto" height="400" width="500">
+      <v-card class="mx-auto" width="560" style="max-height: 500px">
         <v-card-title class="orange">
           <span class="text-h5 white--text">Save to...</span>
-
+          <span style="float: right" @click="playlistsDialogBox = false"
+            >x</span
+          >
           <!-- <v-card-title>
           <span class="text-h5"> Save to... </span> -->
         </v-card-title>
+
         <v-card-text>
-          <v-container>
+          <v-container style="max-height: 400px; overflow: auto">
             <div
               class="form-group form-check"
               v-for="item in playlists"
@@ -37,8 +40,8 @@
               ></v-checkbox>
             </div>
           </v-container>
-          <v-divider class="my-2" />
-          <v-container>
+          <!-- <v-divider></v-divider> -->
+          <!-- <v-container>
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -73,18 +76,31 @@
                 </v-btn>
               </v-card-actions>
             </v-container>
-          </v-container>
+          </v-container> -->
         </v-card-text>
+        <v-card-actions>
+          <v-btn @click="showPlaylistForm = true">Add new playlist </v-btn>
+        </v-card-actions>
+
+        <v-expand-transition>
+          <div v-show="showPlaylistForm">
+            <playlist-form
+              @close="showPlaylistForm = false"
+              minWidth="255"
+            ></playlist-form>
+          </div>
+        </v-expand-transition>
       </v-card>
     </v-dialog>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import NewPlaylistButton from "./NewPlaylistButton.vue";
 export default {
   name: "SaveToPlayList",
   props: {
-    video: {
+    NewPlaylistButtonideo: {
       type: Object,
       required: true,
     },
@@ -99,6 +115,7 @@ export default {
       isPrivate: false,
       newPlayListName: null,
       playlistsDialogBox: false,
+      showPlaylistForm: false,
     };
   },
   created() {
