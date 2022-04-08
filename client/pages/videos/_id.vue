@@ -1,31 +1,33 @@
 <template>
-  <v-row justify="center">
-    <v-col :cols="!!playlist ? '8' : '12'">
-      <template v-if="!loading">
-        <video-container
-          :video="video"
-          :audio="videoAudio"
-          :start-time="startTime"
-          :video-data="videoData"
-          :autoplay="!!playlist"
-          @video:ended="onVideoEnded"
+  <div class="mt-3">
+    <v-row>
+      <v-col :cols="!!playlist ? '8' : '12'">
+        <template v-if="!loading">
+          <video-container
+            :video="video"
+            :audio="videoAudio"
+            :start-time="startTime"
+            :video-data="videoData"
+            :autoplay="!!playlist"
+            @video:ended="onVideoEnded"
+          >
+          </video-container>
+        </template>
+        <div v-if="!loading">
+          <video-player-comment-list :video="video" />
+        </div>
+      </v-col>
+      <v-col cols="4">
+        <playlist-player
+          v-if="playlist"
+          :playlist="playlist"
+          :index="index"
+          @video:update="onPlaylistVideoUpdate"
         >
-        </video-container>
-      </template>
-      <div v-if="!loading">
-        <video-player-comment-list :video="video" />
-      </div>
-    </v-col>
-    <v-col cols="4">
-      <playlist-player
-        v-if="playlist"
-        :playlist="playlist"
-        :index="index"
-        @video:update="onPlaylistVideoUpdate"
-      >
-      </playlist-player>
-    </v-col>
-  </v-row>
+        </playlist-player>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
