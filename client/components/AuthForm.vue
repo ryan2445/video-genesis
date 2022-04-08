@@ -173,7 +173,7 @@ export default {
 
                 this.$store.commit('auth/setToken', user.signInUserSession)
 
-                this.$store.commit('users/rootUserSet', { username: user.username })
+                await this.$store.dispatch('users/userGet')
 
                 this.$emit('signIn')
             } catch (error) {
