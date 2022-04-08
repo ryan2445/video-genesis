@@ -40,43 +40,6 @@
               ></v-checkbox>
             </div>
           </v-container>
-          <!-- <v-divider></v-divider> -->
-          <!-- <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  label="Enter a playlist name..."
-                  type="text"
-                  filled
-                  v-model="newPlayListName"
-                  hide-details
-                  dense
-                />
-              </v-col>
-            </v-row>
-            <v-container fluid>
-              <v-checkbox
-                v-model="isPrivate"
-                label="Private"
-                @change="onChange"
-                hide-details
-              ></v-checkbox>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="onDialogClose">
-                  Close
-                </v-btn>
-                <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="createNewPlaylist(video)"
-                >
-                  Create
-                </v-btn>
-              </v-card-actions>
-            </v-container>
-          </v-container> -->
         </v-card-text>
         <v-card-actions>
           <v-btn @click="showPlaylistForm = true">Add new playlist </v-btn>
