@@ -16,7 +16,9 @@
           <div>
             <h2 class="font-semibold">{{ user.username }}</h2>
           </div>
-          <div>{{ comment.content }}</div>
+          <div class="comment-content">
+            {{ comment.content }}
+          </div>
         </div>
         <!-- buttons -->
         <div
@@ -143,4 +145,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.comment-content {
+  white-space: normal;
+}
+</style>
