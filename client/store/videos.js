@@ -112,15 +112,20 @@ export const mutations = {
     state.videos = array;
   },
 
-  videoUpdate(state, params) {
-    if (params.idx == null) {
-      console.error("videoUpdate requires idx in the parameter");
+  videoUpdate(state, video) {
+    if (!video.pk & !video.sk) {
+      console.error('Error on store videos/videoUpdate\n\tpk and sk required in params')
     }
 
-    const idx = params.idx;
+    if (!state.videos) {
+      state.videos = [video]
+      return
+    }
 
-    delete params["idx"];
+    const idx = state.videos.findIndex((vid) => vid.pk == video.pk && vid.sk == vid.sk)
 
-    Object.assign(state.videos[idx], params);
+    if (idx == -1) return
+
+    Object.assign(state.videos[idx], video);
   },
 };
