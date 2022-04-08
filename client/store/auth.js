@@ -3,8 +3,7 @@ import { S3Client } from "@aws-sdk/client-s3"
 const { fromCognitoIdentityPool } = require("@aws-sdk/credential-providers")
 const REGION = "us-west-2"
 export const state = () => ({
-	s3: null,
-	session_username: null
+	s3: null
 })
 export const getters = {
 	token: state => state.token,
@@ -27,7 +26,6 @@ export const mutations = {
 
 		axios.defaults.headers.common["Authorization"] = `Bearer ${idToken}`
 	},
-	setSessionUsername: (state, username) => state.session_username = username,
 	setS3: (state, s3) => state.s3 = s3
 }
 export const actions = {
