@@ -54,6 +54,16 @@
                                                         </div>
                                                     </v-btn>
                                                 </div>
+                                                <div>
+                                                    <v-select v-model="defaultVideoThumbnail" v-if="video.altThumbnails" :items="video.altThumbnails.map(item=>'https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/' + video.videoKey+'/'+ item)" label="Choose a default thumbnail">
+                                                        <template v-slot:item="{ item }">
+                                                            <div style="width: 30vw;">
+                                                                <img :src="item" />
+                                                                <br />
+                                                            </div>
+                                                        </template>
+                                                    </v-select>
+                                                </div>
                                             </div>
                                         </v-col>
                                         <v-col cols="12">
@@ -157,6 +167,7 @@ export default {
             dialog: false,
             loading: false,
             thumbnail: null,
+            defaultVideoThumbnail: this.video.defaultVideoThumbnail, 
             deleteDialogBox: false
         }
     },
@@ -206,8 +217,9 @@ export default {
             await this.$store.dispatch('videos/videosPut', {
                 videoTitle: this.video.videoTitle,
                 videoDescription: this.video.videoDescription,
-                videoThumbnail: this.thumbnail,
-                sk: this.video.sk
+                videoThumbnail: this.thumbnail || this.defaultVideoThumbnail, 
+                sk: this.video.sk, 
+                defaultVideoThumbnail: this.defaultVideoThumbnail
             })
 
             // If on the 'Explore' page get every user's video or get the user's videos
