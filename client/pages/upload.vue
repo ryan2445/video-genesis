@@ -1,14 +1,14 @@
 <template>
-    <div class="d-flex justify-center">
-        <video-form />
-    </div>
+  <div class="grid grid-col-1 place-content-center h-screen overflow-y-hidden">
+    <video-form />
+  </div>
 </template>
 <script>
 export default {
-    layout: 'dashboard',
-    created() {
-        this.$store.commit('app/setRoute', 'Video Upload')
-    }
-}
+  layout: "dashboard",
+  created() {
+    this.$store.commit("app/setRoute", "Video Upload");
+  },
+};
 </script>
 <style scoped></style>
