@@ -1,6 +1,8 @@
 <template>
-  <div class="grid grid-col-1 place-content-center h-screen overflow-y-hidden">
-    <video-form />
+  <div class="overflow-y-hidden">
+    <div class="grid grid-col-1 place-content-center center-upload">
+      <video-form />
+    </div>
   </div>
 </template>
 <script>
@@ -11,4 +13,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.center-upload {
+  height: calc(100vh - 90px);
+}
+</style>
