@@ -1,6 +1,6 @@
 <template>
   <div class="mr-3">
-    <v-dialog v-model="playlistsDialogBox" persistent max-width="255px">
+    <v-dialog class="relative" v-model="playlistsDialogBox" width="440px" >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
@@ -15,46 +15,55 @@
           <v-icon>icon-playlist-plus</v-icon>
         </v-btn>
       </template>
-      <v-card class="mx-auto" width="560" style="max-height: 500px">
+      <v-card class="mx-auto relative" style="max-height: 640px;">
+        <v-btn
+          absolute
+          class="top-0 right-0"
+          @click="playlistsDialogBox = false"
+          icon
+        >
+          <v-icon>
+            icon-close
+          </v-icon>
+        </v-btn>
         <v-card-title class="orange">
           <span class="text-h5 white--text">Save to...</span>
-          <span style="float: right" @click="playlistsDialogBox = false">
-            <v-icon>x</v-icon></span
-          >
-          <!-- <v-card-title>
-          <span class="text-h5"> Save to... </span> -->
         </v-card-title>
-
         <v-card-text>
-          <v-container style="max-height: 400px; overflow: auto">
-            <div
-              class="form-group form-check"
-              v-for="item in playlists"
-              v-bind:key="item.id"
-            >
-              <v-checkbox
-                @change="onPlaylistSelected(item)"
-                :value="item"
-                v-model="selectedPlaylists"
-                :label="item.playlistTitle"
-              ></v-checkbox>
-            </div>
-          </v-container>
+          <div
+            class="form-group form-check"
+            v-for="item in playlists"
+            v-bind:key="item.id"
+          >
+            <v-checkbox
+              @change="onPlaylistSelected(item)"
+              :value="item"
+              v-model="selectedPlaylists"
+              :label="item.playlistTitle"
+            ></v-checkbox>
+          </div>
         </v-card-text>
-        <v-card-title class="orange">
-          <v-card-actions>
-            <v-btn text @click="showPlaylistForm = true"
-              >Create new playlist
-            </v-btn>
-          </v-card-actions>
+        <v-card-actions
+          v-if="!showPlaylistForm"
+          class="orange"
+        >
+          <v-btn text @click="showPlaylistForm = true"
+            >Create new playlist
+          </v-btn>
+        </v-card-actions>
+        <v-card-title v-else class="orange">
+          <div>
+            Create playlist
+          </div>
         </v-card-title>
-
         <v-expand-transition>
           <div v-show="showPlaylistForm">
             <playlist-form
+              :video="video"
               @close="showPlaylistForm = false"
               minWidth="255"
-            ></playlist-form>
+            >
+            </playlist-form>
           </div>
         </v-expand-transition>
       </v-card>
@@ -63,19 +72,13 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import NewPlaylistButton from "./NewPlaylistButton.vue";
-import { mdiCloseThick } from "@mdi/js";
 export default {
   name: "SaveToPlayList",
   props: {
-    NewPlaylistButtonideo: {
+    video: {
       type: Object,
-      required: true,
-    },
-    user: {
-      type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {

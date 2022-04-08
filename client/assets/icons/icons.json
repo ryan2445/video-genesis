@@ -3,13 +3,14 @@
     "account": 61698,
     "check-circle": 61699,
     "chevron-right": 61700,
-    "cog-outline": 61701,
-    "delete": 61702,
-    "pencil-outline": 61703,
-    "play": 61704,
-    "playlist-play": 61705,
-    "playlist-plus": 61706,
-    "video": 61707,
-    "wifi-cancel": 61708,
-    "wifi-check": 61709
+    "close": 61701,
+    "cog-outline": 61702,
+    "delete": 61703,
+    "pencil-outline": 61704,
+    "play": 61705,
+    "playlist-play": 61706,
+    "playlist-plus": 61707,
+    "video": 61708,
+    "wifi-cancel": 61709,
+    "wifi-check": 61710
 }

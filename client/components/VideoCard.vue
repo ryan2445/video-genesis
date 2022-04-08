@@ -32,7 +32,6 @@
                         <v-divider class="mb-1"></v-divider>
                         <profile-picture-and-username v-if="video.user"
                             :user="video.user" />
-                        <save-to-playlist :video="video" :user="user" />
                         <div class="py-1 overflow-hidden" style="max-height: 49px">
                             <div class="cardDescription text-gray-700">
                                 {{ video.videoDescription }}</div>

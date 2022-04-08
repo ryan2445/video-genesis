@@ -42,9 +42,14 @@ export default {
   name: "PlaylistForm",
   props: {
     minWidth: {
-      type: Number,
+      type: Number | String,
       required: false,
     },
+    video: {
+      type: Object,
+      required: false,
+      default: false
+    }
   },
   data() {
     return {
@@ -72,6 +77,10 @@ export default {
         description: this.description,
         isPrivate: this.isPrivate,
       };
+
+      if (this.video) {
+        payload['video'] = this.video
+      }
 
       const response = await this.$store.dispatch(
         "playlists/playlistsPost",
