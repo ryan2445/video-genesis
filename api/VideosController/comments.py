@@ -48,13 +48,17 @@ def updateUserComment(event, context):
     body = json.loads(event['body'])
     print(body['videoId'])
     pk = body['videoId']
-    sk = "COMMENT#" + body['commentId']
+    sk = body['commentId']
     content = body['content']
     
     response = dynamodb.update_item(
         Key={'pk': pk, 'sk': sk}, ExpressionAttributeNames ={ '#c' : 'content'},
         UpdateExpression = 'set #c = :value', 
         ExpressionAttributeValues = {':value' : content})
+    return {
+        'statusCode': 201,
+        'body': json.dumps({'response': response})
+    }
 
 
 def createUserComment(event, context):

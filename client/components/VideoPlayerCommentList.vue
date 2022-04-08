@@ -15,7 +15,8 @@
         :comment="comment"
         :index="index"
         :user="users[index]"
-        v-on:deleteCommentFromTheTop="deleteCommentFromTheTop"
+        v-on:deleteCommentWithIndex="deleteCommentWithIndex"
+        v-on:updateCommentWithIndex="updateCommentWithIndex"
       />
 
       <infinite-loading @infinite="loadMoreComments">
@@ -164,8 +165,11 @@ export default {
         return null;
       }
     },
-    deleteCommentFromTheTop(index) {
+    deleteCommentWithIndex(index) {
       this.allcomments.splice(index, 1);
+    },
+    updateCommentWithIndex(index, content) {
+      this.allcomments[index].content = content;
     },
   },
 };
