@@ -5,14 +5,16 @@
         <v-btn
           v-bind="attrs"
           v-on="on"
-          fab
           depressed
           color="grey lighten-1"
           width="30"
           height="30"
           class="mb-2 shadow-md justify-right"
         >
-          <v-icon>icon-playlist-plus</v-icon>
+          <v-icon>
+            icon-playlist-plus
+          </v-icon>
+            Save
         </v-btn>
       </template>
       <v-card class="mx-auto relative" style="max-height: 640px;">

@@ -2,7 +2,7 @@
     <v-card>
         <v-card-title> {{ video.videoTitle }} </v-card-title>
         <v-card-text>
-            <v-row no-gutters align="center" class="mx-0">
+            <v-row no-gutters align="end" justify="end" class="mx-0">
                 <v-col class="pa-0">
                     <span class="mr-1">{{ owner }}</span>
                     <span class="mr-1">-</span>
@@ -11,6 +11,9 @@
                 <v-col>
                     <video-votes :video="video" />
                 </v-col>
+                <save-to-playlist 
+                    :video="video"
+                />
             </v-row>
         </v-card-text>
         <v-card-text>

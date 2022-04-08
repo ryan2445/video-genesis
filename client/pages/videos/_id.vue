@@ -11,9 +11,6 @@
           @video:ended="onVideoEnded"
         >
         </video-container>
-        <save-to-playlist v-if="video" 
-          :video="video"
-        />
       </template>
       <div v-if="!loading">
         <video-player-comment-list :video="video" />
