@@ -12,9 +12,8 @@
                 alt="Video Thumbnail" :src="thumbnailLink"
                 class="w-full h-full object-cover" @load="onThumbnailLoad"
                 @error="onThumbnailError" />
-            <alternate-video-thumbnail 
-                v-else-if="!videoCanPlay || (!hover && !play && thumbnailError)"
-            />
+            <alternate-video-thumbnail
+                v-else-if="!videoCanPlay || (!hover && !play && thumbnailError)" />
             <div v-if="videoCanPlay && (hover || play)"
                 class="absolute bottom-2 left-3 z-50">
                 <div class="px-1" style="background: rgba(29, 29, 29, 0.5);">
@@ -74,7 +73,7 @@ export default {
         width: {
             type: String | Number,
             required: false,
-            default: '380'
+            default: '340'
         }
     },
     data() {
@@ -168,7 +167,7 @@ export default {
                 const l = this.video.altThumbnails.length
                 const index = l > 3 ? 3 : l > 2 ? 2 : l > 1 ? 1 : 0
 
-                return  `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.video.altThumbnails[index]}`
+                return `https://videogenesis-thumbnails.s3.us-west-2.amazonaws.com/${this.videoKey}/${this.video.altThumbnails[index]}`
             }
             return null
         },
