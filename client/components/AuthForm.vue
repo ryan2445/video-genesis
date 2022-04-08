@@ -175,8 +175,6 @@ export default {
 
                 this.$store.commit('users/rootUserSet', { username: user.username })
 
-                this.$store.commit('auth/setSessionUsername', user.username)
-
                 this.$emit('signIn')
             } catch (error) {
                 this.dialogTitle = 'Signin Error'

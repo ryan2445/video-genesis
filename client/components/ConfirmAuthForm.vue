@@ -58,18 +58,12 @@ export default {
         async confirmSignUp() {
             // Send a confirm sign up request
             try {
-                await this.$auth.confirmSignUp(
+                const response = await this.$auth.confirmSignUp(
                     this.$store.getters['users/rootUser'].username,
                     this.code
                 )
 
                 this.$emit('confirmed')
-
-                // Commit it
-                this.$store.dispatch('auth/authorize', {
-                    auth: this.$auth,
-                    axios: this.$axios
-                })
             } catch (error) {
                 console.log('error confirming sign up', error)
             }
