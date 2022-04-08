@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="group h-20 flex flex-row mb-4 mt-2 items-center">
-      <div class="p-2 mr-2">
+  <div class="mb-1 mt-2 h-max p-1 clear">
+    <div class="group flex flex-row items-start">
+      <div class="p-1 pr-3">
         <img
           class="h-14 w-14 object-cover rounded-full"
           :src="user.profilePicKey"
@@ -10,31 +10,54 @@
         />
       </div>
       <!-- main -->
-      <div class="flex flex-col">
-        <!-- header -->
-        <div>
-          <h2 class="font-semibold">{{ user.username }}</h2>
+      <div class="flex flex-row items-center self-center" v-if="!isEditing">
+        <div class="flex flex-col">
+          <!-- header -->
+          <div>
+            <h2 class="font-semibold">{{ user.username }}</h2>
+          </div>
+          <div>{{ comment.content }}</div>
         </div>
-        <div>{{ comment.content }}</div>
-      </div>
-      <!-- buttons -->
-      <div
-        v-if="comment.userId == rootUser.username"
-        class="opacity-0 group-hover:opacity-100"
-      >
-        <v-btn
-          class="mr-2"
-          @click="deleteComment"
-          outlined
-          small
-          color="#FF7A45"
+        <!-- buttons -->
+        <div
+          v-if="comment.userId == rootUser.username && !isEditing"
+          class="opacity-0 group-hover:opacity-100 self-start mt-2"
         >
-          <v-icon class="p-1" center> mdi-minus </v-icon>
-        </v-btn>
+          <v-btn
+            class="mr-2"
+            @click="deleteComment"
+            small
+            depressed
+            color="error"
+          >
+            <v-icon class="p-1" center> mdi-minus </v-icon>
+          </v-btn>
 
-        <v-btn outlined small color="#FF7A45">
-          <v-icon class="p-1" center> mdi-pencil </v-icon>
-        </v-btn>
+          <v-btn small depressed @click="isEditing = true" color="#FF7A45">
+            <v-icon class="p-1" color="white" center> mdi-pencil </v-icon>
+          </v-btn>
+        </div>
+      </div>
+      <!-- text-area -->
+      <div class="flex flex-col" v-else-if="isEditing">
+        <v-textarea
+          auto-grow
+          rows="1"
+          :value="this.comment.content"
+        ></v-textarea>
+        <!-- buttons -->
+        <div class="flex justify-end gap-2 -mt-3">
+          <v-btn @click="isEditing = false" depressed>Cancel</v-btn>
+          <v-btn
+            :disabled="checkTextArea"
+            :loading="isLoading"
+            @click="submitComment"
+            class="white--text"
+            color="#FF7A45"
+            depressed
+            >Update</v-btn
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +66,9 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
+  data: () => ({
+    isEditing: false,
+  }),
   props: {
     comment: {
       type: Object,
