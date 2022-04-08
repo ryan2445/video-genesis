@@ -1,11 +1,9 @@
 <template>
   <div
-    style="min-width:560px;"
+    :style="'min-width:' + (minWidth || 560) + 'px;'"
     class="pt-2 pb-3 px-3 bg-white"
   >
-    <v-form
-      v-model="valid"
-    >
+    <v-form v-model="valid">
       <v-text-field
         v-model="title"
         :rules="titleRules"
@@ -13,7 +11,6 @@
         required
         color="orange"
       >
-
       </v-text-field>
       <v-textarea
         v-model="description"
@@ -29,12 +26,9 @@
         :rules="isPrivateRules"
         color="orange"
       >
-
       </v-checkbox>
       <div class="flex w-full justify-end">
-        <v-btn class="mx-1" color="orange" @click="onCancel">
-          Cancel
-        </v-btn>
+        <v-btn class="mx-1" color="orange" @click="onCancel"> Cancel </v-btn>
         <v-btn class="mx-1" :disabled="!valid" color="orange" @click="onSubmit">
           Create
         </v-btn>
@@ -47,45 +41,50 @@
 export default {
   name: "PlaylistForm",
   props: {
-
+    minWidth: {
+      type: Number,
+      required: false,
+    },
   },
   data() {
     return {
       valid: false,
 
-      title: '',
+      title: "",
       titleRules: [
-        v => !!v || 'Title is required',
-        v => v.length <= 250 || 'Title must be less than 250 characters'
+        (v) => !!v || "Title is required",
+        (v) => v.length <= 250 || "Title must be less than 250 characters",
       ],
-      description: '',
+      description: "",
       descriptionRules: [
-        v => v.length <= 1000 || 'Description must be less than 1000 characters'
+        (v) =>
+          v.length <= 1000 || "Description must be less than 1000 characters",
       ],
 
       isPrivate: false,
-      isPrivateRules: [
-        v => v === true || v === false || 'Must be a boolean'
-      ]
-    }
+      isPrivateRules: [(v) => v === true || v === false || "Must be a boolean"],
+    };
   },
   methods: {
     async onSubmit() {
       const payload = {
         playlistTitle: this.title,
         description: this.description,
-        isPrivate: this.isPrivate
-      }
+        isPrivate: this.isPrivate,
+      };
 
-      const response = await this.$store.dispatch('playlists/playlistsPost', payload)
+      const response = await this.$store.dispatch(
+        "playlists/playlistsPost",
+        payload
+      );
 
-      if (!response) return
+      if (!response) return;
 
-      this.$emit('close')
+      this.$emit("close");
     },
     onCancel() {
-      this.$emit('close')
-    }
-  }
-}
+      this.$emit("close");
+    },
+  },
+};
 </script>
