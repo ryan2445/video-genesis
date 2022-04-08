@@ -25,8 +25,8 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import { debounce } from "lodash"
+import { mapGetters } from 'vuex'
+import { debounce } from 'lodash'
 export default {
     props: {
         video: {
@@ -46,7 +46,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            user: "user/user"
+            user: 'users/rootUser'
         }),
         liked() {
             if (!this.vote === null) return null
@@ -81,9 +81,9 @@ export default {
     },
     methods: {
         async getVote() {
-            const response = await this.$store.dispatch("users/usersGetVotes", {
+            const response = await this.$store.dispatch('users/usersGetVotes', {
                 userId: this.user.username,
-                videoId: this.video.sk.split("#")[1]
+                videoId: this.video.sk.split('#')[1]
             })
 
             this.voteObject = response.vote
@@ -114,9 +114,9 @@ export default {
 
             this.previousVote = this.vote
 
-            this.$store.dispatch("users/usersPostVotes", {
-                videoId: this.video.sk.split("#")[1],
-                videoUserId: this.video.pk.split("#")[1],
+            this.$store.dispatch('users/usersPostVotes', {
+                videoId: this.video.sk.split('#')[1],
+                videoUserId: this.video.pk.split('#')[1],
                 upvoted: this.vote
             })
         }, 1000)

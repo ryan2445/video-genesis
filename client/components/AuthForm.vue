@@ -146,7 +146,7 @@ export default {
 
                 console.log(user)
 
-                this.$store.commit('user/setUser', {
+                this.$store.commit('users/rootUserSet', {
                     ...user,
                     username: this.username,
                     email: this.email
@@ -169,17 +169,13 @@ export default {
             try {
                 const user = await this.$auth.signIn(this.username, this.password)
 
-                this.$store.commit('user/setUser', {
-                    ...user,
-                    username: this.username
-                })
+                if (!user) return
 
-                // Commit it
-                this.$store.dispatch('auth/authorize', {
-                    auth: this.$auth,
-                    axios: this.$axios,
-                    aws: this.$aws
-                })
+                this.$store.commit('auth/setToken', user.signInUserSession)
+
+                this.$store.commit('users/rootUserSet', { username: user.username })
+
+                this.$store.commit('auth/setSessionUsername', user.username)
 
                 this.$emit('signIn')
             } catch (error) {

@@ -10,15 +10,6 @@
         </v-main>
     </v-app>
 </template>
-
 <script>
-export default {
-    created() {
-        const getS3 = () => {
-            this.$store.dispatch('auth/inits3', this.$auth)
-        }
-        window.mitt.on('SIGN_IN', getS3())
-        window.mitt.on('TOKEN_REFRESH', getS3())
-    }
-}
+export default {}
 </script>

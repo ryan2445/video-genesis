@@ -77,8 +77,8 @@ export default {
         },
         async signOut() {
             await this.$auth.signOut()
-            this.$store.commit('user/setUser', null)
-            this.$store.dispatch('auth/unauthorize', { axios: this.$axios })
+            this.$store.commit('users/rootUserSet', null)
+            this.$store.commit('auth/clearToken')
             this.$router.push('/')
         }
     },
