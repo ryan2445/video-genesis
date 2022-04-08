@@ -14,6 +14,14 @@ def badRequest(msg: str) -> dict:
         'body': msg
     }
 
+def authUserGet(event, context):
+    username = event['requestContext']['authorizer']['claims']['cognito:username']
+    response = dynamodb.get_item(Key = { 'pk': 'ID#' + username, 'sk': "USER" })
+    return {
+        'statusCode': 200,
+        'body': json.dumps(response['Item'])
+    }
+
 def usersGet(event, context):
     username = event['queryStringParameters']['username']
     response = dynamodb.get_item(Key = { 'pk': 'ID#' + username, 'sk': "USER" })
@@ -61,6 +69,7 @@ def handle(event, context):
 
     methods = {
         'GET': {
+            '/users/auth': authUserGet,
             '/users/all': usersGet
         },
         'PUT': {
