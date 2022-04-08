@@ -18,8 +18,8 @@
       <v-card class="mx-auto" width="560" style="max-height: 500px">
         <v-card-title class="orange">
           <span class="text-h5 white--text">Save to...</span>
-          <span style="float: right" @click="playlistsDialogBox = false"
-            >x</span
+          <span style="float: right" @click="playlistsDialogBox = false">
+            <v-icon>x</v-icon></span
           >
           <!-- <v-card-title>
           <span class="text-h5"> Save to... </span> -->
@@ -41,9 +41,13 @@
             </div>
           </v-container>
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="showPlaylistForm = true">Add new playlist </v-btn>
-        </v-card-actions>
+        <v-card-title class="orange">
+          <v-card-actions>
+            <v-btn text @click="showPlaylistForm = true"
+              >Create new playlist
+            </v-btn>
+          </v-card-actions>
+        </v-card-title>
 
         <v-expand-transition>
           <div v-show="showPlaylistForm">
@@ -60,6 +64,7 @@
 <script>
 import { mapGetters } from "vuex";
 import NewPlaylistButton from "./NewPlaylistButton.vue";
+import { mdiCloseThick } from "@mdi/js";
 export default {
   name: "SaveToPlayList",
   props: {
