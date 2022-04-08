@@ -248,6 +248,11 @@ def download_file(url, path, name):
                             miniters=1, desc=url.split('/')[-1]) as t:
       urllib.request.urlretrieve(url, filename=full_path, reporthook=t.update_to)
   
+def cleanUp(file_paths : list):
+  for path in file_paths:
+    if (os.path.exists(path)):
+      os.remove(path)
+  
 
   
   # Download the file

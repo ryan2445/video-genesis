@@ -65,6 +65,8 @@ def processVideo(video, video_url, video_key):
   
   hr.close()
   
+  utils.cleanUp([lrPath, hrPath, ogPath, finalPath])
+  
   response = dynamo.update_item(
     Key={
       'pk': video['pk'],
