@@ -30,7 +30,7 @@ export const actions = {
   async videosGet({ commit, rootState }) {
     try {
       const response = await this.$axios.get(
-        `videos/all?username=${rootState.user.user.username}`
+        `videos/all?username=${rootState.users.rootUser.username}`
       );
       
       response.data = deserializeVideoData(response.data)
@@ -69,7 +69,7 @@ export const actions = {
     try {
       const response = await this.$axios.get("videos/all");
       response.data = response.data.filter(function (obj) {
-        return obj.pk !== "ID#" + rootState.user.user.username;
+        return obj.pk !== "ID#" + rootState.users.rootUser.username;
       });
 
       response.data = deserializeVideoData(response.data)

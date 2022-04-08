@@ -7,15 +7,16 @@ import { Hub, Logger } from 'aws-amplify';
 const logger = new Logger('Auth');
 
 const listener = data => {
+			console.log('WTF IS THIS', data.payload)
 	switch (data.payload.event) {
 		case 'signIn':
 			window.mitt.emit('SIGN_IN');
 			logger.info('user signed in');
 			break
-			case 'signUp':
-				logger.info('user signed up')
-				break
-				case 'signOut':
+		case 'signUp':
+			logger.info('user signed up')
+			break
+		case 'signOut':
 			logger.info('user signed out')
 			break
 		case 'signIn_failure':

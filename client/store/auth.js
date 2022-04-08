@@ -1,64 +1,39 @@
+import axios from "axios";
 import { S3Client } from "@aws-sdk/client-s3"
 const { fromCognitoIdentityPool } = require("@aws-sdk/credential-providers")
 const REGION = "us-west-2"
-
 export const state = () => ({
-	token: null,
 	s3: null,
-	cognito_session: null,
+	session_username: null
 })
-
 export const getters = {
 	token: state => state.token,
 	s3: state => state.s3,
-	cognito_session: state => state.cognito_session,
-	session_username: state => state.cognito_session?.accessToken.payload.username
 }
-
 export const mutations = {
-	setToken(state, token) {
-		state.token = token
+	clearToken() {
+		localStorage.idToken = null
+		localStorage.accessToken = null
+		axios.defaults.headers.common['Authorization'] = null
 	},
-	setS3(state, s3) {
-		state.s3 = s3
+	setToken(_, session) {
+		const accessToken = session.accessToken.jwtToken
+
+		const idToken = session.idToken.jwtToken
+
+		localStorage.idToken = idToken
+
+		localStorage.accessToken = accessToken
+
+		axios.defaults.headers.common["Authorization"] = `Bearer ${idToken}`
 	},
-	setCognitoSession(state, session) {
-		state.cognito_session = session
-	}
+	setSessionUsername: (state, username) => state.session_username = username,
+	setS3: (state, s3) => state.s3 = s3
 }
-
 export const actions = {
-	async authorize({ commit, dispatch }, { auth, axios }) {
-		console.log('authorize')
-
-		// Get the current session
-		const session = await auth.currentSession();
-
-		commit('setCognitoSession', session)
-
-		// Get the JWT token
-		const jwtToken = session
-			.getAccessToken()
-			.getJwtToken()
-
-		// Set the token here
-		commit("setToken", jwtToken)
-
-		// Set the authorization header token
-		axios.defaults.headers.common["Authorization"] = jwtToken
-	},
-	async unauthorize({ commit }, { axios }) {
-		// Set the current token to null
-		commit("setToken", null)
-
-		// Unset the auth header
-		axios.defaults.headers.common["Authorization"] = null
-	},
-	async inits3({commit}, $auth) {
+	async inits3({commit}) {
 		try {
-			const session = await $auth.currentSession()
-			const identity = session.getIdToken()
-			const token = identity.getJwtToken()
+			const token = localStorage.idToken
 		
 			const s3 = new S3Client({
 				region: REGION,

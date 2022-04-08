@@ -1,42 +1,25 @@
 export default async function ({ $axios, $auth, route, store, redirect }) {
-  //  Initialize variable to hold the user's session
-  var session = null
+  //  Set ignore routes
+  const ignore = ["/", "/auth/sign-in", "/auth/sign-up", "/auth/confirm", "/auth/reset"]
 
-  //  Get the cognito user's session (checking if they're logged in)
-  try {
-    session = await $auth.currentSession()
+  //  If path is in ignore list, continue
+  if (ignore.includes(route.path)) return
 
-    store.commit('auth/setCognitoSession', session)
-  } catch (error) {
-    //  Ignore auth middleware on home, signin, and signup routes
-    if (
-      route.path == "/" ||
-      route.path == "/auth/sign-in" ||
-      route.path == "/auth/sign-up" ||
-      route.path == "/auth/confirm" ||
-      route.path == "/auth/reset"
-    )
-      return
+  //  Try to get IdToken from localStorage
+  const token = localStorage.idToken
 
-    return redirect("/auth/sign-in")
+  //  If they have a token in local storage, let them continue
+  //  Any request they make with an invalid token will boot them back to signin
+  if (token) {
+    //  Set the Authorization token for all axios requests
+    $axios.defaults.headers.common["Authorization"] = token
+
+    //  If the user's profile isn't loaded, fetch their profile
+    if (!store.getters['users/rootUser']) await store.dispatch("users/userGet")
+
+    return
   }
 
-  //  Get the identity of the user
-  const identity = session.getIdToken()
-
-  //  Get the user's JWT
-  const token = identity.getJwtToken()
-
-  //  Set the Authorization token for all axios requests
-  $axios.defaults.headers.common["Authorization"] = token
-
-  //  If there is a logged in user, set the user in the store
-  store.commit("user/setUser", {
-    username: identity.payload["cognito:username"]
-  })
-
-  //  If the user's profile isn't loaded, fetch their profile
-  if (!store.getters['users/rootUser']) store.dispatch("users/userGet")
-
-  return
+  //  If no IdToken set, boot to signin
+  return redirect("/auth/sign-in")
 }

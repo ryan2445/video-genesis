@@ -1,17 +1,13 @@
 export const state = () => ({
-    rootUser: null,
-    otherUserProfile: null
+    rootUser: null
 })
 export const getters = {
-    selected_UserProfile: state => state.otherUserProfile,
     rootUser: state => state.rootUser
 }
 export const actions = {
     async userGet({ commit, rootState }) {
         try {
-            const response = await this.$axios.get(
-                `users/all?username=${rootState.user.user.username}`
-            )
+            const response = await this.$axios.get('users/auth')
             const user = response.data
             commit("rootUserSet", user)
             return user
@@ -57,8 +53,5 @@ export const actions = {
 export const mutations = {
     rootUserSet(state, user) {
         state.rootUser = user
-    },
-    otherUserProfileSet(state, array) {
-        state.otherUserProfile = array
     }
 }

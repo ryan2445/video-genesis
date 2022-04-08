@@ -15,7 +15,7 @@ export const actions = {
   async playlistsGet({ commit, rootState }) {
     try {
       const response = await this.$axios.get(
-        `playlists/all?username=${rootState.user.user.username}`
+        `playlists/all?username=${rootState.users.rootUser.username}`
       );
       commit("playlistsSet", response.data.Items);
     } catch (exception) {
@@ -62,7 +62,7 @@ export const actions = {
       const response = await this.$axios.get("playlists/all");
 
       response.data.Items = response.data.Items.filter(function (obj) {
-        return obj.pk !== "ID#" + rootState.user.user.username;
+        return obj.pk !== "ID#" + rootState.users.rootUser.username;
       });
 
       commit("playlistsSet", response.data.Items);

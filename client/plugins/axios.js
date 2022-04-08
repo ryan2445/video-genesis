@@ -9,6 +9,16 @@ const instance = axios.create({
 });
 
 // This allows us to access axios in any context by calling this.$axios
-export default (_, inject) => {
-  inject("axios", instance);
-};
+export default ({ redirect }, inject) => {
+  instance.interceptors.response.use(
+    response => response,
+    error => {
+      if(error.toJSON().config.url != 'https://n1ddeh.ngrok.io') {
+        redirect("/auth/sign-in")
+      }
+      return Promise.reject(error)
+    }
+  )
+
+  inject("axios", instance)
+}
