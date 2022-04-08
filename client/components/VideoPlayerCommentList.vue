@@ -84,7 +84,6 @@ export default {
           },
         });
 
-        console.log(response);
         if (response.data.LastEvaluatedKey) {
           this.arrOfPageKey.push(
             response.data.LastEvaluatedKey.sk.split("#")[1]

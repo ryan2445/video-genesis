@@ -33,16 +33,20 @@
             <v-icon class="p-1" center> mdi-minus </v-icon>
           </v-btn>
 
-          <v-btn small depressed @click="isEditing = true" color="#FF7A45">
+          <v-btn small depressed @click="changeToEdit()" color="#FF7A45">
             <v-icon class="p-1" color="white" center> mdi-pencil </v-icon>
           </v-btn>
         </div>
       </div>
       <!-- text-area -->
-
-      <!-- text-area -->
       <div class="flex flex-col" v-else-if="isEditing">
-        <v-textarea auto-grow rows="1" v-model="content"></v-textarea>
+        <v-textarea
+          auto-grow
+          rows="1"
+          v-model="content"
+          color="orange orange-darken-4"
+          ref="textArea"
+        ></v-textarea>
         <!-- buttons -->
         <div class="flex justify-end gap-2 -mt-3">
           <v-btn @click="resetTextArea" depressed>Cancel</v-btn>
@@ -95,6 +99,16 @@ export default {
     this.content = this.comment.content;
   },
   methods: {
+    changeToEdit() {
+      this.content = this.comment.content;
+      this.isEditing = true;
+      const interval = setInterval(() => {
+        if (this.$refs.textArea) {
+          this.$refs.textArea.focus();
+          clearInterval(interval);
+        }
+      }, 50);
+    },
     resetTextArea() {
       this.isEditing = false;
       this.content = this.comment.content;
