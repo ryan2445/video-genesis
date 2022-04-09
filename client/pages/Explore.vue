@@ -15,8 +15,17 @@
     >
       <div>No videos found</div>
     </div>
-    <video-list :videos="videos || []" />
+    <video-list :videos="videosOnCurrentPage || []" />
+    <div class="text-xs-center">
+      <v-pagination
+        color="orange"
+        v-model="page"
+        :length="paginationLength"
+        @input="paginate"
+      ></v-pagination>
+    </div>
   </div>
+
   <!-- <VideoList /> -->
 </template>
 
@@ -31,6 +40,10 @@ export default {
     return {
       //  Controls v-progress-circular
       loading: true,
+      page: 1,
+      videosOnCurrentPage: null,
+      videosPerPage: 8,
+      paginationLength: null,
     };
   },
   computed: {
@@ -38,8 +51,26 @@ export default {
       videos: "videos/videos",
     }),
   },
+  methods: {
+    async paginate(pageNumber) {
+      let startingIndex = 0;
+      let lastIndex = 0;
+      startingIndex = (pageNumber - 1) * this.videosPerPage;
+      lastIndex = startingIndex + this.videosPerPage;
+
+      if (this.videos.length < lastIndex) {
+        this.videosOnCurrentPage = this.videos.slice(
+          startingIndex,
+          this.videos.length
+        );
+      } else {
+        this.videosOnCurrentPage = this.videos.slice(startingIndex, lastIndex);
+      }
+    },
+  },
+
   created() {
-    this.$store.commit('app/setRoute', "Explore")
+    this.$store.commit("app/setRoute", "Explore");
   },
   async mounted() {
     //  Send request to get videos
@@ -47,6 +78,12 @@ export default {
 
     //  Stop loading
     this.loading = false;
+    this.paginationLength = Math.ceil(this.videos.length / this.videosPerPage);
+    if (this.videos.length > this.videosPerPage) {
+      this.videosOnCurrentPage = this.videos.slice(0, this.videosPerPage);
+    } else {
+      this.videosOnCurrentPage = this.videos.slice(0, this.videos.length);
+    }
   },
 };
 </script>
