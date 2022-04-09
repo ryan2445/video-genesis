@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="flex w-full justify-center items-center flex-col">
         <!-- Upload Section -->
         <input
             id="file-input"
@@ -19,68 +19,71 @@
         />
 
         <!-- User Profile Pic -->
+        <div class="flex flex-row justify-center items-center">
+            <div class="mb-4 my-4">
+                <div
+                    v-if="userProfilePic && !loading"
+                    class="w-32 h-32 rounded-full overflow-hidden mb-2"
+                >
+                    <img
+                        class="min-w-full min-h-full object-cover"
+                        :src="userProfilePic"
+                        alt="avatar"
+                    />
+                </div>
+                <div v-else class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500">
+                    <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
+                </div>
+                <v-btn
+                    :loading="loadingProfilePic"
+                    small
+                    color="orange lighten-1"
+                    class="white--text"
+                    @click="uploadProfilePic"
+                >
+                    <div class="flex flex-row items-center">
+                        <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                        <span
+                            >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
+                            Pic</span
+                        >
+                    </div>
+                </v-btn>
+            </div>
+            <!--
+            User Cover Pic
+            <div class="mb-4">
+                <div
+                    v-if="userCoverPic && !loading"
+                    class="h-36 overflow-hidden mb-2 bg-gray-500"
+                >
+                    <img
+                        class="min-w-full min-h-full object-cover"
+                        :src="userCoverPic"
+                        alt="bird"
+                    />
+                </div>
+                <div v-else class="h-36 overflow-hidden mb-2 bg-gray-500">
+                    <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
+                </div>
+                <v-btn
+                    :loading="loadingCoverPic"
+                    small
+                    color="orange lighten-1"
+                    class="white--text"
+                    @click="uploadCoverPic"
+                >
+                    <div class="flex flex-row items-center">
+                        <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+                        <span>
+                            {{ userCoverPic && !loading ? "Change" : "Upload" }} Cover Pic
+                        </span>
+                    </div>
+                </v-btn>
+            </div>
+            -->
+        </div>
 
-        <div class="mb-4 my-4">
-            <div
-                v-if="userProfilePic && !loading"
-                class="w-32 h-32 rounded-full overflow-hidden mb-2"
-            >
-                <img
-                    class="min-w-full min-h-full object-cover"
-                    :src="userProfilePic"
-                    alt="avatar"
-                />
-            </div>
-            <div v-else class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500">
-                <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
-            </div>
-            <v-btn
-                :loading="loadingProfilePic"
-                small
-                color="orange lighten-1"
-                class="white--text"
-                @click="uploadProfilePic"
-            >
-                <div class="flex flex-row items-center">
-                    <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                    <span
-                        >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
-                        Pic</span
-                    >
-                </div>
-            </v-btn>
-        </div>
-        <!-- User Cover Pic -->
-        <div class="mb-4">
-            <div
-                v-if="userCoverPic && !loading"
-                class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500"
-            >
-                <img
-                    class="min-w-full min-h-full object-cover"
-                    :src="userCoverPic"
-                    alt="bird"
-                />
-            </div>
-            <div v-else class="h-36 w-1/2 overflow-hidden mb-2 bg-gray-500">
-                <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
-            </div>
-            <v-btn
-                :loading="loadingCoverPic"
-                small
-                color="orange lighten-1"
-                class="white--text"
-                @click="uploadCoverPic"
-            >
-                <div class="flex flex-row items-center">
-                    <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                    <span
-                        >{{ userCoverPic && !loading ? "Change" : "Upload" }} Cover
-                        Pic</span
-                    >
-                </div>
-            </v-btn>
-        </div>
         <!-- End of Upload Section -->
         <template>
             <v-card class="p-2 w-1/2">
@@ -89,7 +92,7 @@
                         <v-col cols="12" sm="6">
                             <v-text-field
                                 label="First Name"
-                                v-model="firstName"
+                                v-model="usersFirstName"
                                 color="orange"
                                 required
                                 filled
@@ -99,7 +102,7 @@
                         <v-col cols="12" sm="6">
                             <v-text-field
                                 label="Last Name"
-                                v-model="lastName"
+                                v-model="usersLastName"
                                 color="orange"
                                 required
                                 filled
@@ -109,7 +112,7 @@
                         <v-col cols="12">
                             <v-textarea
                                 label="About Me"
-                                v-model="aboutMe"
+                                v-model="usersAboutMe"
                                 color="orange"
                                 filled
                             >
@@ -142,15 +145,15 @@ export default {
     name: "account",
     data() {
         return {
-            // The v-model bounded description
-            aboutMe: null,
-            firstName: null,
-            lastName: null,
-            loadingCoverPic: null,
-            loadingProfilePic: null,
+            usersAboutMe: null,
+            usersFirstName: null,
+            usersLastName: null,
+            profilePicKey: null,
+            coverPicKey: null,
+
+            loadingCoverPic: false,
+            loadingProfilePic: false,
             loading: true,
-            profilepic: null,
-            coverpic: null
         }
     },
     computed: {
@@ -159,19 +162,20 @@ export default {
         }),
         userProfilePic() {
             if (!this.user) return null
-            return this.profilepic || this.user.profilePicKey
+            return this.profilePicKey || this.user.profilePicKey
         },
         userCoverPic() {
             if (!this.user) return null
-            return this.coverpic || this.user.coverPicKey
+
+            return this.coverPicKey || this.user.coverPicKey
         }
     },
     async mounted() {
         if (!this.user) await this.$store.dispatch("users/userGet")
 
-        this.firstName = this.user.usersFirstName
-        this.lastName = this.user.usersLastName
-        this.aboutMe = this.user.usersAboutMe
+        this.usersFirstName = this.user.usersFirstName
+        this.usersLastName = this.user.usersLastName
+        this.usersAboutMe = this.user.usersAboutMe
 
         this.loading = false
     },
@@ -246,7 +250,7 @@ export default {
                 const putCommand = new PutObjectCommand(putPayload)
 
                 const putResp = await this.$store.getters["auth/s3"].send(putCommand)
-                this.coverpic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
+                this.coverPicKey = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
             } catch (error) {
                 console.error(error)
             }
@@ -258,19 +262,26 @@ export default {
         // so the values in the data store get updated
         async resetForm() {
             await this.$store.dispatch("users/userGet")
-            this.aboutMe = this.user.usersAboutMe
-            this.firstName = this.user.usersFirstName
-            this.lastName = this.user.usersLastName
+            this.usersAboutMe = this.user.usersAboutMe
+            this.usersFirstName = this.user.usersFirstName
+            this.usersLastName = this.user.usersLastName
         },
         async submit() {
             this.loading = true
 
-            const response = await this.$store.dispatch("users/userPut", {
-                usersFirstName: this.firstName,
-                usersLastName: this.lastName,
-                usersAboutMe: this.aboutMe,
-                profilePicKey: this.profilepic,
-                coverPicKey: this.coverpic
+            const payload = {
+                usersFirstName: this.usersFirstName,
+                usersLastName: this.usersLastName,
+                usersAboutMe: this.usersAboutMe,
+                profilePicKey: this.profilePicKey,
+                coverPicKey: this.coverPicKey
+            }
+
+            const response = await this.$store.dispatch("users/userPut", payload)
+
+            this.$store.commit('users/rootUserSet', {
+                ...this.user,
+                ...payload
             })
 
             this.loading = false
