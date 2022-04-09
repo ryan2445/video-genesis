@@ -14,9 +14,17 @@
     <v-card-text class="padding-text">
       <v-row no-gutters align="center" class="mx-0">
         <v-col class="pa-0">
-          <span class="mr-1">{{ owner }}</span>
-          <span class="mr-1">-</span>
-          <span>Nov 13, 2021</span>
+          <div class="flex flex-row items-center">
+            <img
+              class="h-10 w-10 object-cover rounded-full"
+              :src="video.user.profilePicKey"
+              alt="avatar"
+              style="border: solid 1px #e1e1e1"
+            />
+            <span class="mr-1 self-center pl-2">{{ owner }}</span>
+            <span class="mr-1">-</span>
+            <span>Nov 13, 2021</span>
+          </div>
         </v-col>
       </v-row>
     </v-card-text>
