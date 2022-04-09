@@ -161,6 +161,17 @@ def videosDelete(event, context):
             'sk': sk
         }
     )
+    
+    # Query the user's playlists    
+    playlistItemsQuery = dynamodb.scan(
+        FilterExpression = Key('videoPK').eq(pk) & Key('videoSK').eq(sk)
+    )
+    
+    if playlistItemsQuery['Count'] > 0:
+        for item in playlistItemsQuery['Items']:
+            dynamodb.delete_item(
+                Key = { 'pk': item['pk'], 'sk': item['sk'] }
+            )
 
     return {
         'statusCode': 200,
