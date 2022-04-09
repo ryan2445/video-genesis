@@ -1,35 +1,30 @@
 <template>
   <div class="mr-3">
-    <v-dialog class="relative" v-model="playlistsDialogBox" width="440px" >
+    <v-dialog class="relative" v-model="playlistsDialogBox" width="440px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
           v-on="on"
           depressed
-          color="grey lighten-1"
+          color="#FF7A45"
           width="30"
           height="30"
-          class="mb-2 shadow-md justify-right"
+          class="mb-2 justify-right"
         >
-          <v-icon>
-            icon-playlist-plus
-          </v-icon>
-            Save
+          <v-icon> icon-playlist-plus </v-icon>
         </v-btn>
       </template>
-      <v-card class="mx-auto relative" style="max-height: 640px;">
+      <v-card class="mx-auto relative" style="max-height: 640px">
         <v-btn
           absolute
           class="top-0 right-0"
           @click="playlistsDialogBox = false"
           icon
         >
-          <v-icon>
-            icon-close
-          </v-icon>
+          <v-icon> icon-close </v-icon>
         </v-btn>
-        <v-card-title class="orange">
-          <span class="text-h5 white--text">Save to...</span>
+        <v-card-title>
+          <span class="text-h5 text-black">Save to...</span>
         </v-card-title>
         <v-card-text>
           <div
@@ -45,18 +40,13 @@
             ></v-checkbox>
           </div>
         </v-card-text>
-        <v-card-actions
-          v-if="!showPlaylistForm"
-          class="orange"
-        >
-          <v-btn text @click="showPlaylistForm = true"
+        <v-card-actions v-if="!showPlaylistForm">
+          <v-btn text @click="showPlaylistForm = true" color="#FF7A45"
             >Create new playlist
           </v-btn>
         </v-card-actions>
         <v-card-title v-else class="orange">
-          <div>
-            Create playlist
-          </div>
+          <div>Create playlist</div>
         </v-card-title>
         <v-expand-transition>
           <div v-show="showPlaylistForm">
@@ -79,8 +69,8 @@ export default {
   props: {
     video: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
