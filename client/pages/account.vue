@@ -176,6 +176,8 @@ export default {
         this.usersFirstName = this.user.usersFirstName
         this.usersLastName = this.user.usersLastName
         this.usersAboutMe = this.user.usersAboutMe
+        this.profilePicKey = this.user.profilePicKey
+        this.coverPicKey = this.user.coverPicKey
 
         this.loading = false
     },
@@ -215,7 +217,7 @@ export default {
                 const putCommand = new PutObjectCommand(putPayload)
 
                 const putResp = await this.$store.getters["auth/s3"].send(putCommand)
-                this.profilepic = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
+                this.profilePicKey = `https://videogenesis-profilepics.s3.us-west-2.amazonaws.com/${putPayload.Key}`
             } catch (error) {
                 console.error(error)
             }
