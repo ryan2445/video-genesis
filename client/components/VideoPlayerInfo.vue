@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title>
+    <v-card-title class="padding-title">
       <v-row>
         <v-col>
           {{ video.videoTitle }}
@@ -21,9 +21,12 @@
               alt="avatar"
               style="border: solid 1px #e1e1e1"
             />
-            <span class="mr-1 self-center pl-2">{{ owner }}</span>
-            <span class="mr-1">-</span>
-            <span>Nov 13, 2021</span>
+            <div class="flex flex-col self-center pl-2">
+              <span class="mr-1 justify-self-end font-bold text-black -mb-1">{{
+                owner
+              }}</span>
+              <span class="text-xs">Nov 13, 2021</span>
+            </div>
           </div>
         </v-col>
       </v-row>
@@ -56,10 +59,15 @@ export default {
 
 <style>
 .padding-title {
-  padding-bottom: 0px;
+  padding-bottom: 8px;
   padding-top: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 .padding-text {
-  padding-bottom: 0px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 </style>
