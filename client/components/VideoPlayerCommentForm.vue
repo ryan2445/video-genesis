@@ -11,7 +11,7 @@
     ></v-textarea>
     <v-card-actions
       ><div class="p-2 flex justify-end gap-2 -mt-7">
-        <v-btn @click="resetTextArea" depressed>Cancel</v-btn>
+        <v-btn @click="resetTextArea" text>Cancel</v-btn>
         <v-btn
           :disabled="checkTextArea"
           :loading="isLoading"

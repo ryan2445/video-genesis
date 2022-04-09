@@ -7,7 +7,7 @@
         </v-col>
         <div class="flex flex-row justify-end gap-x-10">
           <video-votes :video="video" />
-          <save-to-playlist :video="video" class="self-center" />
+          <save-to-playlist :video="video" class="self-center pt-1" />
         </div>
       </v-row>
     </v-card-title>
