@@ -31,7 +31,7 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-text>
+    <v-card-text v-if="video.videoDescription">
       <v-row>
         <v-col cols="8" class="">
           <div class="text-black font-bold">Description:</div>
