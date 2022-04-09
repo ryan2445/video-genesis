@@ -11,7 +11,10 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <form ref="contact-us-form" @submit.prevent="SendEmail($event.currentTarget)">
+    <form
+      ref="contact-us-form"
+      @submit.prevent="SendEmail($event.currentTarget)"
+    >
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">From</label>
@@ -161,29 +164,23 @@
     </form>
     <div v-show="sendMessageSuccess">
       <br />
-      <v-alert
-        border="right"
-        color="blue-grey"
-        dark
-      >
+      <v-alert border="right" color="blue-grey" dark>
         Thank you for your message.
       </v-alert>
     </div>
   </div>
 </template>
 <script>
-
 // emailjs
-import emailjs from "@emailjs/browser"
+import emailjs from "@emailjs/browser";
 export default {
   layout: "dashboard",
   created() {
-    this.$store.commit('app/setRoute', "Contact Us")
+    this.$store.commit("app/setRoute", "Contact Us");
   },
-   data()
-  {
+  data() {
     return {
-      sendMessageSuccess: false
+      sendMessageSuccess: false,
     };
   },
   methods: {
@@ -198,38 +195,22 @@ export default {
         )
         .then(
           (result) => {
-            return new Promise 
-            (
-              (resolve, reject) => 
-              {
-                // this.$refs["contact-us-form"].reset();
-                form.reset(); 
-                this.sendMessageSuccess = true; 
-                resolve(); 
-              }
-            ).then 
-            (
-              ()=> 
-              {
-                setInterval
-                (
-                  ()=> 
-                  {
-                    this.sendMessageSuccess = false;
-                    
-                  }, 7000
-                ); 
-
-              }
-            )
-            
+            return new Promise((resolve, reject) => {
+              // this.$refs["contact-us-form"].reset();
+              form.reset();
+              this.sendMessageSuccess = true;
+              resolve();
+            }).then(() => {
+              setInterval(() => {
+                this.sendMessageSuccess = false;
+              }, 7000);
+            });
           },
           (error) => {
-            console.log("FAILED...", error.text)
+            console.log("FAILED...", error.text);
           }
-        )
-    }
-  }
-}
-
+        );
+    },
+  },
+};
 </script>
