@@ -15,7 +15,7 @@
       ref="contact-us-form"
       @submit.prevent="SendEmail($event.currentTarget)"
     >
-      <div class="field is-horizontal">
+      <div class="field is-horizontal bg-gray-600">
         <div class="field-label is-normal">
           <label class="label">From</label>
         </div>
@@ -214,3 +214,5 @@ export default {
   },
 };
 </script>
+
+<style scoped></style>
