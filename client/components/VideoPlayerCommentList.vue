@@ -166,6 +166,7 @@ export default {
     },
     deleteCommentWithIndex(index) {
       this.allcomments.splice(index, 1);
+      this.users.splice(index, 1);
     },
     updateCommentWithIndex(index, content) {
       this.allcomments[index].content = content;
