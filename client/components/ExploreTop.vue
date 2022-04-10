@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex ma-4">
+    <div class="d-flex my-4">
         <div class="" style="width:300px;">
             <v-text-field v-model="searchText" @input="search"
                 prepend-inner-icon="mdi-magnify" placeholder="Search Videos..." rounded

@@ -82,7 +82,6 @@ export default {
     methods: {
         async getVote() {
             const response = await this.$store.dispatch('users/usersGetVotes', {
-                userId: this.user.username,
                 videoId: this.video.sk.split('#')[1]
             })
 
