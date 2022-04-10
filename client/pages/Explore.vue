@@ -23,7 +23,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import VideoCard from '../components/VideoCard.vue'
-import { get } from 'lodash'
 export default {
     components: { VideoCard },
     layout: 'dashboard',
