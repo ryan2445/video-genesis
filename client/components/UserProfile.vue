@@ -40,10 +40,7 @@
             </h2>
             <v-divider></v-divider>
           </div>
-          <component
-            v-bind:is="comp.name"
-            v-bind="comp.props"
-          ></component>
+          <component v-bind:is="comp.name" v-bind="comp.props"></component>
         </v-carousel-item>
       </v-carousel>
     </div>
@@ -100,7 +97,7 @@ export default {
           name: "video-list",
           props: {
             videos: this.videos,
-            playlists: this.playlists
+            playlists: this.playlists,
           },
           title: true,
         },
@@ -113,7 +110,7 @@ export default {
         {
           name: "profile-playlists",
           props: {
-            user: this.user
+            user: this.user,
           },
         },
       ];
