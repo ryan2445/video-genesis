@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col contents-center bg-gray-500">
     <div class="flex justify-center">
       <svg
         width="999"
@@ -31,7 +31,6 @@
           />
         </defs>
       </svg>
-
       <AuthForm type="signIn" @signIn="onSignIn" />
     </div>
   </div>
