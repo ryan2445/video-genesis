@@ -1,4 +1,4 @@
-export default async function ({ $axios, $auth, route, store, redirect }) {
+export default async function ({ $axios, route, store, redirect }) {
   //  Set ignore routes
   const ignore = ["/", "/auth/sign-in", "/auth/sign-up", "/auth/confirm", "/auth/reset"]
 
