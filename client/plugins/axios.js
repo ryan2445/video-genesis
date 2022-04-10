@@ -13,7 +13,10 @@ export default ({ redirect }, inject) => {
   instance.interceptors.response.use(
     response => response,
     error => {
-      if(error.toJSON().config.url != 'https://n1ddeh.ngrok.io') {
+      const err = error.toJSON()
+      const isUnauthorized = err.status == 401 || err.status == 403
+      const isUpscaling = err.config.url == 'https://n1ddeh.ngrok.io'
+      if(isUnauthorized && !isUpscaling) {
         redirect("/auth/sign-in")
       }
       return Promise.reject(error)

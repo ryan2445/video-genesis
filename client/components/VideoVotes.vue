@@ -38,10 +38,16 @@ export default {
         return {
             vote: null,
             voteObject: null,
-            previousVote: null
+            previousVote: null,
+            videoLikes: null,
+            videoDislikes: null
         }
     },
     async mounted() {
+        this.videoLikes = this.video.likes || 0
+
+        this.videoDislikes = this.video.dislikes || 0
+
         await this.getVote()
     },
     computed: {
@@ -57,32 +63,11 @@ export default {
             if (!this.vote === null) return null
 
             return this.vote === false
-        },
-        videoLikes: {
-            get() {
-                if (!this.video) return null
-
-                return this.video.likes || 0
-            },
-            set(number) {
-                this.video.likes = number
-            }
-        },
-        videoDislikes: {
-            get() {
-                if (!this.video) return null
-
-                return this.video.dislikes || 0
-            },
-            set(number) {
-                this.video.dislikes = number
-            }
         }
     },
     methods: {
         async getVote() {
             const response = await this.$store.dispatch('users/usersGetVotes', {
-                userId: this.user.username,
                 videoId: this.video.sk.split('#')[1]
             })
 
