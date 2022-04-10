@@ -1,43 +1,43 @@
 <template>
-    <user-profile v-if="user" :user="user" :root="true" />
+  <user-profile v-if="user" :user="user" :root="true" />
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-    layout: 'dashboard',
-    data() {
-        return {
-            tabSelected: 'Uploads'
-        }
+  layout: "dashboard",
+  data() {
+    return {
+      tabSelected: "Uploads",
+    };
+  },
+  computed: {
+    ...mapGetters({
+      user: "users/rootUser",
+      videos: "videos/videos",
+    }),
+  },
+  methods: {
+    changeTabSelection(tabName) {
+      this.tabSelected = tabName;
     },
-    computed: {
-        ...mapGetters({
-            user: 'users/rootUser',
-            videos: 'videos/videos'
-        })
-    },
-    methods: {
-        changeTabSelection(tabName) {
-            this.tabSelected = tabName
-        }
-    },
-    async mounted() {
-        this.$store.commit('app/setRoute', 'Home')
+  },
+  async mounted() {
+    this.$store.commit("app/setRoute", "Home");
 
-        if (!this.user) await this.$store.dispatch('users/userGet')
-    }
-}
+    if (!this.user) await this.$store.dispatch("users/userGet");
+  },
+};
 </script>
 
 <style scoped>
 .v-enter-active,
 .v-leave-active {
-    transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
-    opacity: 0;
+  opacity: 0;
 }
 </style>
