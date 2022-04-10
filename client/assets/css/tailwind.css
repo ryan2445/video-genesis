@@ -1,14 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oxygen&family=Roboto&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: 'Roboto', 'sans-serif';
+  font-family: "Roboto", "sans-serif";
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Oxygen', 'Roboto' 'sans-serif' !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Oxygen", "Roboto" "sans-serif" !important;
 }
 
 button {
@@ -19,19 +24,24 @@ div.video-context-menu > div.v-list {
   background: #625e5e8f !important;
 }
 
-div.userProfileCarousel, .user-carousel-item > div {
+div.userProfileCarousel,
+.user-carousel-item > div {
   overflow: visible !important;
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 ::-webkit-scrollbar-thumb {
-    background: #636363;
+  background: #636363;
 }
 ::-webkit-scrollbar-thumb:active {
-    background: #494949;
+  background: #494949;
 }
 ::-webkit-scrollbar-track {
-    background: lightgrey;
+  background: lightgrey;
+}
+
+.v-navigation-drawer__content hr {
+  margin: 0px !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-10">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
@@ -15,7 +15,7 @@
       ref="contact-us-form"
       @submit.prevent="SendEmail($event.currentTarget)"
     >
-      <div class="field is-horizontal bg-gray-600">
+      <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">From</label>
         </div>
