@@ -13,16 +13,16 @@ export default {
     return {
       pk: null,
       sk: null,
-      playlist: null
-    }
+      playlist: null,
+    };
   },
   mounted() {
-    this.getQueryParamsAndSetKeys()
-    this.getPlaylist()
+    this.getQueryParamsAndSetKeys();
+    this.getPlaylist();
   },
   methods: {
     getQueryParamsAndSetKeys() {
-      const path = this.$route.fullPath?.replace('/playlists?', '')
+      const path = this.$route.fullPath?.replace("/playlists?", "");
       const params = new URLSearchParams(path);
 
       // If the sk is not provided, error
@@ -37,13 +37,16 @@ export default {
     async getPlaylist() {
       const params = {
         pk: this.pk,
-        sk: this.sk
-      }
+        sk: this.sk,
+      };
 
-      const playlist = await this.$store.dispatch('playlists/playlistGet', params)
+      const playlist = await this.$store.dispatch(
+        "playlists/playlistGet",
+        params
+      );
 
-      this.playlist = playlist
-    }
-  }
-}
+      this.playlist = playlist;
+    },
+  },
+};
 </script>

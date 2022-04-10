@@ -6,7 +6,7 @@
           v-bind="attrs"
           v-on="on"
           depressed
-          color="#FF7A45"
+          color="orange"
           width="30"
           height="30"
           class="mb-2 justify-right"

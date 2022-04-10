@@ -20,19 +20,16 @@ export default {
   mounted() {
     this.getQueryParamsAndSetKeys();
 
-    if (this.sk && this.pk)
-      this.getPlaylist()
-    else 
-      this.$router.push('/home')
+    if (this.sk && this.pk) this.getPlaylist();
+    else this.$router.push("/home");
   },
   methods: {
     async getPlaylist() {
-      console.log('getPlaylist')
       const playlist = await this.$store.dispatch("playlists/playlistGet", {
         sk: this.sk,
         pk: this.pk,
       });
-      console.log('playlist', playlist)
+      console.log("playlist", playlist);
       this.playlist = playlist;
     },
     getQueryParamsAndSetKeys() {

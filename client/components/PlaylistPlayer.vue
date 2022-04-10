@@ -1,6 +1,6 @@
 <template>
   <div class="playlist-player-container">
-    <v-card>
+    <v-card color="orange">
       <v-card-title>
         {{ playlist.playlistTitle }}
       </v-card-title>
