@@ -1,6 +1,7 @@
 <template>
   <div
-    class="relative flex flex-1"
+    class="relative flex flex-1 w-full max-w-full h-0"
+    style="padding-top: 56.25%;"
   >
       <div
         v-if="!!hint"
@@ -15,6 +16,7 @@
       <video 
         ref="videoPlayer"
         muted
+        class="absolute top-0 left-0 w-full h-full"
       >
         <source 
           :src="src" 
