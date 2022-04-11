@@ -35,6 +35,7 @@ import { mapGetters } from "vuex";
 import VideoPlayerCommentList from "../../components/VideoPlayerCommentList.vue";
 export default {
   components: { VideoPlayerCommentList },
+  name: "VideoPage",
   layout: "dashboard",
   data() {
     return {
@@ -46,7 +47,8 @@ export default {
       sk: null,
       startTime: null,
 
-      list: null,
+      listPK: null,
+      listSK: null,
       index: 0,
       playlist: null,
     };
@@ -88,8 +90,8 @@ export default {
   async mounted() {
     this.getQueryParamsAndSetKeys();
 
-    if (this.list) {
-      this.getPlaylist();
+    if (this.listPK && this.listSK) {
+      await this.getPlaylist();
     }
 
     await this.getAndSetVideo();
@@ -98,8 +100,8 @@ export default {
   },
   methods: {
     async getPlaylist() {
-      const playlistPK = this.pk;
-      const playlistSK = this.list;
+      const playlistPK = this.listPK;
+      const playlistSK = this.listSK;
 
       const params = {
         pk: playlistPK,
@@ -110,6 +112,8 @@ export default {
         "playlists/playlistGet",
         params
       );
+
+      console.log('playlist', playlist)
 
       this.playlist = playlist;
     },
@@ -131,13 +135,15 @@ export default {
 
       const time = params.get("time");
 
-      const list = params.has("list") ? params.get("list") : null;
+      const listPK = params.has("listPK") ? params.get("listPK") : null;
+      const listSK = params.has("listSK") ? params.get("listSK") : null;
 
       const index = params.has("index") ? params.get("index") : 0;
 
       this.pk = pk;
       this.sk = sk;
-      this.list = list;
+      this.listPK = listPK;
+      this.listSK = listSK;
       this.startTime = time;
       this.index = Number(index);
     },
@@ -151,8 +157,6 @@ export default {
         pk: this.pk,
         sk: this.sk,
       });
-
-      console.log(video);
 
       this.video = video;
     },
@@ -169,9 +173,8 @@ export default {
       if (!isLastPlaylistVideo) {
         this.index = this.index + 1;
         this.video = this.playlist.videos[this.index].video;
-        this.$router.push(
-          `/videos/pk=${this.video.pk}&sk=${this.video.sk}&index=${this.index}&list=${this.playlist.sk}`
-        );
+        const url = `/videos/pk=${this.video.pk}&sk=${this.video.sk}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=${this.index}`
+        this.$router.push(url);
       }
     },
   },

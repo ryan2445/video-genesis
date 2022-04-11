@@ -47,7 +47,7 @@ export default {
       return `${videosCount} video${videosCount > 1 ? 's' : ''}`
     },
     playAllLink() {
-      return `/videos/pk=${this.playlist.videos[0].videoPK}&sk=${this.playlist.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
+      return `/videos/pk=${this.playlist.videos[0].videoPK}&sk=${this.playlist.videos[0].videoSK}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=0`
     }
   }
 }
