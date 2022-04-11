@@ -4,6 +4,8 @@
       <v-btn 
         v-bind="attrs" v-on="on" 
         icon
+        :loading="downloading"
+        :disabled="downloading"
       >
       <v-icon>
         mdi-download
@@ -50,26 +52,36 @@ export default {
   methods: {
     download(link) {
       if (this.downloading) return
-      
+
       const url = link.url
       const filename = link.title
 
       this.downloading = true
 
-      fetch(url)
-        .then(resp => resp.blob())
-        .then(blob => {
-          this.downloading = false
+      try {
+        fetch(url)
+          .then(resp => resp.blob())
+          .then(blob => {
+            this.downloading = false
 
-          const blobURL = URL.createObjectURL(blob)
-          const a = document.createElement('a')
-          a.href = blobURL;
-          a.style = "display: none;"
+            const blobURL = URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = blobURL;
+            a.style = "display: none;"
 
 
-          document.body.appendChild(a)
-          a.click()
+            document.body.appendChild(a)
+            a.click()
+          })
+      }
+      catch(e) {
+        this.$notify({
+          text: 'Download error, try again'
         })
+      }
+      finally {
+        this.downloading = false
+      }
     }
   },
   computed: {
