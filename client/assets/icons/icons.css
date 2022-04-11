@@ -1,8 +1,8 @@
 @font-face {
     font-family: "icons";
-    src: url("./icons.eot?78da1c52223921c14139621765b1a2ce#iefix") format("embedded-opentype"),
-url("./icons.woff2?78da1c52223921c14139621765b1a2ce") format("woff2"),
-url("./icons.woff?78da1c52223921c14139621765b1a2ce") format("woff");
+    src: url("./icons.eot?3e6aab393393f8cea5e7071f9aac4d3a#iefix") format("embedded-opentype"),
+url("./icons.woff2?3e6aab393393f8cea5e7071f9aac4d3a") format("woff2"),
+url("./icons.woff?3e6aab393393f8cea5e7071f9aac4d3a") format("woff");
 }
 
 i[class^="icon-"]:before, i[class*=" icon-"]:before {
@@ -37,24 +37,27 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-delete:before {
     content: "\f107";
 }
-.icon-pencil-outline:before {
+.icon-lightning-bolt-circle:before {
     content: "\f108";
 }
-.icon-play:before {
+.icon-pencil-outline:before {
     content: "\f109";
 }
-.icon-playlist-play:before {
+.icon-play:before {
     content: "\f10a";
 }
-.icon-playlist-plus:before {
+.icon-playlist-play:before {
     content: "\f10b";
 }
-.icon-video:before {
+.icon-playlist-plus:before {
     content: "\f10c";
 }
-.icon-wifi-cancel:before {
+.icon-video:before {
     content: "\f10d";
 }
-.icon-wifi-check:before {
+.icon-wifi-cancel:before {
     content: "\f10e";
+}
+.icon-wifi-check:before {
+    content: "\f10f";
 }
