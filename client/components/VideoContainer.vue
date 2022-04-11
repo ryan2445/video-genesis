@@ -9,12 +9,6 @@
       this.$emit('show:stats')
       this.$emit('close')
     }, -->
-      <div
-        v-if="showStats"
-        class="absolute z-50 bg-black bg-opacity-50 m-5 p-10"
-      >
-        <div class="text-white">Hello this is where the stats go</div>
-      </div>
       <video-player
         v-if="previewDefault"
         ref="videoPlayer"
@@ -22,6 +16,7 @@
         :start-time="startTime"
         :video-data="videoData"
         :autoplay="autoplay"
+        :showStats="showStats"
         @ended="onEnded"
       />
       <video-preview

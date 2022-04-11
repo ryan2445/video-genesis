@@ -1,6 +1,18 @@
 <template>
   <div class="relative">
-    <!-- <div class="h-20 w-20 absolute z-50 bg-gray-500 m-11">Hello</div> -->
+    <div v-if="showStats" class="absolute z-50 bg-black bg-opacity-50 m-2">
+      <div class="text-white p-2">
+        <ul class="list-none list-outside m-0 text-left pl-0 text-sm">
+          <li>Aspect Ratio: {{ videoPlayer.aspectRatio_ }}</li>
+          <li>Current Time: {{ videoPlayer.cache_.currentTime }}</li>
+          <li>Audio: {{ videoPlayer.isAudio_ }}</li>
+          <li>Duration: {{ videoPlayer.tech_.el_.duration }}</li>
+          <li>src: {{ videoPlayer.tech_.el_.src }}</li>
+          <li>Video Height: {{ videoPlayer.tech_.el_.videoHeight }}</li>
+          <li>Video Width: {{ videoPlayer.tech_.el_.videoWidth }}</li>
+        </ul>
+      </div>
+    </div>
     <video
       v-if="!autoplay"
       id="videoplayer"
@@ -59,6 +71,7 @@ export default {
       required: false,
       default: false,
     },
+    showStats: { type: Boolean },
   },
   data() {
     return {
@@ -157,6 +170,7 @@ export default {
       this.audioPlayer = player;
     },
     onPlayerPlay(event) {
+      console.log(this.videoPlayer);
       this.$emit("play");
 
       // Continue if audio is enabled
