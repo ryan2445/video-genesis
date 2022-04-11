@@ -1,7 +1,6 @@
 <template>
-  <div
-    class="relative"
-  >
+  <div class="relative">
+    <!-- <div class="h-20 w-20 absolute z-50 bg-gray-500 m-11">Hello</div> -->
     <video
       v-if="!autoplay"
       id="videoplayer"
@@ -15,11 +14,7 @@
       @resolutionchange="onResChange($event)"
       @ended="onEnded($event)"
     >
-      <audio 
-        v-if="audioEnabled" 
-        :src="audio" 
-        ref="audioPlayer">
-      </audio>
+      <audio v-if="audioEnabled" :src="audio" ref="audioPlayer"></audio>
     </video>
     <video
       v-else-if="autoplay"
@@ -35,11 +30,7 @@
       @resolutionchange="onResChange($event)"
       @ended="onEnded($event)"
     >
-      <audio 
-        v-if="audioEnabled" 
-        :src="audio" 
-        ref="audioPlayer">
-      </audio>
+      <audio v-if="audioEnabled" :src="audio" ref="audioPlayer"></audio>
     </video>
   </div>
 </template>
@@ -61,13 +52,13 @@ export default {
     startTime: {
       required: false,
       default: null,
-      type: String | Number
+      type: String | Number,
     },
     autoplay: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -104,7 +95,7 @@ export default {
         controls: true,
         sources: this.videoData,
         responsive: false,
-        aspectRatio: '16:9',
+        aspectRatio: "16:9",
         autoplay: this.autoplay,
         fill: true,
         plugins: {
@@ -141,7 +132,10 @@ export default {
 
       // Update the start time
       if (this.startTime != null) {
-        this.$refs.videoPlayer.currentTime = typeof this.startTime == 'string' ? Number(this.startTime) : this.startTime
+        this.$refs.videoPlayer.currentTime =
+          typeof this.startTime == "string"
+            ? Number(this.startTime)
+            : this.startTime;
       }
     },
     initAudioPlayer() {
@@ -163,8 +157,8 @@ export default {
       this.audioPlayer = player;
     },
     onPlayerPlay(event) {
-      this.$emit('play')
-      
+      this.$emit("play");
+
       // Continue if audio is enabled
       if (!this.audioEnabled) return;
 
@@ -180,7 +174,7 @@ export default {
       this.playing = true;
     },
     onPlayerPause(videoPlayer) {
-      this.$emit('pause')
+      this.$emit("pause");
 
       // Continue if audio is enabled
       if (!this.audioEnabled) return;
@@ -221,16 +215,16 @@ export default {
       this.currentVideoRes = currentResolution.label;
     },
     getCurrentTime() {
-      return this.$refs.videoPlayer?.currentTime
+      return this.$refs.videoPlayer?.currentTime;
     },
     isPaused() {
-      const el = this.$refs.videoPlayer
-      if (!el) return true
-      return this.$refs.videoPlayer.paused
+      const el = this.$refs.videoPlayer;
+      if (!el) return true;
+      return this.$refs.videoPlayer.paused;
     },
     onEnded() {
-      this.$emit('ended')
-    }
+      this.$emit("ended");
+    },
   },
   computed: {
     audioEnabled() {
@@ -250,7 +244,7 @@ export default {
     },
     autoplay() {
       this.initVideoPlayer();
-    }
+    },
   },
 };
 </script>

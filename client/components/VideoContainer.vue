@@ -5,12 +5,22 @@
       :class="`grid-${columnLayout ? 'cols' : 'rows'}-${gridColumns}`"
       @contextmenu.prevent="onContextMenu"
     >
+      <!-- showStats() {
+      this.$emit('show:stats')
+      this.$emit('close')
+    }, -->
+      <div
+        v-if="showStats"
+        class="absolute z-50 bg-black bg-opacity-50 m-5 p-10"
+      >
+        <div class="text-white">Hello this is where the stats go</div>
+      </div>
       <video-player
         v-if="previewDefault"
         ref="videoPlayer"
         :audio="audio"
-        :start-time="startTime" 
-        :video-data="videoData" 
+        :start-time="startTime"
+        :video-data="videoData"
         :autoplay="autoplay"
         @ended="onEnded"
       />
@@ -42,14 +52,13 @@
           @show:lr="showLowRes"
           @show:hr="showHighRes"
           @show:default="showDefaultPlayer"
+          @show:stats="changeStats"
           @sync="onSync"
           @toggle:layout="toggleLayout"
         />
       </v-menu>
     </div>
-    <video-player-info
-      :video="video" 
-    />
+    <video-player-info :video="video" />
   </div>
 </template>
 
@@ -59,27 +68,27 @@ export default {
   props: {
     video: {
       type: Object,
-      required: true
+      required: true,
     },
     audio: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     startTime: {
       type: String | Number,
       default: null,
-      required: false
+      required: false,
     },
     videoData: {
       type: Array,
-      required: true
+      required: true,
     },
     autoplay: {
       type: Boolean,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -90,32 +99,39 @@ export default {
       previewDefault: true,
       previewLowRes: false,
       previewHighRes: false,
-      bucketURL: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      columnLayout: true
-    }
+      showStats: false,
+      bucketURL:
+        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
+      columnLayout: true,
+    };
   },
-  mounted() {
-
-  },
+  mounted() {},
   computed: {
     gridColumns() {
-      return [this.previewDefault, this.previewLowRes, this.previewHighRes].reduce((acc, cur) => acc + (cur == true), 0)
-    }
+      return [
+        this.previewDefault,
+        this.previewLowRes,
+        this.previewHighRes,
+      ].reduce((acc, cur) => acc + (cur == true), 0);
+    },
   },
   methods: {
+    changeStats() {
+      this.showStats = !this.showStats;
+    },
     onContextMenu(e) {
-      this.contextMenuX = e.pageX
-      this.contextMenuY = e.pageY
-      this.showContextMenu = true
+      this.contextMenuX = e.pageX;
+      this.contextMenuY = e.pageY;
+      this.showContextMenu = true;
     },
     onContextMenuClose() {
-      this.showContextMenu = false
+      this.showContextMenu = false;
     },
     showLowRes(bool) {
-      this.previewLowRes = bool
+      this.previewLowRes = bool;
     },
     showHighRes(bool) {
-      this.previewHighRes = bool
+      this.previewHighRes = bool;
     },
     onSync() {
       const videoPlayerComponent = this.$refs.videoPlayer;
@@ -123,46 +139,46 @@ export default {
       const highResPlayerComponent = this.$refs.highResPlayer;
 
       // If the video player does not exist or there are no other players to sync, return
-      if (!videoPlayerComponent || (!lowResPlayerComponent && !highResPlayerComponent)) {
-        return
+      if (
+        !videoPlayerComponent ||
+        (!lowResPlayerComponent && !highResPlayerComponent)
+      ) {
+        return;
       }
 
-      const time = videoPlayerComponent.getCurrentTime()
-      const isPaused = videoPlayerComponent.isPaused()
+      const time = videoPlayerComponent.getCurrentTime();
+      const isPaused = videoPlayerComponent.isPaused();
 
       if (!!lowResPlayerComponent) {
-        lowResPlayerComponent.setCurrentTime(time)
+        lowResPlayerComponent.setCurrentTime(time);
 
         if (isPaused) {
-          lowResPlayerComponent.pauseVideo()
-        }
-        else {
-          lowResPlayerComponent.playVideo()
+          lowResPlayerComponent.pauseVideo();
+        } else {
+          lowResPlayerComponent.playVideo();
         }
       }
       if (!!highResPlayerComponent) {
-        highResPlayerComponent.setCurrentTime(time)
+        highResPlayerComponent.setCurrentTime(time);
 
         if (isPaused) {
-          highResPlayerComponent.pauseVideo()
-        }
-        else {
-          highResPlayerComponent.playVideo()
+          highResPlayerComponent.pauseVideo();
+        } else {
+          highResPlayerComponent.playVideo();
         }
       }
     },
     toggleLayout(bool) {
-      this.columnLayout = bool
+      this.columnLayout = bool;
     },
     showDefaultPlayer(bool) {
-      this.previewDefault = bool
+      this.previewDefault = bool;
     },
     onEnded() {
-      this.$emit('video:ended')
-    }
-  }
-  
-}
+      this.$emit("video:ended");
+    },
+  },
+};
 </script>
 
 <style scoped>
