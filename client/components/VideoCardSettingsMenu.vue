@@ -11,7 +11,7 @@
 				<v-icon>icon-cog-outline</v-icon>
 			</v-btn>
 		</template>
-		<div style="max-width: 480px; background: white">
+		<div style="background: white">
 			<v-list>
 				<v-list-item>
 					<v-dialog v-model="dialog" persistent max-width="600px">
@@ -50,7 +50,7 @@
 											<div>Video Thumbnail:</div>
 										</v-col>
 										<v-col v-if="video.videoThumbnail" cols="12">
-											<img :src="video.videoThumbnail" width="300px" />
+											<img :src="video.videoThumbnail" width="192px" />
 										</v-col>
 										<v-col cols="12">
 											<div class="flex flex-col">
@@ -126,12 +126,18 @@
 							</v-card-text>
 							<v-card-actions>
 								<v-spacer></v-spacer>
-								<v-btn color="blue darken-1" text @click="onDialogClose"
-									>Close</v-btn
+								<v-btn 
+									color="blue darken-1" text 
+									@click="onDialogClose"
 								>
-								<v-btn color="blue darken-1" text @click="onVideoSave(false)"
-									>Save</v-btn
+									Close
+								</v-btn>
+								<v-btn 
+									color="blue darken-1" text 
+									@click="onVideoSave(false)"
 								>
+									Save
+								</v-btn>
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
@@ -159,13 +165,12 @@
 								color="white"
 								dark
 							>
-								<div class="orange pa-4 bg-secondary rounded-t-xl">
+								<div class="pa-4 bg-secondary text-black">
 									Are you sure you want to delete this video?
 								</div>
 
 								<v-btn
 									class="ma-1"
-									elevation="12"
 									height="25"
 									width="1%"
 									color="orange"
@@ -176,7 +181,6 @@
 
 								<v-btn
 									class="mx-auto transition-swing secondary"
-									elevation="12"
 									height="25"
 									width="1%"
 									color="orange"
@@ -292,10 +296,7 @@ export default {
 		onDefaultThumbnailChange(defaultVideoThumbnail) {
 			this.defaultVideoThumbnail = defaultVideoThumbnail;
 		},
-		async onDialogClose() {
-			this.dialog = false;
-		},
-		async onDeleteDialogClose() {
+		onDeleteDialogClose() {
 			this.deleteDialogBox = false;
 		},
 		async onVideoDelete() {
@@ -346,16 +347,17 @@ export default {
 
 			this.dialog = dialog;
 		},
-		async onDialogClose() {
+		onDialogClose() {
 			this.dialog = false;
-		},
-		async onDeleteDialogClose() {
-			this.deleteDialogBox = false;
 		},
 		async onVideoDelete() {
 			await this.$store.dispatch("videos/videosDelete", {
 				sk: this.video.sk,
 			});
+
+			this.deleteDialogBox = false;
+			this.dialog = false;
+
 			// If on the 'Explore' page get every user's video or get the user's videos
 			await this.$store.dispatch(
 				this.$router.history.current.name === "Explore"
@@ -363,7 +365,7 @@ export default {
 					: "videos/videosGet"
 			);
 
-			this.deleteDialogBox = false;
+			
 		},
 	},
 };
