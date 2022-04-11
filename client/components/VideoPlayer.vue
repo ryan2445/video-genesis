@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div v-if="showStats" class="absolute z-50 bg-black bg-opacity-75 m-2">
+    <div v-if="showStats" class="absolute z-10 bg-black bg-opacity-75 m-2">
       <div class="text-white p-2">
         <ul class="list-none list-outside m-0 text-left pl-0 text-sm">
           <li>Aspect Ratio: {{ videoPlayer.aspectRatio_ }}</li>
