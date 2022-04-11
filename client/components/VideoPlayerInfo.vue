@@ -1,10 +1,10 @@
 <template>
   <v-card>
     <v-card-title class="padding-title">
-      <v-row>
-        <v-col>
+      <v-row class="px-3 my-2">
+        <div>
           {{ video.videoTitle }}
-        </v-col>
+        </div>
         <div class="flex flex-row justify-end gap-x-10">
           <video-votes :video="video" />
           <save-to-playlist :video="video" class="self-center pt-1" />
