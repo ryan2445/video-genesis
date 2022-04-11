@@ -17,6 +17,8 @@
         :video-data="videoData"
         :autoplay="autoplay"
         :showStats="showStats"
+        @play="handlePlay"
+        @pause="handlePause"
         @ended="onEnded"
       />
       <video-preview
@@ -111,6 +113,28 @@ export default {
     },
   },
   methods: {
+    handlePause() {
+      const preview1 = this.$refs.lowResPlayer;
+
+      if (preview1)
+        preview1.pauseVideo()
+
+      const preview2 = this.$refs.highResPlayer;
+
+      if (preview2)
+        preview2.pauseVideo()
+    },
+    handlePlay() {
+      const preview1 = this.$refs.lowResPlayer;
+
+      if (preview1)
+        preview1.playVideo()
+
+      const preview2 = this.$refs.highResPlayer;
+
+      if (preview2)
+        preview2.playVideo()
+    },
     changeStats() {
       this.showStats = !this.showStats;
     },
@@ -129,39 +153,36 @@ export default {
       this.previewHighRes = bool;
     },
     onSync() {
+      this.syncLowResVideo()
+      this.syncHighResVideo()
+    },
+    syncLowResVideo() {
       const videoPlayerComponent = this.$refs.videoPlayer;
       const lowResPlayerComponent = this.$refs.lowResPlayer;
-      const highResPlayerComponent = this.$refs.highResPlayer;
 
       // If the video player does not exist or there are no other players to sync, return
-      if (
-        !videoPlayerComponent ||
-        (!lowResPlayerComponent && !highResPlayerComponent)
-      ) {
-        return;
-      }
+      if (!videoPlayerComponent || !lowResPlayerComponent ) return
 
       const time = videoPlayerComponent.getCurrentTime();
       const isPaused = videoPlayerComponent.isPaused();
 
-      if (!!lowResPlayerComponent) {
-        lowResPlayerComponent.setCurrentTime(time);
+      lowResPlayerComponent.setCurrentTime(time);
 
-        if (isPaused) {
-          lowResPlayerComponent.pauseVideo();
-        } else {
-          lowResPlayerComponent.playVideo();
-        }
-      }
-      if (!!highResPlayerComponent) {
-        highResPlayerComponent.setCurrentTime(time);
+      lowResPlayerComponent[isPaused ? 'pauseVideo' : 'playVideo']()
+    },
+    syncHighResVideo() {
+      const videoPlayerComponent = this.$refs.videoPlayer;
+      const highResPlayerComponent = this.$refs.highResPlayer;
 
-        if (isPaused) {
-          highResPlayerComponent.pauseVideo();
-        } else {
-          highResPlayerComponent.playVideo();
-        }
-      }
+      // If the video player does not exist or there are no other players to sync, return
+      if (!videoPlayerComponent || !highResPlayerComponent ) return
+
+      const time = videoPlayerComponent.getCurrentTime();
+      const isPaused = videoPlayerComponent.isPaused();
+
+      highResPlayerComponent.setCurrentTime(time);
+
+      highResPlayerComponent[isPaused ? 'pauseVideo' : 'playVideo']()
     },
     toggleLayout(bool) {
       this.columnLayout = bool;
@@ -172,7 +193,24 @@ export default {
     onEnded() {
       this.$emit("video:ended");
     },
+    isPaused() {
+      const el = this.$refs.videoPlayer
+
+      if (el) {
+        return el.isPaused()
+      }
+
+      return true
+    }
   },
+  watch: {
+    previewLowRes(val) {
+      if (val) setTimeout(this.syncLowResVideo, 10);
+    },
+    previewHighRes(val) {
+      if (val) setTimeout(this.syncHighResVideo, 10);
+    }
+  }
 };
 </script>
 
