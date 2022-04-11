@@ -128,6 +128,6 @@ export default {
 
 <style scoped>
 .contextMenuItem {
-  backdrop-filter: blur(8px);
+  background: none !important;
 }
 </style>

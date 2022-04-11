@@ -193,4 +193,7 @@ export default {
 .prev-2 {
   grid-template-columns: 1fr 1fr;
 }
+.video-context-menu {
+  backdrop-filter: blur(8px);
+}
 </style>
