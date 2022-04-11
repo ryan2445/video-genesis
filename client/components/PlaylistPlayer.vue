@@ -35,14 +35,16 @@
                 :video-key="playlistItem.video.videoKey"
                 :height="72"
                 :width="128"
-                class="cursor-pointer"
+                class="cursor-pointer mr-2"
               />
             </v-list-item-icon>
             <v-list-item-content two-line>
               <v-list-item-title>
                 {{ playlistItem.video.videoTitle }}
               </v-list-item-title>
-              <v-list-item-subtitle> </v-list-item-subtitle>
+              <v-list-item-subtitle> 
+                <profile-picture-and-username :showPic="false" text-classes="text-xs" :user="playlistItem.video.user" />
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-hover>
