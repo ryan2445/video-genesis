@@ -4,7 +4,7 @@
   >
     <div class="flex flex-col w-full pt-4 px-2">
       <div class="playlist-info-thumbnail-container mb-4">
-        <playlist-thumbnail :playlist="playlist" to="/"></playlist-thumbnail>
+        <playlist-thumbnail :playlist="playlist" :to="playAllLink" />
       </div>
       <div class="playlist-info-title-container w-full mt">
         <h1 class="text-lg font-bold">
@@ -45,6 +45,9 @@ export default {
       const videosCount = this.playlist.videos.length;
 
       return `${videosCount} video${videosCount > 1 ? 's' : ''}`
+    },
+    playAllLink() {
+      return `/videos/pk=${this.playlist.videos[0].videoPK}&sk=${this.playlist.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
     }
   }
 }

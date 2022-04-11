@@ -36,6 +36,7 @@
     </div>
     <div
       class="flex flex-1"
+      v-if="permission"
     >
       <div class="ml-auto my-auto mr-3">
         <NuxtLink
@@ -70,6 +71,10 @@ export default {
   props: {
     playlist: {
       type: Object,
+      required: true
+    },
+    permission: {
+      type: Boolean,
       required: true
     }
   },
