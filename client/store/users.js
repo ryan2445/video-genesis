@@ -1,8 +1,10 @@
 export const state = () => ({
-    rootUser: null
+    rootUser: null,
+    selectedUser: null
 })
 export const getters = {
-    rootUser: state => state.rootUser
+    rootUser: state => state.rootUser,
+    selectedUser: state => state.selectedUser
 }
 export const actions = {
     async userGet({ commit, rootState }) {
@@ -53,5 +55,8 @@ export const actions = {
 export const mutations = {
     rootUserSet(state, user) {
         state.rootUser = user
+    },
+    selectedUserSet(state, user) {
+        state.selectedUser = user
     }
 }

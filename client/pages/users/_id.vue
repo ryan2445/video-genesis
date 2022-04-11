@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name: 'UserProfilePage',
     layout: 'dashboard',
@@ -11,7 +12,6 @@ export default {
             tabSelected: 'Uploads',
             loading: true,
             username: '',
-            user: undefined,
             videos: []
         }
     },
@@ -34,14 +34,21 @@ export default {
     },
     async mounted() {
         this.getQueryParamsAndSetKeys()
+        
         const user = await this.$store.dispatch('users/userGetByUsername', this.username)
 
-        this.user = user
+        this.$store.commit('users/selectedUserSet', user)
 
         this.$store.commit('app/setRoute', user.username)
 
         this.loading = false
+    },
+    computed: {
+        ...mapGetters({
+            'user': 'users/selectedUser'
+        })
     }
+
 }
 </script>
 
