@@ -1,6 +1,6 @@
 <template>
   <div class="mt-3 relative">
-    <new-playlist-button />
+    <new-playlist-button v-if="hasPermission" />
     <v-row class="relative" v-if="playlists" justify="center" align="center" >
       <v-col>
         <div 
@@ -8,7 +8,7 @@
           :key="playlist.sk"
           class="flex flex-1 flex-col"
         >
-          <playlist-card :playlist="playlist" @playlist:deleted="onPlaylistDeleted"></playlist-card>
+          <playlist-card :playlist="playlist" @playlist:deleted="onPlaylistDeleted" :permission="hasPermission"></playlist-card>
           <v-divider v-if="i !== playlists.length - 1"  />
         </div>
       </v-col>
@@ -47,7 +47,10 @@ export default {
   computed: {
     ...mapGetters({
       playlists: "playlists/playlists",
-    })
+    }),
+    hasPermission() {
+      return this.user.pk === this.$store.getters['users/rootUser'].pk
+    }
   },
   methods: {
     async getPlaylists() {

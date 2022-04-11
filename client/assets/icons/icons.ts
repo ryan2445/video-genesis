@@ -6,6 +6,7 @@ export type IconsId =
   | "close"
   | "cog-outline"
   | "delete"
+  | "lightning-bolt-circle"
   | "pencil-outline"
   | "play"
   | "playlist-play"
@@ -22,6 +23,7 @@ export type IconsKey =
   | "Close"
   | "CogOutline"
   | "Delete"
+  | "LightningBoltCircle"
   | "PencilOutline"
   | "Play"
   | "PlaylistPlay"
@@ -38,6 +40,7 @@ export enum Icons {
   Close = "close",
   CogOutline = "cog-outline",
   Delete = "delete",
+  LightningBoltCircle = "lightning-bolt-circle",
   PencilOutline = "pencil-outline",
   Play = "play",
   PlaylistPlay = "playlist-play",
@@ -55,11 +58,12 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Close]: "61701",
   [Icons.CogOutline]: "61702",
   [Icons.Delete]: "61703",
-  [Icons.PencilOutline]: "61704",
-  [Icons.Play]: "61705",
-  [Icons.PlaylistPlay]: "61706",
-  [Icons.PlaylistPlus]: "61707",
-  [Icons.Video]: "61708",
-  [Icons.WifiCancel]: "61709",
-  [Icons.WifiCheck]: "61710",
+  [Icons.LightningBoltCircle]: "61704",
+  [Icons.PencilOutline]: "61705",
+  [Icons.Play]: "61706",
+  [Icons.PlaylistPlay]: "61707",
+  [Icons.PlaylistPlus]: "61708",
+  [Icons.Video]: "61709",
+  [Icons.WifiCancel]: "61710",
+  [Icons.WifiCheck]: "61711",
 };

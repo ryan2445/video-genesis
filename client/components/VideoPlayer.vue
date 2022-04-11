@@ -171,7 +171,6 @@ export default {
       this.audioPlayer = player;
     },
     onPlayerPlay(event) {
-      console.log(this.videoPlayer);
       this.$emit("play");
 
       // Continue if audio is enabled

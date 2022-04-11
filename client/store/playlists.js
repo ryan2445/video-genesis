@@ -157,16 +157,26 @@ export const mutations = {
     state.playlists = array;
   },
 
+  selectedPlaylistSet(state, playlist) {
+    state.selected_playlist = playlist
+  },
+
   playlistUpdate(state, params) {
-    if (params.idx == null) {
-      console.error("playlistUpdate requires idx in the parameter");
+    if (!params.pk || !params.sk) {
+      console.error("playlistUpdate requires pk and sk in the parameter");
     }
 
-    const idx = params.idx;
+    const { pk, sk } = params;
 
-    delete params["idx"];
+    if (state.playlists) {
+      const idx = state.playlists.findIndex(p => p.pk === pk && p.sk === sk);
 
-    Object.assign(state.playlists[idx], params);
+      if (idx !== -1) Object.assign(state.playlists[idx], params)
+    }
+
+    if (state.selected_playlist && state.selected_playlist.pk === pk && state.selected_playlist.sk === sk) {
+      Object.assign(state.selected_playlist, params)
+    }
   },
   playlistsRemove(state, {pk, sk}) {
     if (!!state.playlists) {

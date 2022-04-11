@@ -36,6 +36,7 @@
     </div>
     <div
       class="flex flex-1"
+      v-if="permission"
     >
       <div class="ml-auto my-auto mr-3">
         <NuxtLink
@@ -70,6 +71,10 @@ export default {
   props: {
     playlist: {
       type: Object,
+      required: true
+    },
+    permission: {
+      type: Boolean,
       required: true
     }
   },
@@ -139,7 +144,7 @@ export default {
         return `playlists?pk=${this.playlist.pk}&sk=${this.playlist.sk}`
       }
 
-      return `/videos/pk=${this.playlistFull.videos[0].videoPK}&sk=${this.playlistFull.videos[0].videoSK}&list=${this.playlist.sk}&index=0`
+      return `/videos/pk=${this.playlistFull.videos[0].videoPK}&sk=${this.playlistFull.videos[0].videoSK}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=0`
 
     }
   }

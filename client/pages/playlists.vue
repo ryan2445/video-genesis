@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "playlists",
   layout: "dashboard",
@@ -13,7 +14,6 @@ export default {
     return {
       pk: null,
       sk: null,
-      playlist: null,
     };
   },
   mounted() {
@@ -45,8 +45,13 @@ export default {
         params
       );
 
-      this.playlist = playlist;
+      this.$store.commit('playlists/selectedPlaylistSet', playlist)
     },
   },
+  computed: {
+    ...mapGetters({
+      'playlist': 'playlists/selected_playlist'
+    })
+  }
 };
 </script>

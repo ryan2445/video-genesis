@@ -70,12 +70,13 @@ def processVideo(video, video_url, video_key):
   response = dynamo.update_item(
     Key={
       'pk': video['pk'],
-      'sk': video['sk']
+      'sk': video['sk'],
     },
-    UpdateExpression="set lrBaseURL=:l, hrBaseURL=:h",
+    UpdateExpression="set lrBaseURL=:l, hrBaseURL=:h, srProcessing=:p",
     ExpressionAttributeValues={
       ':l': 'lr.mp4',
-      ':h': 'hr.mp4'
+      ':h': 'hr.mp4',
+      ':p': False
     },
     ReturnValues="UPDATED_NEW"
   )

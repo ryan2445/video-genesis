@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-3">
+  <div>
     <v-dialog class="relative" v-model="playlistsDialogBox" width="440px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn

@@ -5,9 +5,13 @@
         <div>
           {{ video.videoTitle }}
         </div>
-        <div class="flex flex-row justify-end gap-x-10">
+        <div class="flex flex-row justify-end gap-x-3">
           <video-votes :video="video" />
           <save-to-playlist :video="video" class="self-center pt-1" />
+          <video-super-resolution 
+            :video="video"
+          />
+          <download-video :video="video"/>
         </div>
       </v-row>
     </v-card-title>
