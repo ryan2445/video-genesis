@@ -20,7 +20,6 @@
             color="orange"
             @keydown.enter.prevent="handleTitleEdit"
           />
-        
         <div class="flex flex-1 justify-end">
           <v-btn icon @click="handleTitleEdit">
             <v-icon small>
@@ -40,8 +39,39 @@
           </p>
         </div>
       </div>
+      <v-divider></v-divider>
       <div class="playlist-info-description-container">
+        <div class="flex flex-row flex-1">
+          <div v-if="!playlistDescriptionEdit">
+            <p v-if="playlist.description">
+              {{ playlist.description }}
+            </p>
+            <p v-else class="text-xs text-gray-700 ">
+              ...
+            </p>
+          </div>
+          <v-textarea
+            v-else
+            label="update description"
+            v-model="playlistDescriptionCopy"
+            color="orange"
+            class="pa-0 mt-4 w-full"
+            hide-details
+            @keydown.enter.prevent="handleDescriptionEdit"
+          >
 
+          </v-textarea>
+          <div class="flex flex-1 justify-end">
+            <v-btn
+              icon class="pa-0 ma-0"
+              @click="handleDescriptionEdit"
+            >
+              <v-icon small>
+                {{ !playlistDescriptionEdit ? 'icon-pencil-outline' : 'mdi-content-save' }}
+              </v-icon>
+            </v-btn>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -61,6 +91,9 @@ export default {
       playlistTitleEdit: false,
       playlistTitleCopy: '',
 
+      playlistDescriptionEdit: false,
+      playlistDescriptionCopy: '',
+
       updating: false
     }
   },
@@ -70,18 +103,26 @@ export default {
   methods: {
     init() {
       this.playlistTitleCopy = this.playlist.playlistTitle;
+      this.playlistDescriptionCopy = this.playlist.description;
     },
     handleTitleEdit() {
       this.playlistTitleEdit = !this.playlistTitleEdit;
 
       if (!this.playlistTitleEdit && this.playlistTitleCopy !== this.playlist.playlistTitle) {
-        this.updatePlaylist()
+        this.updatePlaylist({playlistTitle: this.playlistTitleCopy})
       }
     },
-    async updatePlaylist() {
+    handleDescriptionEdit() {
+      this.playlistDescriptionEdit = !this.playlistDescriptionEdit;
+
+      if (!this.playlistDescriptionEdit && this.playlistDescriptionCopy !== this.playlist.description) {
+        this.updatePlaylist({description: this.playlistDescriptionCopy})
+      }
+    },
+    async updatePlaylist(params) {
       const payload = {
         ...this.playlist,
-        playlistTitle: this.playlistTitleCopy
+        ...params
       }
 
       const response = await this.$store.dispatch('playlists/playlistsPut', payload)
