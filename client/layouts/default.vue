@@ -6,6 +6,7 @@
     <v-main>
       <Nuxt />
     </v-main>
+    <notifications position="bottom right" />
   </v-app>
 </template>
 <script>

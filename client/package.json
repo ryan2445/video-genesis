@@ -22,7 +22,8 @@
     "nuxt": "^2.15.8",
     "vee-validate": "^3.4.14",
     "videojs-resolution-switcher-webpack": "^0.4.6",
-    "vue-infinite-loading": "^2.4.5"
+    "vue-infinite-loading": "^2.4.5",
+    "vue-notification": "^1.3.20"
   },
   "devDependencies": {
     "@mdi/font": "^6.5.95",

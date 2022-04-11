@@ -16,6 +16,7 @@
         </div>
       </v-container>
     </v-main>
+    <notifications position="bottom right" />
   </v-app>
 </template>
 

@@ -33,7 +33,9 @@ export default {
     { src: "~/plugins/amplify.js" },
     { src: "~/plugins/vee-validate.js" },
     { src: "~/plugins/axios.js" },
-    { src: "~/plugins/filters.js" }
+    { src: "~/plugins/filters.js" },
+    { src: '~/plugins/notifications-ssr', ssr: true },
+    { src: '~/plugins/notifications-client', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
