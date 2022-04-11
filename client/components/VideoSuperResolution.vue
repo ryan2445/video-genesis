@@ -55,7 +55,14 @@ export default {
           text: 'This video has been processed with super resolution. Right click on the video for more info'
         });
       }
-      else this.processVideo()
+      else if (!this.hasPermission) {
+        this.$notify({
+          text: 'You do not have proper permission to upscale this video'
+        });
+      }
+      else {
+        this.processVideo()
+      }
     },
     async processVideo() {
       const params = {
@@ -96,6 +103,11 @@ export default {
     },
     serverRunning() {
       return this.$store.getters['sr/running']
+    },
+    hasPermission() {
+      const rootUser = this.$store.getters['users/rootUser']
+
+      return rootUser.pk === this.video.pk
     }
   }
 }
