@@ -3,19 +3,27 @@
         <div v-if="loading" class="text-center" style="height: 100vh">
             <v-progress-circular indeterminate color="orange" style="top: 50%" />
         </div>
-        <div v-if="!loading && videos && !videos.length" class="text-center" style="
-        display: flex;
-        height: 50vh;
-        align-items: center;
-        justify-content: center;
-      ">
+        <div
+            v-if="!loading && videos && !videos.length"
+            class="text-center"
+            style="
+            display: flex;
+            height: 50vh;
+            align-items: center;
+            justify-content: center;
+        "
+        >
             <div>No videos found</div>
         </div>
         <explore-top @search="searchText = $event, paginate()" />
-        <video-list :videos="videosOnCurrentPage || []" />
+        <video-list  class="bg-white rounded-md px-4 py-2" :videos="videosOnCurrentPage || []" />
         <div class="text-xs-center">
-            <v-pagination color="orange" v-model="page" :length="paginationLength"
-                @input="paginate"></v-pagination>
+            <v-pagination
+                color="orange"
+                v-model="page"
+                :length="paginationLength"
+                @input="paginate"
+            ></v-pagination>
         </div>
     </div>
     <!-- <VideoList /> -->

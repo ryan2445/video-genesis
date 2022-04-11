@@ -11,6 +11,7 @@
           <video-super-resolution 
             :video="video"
           />
+          <download-video :video="video"/>
         </div>
       </v-row>
     </v-card-title>
