@@ -300,7 +300,6 @@ export default {
             (resolve, reject) => 
             {
                 this.altThumbnails = undefined; 
-                console.log(altThumbnails); 
                 resolve(); 
             }
         ).then(()=>this.altThumbnails = altThumbnails); 
