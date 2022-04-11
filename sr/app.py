@@ -10,6 +10,7 @@ from service import processVideo
 from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 dynamo = boto3.resource('dynamodb').Table('system')
 s3 = boto3.client('s3')
 queue = Queue(connection=conn, default_timeout=6000)
