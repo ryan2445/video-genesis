@@ -92,7 +92,7 @@
 													>
 														<template v-slot:item="{ item }">
 															<div style="width: 30vw">
-																<img :src="item" />
+																<img :src="item" style="width: 40%;" />
 																<br />
 															</div>
 														</template>
