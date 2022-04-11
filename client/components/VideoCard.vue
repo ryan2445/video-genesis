@@ -62,9 +62,12 @@
     <v-skeleton-loader
       v-show="!loaded"
       class="mx-auto opacity-80"
-      :width="380"
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"
+      style="
+        max-width: 380px;
+        height: 425px;
+      "
     />
   </div>
 </template>
