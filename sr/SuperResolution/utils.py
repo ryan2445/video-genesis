@@ -252,15 +252,3 @@ def cleanUp(file_paths : list):
   for path in file_paths:
     if (os.path.exists(path)):
       os.remove(path)
-  
-
-  
-  # Download the file
-  #r = requests.get(url, allow_redirects=True)
-  
-  # Write the contents to the path
-  #open(full_path, 'wb').write(r.content)
-
-# download_file("https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com/3LqQwB0qpB8ZyaQYyqYah/3LqQwB0qpB8ZyaQYyqYah_3000.mp4", "", "original.mp4")
-# downsample_video(input_path = "original.mp4", output_path = "lr.mp4")
-# upscale_video(input_path = "lr.mp4", output_path= "hr.mp4", debug = True)
