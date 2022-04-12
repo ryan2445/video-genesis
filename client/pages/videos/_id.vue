@@ -22,7 +22,10 @@
           v-if="playlist"
           :playlist="playlist"
           :index="index"
+          :videosPlayList="videoPlayListMap"
           @video:update="onPlaylistVideoUpdate"
+          @videos-shuffe="onVideoShuffe"
+          @replay-pressed="replay = !replay"
         >
         </playlist-player>
       </v-col>
@@ -51,6 +54,8 @@ export default {
       listSK: null,
       index: 0,
       playlist: null,
+      videosPlayList: null,
+      replay: false,
     };
   },
   created() {
@@ -86,6 +91,16 @@ export default {
 
       return `${this.bucket_url}/${this.video.videoKey}/${this.video.videoKey}.mp4`;
     },
+    videoPlayListMap() {
+      if (!this.videosPlayList) {
+        return null;
+      }
+      try {
+        return this.videosPlayList.map((index) => this.playlist.videos[index]);
+      } catch {
+        return null;
+      }
+    },
   },
   async mounted() {
     this.getQueryParamsAndSetKeys();
@@ -113,7 +128,7 @@ export default {
         params
       );
 
-      console.log('playlist', playlist)
+      console.log("playlist", playlist);
 
       this.playlist = playlist;
     },
@@ -140,12 +155,20 @@ export default {
 
       const index = params.has("index") ? params.get("index") : 0;
 
+      const videosPlayList = params.has("videosPlayList")
+        ? JSON.parse(params.get("videosPlayList"))
+        : null;
+
+      const replay = params.has("replay");
+
       this.pk = pk;
       this.sk = sk;
       this.listPK = listPK;
       this.listSK = listSK;
       this.startTime = time;
       this.index = Number(index);
+      this.videosPlayList = videosPlayList;
+      this.replay = replay;
     },
     async getAndSetVideo() {
       if (!this.pk || !this.sk) {
@@ -169,13 +192,24 @@ export default {
       if (!this.playlist) return;
 
       const isLastPlaylistVideo = this.index >= this.playlist.videos.length - 1;
+      let url = "";
 
-      if (!isLastPlaylistVideo) {
-        this.index = this.index + 1;
-        this.video = this.playlist.videos[this.index].video;
-        const url = `/videos/pk=${this.video.pk}&sk=${this.video.sk}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=${this.index}`
+      if (!isLastPlaylistVideo || (isLastPlaylistVideo && this.replay)) {
+        this.index = isLastPlaylistVideo ? 0 : this.index + 1;
+        const videoPlayList = this.videoPlayListMap || this.playlist.videos;
+        this.video = videoPlayList[this.index].video;
+        url = `/videos/pk=${this.video.pk}&sk=${this.video.sk}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=${this.index}`;
+        if (this.videosPlayList) {
+          url += `&videosPlayList=${JSON.stringify(this.videosPlayList)}`;
+        }
+        if (this.replay) {
+          url += `&replay=1`;
+        }
         this.$router.push(url);
       }
+    },
+    onVideoShuffe(videos) {
+      this.videosPlayList = videos;
     },
   },
 };
