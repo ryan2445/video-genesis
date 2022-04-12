@@ -187,8 +187,6 @@ export default {
       try {
         const { user } = await this.$auth.signUp(request);
 
-        console.log(user);
-
         this.$store.commit("users/rootUserSet", {
           ...user,
           username: this.username,

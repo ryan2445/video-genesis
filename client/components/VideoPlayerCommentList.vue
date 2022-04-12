@@ -129,13 +129,10 @@ export default {
           this.allcomments.push(...this.currentcomments);
           this.users.push(...currentusers);
           if (response.data.LastEvaluatedKey) {
-            console.log(response.data.LastEvaluatedKey.sk.split("#")[1]);
             this.arrOfPageKey.push(
               response.data.LastEvaluatedKey.sk.split("#")[1]
             );
           }
-
-          console.log(this.arrOfPageKey);
           if (!this.arrOfPageKey.length) {
             $state.complete();
           }

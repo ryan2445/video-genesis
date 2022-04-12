@@ -71,11 +71,9 @@ export default {
     },
     methods: {
       onVideoDescriptionUpdate(object) {
-
         this.title = object.title
         this.description = object.description
         this.isPrivate = object.isPrivate
-        console.log("onvideodes", object.isPrivate, this.isPrivate)
       },
       async onUpload() {
         // If the video was not set, alert the user

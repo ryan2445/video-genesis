@@ -34,11 +34,7 @@ export const actions = {
 
       response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
 
-      console.log('hERE')
-      console.log(response.data.Items)
-
       commit("playlistsSet", response.data.Items);
-
 
     } catch (exception) {
       return null;
@@ -51,11 +47,7 @@ export const actions = {
         `playlists/all?username=${username}`
       );
 
-      console.log('before', response.data.Items)
-        
       response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
-
-      console.log('after', response.data.Items)
 
       return response.data.Items;
     } catch (exception) {
