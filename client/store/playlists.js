@@ -57,6 +57,21 @@ export const actions = {
       return null;
     }
   },
+
+  async getPlaylistsByVideo({ commit, rootState }, { videoSK, username }) {
+    try {
+      const response = await this.$axios.get("playlists/video", {
+        params: { videoSK, username },
+      });
+
+      if (!response) {
+        return null;
+      }
+      return response.data;
+    } catch (exception) {
+      return null;
+    }
+  },
   async getAllplaylists({ commit, rootState }) {
     try {
       const response = await this.$axios.get("playlists/all");
@@ -70,12 +85,12 @@ export const actions = {
       return null;
     }
   },
-  async playlistsPost({commit}, params) {
+  async playlistsPost({ commit }, params) {
     try {
       const response = await this.$axios.post("playlists", {
         ...params,
       });
-      commit('playlistsAdd', response.data)
+      commit("playlistsAdd", response.data);
       return response.data;
     } catch (exception) {
       console.log(exception);
@@ -90,10 +105,10 @@ export const actions = {
       return null;
     }
   },
-  async playlistsDelete({commit}, params) {
+  async playlistsDelete({ commit }, params) {
     try {
       const response = await this.$axios.delete("playlists", { data: params });
-      commit('playlistsRemove', params)
+      commit("playlistsRemove", params);
       return response.data;
     } catch (exception) {
       return null;
@@ -107,13 +122,11 @@ export const actions = {
   */
   async playlistAddVideos(_, params) {
     try {
-      const response = await this.$axios.post('playlists/add-videos', params)
-      return response.data
-    }
-    catch(e)
-    {
-      console.error('playlistAddVideos Exception', e)
-      return null
+      const response = await this.$axios.post("playlists/add-videos", params);
+      return response.data;
+    } catch (e) {
+      console.error("playlistAddVideos Exception", e);
+      return null;
     }
   },
   /*
@@ -124,13 +137,14 @@ export const actions = {
   */
   async playlistDeleteVideos(_, params) {
     try {
-      const response = await this.$axios.post('playlists/delete-videos', params)
-      return response.data
-    }
-    catch(e)
-    {
-      console.error('playlistAddVideos Exception', e)
-      return null
+      const response = await this.$axios.post(
+        "playlists/delete-videos",
+        params
+      );
+      return response.data;
+    } catch (e) {
+      console.error("playlistAddVideos Exception", e);
+      return null;
     }
   },
   /*
@@ -141,15 +155,15 @@ export const actions = {
   */
   async getPlaylistsWithoutVideo(_, { videoSK, userPK }) {
     try {
-      const response = await this.$axios.get(`playlists/without-video?userPK=${userPK}&videoSK=${videoSK}`)
-      return response.data
+      const response = await this.$axios.get(
+        `playlists/without-video?userPK=${userPK}&videoSK=${videoSK}`
+      );
+      return response.data;
+    } catch (e) {
+      console.error("playlistAddVideos Exception", e);
+      return null;
     }
-    catch(e)
-    {
-      console.error('playlistAddVideos Exception', e)
-      return null
-    }
-  }
+  },
 };
 
 export const mutations = {
@@ -158,7 +172,7 @@ export const mutations = {
   },
 
   selectedPlaylistSet(state, playlist) {
-    state.selected_playlist = playlist
+    state.selected_playlist = playlist;
   },
 
   playlistUpdate(state, params) {
@@ -169,37 +183,49 @@ export const mutations = {
     const { pk, sk } = params;
 
     if (state.playlists) {
-      const idx = state.playlists.findIndex(p => p.pk === pk && p.sk === sk);
+      const idx = state.playlists.findIndex((p) => p.pk === pk && p.sk === sk);
 
-      if (idx !== -1) Object.assign(state.playlists[idx], params)
+      if (idx !== -1) Object.assign(state.playlists[idx], params);
     }
 
-    if (state.selected_playlist && state.selected_playlist.pk === pk && state.selected_playlist.sk === sk) {
-      Object.assign(state.selected_playlist, params)
+    if (
+      state.selected_playlist &&
+      state.selected_playlist.pk === pk &&
+      state.selected_playlist.sk === sk
+    ) {
+      Object.assign(state.selected_playlist, params);
     }
   },
-  playlistsRemove(state, {pk, sk}) {
+  playlistsRemove(state, { pk, sk }) {
     if (!!state.playlists) {
-      const index = state.playlists.findIndex((playlist) => playlist.pk == pk && playlist.sk == sk)
+      const index = state.playlists.findIndex(
+        (playlist) => playlist.pk == pk && playlist.sk == sk
+      );
 
       if (index != -1) {
-        state.playlists.splice(index, 1)
+        state.playlists.splice(index, 1);
       }
     }
 
-    if (state.selected_playlist && state.selected_playlist.pk == pk && state.selected_playlist.sk == sk) {
-      state.selected_playlist = null
+    if (
+      state.selected_playlist &&
+      state.selected_playlist.pk == pk &&
+      state.selected_playlist.sk == sk
+    ) {
+      state.selected_playlist = null;
     }
   },
   playlistsAdd(state, playlist) {
     if (!state.playlists) {
-      state.playlists = [playlist]
+      state.playlists = [playlist];
     }
 
-    const index = state.playlists.findIndex((p) => p.pk == playlist.pk && p.sk == playlist.sk)
+    const index = state.playlists.findIndex(
+      (p) => p.pk == playlist.pk && p.sk == playlist.sk
+    );
 
     if (index == -1) {
-      state.playlists.push(playlist)
+      state.playlists.push(playlist);
     }
-  }
+  },
 };
