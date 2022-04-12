@@ -104,24 +104,6 @@ export default {
       const videos = shuffle(videoIndexes.map((index) => this.videos[index]));
       this.$emit("videos-shuffe", videoIndexes);
       this.videos = videos;
-
-      // let array = videos.map((video, index) => index);
-      // let currentIndex = array.length,
-      //   randomIndex;
-
-      // //shuffle...
-      // while (currentIndex != 0) {
-      //   randomIndex = Math.floor(Math.random() * currentIndex);
-      //   currentIndex--;
-
-      //   //swap it with the current element.
-      //   [array[currentIndex], array[randomIndex]] = [
-      //     array[randomIndex],
-      //     array[currentIndex],
-      //   ];
-      // }
-
-      // return array.map((index) => videos[index]);
     },
   },
 };
