@@ -34,6 +34,7 @@ export default {
     { src: "~/plugins/vee-validate.js" },
     { src: "~/plugins/axios.js" },
     { src: "~/plugins/filters.js" },
+    { src: "~/plugins/utils.js" },
     { src: '~/plugins/notifications-ssr', ssr: true },
     { src: '~/plugins/notifications-client', ssr: false }
   ],

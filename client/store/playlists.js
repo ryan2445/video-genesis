@@ -1,3 +1,17 @@
+const deserializePlaylistData = (playlist, deserializeFunc) => {
+  if (!playlist.videos) return
+
+  playlist.videos = playlist.videos.map(pItem => {
+    if (pItem.video) {
+      pItem.video = deserializeFunc([pItem.video])[0]
+    }
+
+    return pItem
+  })
+
+  return playlist;
+}
+
 export const state = () => ({
   playlists: null,
   selected_playlist: null,
@@ -17,7 +31,15 @@ export const actions = {
       const response = await this.$axios.get(
         `playlists/all?username=${rootState.users.rootUser.username}`
       );
+
+      response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
+
+      console.log('hERE')
+      console.log(response.data.Items)
+
       commit("playlistsSet", response.data.Items);
+
+
     } catch (exception) {
       return null;
     }
@@ -28,6 +50,13 @@ export const actions = {
       const response = await this.$axios.get(
         `playlists/all?username=${username}`
       );
+
+      console.log('before', response.data.Items)
+        
+      response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
+
+      console.log('after', response.data.Items)
+
       return response.data.Items;
     } catch (exception) {
       return null;
@@ -39,6 +68,9 @@ export const actions = {
       const response = await this.$axios.get(
         `playlists/all?username=${username}&video=${video}`
       );
+
+      response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
+
       return response.data.Items;
     } catch (exception) {
       return null;
@@ -51,6 +83,8 @@ export const actions = {
       if (!response) {
         return null;
       }
+
+      response.data = deserializePlaylistData(response.data, this.$deserializeVideoData)
 
       return response.data;
     } catch (exception) {
@@ -67,6 +101,9 @@ export const actions = {
       if (!response) {
         return null;
       }
+
+      response.data = deserializePlaylistData(response.data, this.$deserializeVideoData)
+
       return response.data;
     } catch (exception) {
       return null;
@@ -79,6 +116,8 @@ export const actions = {
       response.data.Items = response.data.Items.filter(function (obj) {
         return obj.pk !== "ID#" + rootState.users.rootUser.username;
       });
+
+      response.data.Items = response.data.Items.map(item => deserializePlaylistData(item, this.$deserializeVideoData))
 
       commit("playlistsSet", response.data.Items);
     } catch (exception) {
