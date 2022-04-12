@@ -5,8 +5,8 @@
         {{ playlist.playlistTitle }}
       </v-card-title>
       <v-card-actions>
-        <v-btn @click="videos = shuffle(videos)"> shuffle </v-btn>
-        <v-btn> replay </v-btn>
+        <v-btn @click="shuffleVideos"> shuffle </v-btn>
+        <v-btn @click="onReplayPressed"> replay </v-btn>
       </v-card-actions>
       <v-list>
         <v-hover
@@ -42,8 +42,12 @@
               <v-list-item-title>
                 {{ playlistItem.video.videoTitle }}
               </v-list-item-title>
-              <v-list-item-subtitle> 
-                <profile-picture-and-username :showPic="false" text-classes="text-xs" :user="playlistItem.video.user" />
+              <v-list-item-subtitle>
+                <profile-picture-and-username
+                  :showPic="false"
+                  text-classes="text-xs"
+                  :user="playlistItem.video.user"
+                />
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -54,6 +58,7 @@
 </template>
 
 <script>
+import { shuffle } from "lodash";
 export default {
   name: "PlaylistPlayer",
   props: {
@@ -66,14 +71,23 @@ export default {
       type: Number | String,
       required: true,
     },
+    videosPlayList: {
+      type: Array,
+      required: false,
+    },
   },
   data() {
     return {
       replay: false, // indicates whether the playlist will replay after watching the end of the video,
       bucket_url:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      videos: this.playlist.videos,
+      videos: this.videosPlayList || this.playlist.videos,
     };
+  },
+  watch: {
+    videosPlayList(newVal) {
+      this.videos = newVal;
+    },
   },
   methods: {
     onPlaylistVideoClick(video, index) {
@@ -82,24 +96,32 @@ export default {
       );
       this.$emit("video:update", video);
     },
-    shuffle(videos) {
-      let array = videos.map((video, index) => index);
-      let currentIndex = array.length,
-        randomIndex;
+    onReplayPressed() {
+      this.$emit("replay-pressed");
+    },
+    shuffleVideos() {
+      const videoIndexes = shuffle(this.videos.map((value, index) => index));
+      const videos = shuffle(videoIndexes.map((index) => this.videos[index]));
+      this.$emit("videos-shuffe", videoIndexes);
+      this.videos = videos;
 
-      //shuffle...
-      while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
+      // let array = videos.map((video, index) => index);
+      // let currentIndex = array.length,
+      //   randomIndex;
 
-        //swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-          array[randomIndex],
-          array[currentIndex],
-        ];
-      }
+      // //shuffle...
+      // while (currentIndex != 0) {
+      //   randomIndex = Math.floor(Math.random() * currentIndex);
+      //   currentIndex--;
 
-      return array.map((index) => videos[index]);
+      //   //swap it with the current element.
+      //   [array[currentIndex], array[randomIndex]] = [
+      //     array[randomIndex],
+      //     array[currentIndex],
+      //   ];
+      // }
+
+      // return array.map((index) => videos[index]);
     },
   },
 };
