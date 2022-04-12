@@ -89,7 +89,6 @@ def badRequest(msg: str) -> dict:
         'body': msg
     }
 
-# Returns an array of all playlists for a given user
 def playlistsGet(event, context):
     queryParams = event['queryStringParameters']
     
@@ -106,6 +105,7 @@ def playlistsGet(event, context):
         'statusCode': 200,
         'body': json.dumps({ 'Items': response['Items'] })
     }
+
 
 # Gets a playlist with all videos attached
 def playlistGet(event, context):
@@ -238,23 +238,51 @@ def playlistsDelete(event, context):
         'statusCode': 200,
         'body': json.dumps({ 'response': response })
     }
+    
 def getPlaylistsByVideo(event, context):
     queryParams = event['queryStringParameters']
     
-    if queryParams and 'username' in queryParams and 'video' in queryParams:
+    if queryParams and 'username' in queryParams:
         username = event['queryStringParameters']['username']
-        video = event['queryStringParameters']['video']
-        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist') & Key('videos').contains(video))
+        response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist#'))
     else:
         scan_kwargs = {
             'FilterExpression': Key('sk').begins_with('playlist') & Key('isPrivate').eq(False)
         }
         response = dynamodb.scan(**scan_kwargs) 
-
+    
+    videoSK = event['queryStringParameters']['videoSK']
+    playlistWithVideo = []
+    for playlist in response['Items']:
+        resp = dynamodb.query(
+            KeyConditionExpression = Key('pk').eq(playlist['sk']) & Key('sk').begins_with('playlist'),
+            FilterExpression = Key('videoSK').eq(videoSK)
+        )
+        if resp['Count'] >= 1:
+            playlistWithVideo.append(playlist['sk'])
+            
     return {
         'statusCode': 200,
-        'body': json.dumps({ 'Items': response['Items'] })
+        'body': json.dumps({ 'Items': playlistWithVideo })
     }
+    
+# def getPlaylistsByVideo(event, context):
+#     queryParams = event['queryStringParameters']
+    
+#     if queryParams and 'username' in queryParams and 'video' in queryParams:
+#         username = event['queryStringParameters']['username']
+#         video = event['queryStringParameters']['video']
+#         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist') & Key('videos').contains(video))
+#     else:
+#         scan_kwargs = {
+#             'FilterExpression': Key('sk').begins_with('playlist') & Key('isPrivate').eq(False)
+#         }
+#         response = dynamodb.scan(**scan_kwargs) 
+
+#     return {
+#         'statusCode': 200,
+#         'body': json.dumps({ 'Items': response['Items'] })
+#     }
     
 def playlistAddVideos(event, context):
     body = json.loads(event['body'])
