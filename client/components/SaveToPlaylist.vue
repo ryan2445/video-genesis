@@ -82,7 +82,7 @@ export default {
     };
   },
   created() {
-    if (this.playlistsDialogBox) this.getPlaylists();
+    this.getPlaylists();
   },
   methods: {
     onPlaylistSelected(playlist) {
@@ -131,12 +131,24 @@ export default {
       });
     },
     async getPlaylists() {
-      await this.$store.dispatch("playlists/playlistsGet");
+      const playlists =
+        this.playlists ||
+        (await this.$store.dispatch("playlists/playlistsGet"));
+      const playListForCurrentVideo = await this.$store.dispatch(
+        "playlists/getPlaylistsByVideo",
+        { username: this.rootUser.username, videoSK: this.video.sk }
+      );
+      const selectedPlaylists = playlists.filter((playList) =>
+        playListForCurrentVideo.Items.includes(playList.sk)
+      );
+      console.log({ selectedPlaylists, playListForCurrentVideo });
+      this.selectedPlaylists = selectedPlaylists;
     },
   },
   computed: {
     ...mapGetters({
       playlists: "playlists/playlists",
+      rootUser: "users/rootUser",
     }),
   },
   watch: {
