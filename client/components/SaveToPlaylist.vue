@@ -131,17 +131,18 @@ export default {
       });
     },
     async getPlaylists() {
-      const playlists =
-        this.playlists ||
-        (await this.$store.dispatch("playlists/playlistsGet"));
-      const playListForCurrentVideo = await this.$store.dispatch(
-        "playlists/getPlaylistsByVideo",
-        { username: this.rootUser.username, videoSK: this.video.sk }
-      );
-      const selectedPlaylists = playlists.filter((playList) =>
-        playListForCurrentVideo.Items.includes(playList.sk)
-      );
-      console.log({ selectedPlaylists, playListForCurrentVideo });
+      if (!this.playlists) {
+        await this.$store.dispatch("playlists/playlistsGet")
+      }
+
+      const selectedPlaylists = this.playlists.filter(p => {
+        for (let i = 0; i < p.videos.length; i++) {
+          if (p.videos[i].videoPK === this.video.pk && p.videos[i].videoSK === this.video.sk)
+            return true
+        }
+        return false
+      });
+
       this.selectedPlaylists = selectedPlaylists;
     },
   },

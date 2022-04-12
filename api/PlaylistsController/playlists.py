@@ -95,6 +95,9 @@ def playlistsGet(event, context):
     if queryParams and 'username' in queryParams:
         username = event['queryStringParameters']['username']
         response = dynamodb.query(KeyConditionExpression = Key('pk').eq('ID#' + username) & Key('sk').begins_with('playlist#'))
+        
+        if response['Count'] >= 1:
+            response['Items'] = [getPlaylist_(p['pk'], p['sk']) for p in response['Items']]
     else:
         scan_kwargs = {
             'FilterExpression': Key('sk').begins_with('playlist') & Key('isPrivate').eq(False)

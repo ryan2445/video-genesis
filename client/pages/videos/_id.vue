@@ -19,12 +19,12 @@
       </v-col>
       <v-col cols="4">
         <playlist-player
-          v-if="playlist"
+          v-if="playlist && playlistLoaded"
           :playlist="playlist"
           :index="index"
-          :videosPlayList="videoPlayListMap"
+          :video="video"
           @video:update="onPlaylistVideoUpdate"
-          @videos-shuffe="onVideoShuffe"
+          @shuffle="handleShuffle"
           @replay-pressed="replay = !replay"
         >
         </playlist-player>
@@ -35,9 +35,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import VideoPlayerCommentList from "../../components/VideoPlayerCommentList.vue";
 export default {
-  components: { VideoPlayerCommentList },
   name: "VideoPage",
   layout: "dashboard",
   data() {
@@ -50,11 +48,10 @@ export default {
       sk: null,
       startTime: null,
 
+      playlistLoaded: false,
       listPK: null,
       listSK: null,
       index: 0,
-      playlist: null,
-      videosPlayList: null,
       replay: false,
     };
   },
@@ -64,6 +61,7 @@ export default {
   computed: {
     ...mapGetters({
       user: "users/rootUser",
+      playlist: "playlists/selected_playlist"
     }),
     videoData() {
       // If the video is not loaded, return null
@@ -90,17 +88,7 @@ export default {
       }
 
       return `${this.bucket_url}/${this.video.videoKey}/${this.video.videoKey}.mp4`;
-    },
-    videoPlayListMap() {
-      if (!this.videosPlayList) {
-        return null;
-      }
-      try {
-        return this.videosPlayList.map((index) => this.playlist.videos[index]);
-      } catch {
-        return null;
-      }
-    },
+    }
   },
   async mounted() {
     this.getQueryParamsAndSetKeys();
@@ -128,9 +116,9 @@ export default {
         params
       );
 
-      console.log("playlist", playlist);
+      this.$store.commit('playlists/selectedPlaylistSet', playlist);
 
-      this.playlist = playlist;
+      this.playlistLoaded = true;
     },
     getQueryParamsAndSetKeys() {
       const path = this.$route.fullPath.replace("/videos/", "");
@@ -155,10 +143,6 @@ export default {
 
       const index = params.has("index") ? params.get("index") : 0;
 
-      const videosPlayList = params.has("videosPlayList")
-        ? JSON.parse(params.get("videosPlayList"))
-        : null;
-
       const replay = params.has("replay");
 
       this.pk = pk;
@@ -167,7 +151,6 @@ export default {
       this.listSK = listSK;
       this.startTime = time;
       this.index = Number(index);
-      this.videosPlayList = videosPlayList;
       this.replay = replay;
     },
     async getAndSetVideo() {
@@ -190,27 +173,36 @@ export default {
     onVideoEnded() {
       // If the playlist does not exist, return
       if (!this.playlist) return;
-
+      
       const isLastPlaylistVideo = this.index >= this.playlist.videos.length - 1;
+
       let url = "";
 
       if (!isLastPlaylistVideo || (isLastPlaylistVideo && this.replay)) {
-        this.index = isLastPlaylistVideo ? 0 : this.index + 1;
-        const videoPlayList = this.videoPlayListMap || this.playlist.videos;
-        this.video = videoPlayList[this.index].video;
-        url = `/videos/pk=${this.video.pk}&sk=${this.video.sk}&listPK=${this.playlist.pk}&listSK=${this.playlist.sk}&index=${this.index}`;
-        if (this.videosPlayList) {
-          url += `&videosPlayList=${JSON.stringify(this.videosPlayList)}`;
-        }
+        const idx = isLastPlaylistVideo ? 0 : this.index + 1;
+
+        const { videoPK, videoSK } = this.playlist.videos[idx]
+        const { pk, sk } = this.playlist
+
+        url = `/videos/pk=${videoPK}&sk=${videoSK}&listPK=${pk}&listSK=${sk}&index=${idx}`;
+        
         if (this.replay) {
           url += `&replay=1`;
         }
+
         this.$router.push(url);
+
+        this.index = idx
+        this.video = this.playlist.videos[idx].video
       }
     },
-    onVideoShuffe(videos) {
-      this.videosPlayList = videos;
-    },
+    handleShuffle() {
+      const idx = this.playlist.videos.findIndex(pItem => pItem.videoPK === this.video.pk && pItem.videoSK === this.video.sk)
+
+      if (idx !== -1) {
+        this.index = idx;
+      }
+    }
   },
 };
 </script>

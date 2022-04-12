@@ -10,7 +10,7 @@
       </v-card-actions>
       <v-list>
         <v-hover
-          v-for="(playlistItem, i) in videos"
+          v-for="(playlistItem, i) in playlist.videos"
           :key="playlistItem.sk"
           v-slot="{ hover }"
         >
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { shuffle } from "lodash";
+import { shuffle, cloneDeep } from "lodash";
 export default {
   name: "PlaylistPlayer",
   props: {
@@ -75,13 +75,16 @@ export default {
       type: Array,
       required: false,
     },
+    // The current video being played
+    video: {
+      type: Object,
+      required: false
+    }
   },
   data() {
     return {
       replay: false, // indicates whether the playlist will replay after watching the end of the video,
-      bucket_url:
-        "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
-      videos: this.videosPlayList || this.playlist.videos,
+      bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
     };
   },
   watch: {
@@ -100,10 +103,14 @@ export default {
       this.$emit("replay-pressed");
     },
     shuffleVideos() {
-      const videoIndexes = shuffle(this.videos.map((value, index) => index));
-      const videos = shuffle(videoIndexes.map((index) => this.videos[index]));
-      this.$emit("videos-shuffe", videoIndexes);
-      this.videos = videos;
+      const videos = shuffle(cloneDeep(this.playlist.videos));
+
+      this.$store.commit('playlists/selectedPlaylistSet', {
+        ...this.playlist,
+        videos
+      });
+
+      this.$emit('shuffle')
     },
   },
 };
