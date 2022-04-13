@@ -23,7 +23,8 @@
           :key="link.url"
         >
           <a
-            @click="download(link)"
+            download
+            :href="link.url"
           >
             {{ link.title }}
           </a>

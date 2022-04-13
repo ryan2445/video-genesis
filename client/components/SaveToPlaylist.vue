@@ -133,8 +133,13 @@ export default {
     async getPlaylists() {
       if (!this.playlists) {
         await this.$store.dispatch("playlists/playlistsGet")
+        setTimeout(this.setSelectedPlaylists, 10)
       }
-
+      else {
+        this.setSelectedPlaylists()
+      }
+    },
+    setSelectedPlaylists() {
       const selectedPlaylists = this.playlists.filter(p => {
         for (let i = 0; i < p.videos.length; i++) {
           if (p.videos[i].videoPK === this.video.pk && p.videos[i].videoSK === this.video.sk)
@@ -144,7 +149,7 @@ export default {
       });
 
       this.selectedPlaylists = selectedPlaylists;
-    },
+    }
   },
   computed: {
     ...mapGetters({

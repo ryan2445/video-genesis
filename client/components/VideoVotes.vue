@@ -71,6 +71,8 @@ export default {
                 videoId: this.video.sk.split('#')[1]
             })
 
+            if (!response) return
+
             this.voteObject = response.vote
             this.vote = response.vote && response.vote.upvoted
             this.previousVote = this.vote
