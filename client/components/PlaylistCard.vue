@@ -1,65 +1,84 @@
 <template>
   <div 
-    v-if="playlistFull"
-    class="flex flex-row w-full my-3" 
+    class="my-3" 
   >
-    <playlist-thumbnail 
-      :playlist="playlistFull"
-      :to="playlistThumbnailLink" 
-    />
-    <div class="playlist-info-container py-2">
-      <div class="playlist-title text-base font-bold">
-        <h1>
-          {{ playlist.playlistTitle }}
-        </h1>
-      </div>
-      <playlist-card-user-link 
-        :user="playlistFull.user" 
+    <div v-if="!loading" class="flex flex-row w-full">
+      <playlist-thumbnail 
+        :playlist="playlistFull"
+        :to="playlistThumbnailLink" 
       />
-      <div
-        v-if="latestVideos"
-        class="latest-videos-container mt-3 flex flex-col"
-      >
+      <div class="playlist-info-container py-2">
+        <div class="playlist-title text-base font-bold">
+          <h1>
+            {{ playlist.playlistTitle }}
+          </h1>
+        </div>
+        <playlist-card-user-link 
+          :user="playlistFull.user" 
+        />
         <div
-          v-for="(latestVideo, i) of latestVideos"
-          :key="`latest-video-${i}`"
+          v-if="latestVideos"
+          class="latest-videos-container mt-3 flex flex-col"
         >
-          <NuxtLink :to="latestVideo.to">
-          <p
-            class="text-xs text-gray-900"
+          <div
+            v-for="(latestVideo, i) of latestVideos"
+            :key="`latest-video-${i}`"
           >
-            {{ latestVideo.title }}
-          </p>
-        </NuxtLink>
+            <NuxtLink :to="latestVideo.to">
+            <p
+              class="text-xs text-gray-900"
+            >
+              {{ latestVideo.title }}
+            </p>
+          </NuxtLink>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-1"
+        v-if="permission"
+      >
+        <div class="ml-auto my-auto mr-3">
+          <NuxtLink
+            :to="`playlists?pk=${playlist.pk}&sk=${playlist.sk}`"
+          >
+            <v-btn
+              icon
+            >
+              <v-icon>
+                icon-pencil-outline
+              </v-icon>
+            </v-btn>
+          </NuxtLink>
+          <v-btn
+            icon
+            @click="onDelete"
+            :loading="deleting"
+            :disabled="deleting"
+          >
+            <v-icon>
+              icon-delete
+            </v-icon>
+          </v-btn>
         </div>
       </div>
     </div>
-    <div
-      class="flex flex-1"
-      v-if="permission"
-    >
-      <div class="ml-auto my-auto mr-3">
-        <NuxtLink
-          :to="`playlists?pk=${playlist.pk}&sk=${playlist.sk}`"
-        >
-          <v-btn
-            icon
-          >
-            <v-icon>
-              icon-pencil-outline
-            </v-icon>
-          </v-btn>
-        </NuxtLink>
-        <v-btn
-          icon
-          @click="onDelete"
-          :loading="deleting"
-          :disabled="deleting"
-        >
-          <v-icon>
-            icon-delete
-          </v-icon>
-        </v-btn>
+    <div v-else class="flex flex-row w-full justify-between">
+      <div class="flex flex-row items-center">
+        <v-skeleton-loader class="mr-2"
+          height="138" width="246" type="image" 
+        />
+        <v-skeleton-loader height="120" width="220" 
+          type="list-item-two-line, list-item"
+        />
+      </div>
+      <div v-if="permission" class="my-auto flex flex-row justify-end gap-x-2 mr-4">
+        <v-skeleton-loader width="28" height="28"
+          type="button"
+        />
+        <v-skeleton-loader width="28" height="28"
+          type="button"
+        />
       </div>
     </div>
   </div>
@@ -83,10 +102,13 @@ export default {
       playlistFull: null,
       thumbnail: null,
       deleting: false,
+      loading: true
     }
   },
   async mounted() {
     await this.getPlaylistVideos()
+
+    this.loading = false
   },
   methods: {
     async getPlaylistVideos() {
