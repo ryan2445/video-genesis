@@ -6,7 +6,7 @@
                     class="rounded-full object-cover" style="width:45px; height:45px;" />
             </NuxtLink>
             <div class="text-white font-weight-bold">
-                Video Genesis - {{ title }}
+                Video Genesis{{ !!title ? ' - ' : ''}}{{ title }}
             </div>
         </div>
         <v-spacer />
