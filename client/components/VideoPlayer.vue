@@ -239,6 +239,11 @@ export default {
     onEnded() {
       this.$emit("ended");
     },
+    updateVideoSource() {
+      if (!this.videoPlayer) return
+
+      this.videoPlayer.updateSrc(this.videoData)
+    }
   },
   computed: {
     audioEnabled() {
@@ -247,14 +252,14 @@ export default {
   },
   watch: {
     audio() {
-      if (this.audioEnabled()) {
+      if (this.audioEnabled) {
         this.initAudioPlayer();
       } else {
         this.audioPlayer = null;
       }
     },
     videoData() {
-      this.initVideoPlayer();
+      this.updateVideoSource();
     },
     autoplay() {
       this.initVideoPlayer();

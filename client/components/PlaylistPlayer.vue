@@ -5,8 +5,31 @@
         {{ playlist.playlistTitle }}
       </v-card-title>
       <v-card-actions>
-        <v-btn @click="shuffleVideos"> shuffle </v-btn>
-        <v-btn @click="onReplayPressed"> replay </v-btn>
+        
+        <v-tooltip bottom :open-delay="700">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-bind="attrs" v-on="on" 
+              @click="shuffleVideos" icon
+            > 
+              <v-icon>mdi-shuffle-variant</v-icon>
+            </v-btn>
+          </template>
+          <span>shuffle Videos</span>
+        </v-tooltip>
+
+        <v-tooltip bottom :open-delay="700">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn 
+              v-bind="attrs" v-on="on"
+              @click="onReplayPressed" icon
+            > 
+              <v-icon class="replay-icon" :class="{'rotate-360' : replay}">mdi-replay</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ replay ? 'enable' : 'disable' }} replay</span>
+        </v-tooltip>
+
       </v-card-actions>
       <v-list>
         <v-hover
@@ -71,33 +94,27 @@ export default {
       type: Number | String,
       required: true,
     },
-    videosPlayList: {
-      type: Array,
-      required: false,
-    },
     // The current video being played
     video: {
       type: Object,
       required: false
+    },
+    replay: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
     return {
-      replay: false, // indicates whether the playlist will replay after watching the end of the video,
       bucket_url: "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
     };
   },
-  watch: {
-    videosPlayList(newVal) {
-      this.videos = newVal;
-    },
-  },
   methods: {
     onPlaylistVideoClick(video, index) {
-      this.$router.push(
-        `/videos/pk=${video.pk}&sk=${video.sk}&index=${index}&list=${this.playlist.sk}`
-      );
-      this.$emit("video:update", video);
+      this.$emit("video:update", {
+        video,
+        index
+      });
     },
     onReplayPressed() {
       this.$emit("replay-pressed");
@@ -110,6 +127,10 @@ export default {
         videos
       });
 
+      const playlistString = JSON.stringify(this.$store.getters['playlists/selected_playlist'])
+
+      localStorage.setItem('vg-playlist-shuffle', playlistString)
+
       this.$emit('shuffle')
     },
   },
@@ -119,5 +140,13 @@ export default {
 <style scoped>
 .playlist-player-container {
   max-height: 580px;
+}
+
+.replay-icon {
+  transition: all 0.33s linear;
+}
+
+.rotate-360 {
+  transform: translate3d(0, 0, 0) rotate(360deg);
 }
 </style>

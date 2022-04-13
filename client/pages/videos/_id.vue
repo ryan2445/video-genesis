@@ -23,6 +23,7 @@
           :playlist="playlist"
           :index="index"
           :video="video"
+          :replay="replay"
           @video:update="onPlaylistVideoUpdate"
           @shuffle="handleShuffle"
           @replay-pressed="replay = !replay"
@@ -40,7 +41,7 @@ export default {
   layout: "dashboard",
   data() {
     return {
-      bucket_url:
+      BUCKET_URL:
         "https://genesis2vod-staging-output-q1h5l756.s3.us-west-2.amazonaws.com",
       video: null,
       loading: true,
@@ -53,10 +54,12 @@ export default {
       listSK: null,
       index: 0,
       replay: false,
+      isShuffled: false
     };
   },
   created() {
     this.$store.commit("app/setRoute", "");
+
   },
   computed: {
     ...mapGetters({
@@ -69,12 +72,10 @@ export default {
         return null;
       }
 
-      //this.$store.commit("app/setRoute", this.video.videoTitle);
-
       const data = this.video.videoData.map((data) => {
         return {
           type: "video/mp4",
-          src: `${this.bucket_url}/${this.video.videoKey}/${data.baseURL}`,
+          src: `${this.BUCKET_URL}/${this.video.videoKey}/${data.baseURL}`,
           label: `${data.width}`,
           res: data.width,
         };
@@ -83,11 +84,11 @@ export default {
       return data;
     },
     videoAudio() {
-      if (!this.video || !this.bucket_url) {
+      if (!this.video || !this.BUCKET_URL) {
         return null;
       }
 
-      return `${this.bucket_url}/${this.video.videoKey}/${this.video.videoKey}.mp4`;
+      return `${this.BUCKET_URL}/${this.video.videoKey}/${this.video.videoKey}.mp4`;
     }
   },
   async mounted() {
@@ -98,6 +99,14 @@ export default {
     }
 
     await this.getAndSetVideo();
+
+    const playlistString = localStorage.getItem('vg-playlist-shuffle')
+
+    if (this.isShuffled && !!playlistString) {
+      const savedPlaylist = JSON.parse(playlistString)
+
+      this.$store.commit('playlists/selectedPlaylistSet', savedPlaylist)
+    }
 
     this.loading = false;
   },
@@ -145,13 +154,16 @@ export default {
 
       const replay = params.has("replay");
 
+      const shuffle = params.has('shuffle') ? params.get('shuffle') : 0
+
       this.pk = pk;
       this.sk = sk;
       this.listPK = listPK;
       this.listSK = listSK;
       this.startTime = time;
       this.index = Number(index);
-      this.replay = replay;
+      this.replay = Number(replay) ? true : false;
+      this.isShuffled = Number(shuffle) ? true : false
     },
     async getAndSetVideo() {
       if (!this.pk || !this.sk) {
@@ -166,8 +178,9 @@ export default {
 
       this.video = video;
     },
-    onPlaylistVideoUpdate(video) {
+    onPlaylistVideoUpdate({video, index}) {
       this.video = video;
+      this.index = index;
       this.startTime = 0;
     },
     onVideoEnded() {
@@ -176,31 +189,31 @@ export default {
       
       const isLastPlaylistVideo = this.index >= this.playlist.videos.length - 1;
 
-      let url = "";
-
       if (!isLastPlaylistVideo || (isLastPlaylistVideo && this.replay)) {
         const idx = isLastPlaylistVideo ? 0 : this.index + 1;
+        const { videoPK, videoSK } = this.playlist.videos[idx];
+        const { pk, sk } = this.playlist;
 
-        const { videoPK, videoSK } = this.playlist.videos[idx]
-        const { pk, sk } = this.playlist
-
-        url = `/videos/pk=${videoPK}&sk=${videoSK}&listPK=${pk}&listSK=${sk}&index=${idx}`;
-        
-        if (this.replay) {
-          url += `&replay=1`;
-        }
+        const url = `/videos/pk=${videoPK}&sk=${videoSK}&listPK=${pk}&listSK=${sk}&index=${idx}&replay=${this.replay ? 1 : 0}&shuffle=${this.isShuffled ? 1 : 0}`;
 
         this.$router.push(url);
 
-        this.index = idx
-        this.video = this.playlist.videos[idx].video
+        this.index = idx;
+        this.video = this.playlist.videos[idx].video;
       }
     },
     handleShuffle() {
-      const idx = this.playlist.videos.findIndex(pItem => pItem.videoPK === this.video.pk && pItem.videoSK === this.video.sk)
+      const idx = this.playlist.videos
+        .findIndex(pItem => 
+          pItem.videoPK === this.video.pk && pItem.videoSK === this.video.sk
+        )
 
       if (idx !== -1) {
         this.index = idx;
+        this.isShuffled = true;
+      }
+      else {
+        console.error('ERROR: handleShuffle() video loc unknown')
       }
     }
   },
