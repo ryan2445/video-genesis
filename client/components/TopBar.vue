@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app clipped-left color="orange" elevation="1">
+    <v-app-bar app clipped-left color="orange" elevation="1" style="z-index: 50 !important;">
         <div class="d-flex align-center">
             <NuxtLink to="/" class="mr-4">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png"
