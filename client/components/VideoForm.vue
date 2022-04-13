@@ -33,7 +33,7 @@
                             </v-btn>
                         </div>
                         <div class="flex justify-center pt-8">
-                            <v-btn @click="resetVideoForm(), $router.push('/videos')"
+                            <v-btn @click="resetVideoForm(), $router.push('/home')"
                                 color="orange" class="white--text">
                                 <v-icon class="mr-2"> mdi-format-list-text </v-icon>
                                 View Videos
