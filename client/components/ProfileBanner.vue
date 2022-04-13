@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="absolute -bottom-7 left-64 z-10">
+    <div class="absolute -bottom-7 left-64">
       <h3>
         <strong>
           {{ user | userDisplayName }}
@@ -47,7 +47,7 @@
     <v-hover v-slot="{ hover }" :open-delay="100">
       <div
         v-if="userProfilePic"
-        class="-bottom-16 left-14 absolute w-44 h-44 z-10"
+        class="-bottom-16 left-14 absolute w-44 h-44"
       >
         <img
           class="w-full h-full object-cover rounded-full"

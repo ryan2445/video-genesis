@@ -2,8 +2,8 @@
   <div class="flex flex-1 relative flex-col">
     <div class="mb-4 rounded-br-lg rounded-bl-lg" style="background: #fff">
       <profile-banner :user="user" />
-      <div>
-        <div>
+      <div class="w-full flex justify-center items-center">
+        <div class="w-1/2">
           <v-tabs
             v-model="tabSelected"
             centered
