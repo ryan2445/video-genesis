@@ -32,7 +32,7 @@
 						</template>
 						<v-card class="overflow-x-hidden">
 							<v-card-title>
-								<span class="text-h5">Edit Video Info</span>
+								<span class="text-h5">Edit Video</span>
 							</v-card-title>
 							<v-card-text>
 								<v-container>
@@ -89,6 +89,7 @@
 															)
 														"
 														label="Choose a default thumbnail"
+														color="orange"
 													>
 														<template v-slot:item="{ item }">
 															<div style="width: 30vw">
@@ -109,6 +110,7 @@
 												rows="2"
 												:value="videoTitleCopy"
 												@change="($event) => (videoTitleCopy = $event)"
+												color="orange"
 											/>
 										</v-col>
 										<v-col cols="12">
@@ -118,6 +120,7 @@
 												filled
 												:value="videoDescriptionCopy"
 												@change="($event) => (videoDescriptionCopy = $event)"
+												color="orange"
 											/>
 										</v-col>
 									</v-row>
@@ -127,13 +130,13 @@
 							<v-card-actions>
 								<v-spacer></v-spacer>
 								<v-btn 
-									color="blue darken-1" text 
+									color="orange darken-1" text 
 									@click="onDialogClose"
 								>
 									Close
 								</v-btn>
 								<v-btn 
-									color="blue darken-1" text 
+									color="orange darken-1" text 
 									@click="onVideoSave(false)"
 								>
 									Save
