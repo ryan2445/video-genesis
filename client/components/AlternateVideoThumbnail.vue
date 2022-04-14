@@ -18,7 +18,7 @@ export default {
   name: "AlternateVideoThumbnail",
   props: {
     processed: {
-      default: false,
+      default: true,
       required: false,
       type: Boolean
     }
