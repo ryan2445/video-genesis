@@ -17,76 +17,40 @@
       accept=".png, .jpg, .jpeg"
       @change="coverPicSelected"
     />
-
     <!-- User Profile Pic -->
-    <div class="flex flex-row justify-center items-center">
-      <div class="mb-4 my-4">
-        <div
-          v-if="userProfilePic && !loading"
-          class="w-32 h-32 rounded-full overflow-hidden mb-2"
-        >
-          <img
-            class="min-w-full min-h-full object-cover"
-            :src="userProfilePic"
-            alt="avatar"
-          />
-        </div>
-        <div
-          v-else
-          class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500"
-        >
-          <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
-        </div>
-        <v-btn
-          :loading="loadingProfilePic"
-          small
-          color="orange lighten-1"
-          class="white--text"
-          @click="uploadProfilePic"
-        >
-          <div class="flex flex-row items-center">
-            <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-            <span
-              >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
-              Pic</span
-            >
-          </div>
-        </v-btn>
+    <div class="flex flex-col justify-center items-center mb-4 my-4">
+      <div
+        v-if="userProfilePic && !loading"
+        class="w-32 h-32 rounded-full overflow-hidden mb-2"
+      >
+        <img
+          class="min-w-full min-h-full object-cover"
+          :src="userProfilePic"
+          alt="avatar"
+        />
       </div>
-      <!--
-            User Cover Pic
-            <div class="mb-4">
-                <div
-                    v-if="userCoverPic && !loading"
-                    class="h-36 overflow-hidden mb-2 bg-gray-500"
-                >
-                    <img
-                        class="min-w-full min-h-full object-cover"
-                        :src="userCoverPic"
-                        alt="bird"
-                    />
-                </div>
-                <div v-else class="h-36 overflow-hidden mb-2 bg-gray-500">
-                    <h1 class="text-center py-14 text-2xl font-bold text-white">Upload</h1>
-                </div>
-                <v-btn
-                    :loading="loadingCoverPic"
-                    small
-                    color="orange lighten-1"
-                    class="white--text"
-                    @click="uploadCoverPic"
-                >
-                    <div class="flex flex-row items-center">
-                        <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
-                        <span>
-                            {{ userCoverPic && !loading ? "Change" : "Upload" }} Cover Pic
-                        </span>
-                    </div>
-                </v-btn>
-            </div>
-            -->
+      <div
+        v-else
+        class="w-32 h-32 rounded-full overflow-hidden mb-2 bg-gray-500"
+      >
+        <h1 class="text-center py-12 text-xl font-bold text-white">Upload</h1>
+      </div>
+      <v-btn
+        :loading="loadingProfilePic"
+        small
+        color="orange lighten-1"
+        class="white--text"
+        @click="uploadProfilePic"
+      >
+        <div class="flex flex-row items-center">
+          <v-icon small class="mr-2">mdi-cloud-upload</v-icon>
+          <span
+            >{{ userProfilePic && !loading ? "Change" : "Upload" }} Profile
+            Pic</span
+          >
+        </div>
+      </v-btn>
     </div>
-
     <!-- End of Upload Section -->
     <template>
       <v-card class="p-2 w-1/2">
