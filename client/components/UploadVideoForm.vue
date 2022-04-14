@@ -54,7 +54,7 @@
           >
             <v-file-input id="fileInput" label="Upload video"
                 @change="handleFileInputChange" show-size filled :error-messages="errors"
-                color="orange" :prepend-icon="false" prepend-inner-icon="mdi-paperclip"
+                color="orange" prepend-icon="" prepend-inner-icon="mdi-paperclip"
                 :success="!errors" accept="video/mp4"
                 
             />

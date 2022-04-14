@@ -1,14 +1,12 @@
 <template>
   <v-menu
     v-model="showUploadVideoForm"
-    offset-y nudge-left="435" 
-    nudge-bottom="2" 
+    offset-y left nudge-bottom="2" 
     :close-on-content-click="false"
   >
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
+      <v-btn style="right:0%; margin-right:8px;"
         absolute
-        class="top-1 right-3 z-10"
         v-bind="attrs"
         v-on="on"
         dense
