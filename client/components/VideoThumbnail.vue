@@ -69,6 +69,8 @@ export default {
             required: false,
             default: '280'
         },
+        //  This prop should match the 'max-width' in VideoCard.vue,
+        //  otherwise the thumbnail isn't centered and looks weird
         width: {
             type: String | Number,
             required: false,

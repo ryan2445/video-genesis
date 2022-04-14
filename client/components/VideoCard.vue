@@ -1,10 +1,12 @@
 <template>
   <div>
     <v-hover v-show="thumbnailLoaded || !processed" v-slot="{ hover }" :open-delay="500">
+      <!-- The 'max-width' in 'v-card' below should match with the 'width' prop in VideoThumbnail.vue,
+      otherwise the thumbnail isn't centered and looks weird -->
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
         style="
-          max-width: 380px;
+          max-width: 340px;
           height: 425px;
           border: 1px solid rgb(202, 202, 202);
         "
