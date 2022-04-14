@@ -4,17 +4,17 @@
   <v-main class="pt-0 pt-md-0 px-0 mx-0">
     <!-- This section calls the image link, shows it with text in the center of the image!  -->
     <section>
-      <v-parallax src="https://c.pxhere.com/images/9f/8c/70811bfcf51032b0c666b4961e3c-1633063.jpg!d" alt="video-genesis-background">
+      <v-parallax src="https://c.pxhere.com/images/9f/8c/70811bfcf51032b0c666b4961e3c-1633063.jpg!d" height="620" alt="video-genesis-background">
         <v-layout column align-center justify-center class="white--text">
           <h1
-            class="text-xs-center orange--text mb-2 display-1"
-            style="font-weight: 1000; text-shadow: 3px 2px #000000"
+            class="orange--text"
+            style="font-weight: 1000; font-size: 81px; text-shadow: 3px 2px #000000; font-family:Caveat !important;"
           >
             Video Genesis
           </h1>
           <div
-            class="orange--text subheading mb-3 text-xs-center"
-            style="font-weight: 900; text-shadow: 2px 2px #000000"
+            class="orange--text mb-3"
+            style="font-weight: 400; font-size: 34px; text-shadow: 3px 1px #000000; font-family:Caveat !important;"
           >
             super-resolution videos for everyone
           </div>
