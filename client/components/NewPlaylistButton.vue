@@ -8,13 +8,17 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         absolute
+        small
         class="-top-8 -right-1"
         v-bind="attrs"
         v-on="on"
       >
-        <span class="text-app-orange">
+        <div class="text-app-orange">
+          <v-icon small class="mr-2">
+            mdi-folder-plus
+          </v-icon>
           {{ text }}
-        </span>
+        </div>
       </v-btn>
     </template>
     <playlist-form @close="showPlaylistForm = false"></playlist-form>

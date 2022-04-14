@@ -12,9 +12,12 @@
         dense
         height="30"
       >
-        <span class="text-app-orange">
-          Upload Video
-        </span>
+      <div class="text-app-orange">
+        <v-icon class="mr-2">
+          mdi-cloud-upload
+        </v-icon>
+        Upload Video
+      </div>
       </v-btn>
     </template>
     <upload-video-form @close="showUploadVideoForm = false" />
