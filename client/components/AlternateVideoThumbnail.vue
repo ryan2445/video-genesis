@@ -2,15 +2,27 @@
   <div
     class="thumbnail-blank w-full h-full grid place-content-center"
   >
-    <v-icon color="white" large>
-      icon-video
-    </v-icon>
+    <div class="flex flex-col">
+      <v-icon color="white" large>
+        icon-video
+      </v-icon>
+      <div v-if="!processed">
+        <p class="text-white">processing...</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "AlternateVideoThumbnail",
+  props: {
+    processed: {
+      default: false,
+      required: false,
+      type: Boolean
+    }
+  }
 }
 </script>
 

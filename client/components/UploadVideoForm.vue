@@ -129,7 +129,7 @@ export default {
       //  If the request failed, do nothing for now
       if (!video) return null
 
-      this.$store.commit('videos/videosSet', [video, ...this.$store.getters['videos/videos']])
+      this.$store.commit('videos/videosSet', [{...video, user: this.$store.getters['users/rootUser']}, ...this.$store.getters['videos/videos']])
 
       this.$emit('close')
 

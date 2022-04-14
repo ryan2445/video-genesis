@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-hover v-show="thumbnailLoaded" v-slot="{ hover }" :open-delay="500">
+    <v-hover v-show="thumbnailLoaded || !processed" v-slot="{ hover }" :open-delay="500">
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
         style="
@@ -8,17 +8,19 @@
           height: 425px;
           border: 1px solid rgb(202, 202, 202);
         "
-        :class="{ 'card-hover': hover }"
+        :class="{ 'card-hover': hover && processed }"
         outlined
       >
         <super-resolution-banner v-if="superResEnabled" />
+
         <video-thumbnail
           :video="video"
-          class="cursor-pointer"
+          :class="{ 'cursor-pointer' : processed}"
           :video-src="getLink(video)"
           :thumbnail-src="video.videoThumbnail || null"
           :video-key="video.videoKey"
-          :play="hover"
+          :play="hover && processed"
+          :processed="processed"
           @click="onCardClick"
           @videoTimeChange="onVideoTimeChange"
           @thumbnail:loaded="onThumbnailLoaded"
@@ -26,7 +28,8 @@
         <div class="px-2 pb-1">
           <div class="mt-2">
             <div
-              class="flex justify-between w-full items-center cursor-pointer"
+              class="flex justify-between w-full items-center"
+              :class="{'cursor-pointer' : processed}"
               @click="onCardClick"
             >
               <div class="text-gray-800 cardTitle">{{ video.videoTitle }}</div>
@@ -60,7 +63,7 @@
 
     <!-- While the video is still loading, show the skeleton-loader -->
     <v-skeleton-loader
-      v-show="!thumbnailLoaded"
+      v-show="!thumbnailLoaded && processed"
       class="mx-auto opacity-80"
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"
@@ -120,6 +123,11 @@ export default {
     superResEnabled() {
       return !!this.video && !!this.video.lrBaseURL && !!this.video.hrBaseURL;
     },
+    processed() {
+      if (!this.video) return false
+
+      return !!this.video.videoData
+    }
   },
   methods: {
     onCardClick() {

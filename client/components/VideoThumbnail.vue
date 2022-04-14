@@ -1,31 +1,30 @@
 <template>
-    <v-hover v-slot="{ hover }" :open-delay="300">
-        <div class="relative" :style="`height: ${height}px; width: ${width}px;`"
-            @click.prevent="onClick">
-            <v-progress-linear absolute top indeterminate
-                :active="(hover || play) && !videoCanPlay" />
-            <video ref="videoRef" v-show="videoCanPlay && (hover || play)"
-                :controls="false" height="100%" width="100%" loop autoplay muted
-                @play="onPlay" @pause="onPause" @canplay="onCanPlay" :src="videoSrc"
-                class="object-cover w-full h-full" />
-            <img v-if="!videoCanPlay || (!hover && !play && !thumbnailError)"
-                alt="Video Thumbnail" :src="thumbnailLink"
-                class="w-full h-full object-cover" @load="onThumbnailLoad"
-                @error="onThumbnailError" />
-            <alternate-video-thumbnail
-                v-else-if="!videoCanPlay || (!hover && !play && thumbnailError)" />
-            <div v-if="videoCanPlay && (hover || play)"
-                class="absolute bottom-2 left-3 z-50">
-                <div class="px-1" style="background: rgba(29, 29, 29, 0.5);">
-                    <span class="text-white" style="font-size:12px;">
-                        {{ readableCurrentTime }} / {{ readableDuration }}
-                    </span>
-                </div>
+    <div class="relative" :class="{'cursor-default' : !processed}" :style="`height: ${height}px; width: ${width}px;`"
+        @click.prevent="onClick">
+        <v-progress-linear absolute top indeterminate
+            :active="(play) && !videoCanPlay" />
+        <video ref="videoRef" v-show="processed && videoCanPlay && play"
+            :controls="false" height="100%" width="100%" loop autoplay muted
+            @play="onPlay" @pause="onPause" @canplay="onCanPlay" :src="videoSrc"
+            class="object-cover w-full h-full" />
+        <img v-if="processed && (!videoCanPlay || (!play && !thumbnailError))"
+            alt="Video Thumbnail" :src="thumbnailLink"
+            class="w-full h-full object-cover" @load="onThumbnailLoad"
+            @error="onThumbnailError" />
+        <alternate-video-thumbnail
+            v-else-if="!processed || !videoCanPlay || (!play && thumbnailError)"
+            :processed="processed" />
+        <div v-if="processed && videoCanPlay && (play)"
+            class="absolute bottom-2 left-3 z-50">
+            <div class="px-1" style="background: rgba(29, 29, 29, 0.5);">
+                <span class="text-white" style="font-size:12px;">
+                    {{ readableCurrentTime }} / {{ readableDuration }}
+                </span>
             </div>
-            <v-progress-linear absolute bottom :active="videoCanPlay && (hover || play)"
-                color="orange" :height="6" :value="videoProgress" />
         </div>
-    </v-hover>
+        <v-progress-linear absolute bottom :active="videoCanPlay && (play)"
+            color="orange" :height="6" :value="videoProgress" />
+    </div>
 </template>
 
 <script>
@@ -74,6 +73,10 @@ export default {
             type: String | Number,
             required: false,
             default: '340'
+        },
+        processed: {
+            type: Boolean,
+            required: true,
         }
     },
     data() {
@@ -107,6 +110,7 @@ export default {
             }
         },
         onClick() {
+            if (!this.processed) return
             this.$emit('click')
         },
         onPlay() {
