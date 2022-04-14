@@ -49,8 +49,8 @@
 										<v-col v-if="video.videoThumbnail" cols="12">
 											<div>Video Thumbnail:</div>
 										</v-col>
-										<v-col v-if="video.videoThumbnail" cols="12">
-											<img :src="video.videoThumbnail" width="192px" />
+										<v-col v-if="defaultVideoThumbnail || video.videoThumbnail" cols="12">
+											<img :src="defaultVideoThumbnail || video.videoThumbnail" width="192px" />
 										</v-col>
 										<v-col cols="12">
 											<div class="flex flex-col">
@@ -75,10 +75,8 @@
 												</div>
 												<div>
 													<br />
-													<v-select
-														:value="undefined"
-														@change="onDefaultThumbnailChange"
-														v-if="altThumbnails"
+													<v-select v-if="altThumbnails"
+														:value="defaultVideoThumbnail"
 														:items="
 															altThumbnails.map(
 																(item) =>
@@ -88,8 +86,8 @@
 																	item
 															)
 														"
-														label="Choose a default thumbnail"
-														color="orange"
+														@change="onDefaultThumbnailChange"
+														label="Choose a default thumbnail" color="orange"
 													>
 														<template v-slot:item="{ item }">
 															<div style="width: 30vw">
