@@ -18,7 +18,7 @@
       </div>
     </div>
     <div style="background: #fff" class="rounded-lg px-3 py-2 relative">
-      <upload-video-button />
+      <upload-video-button v-if="permissions" />
       <v-carousel
         v-if="!loading"
         v-model="tabSelected"
@@ -69,24 +69,29 @@ export default {
     changeTabSelection(tabName) {
       this.tabSelected = tabName;
     },
+    async init() {
+      this.loading = true
+
+      const videos = await this.$store.dispatch("videos/videosGetByUsername", {
+        username: this.user.username,
+      });
+
+      this.$store.commit("videos/videosSet", videos);
+
+      const playlists = await this.$store.dispatch(
+        "playlists/playlistsGetByUsername",
+        {
+          username: this.user.username,
+        }
+      );
+
+      this.$store.commit("playlists/playlistsSet", playlists);
+
+      this.loading = false
+    }
   },
   async mounted() {
-    const videos = await this.$store.dispatch("videos/videosGetByUsername", {
-      username: this.user.username,
-    });
-
-    this.$store.commit("videos/videosSet", videos);
-
-    const playlists = this.$store.dispatch(
-      "playlists/playlistsGetByUsername",
-      {
-        username: this.user.username,
-      }
-    );
-
-    this.$store.commit("playlists/playlistsSet", playlists);
-
-    this.loading = false;
+    this.init()
   },
   computed: {
     ...mapGetters({
@@ -117,6 +122,18 @@ export default {
         },
       ];
     },
+    permissions() {
+      const rootUser = this.$store.getters['users/rootUser']
+
+      if (!rootUser) return false
+
+      return rootUser.pk === this.user.pk && rootUser.sk === this.user.sk
+    }
   },
+  watch: {
+    user() {
+      this.init()
+    }
+  }
 };
 </script>
