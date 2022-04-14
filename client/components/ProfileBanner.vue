@@ -58,12 +58,9 @@
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || profilePictureLoading)"
-            icon
-            absolute
-            outlined
-            small
-            elevation="4"
-            style="bottom: 12px; right: 22px; backdrop-filter: blur(8px)"
+            fab absolute elevation="4" color="orange"
+            class="white--text" width="30" height="30"
+            style="bottom: 12px; right: 22px;"
             @click="onProfilePictureEdit"
             :disabled="profilePictureLoading"
             :loading="profilePictureLoading"
@@ -71,7 +68,6 @@
             <v-icon small>icon-pencil-outline</v-icon>
           </v-btn>
         </v-fade-transition>
-
         <v-file-input
           class="absolute"
           ref="profileEditFile"
