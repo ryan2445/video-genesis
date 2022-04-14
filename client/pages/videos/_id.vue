@@ -1,7 +1,7 @@
 <template>
   <div class="mt-3">
     <v-row>
-      <v-col :cols="!!playlist ? '8' : '12'">
+      <v-col :cols="!!playlist && playlistLoaded ? '8' : '12'">
         <template v-if="!loading">
           <video-container
             :video="video"
@@ -17,9 +17,8 @@
           <video-player-comment-list :video="video" />
         </div>
       </v-col>
-      <v-col cols="4">
+      <v-col v-if="playlist && playlistLoaded" cols="4">
         <playlist-player
-          v-if="playlist && playlistLoaded"
           :playlist="playlist"
           :index="index"
           :video="video"
