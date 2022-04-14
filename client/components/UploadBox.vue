@@ -4,7 +4,9 @@
         <div>
             <v-file-input id="video-file-upload-input" label="Upload video"
                 @change="onFileInputChange" show-size :loading="uploading" filled
-                color="orange" prepend-icon="" prepend-inner-icon="mdi-file-video">
+                color="orange" prepend-icon="" prepend-inner-icon="mdi-file-video"
+                accept="video/mp4"
+            >
             </v-file-input>
         </div>
     </div>
