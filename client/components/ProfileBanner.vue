@@ -14,13 +14,8 @@
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || bannerPictureLoading)"
-            icon
-            absolute
-            right
-            outlined
-            small
-            elevation="4"
-            style="bottom: 6px; backdrop-filter: blur(8px)"
+            fab absolute right elevation="4" width="30" height="30"
+            style="bottom:6px;" color="orange" class="white--text"
             @click="onBannerEdit"
             :loading="bannerPictureLoading"
             :disabled="bannerPictureLoading"
