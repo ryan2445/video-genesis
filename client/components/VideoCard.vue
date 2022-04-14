@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-hover v-show="loaded" v-slot="{ hover }" :open-delay="500">
+    <v-hover v-show="thumbnailLoaded" v-slot="{ hover }" :open-delay="500">
       <v-card
         class="video-card my-2 shadow-sm hover:shadow-lg relative overflow-hidden"
         style="
@@ -33,7 +33,7 @@
               <div v-if="video && isOwner" class="mr-2">
                 <v-hover>
                   <video-card-settings-menu
-                    :video-thumbnail="videoThumbnail"
+                    :video-thumbnail="video.videoThumbnail || null"
                     :idx="idx"
                     :video="video"
                   />
@@ -60,7 +60,7 @@
 
     <!-- While the video is still loading, show the skeleton-loader -->
     <v-skeleton-loader
-      v-show="!loaded"
+      v-show="!thumbnailLoaded"
       class="mx-auto opacity-80"
       :height="425"
       type="image, card-heading, list-item-avatar, list-item-two-line"
@@ -116,13 +116,6 @@ export default {
       if (!this.video) return null;
       if (!this.video.pk) return null;
       return this.video.pk.substr(3);
-    },
-    videoThumbnail() {
-      if (!this.video) return null;
-      return this.video.videoThumbnail;
-    },
-    loaded() {
-      return this.thumbnailLoaded;
     },
     superResEnabled() {
       return !!this.video && !!this.video.lrBaseURL && !!this.video.hrBaseURL;

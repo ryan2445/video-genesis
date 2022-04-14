@@ -17,7 +17,8 @@
         </div>
       </div>
     </div>
-    <div style="background: #fff" class="rounded-lg px-3 py-2">
+    <div style="background: #fff" class="rounded-lg px-3 py-2 relative">
+      <upload-video-button />
       <v-carousel
         v-if="!loading"
         v-model="tabSelected"
@@ -76,12 +77,13 @@ export default {
 
     this.$store.commit("videos/videosSet", videos);
 
-    const playlists = await this.$store.dispatch(
+    const playlists = this.$store.dispatch(
       "playlists/playlistsGetByUsername",
       {
         username: this.user.username,
       }
     );
+
     this.$store.commit("playlists/playlistsSet", playlists);
 
     this.loading = false;

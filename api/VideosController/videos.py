@@ -97,21 +97,23 @@ def videosPost(event, context):
     videoKey = body['videoKey'].replace('.mp4', '')
     isPrivate = body.get('isPrivate', False)
     
+    payload = {
+        'pk': pk,
+        'sk': sk,
+        'videoTitle': videoTitle,
+        'videoDescription': videoDescription,
+        'videoKey': videoKey,
+        'isPrivate': isPrivate
+    }
+    
     # Put the entry in dynamodb
     response = dynamodb.put_item(
-        Item = {
-            'pk': pk,
-            'sk': sk,
-            'videoTitle': videoTitle,
-            'videoDescription': videoDescription,
-            'videoKey': videoKey,
-            'isPrivate': isPrivate
-        }
+        Item = payload
     )
 
     return {
         'statusCode': 201,
-        'body': json.dumps({'response': response})
+        'body': json.dumps(payload)
     }
 
 #   Update a video with given data
