@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app clipped-left color="orange" elevation="1" style="z-index: 50 !important;">
+    <v-app-bar app clipped-left elevation="1" style="z-index: 50 !important; background: rgb(0,0,0); background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(206,98,15,1) 10%, rgba(206,98,15,1) 95%, rgba(0,0,0,1) 100%);">
         <div class="d-flex align-center">
             <NuxtLink to="/" class="mr-4">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/V_logo.png"
@@ -13,7 +13,7 @@
         <div class="mx-6">
             <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                    <v-icon v-bind="attrs" v-on="on">
+                    <v-icon v-bind="attrs" v-on="on" color="grey lighten-2">
                         {{ srRunning ? 'icon-wifi-check' : 'icon-wifi-cancel'}}
                     </v-icon>
                 </template>
