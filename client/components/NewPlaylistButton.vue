@@ -8,6 +8,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         absolute
+        depressed
         small
         class="-top-8 -right-1"
         v-bind="attrs"
