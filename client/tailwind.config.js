@@ -5,6 +5,7 @@ module.exports = {
         "app-orange": "#FF7A45",
       },
     },
+    fontFamily: { heading: ["Circe", "sans-serif"] },
   },
   variants: {},
   plugins: [require("@tailwindcss/line-clamp")],
