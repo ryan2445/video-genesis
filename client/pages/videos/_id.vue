@@ -184,8 +184,8 @@ export default {
     },
     onVideoEnded() {
       // If the playlist does not exist, return
-      if (!this.playlist) return;
-      
+      if (!this.playlist || !this.playlistLoaded) return;
+
       const isLastPlaylistVideo = this.index >= this.playlist.videos.length - 1;
 
       if (!isLastPlaylistVideo || (isLastPlaylistVideo && this.replay)) {

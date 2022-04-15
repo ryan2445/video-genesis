@@ -50,7 +50,7 @@ export default {
       const items = [
         {
           type: "button",
-          title: "stats for nerds",
+          title: "stats",
           action: this.showStats,
         },
       ];
