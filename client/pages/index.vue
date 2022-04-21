@@ -1,63 +1,32 @@
-
-
 <template>
-  <v-main class="pt-0 pt-md-0 px-0 mx-0">
-    <!-- This section calls the image link, shows it with text in the center of the image!  -->
-    <section>
-      <v-parallax src="https://c.pxhere.com/images/9f/8c/70811bfcf51032b0c666b4961e3c-1633063.jpg!d" height="620" alt="video-genesis-background">
-        <v-layout column align-center justify-center class="white--text">
-          <h1
-            class="orange--text"
-            style="font-weight: 1000; font-size: 81px; text-shadow: 3px 2px #000000; font-family:Caveat !important;"
-          >
-            Video Genesis
-          </h1>
-          <div
-            class="orange--text mb-3"
-            style="font-weight: 400; font-size: 34px; text-shadow: 3px 1px #000000; font-family:Caveat !important;"
-          >
-            super-resolution videos for everyone
-          </div>
-        </v-layout>
-      </v-parallax>
-    </section>
-
-    <!-- About Section -->
-    <section>
-      <v-layout column wrap class="bg-gray-100" align-center>
-        <div class="flex flex-row gap-x-4 my-6">
-          <v-card 
-            v-for="(card, i) of aboutSectionCards"
-            :key="`card-${i}`"
-            class="flex gap-x-3" style="width: 340px;">
-            <v-card-title>
-              <h1 class="text-4xl orange--text">
-                {{ card.title }}
-              </h1>
-            </v-card-title>
-            <v-divider class="mr-3"></v-divider>
-            <v-card-text>
-              {{ card.text }}
-            </v-card-text>
-          </v-card>
-        </div>
-      </v-layout>
-    </section>
-
-    <section>
-      <div style="background-color: #ff9800">
-        <div>
-
-        </div>
-      </div>
-    </section>
+  <v-main>
+    <Banner />
+    <Team />
+    <ProjectDemo />
+    <AppFeatures />
+    <Resources />
+    <Footer />
   </v-main>
 </template>
 
 <script>
+import Banner from "../components/LandingPage/Banner.vue"
+import Team from "../components/LandingPage/Team.vue"
+import ProjectDemo from "../components/LandingPage/ProjectDemo.vue"
+import AppFeatures from "../components/LandingPage/AppFeatures.vue"
+import Resources from "../components/LandingPage/Resources.vue"
+import Footer from "../components/LandingPage/Footer.vue"
 import { mapGetters } from "vuex";
 
 export default {
+  components: {
+    Banner,
+    Team,
+    ProjectDemo,
+    AppFeatures,
+    Resources,
+    Footer
+  },
   computed: {
     ...mapGetters({
       user: "users/rootUser",
