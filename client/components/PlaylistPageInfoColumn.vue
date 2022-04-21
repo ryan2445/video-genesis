@@ -45,7 +45,7 @@
 
       <span class="font-bold">Playlist Description:</span>
       <div class="playlist-info-description-container">
-        <div class="flex flex-row flex-1">
+        <div class="flex flex-row">
           <div v-if="!playlistDescriptionEdit">
             <p v-if="playlist.description">
               {{ playlist.description }}
@@ -57,6 +57,8 @@
             label="update description"
             v-model="playlistDescriptionCopy"
             color="#A13440"
+            rows="1"
+            auto-grow
             class="pa-0 mt-4 w-full"
             hide-details
             @keydown.enter.prevent="handleDescriptionEdit"
