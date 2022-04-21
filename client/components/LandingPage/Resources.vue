@@ -11,7 +11,7 @@
         <v-row>
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://vuejs.org/"
-              ><div class="sub-accordions">
+              ><div class="sub-accordions text-white">
                 <h4 class="text-3xl font-medium">Vue.js Framework</h4>
                 <h6 class="text-lg">
                   A progressive frontend Javascript framework for constructing
@@ -26,7 +26,7 @@
           </v-col>
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://tailwindcss.com/"
-              ><div class="sub-accordions">
+              ><div class="sub-accordions text-white">
                 <h4 class="text-3xl font-medium">TailwindCSS</h4>
                 <h6 class="text-lg">
                   A progressive frontend Javascript framework for constructing
@@ -41,7 +41,7 @@
           </v-col>
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://aws.amazon.com/"
-              ><div class="sub-accordions">
+              ><div class="sub-accordions text-white">
                 <h4 class="text-3xl font-medium">Amazon Web Services</h4>
                 <h6 class="text-lg">
                   An on-demand cloud computing platform that provides numerous
@@ -54,7 +54,7 @@
           </v-col>
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://www.geeksforgeeks.org/super-resolution-gan-srgan/"
-              ><div class="sub-accordions">
+              ><div class="sub-accordions text-white">
                 <h4 class="text-3xl font-medium">
                   Super Resolution Generative Adversarial Network
                 </h4>
@@ -71,7 +71,7 @@
           </v-col>
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://videojs.com/"
-              ><div class="sub-accordions">
+              ><div class="sub-accordions text-white">
                 <h4 class="text-3xl font-medium">VideoJS</h4>
                 <h6 class="text-lg">
                   A javascript based framework which uses HTML5 video
