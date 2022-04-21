@@ -14,7 +14,7 @@
           </div>
         </v-col>
       </v-row>
-      <v-row class="white--text px-17 text-center" align="top">
+      <v-row class="white--text text-center" align="top">
         <v-col cols="4">
           <div class="rounded-full">
             <img class="mx-auto" src="@/assets/images/img1.png" />

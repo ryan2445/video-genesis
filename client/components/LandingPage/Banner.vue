@@ -42,10 +42,17 @@
           class="flex flex-row items-center"
           style="justify-content: end"
         >
-          <div class="mx-3" v-if="user">
+          <div class="mx-3 text-white" v-if="user">
             <h1>Logged in as {{ user.username }}</h1>
           </div>
-          <v-btn v-if="user" @click="onSignOut"> Sign Out </v-btn>
+          <v-btn
+            v-if="user"
+            @click="onSignOut"
+            color="#A13440"
+            class="white--text"
+          >
+            Sign Out
+          </v-btn>
         </div>
       </v-col>
     </v-row>
