@@ -9,14 +9,14 @@
         :rules="titleRules"
         label="Playlist title*"
         required
-        color="orange"
+        color="#A13440"
       >
       </v-text-field>
       <v-textarea
         v-model="description"
         :rules="descriptionRules"
         label="Playlist description"
-        color="orange"
+        color="#A13440"
       >
       </v-textarea>
 
@@ -24,12 +24,17 @@
         label="Make private"
         v-model="isPrivate"
         :rules="isPrivateRules"
-        color="orange"
+        color="#A13440"
       >
       </v-checkbox>
       <div class="flex w-full justify-end">
-        <v-btn class="mx-1" color="orange" @click="onCancel"> Cancel </v-btn>
-        <v-btn class="mx-1" :disabled="!valid" color="orange" @click="onSubmit">
+        <v-btn class="mx-1" color="#A13440" @click="onCancel"> Cancel </v-btn>
+        <v-btn
+          class="mx-1"
+          :disabled="!valid"
+          color="#A13440"
+          @click="onSubmit"
+        >
           Create
         </v-btn>
       </div>
@@ -48,8 +53,8 @@ export default {
     video: {
       type: Object,
       required: false,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -79,7 +84,7 @@ export default {
       };
 
       if (this.video) {
-        payload['video'] = this.video
+        payload["video"] = this.video;
       }
 
       const response = await this.$store.dispatch(
