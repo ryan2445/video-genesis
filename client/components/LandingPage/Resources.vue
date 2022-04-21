@@ -4,7 +4,7 @@
       <div class="mt-24 mb-32">
         <v-row>
           <v-col cols="12" class="white--text">
-            <h4 class="text-4xl">Resources</h4>
+            <h4 class="text-4xl font-medium">Resources</h4>
             <div class="border-divide-red"></div>
           </v-col>
         </v-row>
@@ -12,13 +12,12 @@
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://vuejs.org/"
               ><div class="sub-accordions">
-                <h4 class="text-2xl">Vue.js Framework</h4>
-                <h6 class="text-sm">
+                <h4 class="text-3xl font-medium">Vue.js Framework</h4>
+                <h6 class="text-lg">
                   A progressive frontend Javascript framework for constructing
-                  user interfaces. It is <br />commonly used to build
-                  Single-Page Applications. It provides developers with
-                  <br />tooling and libraries to create dynamic web
-                  applications.
+                  user interfaces. It is commonly used to build Single-Page
+                  Applications. It provides developers with tooling and
+                  libraries to create dynamic web applications.
                 </h6>
               </div></a
             >
@@ -28,13 +27,12 @@
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://tailwindcss.com/"
               ><div class="sub-accordions">
-                <h4 class="text-2xl">TailwindCSS</h4>
-                <h6 class="text-sm">
+                <h4 class="text-3xl font-medium">TailwindCSS</h4>
+                <h6 class="text-lg">
                   A progressive frontend Javascript framework for constructing
-                  user interfaces. It is <br />commonly used to build
-                  Single-Page Applications. It provides developers with
-                  <br />tooling and libraries to create dynamic web
-                  applications.
+                  user interfaces. It is commonly used to build Single-Page
+                  Applications. It provides developers with tooling and
+                  libraries to create dynamic web applications.
                 </h6>
               </div>
             </a>
@@ -44,8 +42,8 @@
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://aws.amazon.com/"
               ><div class="sub-accordions">
-                <h4 class="text-2xl">Amazon Web Services</h4>
-                <h6 class="text-sm">
+                <h4 class="text-3xl font-medium">Amazon Web Services</h4>
+                <h6 class="text-lg">
                   An on-demand cloud computing platform that provides numerous
                   cloud computing services like virtual servers and databases.
                 </h6>
@@ -57,15 +55,14 @@
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://www.geeksforgeeks.org/super-resolution-gan-srgan/"
               ><div class="sub-accordions">
-                <h4 class="text-2xl">
+                <h4 class="text-3xl font-medium">
                   Super Resolution Generative Adversarial Network
                 </h4>
-                <h6 class="text-sm">
+                <h6 class="text-lg">
                   A progressive frontend Javascript framework for constructing
-                  user interfaces. It is <br />commonly used to build
-                  Single-Page Applications. It provides developers with
-                  <br />tooling and libraries to create dynamic web
-                  applications.
+                  user interfaces. It is commonly used to build Single-Page
+                  Applications. It provides developers with tooling and
+                  libraries to create dynamic web applications.
                 </h6>
               </div></a
             >
@@ -75,8 +72,8 @@
           <v-col cols="12" class="mt-4 white--text">
             <a href="https://videojs.com/"
               ><div class="sub-accordions">
-                <h4 class="text-2xl">VideoJS</h4>
-                <h6 class="text-sm">
+                <h4 class="text-3xl font-medium">VideoJS</h4>
+                <h6 class="text-lg">
                   A javascript based framework which uses HTML5 video
                   functionality.
                 </h6>

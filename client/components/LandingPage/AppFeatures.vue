@@ -2,13 +2,13 @@
   <div class="container">
     <v-row>
       <v-col cols="12" class="text-center mt-24 white--text">
-        <h4 class="text-4xl mb-8">Application Features</h4>
+        <h4 class="text-4xl mb-8 font-medium">Application Features</h4>
       </v-col>
     </v-row>
-    <v-row class="white--text gap-5" justify="center" align="center">
+    <v-row class="white--text gap-8" justify="center" align="top">
       <v-col cols="3" class="text-left">
         <div class="text-div">
-          <h4 class="text-xl">Uploading</h4>
+          <h4 class="text-2xl font-medium">Uploading</h4>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="25"
@@ -23,7 +23,7 @@
           </svg>
         </div>
         <div class="text-div">
-          <h6 class="text-sm mt-4">
+          <h6 class="text-base mt-4">
             The Application allows users to upload videos that can be shared
             with other users.
           </h6>
@@ -31,7 +31,7 @@
       </v-col>
       <v-col cols="3" class="text-left">
         <div class="text-div">
-          <h4 class="text-xl">Super-Resolution</h4>
+          <h4 class="text-2xl font-medium">Super-Resolution</h4>
           <svg
             width="24"
             height="24"
@@ -54,7 +54,7 @@
           </svg>
         </div>
         <div class="text-div">
-          <h6 class="text-sm mt-4">
+          <h6 class="text-base mt-4">
             The Application allows users to process videos using a Super
             <br />Resolution Model.
           </h6>
@@ -62,7 +62,7 @@
       </v-col>
       <v-col cols="3" class="text-left">
         <div class="text-div">
-          <h4 class="text-xl">Stream</h4>
+          <h4 class="text-2xl font-medium">Stream</h4>
           <svg
             width="24"
             height="24"
@@ -87,7 +87,7 @@
           </svg>
         </div>
         <div class="text-div">
-          <h6 class="text-sm mt-4">
+          <h6 class="text-base mt-4">
             The Application allows users to stream other user’s video and their
             own.
           </h6>
@@ -95,10 +95,10 @@
       </v-col>
     </v-row>
     <div class="mb-32">
-      <v-row class="white--text mt-7 gap-5" justify="center" align="center">
+      <v-row class="white--text mt-7 gap-8" justify="center" align="center">
         <v-col cols="3" class="text-left">
           <div class="text-div">
-            <h4 class="text-xl">Profile Pages</h4>
+            <h4 class="text-2xl font-medium">Profile Pages</h4>
             <svg
               width="24"
               height="24"
@@ -121,7 +121,7 @@
             </svg>
           </div>
           <div class="text-div">
-            <h6 class="text-sm mt-4">
+            <h6 class="text-base mt-4">
               The Application allows users to create profile pages that other
               users can see.
             </h6>
@@ -129,7 +129,7 @@
         </v-col>
         <v-col cols="3" class="text-left">
           <div class="text-div">
-            <h4 class="text-xl">User Authentication</h4>
+            <h4 class="text-2xl font-medium">User Authentication</h4>
             <svg
               width="24"
               height="24"
@@ -148,7 +148,7 @@
             </svg>
           </div>
           <div class="text-div">
-            <h6 class="text-sm mt-4">
+            <h6 class="text-base mt-4">
               The Application allows users to sign up for an account that the
               user can use to authenticate.
             </h6>
@@ -156,7 +156,7 @@
         </v-col>
         <v-col cols="3" class="text-left">
           <div class="text-div">
-            <h4 class="text-xl">Support</h4>
+            <h4 class="text-2xl font-medium">Support</h4>
             <svg
               width="24"
               height="24"
@@ -171,7 +171,7 @@
             </svg>
           </div>
           <div class="text-div">
-            <h6 class="text-sm mt-4">
+            <h6 class="text-base mt-4">
               The Application allows users to get support by emailing the
               development team.
             </h6>
