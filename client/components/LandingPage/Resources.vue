@@ -94,7 +94,7 @@
 }
 
 .sub-accordions:hover {
-  color: #f8ffca;
+  color: #ffed85;
 }
 .container {
   margin: auto;
