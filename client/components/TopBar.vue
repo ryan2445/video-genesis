@@ -65,7 +65,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item-group color="orange">
+        <v-list-item-group color="#A13440">
           <v-list-item
             v-for="(item, i) in topBarItems"
             :key="i"
