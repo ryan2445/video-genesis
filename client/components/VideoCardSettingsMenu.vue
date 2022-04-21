@@ -151,7 +151,7 @@
               <v-btn
                 top
                 class="my-1"
-                color="#A13440"
+                color="error"
                 dark
                 v-bind="attrs"
                 v-on="on"
@@ -176,7 +176,7 @@
                   class="ma-1"
                   height="25"
                   width="1%"
-                  color="orange"
+                  color="#A13440"
                   plain
                   @click.stop="onDeleteDialogClose"
                   >Cancel</v-btn
@@ -186,7 +186,7 @@
                   class="mx-auto transition-swing secondary"
                   height="25"
                   width="1%"
-                  color="orange"
+                  color="#A13440"
                   plain
                   @click.stop="onVideoDelete"
                   >Delete</v-btn

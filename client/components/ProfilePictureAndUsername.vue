@@ -12,18 +12,20 @@
         :alt="user.username"
         class="rounded-full w-full h-full object-cover cursor-pointer"
       />
-      <v-icon v-else large class="mr-1" @click="openUserPage">icon-account-circle</v-icon>
+      <v-icon v-else large class="mr-1" @click="openUserPage"
+        >icon-account-circle</v-icon
+      >
     </div>
     <div>
       <v-btn
-        color="orange"
+        color="#A13440"
         plain
         @click.prevent="openUserPage"
         class="user-button px-0 text-left py-0"
         dense
       >
         <span :class="textClasses">
-          {{ user |  userDisplayName }}
+          {{ user | userDisplayName }}
         </span>
       </v-btn>
     </div>
@@ -36,25 +38,25 @@ export default {
   props: {
     user: {
       required: true,
-      type: Object
+      type: Object,
     },
     showPic: {
       type: Boolean,
       required: false,
-      default: true
+      default: true,
     },
     textClasses: {
       type: String,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
     openUserPage() {
       this.$router.push(`/users/username=${this.user.pk.substr(3)}`);
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
