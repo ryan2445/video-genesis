@@ -46,3 +46,7 @@ div.userProfileCarousel,
 .v-navigation-drawer__content hr {
   margin: 0px !important;
 }
+
+.v-toolbar__content {
+  padding-left: 10px !important;
+}
