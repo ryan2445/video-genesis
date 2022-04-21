@@ -28,9 +28,9 @@
       >
       </v-checkbox>
       <div class="flex w-full justify-end">
-        <v-btn class="mx-1" color="#A13440" @click="onCancel"> Cancel </v-btn>
+        <v-btn class="mx-1" text @click="onCancel"> Cancel </v-btn>
         <v-btn
-          class="mx-1"
+          class="mx-1 white--text"
           :disabled="!valid"
           color="#A13440"
           @click="onSubmit"

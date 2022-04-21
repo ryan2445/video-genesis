@@ -6,10 +6,10 @@
           v-bind="attrs"
           v-on="on"
           depressed
-          color="orange"
+          color="#A13440"
           width="30"
           height="30"
-          class="mb-2 justify-right"
+          class="mb-2 justify-right white--text"
         >
           <v-icon> icon-playlist-plus </v-icon>
         </v-btn>
@@ -23,7 +23,7 @@
         >
           <v-icon> icon-close </v-icon>
         </v-btn>
-        <v-card-title>
+        <!-- <v-card-title>
           <span class="text-h5 text-black">Save to...</span>
         </v-card-title>
         <v-card-text>
@@ -39,13 +39,33 @@
               :label="item.playlistTitle"
             ></v-checkbox>
           </div>
-        </v-card-text>
-        <v-card-actions v-if="!showPlaylistForm">
-          <v-btn text @click="showPlaylistForm = true" color="#FF7A45"
-            >Create new playlist
-          </v-btn>
-        </v-card-actions>
-        <v-card-title v-else class="orange">
+        </v-card-text> -->
+        <div v-if="!showPlaylistForm">
+          <v-card-title>
+            <span class="text-h5 text-black">Save to...</span>
+          </v-card-title>
+          <v-card-text>
+            <div
+              class="form-group form-check"
+              v-for="item in playlists"
+              v-bind:key="item.id"
+            >
+              <v-checkbox
+                @change="onPlaylistSelected(item)"
+                :value="item"
+                v-model="selectedPlaylists"
+                :label="item.playlistTitle"
+              ></v-checkbox>
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text @click="showPlaylistForm = true" color="#A13440"
+              >Create new playlist
+            </v-btn>
+          </v-card-actions>
+        </div>
+
+        <v-card-title v-else>
           <div>Create playlist</div>
         </v-card-title>
         <v-expand-transition>
@@ -132,24 +152,26 @@ export default {
     },
     async getPlaylists() {
       if (!this.playlists) {
-        await this.$store.dispatch("playlists/playlistsGet")
-        setTimeout(this.setSelectedPlaylists, 10)
-      }
-      else {
-        this.setSelectedPlaylists()
+        await this.$store.dispatch("playlists/playlistsGet");
+        setTimeout(this.setSelectedPlaylists, 10);
+      } else {
+        this.setSelectedPlaylists();
       }
     },
     setSelectedPlaylists() {
-      const selectedPlaylists = this.playlists.filter(p => {
+      const selectedPlaylists = this.playlists.filter((p) => {
         for (let i = 0; i < p.videos.length; i++) {
-          if (p.videos[i].videoPK === this.video.pk && p.videos[i].videoSK === this.video.sk)
-            return true
+          if (
+            p.videos[i].videoPK === this.video.pk &&
+            p.videos[i].videoSK === this.video.sk
+          )
+            return true;
         }
-        return false
+        return false;
       });
 
       this.selectedPlaylists = selectedPlaylists;
-    }
+    },
   },
   computed: {
     ...mapGetters({

@@ -6,7 +6,7 @@
       filled
       label="Leave a comment"
       auto-grow
-      color="orange orange-darken-4"
+      color="#A13440"
       rows="3"
     ></v-textarea>
     <v-card-actions
@@ -17,7 +17,7 @@
           :loading="isLoading"
           @click="submitComment"
           class="white--text"
-          color="#FF7A45"
+          color="#A13440"
           depressed
           >Comment</v-btn
         >

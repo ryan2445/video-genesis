@@ -35,7 +35,7 @@
             <v-icon class="p-1" center> mdi-minus </v-icon>
           </v-btn>
 
-          <v-btn small depressed @click="changeToEdit()" color="#FF7A45">
+          <v-btn small depressed @click="changeToEdit()" color="#A13440">
             <v-icon class="p-1" color="white" center> mdi-pencil </v-icon>
           </v-btn>
         </div>
@@ -46,7 +46,7 @@
           auto-grow
           rows="1"
           v-model="content"
-          color="orange orange-darken-4"
+          color="#A13440"
           ref="textArea"
         ></v-textarea>
         <!-- buttons -->
@@ -57,7 +57,7 @@
             :loading="isLoading"
             @click="updateComment()"
             class="white--text"
-            color="#FF7A45"
+            color="#A13440"
             depressed
             >Update</v-btn
           >
