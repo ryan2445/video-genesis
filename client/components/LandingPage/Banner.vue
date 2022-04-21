@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container h-screen">
+  <div class="container h-screen">
     <v-row>
       <v-col cols="7" class="px-16 mt-16 text-white">
         <h2
@@ -92,4 +92,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  margin: auto;
+  width: 90%;
+}
+</style>

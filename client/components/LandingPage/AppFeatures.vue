@@ -1,12 +1,12 @@
 <template>
-  <div class="app-features">
+  <div class="container">
     <v-row>
-      <v-col cols="12" class="text-center mt-16 white--text">
-        <h4 class="text-4xl">Application Features</h4>
+      <v-col cols="12" class="text-center mt-24 white--text">
+        <h4 class="text-4xl mb-8">Application Features</h4>
       </v-col>
     </v-row>
-    <v-row class="white--text mt-7 px-17 w-9/12 mx-auto">
-      <v-col cols="4" class="text-left">
+    <v-row class="white--text gap-5" justify="center" align="center">
+      <v-col cols="3" class="text-left">
         <div class="text-div">
           <h4 class="text-xl">Uploading</h4>
           <svg
@@ -24,12 +24,12 @@
         </div>
         <div class="text-div">
           <h6 class="text-sm mt-4">
-            The Application allows users to upload <br />videos that can be
-            shared with other <br />users.
+            The Application allows users to upload videos that can be shared
+            with other users.
           </h6>
         </div>
       </v-col>
-      <v-col cols="4" class="text-left">
+      <v-col cols="3" class="text-left">
         <div class="text-div">
           <h4 class="text-xl">Super-Resolution</h4>
           <svg
@@ -55,12 +55,12 @@
         </div>
         <div class="text-div">
           <h6 class="text-sm mt-4">
-            The Application allows users to <br />process videos using a Super
+            The Application allows users to process videos using a Super
             <br />Resolution Model.
           </h6>
         </div>
       </v-col>
-      <v-col cols="4" class="text-left">
+      <v-col cols="3" class="text-left">
         <div class="text-div">
           <h4 class="text-xl">Stream</h4>
           <svg
@@ -88,108 +88,108 @@
         </div>
         <div class="text-div">
           <h6 class="text-sm mt-4">
-            The Application allows users to stream <br />other user’s video and
-            their own.
+            The Application allows users to stream other user’s video and their
+            own.
           </h6>
         </div>
       </v-col>
     </v-row>
-    <v-row class="white--text mt-7 px-17 w-9/12 mx-auto">
-      <v-col cols="4" class="text-left">
-        <div class="text-div">
-          <h4 class="text-xl">Profile Pages</h4>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M16 9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13C10.9391 13 9.92172 12.5786 9.17157 11.8284C8.42143 11.0783 8 10.0609 8 9C8 7.93913 8.42143 6.92172 9.17157 6.17157C9.92172 5.42143 10.9391 5 12 5C13.0609 5 14.0783 5.42143 14.8284 6.17157C15.5786 6.92172 16 7.93913 16 9ZM14 9C14 9.53043 13.7893 10.0391 13.4142 10.4142C13.0391 10.7893 12.5304 11 12 11C11.4696 11 10.9609 10.7893 10.5858 10.4142C10.2107 10.0391 10 9.53043 10 9C10 8.46957 10.2107 7.96086 10.5858 7.58579C10.9609 7.21071 11.4696 7 12 7C12.5304 7 13.0391 7.21071 13.4142 7.58579C13.7893 7.96086 14 8.46957 14 9Z"
-              fill="#CE5752"
-            />
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM3 12C3 14.09 3.713 16.014 4.908 17.542C5.74723 16.4399 6.8299 15.5467 8.07143 14.9323C9.31297 14.3179 10.6797 13.9988 12.065 14C13.4323 13.9987 14.7819 14.3095 16.0109 14.9088C17.2399 15.508 18.316 16.3799 19.157 17.458C20.0234 16.3216 20.6068 14.9952 20.8589 13.5886C21.111 12.182 21.0244 10.7355 20.6065 9.36898C20.1886 8.00243 19.4512 6.75505 18.4555 5.73004C17.4598 4.70503 16.2343 3.93186 14.8804 3.47451C13.5265 3.01716 12.0832 2.88877 10.6699 3.09997C9.25652 3.31117 7.91379 3.85589 6.75277 4.68905C5.59175 5.52222 4.64581 6.61987 3.99323 7.8912C3.34065 9.16252 3.00018 10.571 3 12ZM12 21C9.93395 21.0031 7.93027 20.2923 6.328 18.988C6.97293 18.0647 7.83134 17.3109 8.83019 16.7907C9.82905 16.2705 10.9388 15.9992 12.065 16C13.1772 15.9991 14.2735 16.2636 15.2629 16.7714C16.2524 17.2793 17.1064 18.0159 17.754 18.92C16.1393 20.2667 14.1026 21.0029 12 21Z"
-              fill="#CE5752"
-            />
-          </svg>
-        </div>
-        <div class="text-div">
-          <h6 class="text-sm mt-4">
-            The Application allows users to create <br />profile pages that
-            other users can see. <br />
-          </h6>
-        </div>
-      </v-col>
-      <v-col cols="4" class="text-left">
-        <div class="text-div">
-          <h4 class="text-xl">User Authentication</h4>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10.5 12.4425L8.5575 10.5L7.5 11.5575L10.5 14.5575L16.5 8.5575L15.4425 7.5L10.5 12.4425Z"
-              fill="#CE5752"
-            />
-            <path
-              d="M12 22.5L7.368 20.0303C6.0475 19.3277 4.94323 18.2789 4.17369 16.9963C3.40416 15.7137 2.99841 14.2457 3 12.75V3C3.0004 2.6023 3.15856 2.221 3.43978 1.93978C3.721 1.65856 4.1023 1.5004 4.5 1.5H19.5C19.8977 1.5004 20.279 1.65856 20.5602 1.93978C20.8414 2.221 20.9996 2.6023 21 3V12.75C21.0016 14.2457 20.5958 15.7137 19.8263 16.9963C19.0568 18.2789 17.9525 19.3277 16.632 20.0303L12 22.5ZM4.5 3V12.75C4.49876 13.9739 4.83083 15.1749 5.46057 16.2243C6.09032 17.2737 6.99396 18.1318 8.0745 18.7065L12 20.7997L15.9255 18.7073C17.0062 18.1325 17.9099 17.2743 18.5396 16.2248C19.1694 15.1752 19.5014 13.974 19.5 12.75V3H4.5Z"
-              fill="#CE5752"
-            />
-          </svg>
-        </div>
-        <div class="text-div">
-          <h6 class="text-sm mt-4">
-            The Application allows users to sign up<br />for an account that the
-            user can use to <br />authenticate.
-          </h6>
-        </div>
-      </v-col>
-      <v-col cols="4" class="text-left">
-        <div class="text-div">
-          <h4 class="text-xl">Support</h4>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 23.59V19.99C5.99 19.73 2 15.57 2 10.5C2 5.26 6.26 1 11.5 1C16.74 1 21 5.26 21 10.5C21 15.45 17.56 20.43 12.43 22.9L11 23.59ZM11.5 3C7.36 3 4 6.36 4 10.5C4 14.64 7.36 18 11.5 18H13V20.3C16.64 18 19 14.22 19 10.5C19 6.36 15.64 3 11.5 3ZM10.5 14.5H12.5V16.5H10.5V14.5ZM12.5 13H10.5C10.5 9.75 13.5 10 13.5 8C13.5 6.9 12.6 6 11.5 6C10.4 6 9.5 6.9 9.5 8H7.5C7.5 5.79 9.29 4 11.5 4C13.71 4 15.5 5.79 15.5 8C15.5 10.5 12.5 10.75 12.5 13Z"
-              fill="#CE5752"
-            />
-          </svg>
-        </div>
-        <div class="text-div">
-          <h6 class="text-sm mt-4">
-            The Application allows users to get <br />support by emailing the
-            development <br />team.
-          </h6>
-        </div>
-      </v-col>
-    </v-row>
+    <div class="mb-32">
+      <v-row class="white--text mt-7 gap-5" justify="center" align="center">
+        <v-col cols="3" class="text-left">
+          <div class="text-div">
+            <h4 class="text-xl">Profile Pages</h4>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M16 9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13C10.9391 13 9.92172 12.5786 9.17157 11.8284C8.42143 11.0783 8 10.0609 8 9C8 7.93913 8.42143 6.92172 9.17157 6.17157C9.92172 5.42143 10.9391 5 12 5C13.0609 5 14.0783 5.42143 14.8284 6.17157C15.5786 6.92172 16 7.93913 16 9ZM14 9C14 9.53043 13.7893 10.0391 13.4142 10.4142C13.0391 10.7893 12.5304 11 12 11C11.4696 11 10.9609 10.7893 10.5858 10.4142C10.2107 10.0391 10 9.53043 10 9C10 8.46957 10.2107 7.96086 10.5858 7.58579C10.9609 7.21071 11.4696 7 12 7C12.5304 7 13.0391 7.21071 13.4142 7.58579C13.7893 7.96086 14 8.46957 14 9Z"
+                fill="#CE5752"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M12 1C5.925 1 1 5.925 1 12C1 18.075 5.925 23 12 23C18.075 23 23 18.075 23 12C23 5.925 18.075 1 12 1ZM3 12C3 14.09 3.713 16.014 4.908 17.542C5.74723 16.4399 6.8299 15.5467 8.07143 14.9323C9.31297 14.3179 10.6797 13.9988 12.065 14C13.4323 13.9987 14.7819 14.3095 16.0109 14.9088C17.2399 15.508 18.316 16.3799 19.157 17.458C20.0234 16.3216 20.6068 14.9952 20.8589 13.5886C21.111 12.182 21.0244 10.7355 20.6065 9.36898C20.1886 8.00243 19.4512 6.75505 18.4555 5.73004C17.4598 4.70503 16.2343 3.93186 14.8804 3.47451C13.5265 3.01716 12.0832 2.88877 10.6699 3.09997C9.25652 3.31117 7.91379 3.85589 6.75277 4.68905C5.59175 5.52222 4.64581 6.61987 3.99323 7.8912C3.34065 9.16252 3.00018 10.571 3 12ZM12 21C9.93395 21.0031 7.93027 20.2923 6.328 18.988C6.97293 18.0647 7.83134 17.3109 8.83019 16.7907C9.82905 16.2705 10.9388 15.9992 12.065 16C13.1772 15.9991 14.2735 16.2636 15.2629 16.7714C16.2524 17.2793 17.1064 18.0159 17.754 18.92C16.1393 20.2667 14.1026 21.0029 12 21Z"
+                fill="#CE5752"
+              />
+            </svg>
+          </div>
+          <div class="text-div">
+            <h6 class="text-sm mt-4">
+              The Application allows users to create profile pages that other
+              users can see.
+            </h6>
+          </div>
+        </v-col>
+        <v-col cols="3" class="text-left">
+          <div class="text-div">
+            <h4 class="text-xl">User Authentication</h4>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.5 12.4425L8.5575 10.5L7.5 11.5575L10.5 14.5575L16.5 8.5575L15.4425 7.5L10.5 12.4425Z"
+                fill="#CE5752"
+              />
+              <path
+                d="M12 22.5L7.368 20.0303C6.0475 19.3277 4.94323 18.2789 4.17369 16.9963C3.40416 15.7137 2.99841 14.2457 3 12.75V3C3.0004 2.6023 3.15856 2.221 3.43978 1.93978C3.721 1.65856 4.1023 1.5004 4.5 1.5H19.5C19.8977 1.5004 20.279 1.65856 20.5602 1.93978C20.8414 2.221 20.9996 2.6023 21 3V12.75C21.0016 14.2457 20.5958 15.7137 19.8263 16.9963C19.0568 18.2789 17.9525 19.3277 16.632 20.0303L12 22.5ZM4.5 3V12.75C4.49876 13.9739 4.83083 15.1749 5.46057 16.2243C6.09032 17.2737 6.99396 18.1318 8.0745 18.7065L12 20.7997L15.9255 18.7073C17.0062 18.1325 17.9099 17.2743 18.5396 16.2248C19.1694 15.1752 19.5014 13.974 19.5 12.75V3H4.5Z"
+                fill="#CE5752"
+              />
+            </svg>
+          </div>
+          <div class="text-div">
+            <h6 class="text-sm mt-4">
+              The Application allows users to sign up for an account that the
+              user can use to authenticate.
+            </h6>
+          </div>
+        </v-col>
+        <v-col cols="3" class="text-left">
+          <div class="text-div">
+            <h4 class="text-xl">Support</h4>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 23.59V19.99C5.99 19.73 2 15.57 2 10.5C2 5.26 6.26 1 11.5 1C16.74 1 21 5.26 21 10.5C21 15.45 17.56 20.43 12.43 22.9L11 23.59ZM11.5 3C7.36 3 4 6.36 4 10.5C4 14.64 7.36 18 11.5 18H13V20.3C16.64 18 19 14.22 19 10.5C19 6.36 15.64 3 11.5 3ZM10.5 14.5H12.5V16.5H10.5V14.5ZM12.5 13H10.5C10.5 9.75 13.5 10 13.5 8C13.5 6.9 12.6 6 11.5 6C10.4 6 9.5 6.9 9.5 8H7.5C7.5 5.79 9.29 4 11.5 4C13.71 4 15.5 5.79 15.5 8C15.5 10.5 12.5 10.75 12.5 13Z"
+                fill="#CE5752"
+              />
+            </svg>
+          </div>
+          <div class="text-div">
+            <h6 class="text-sm mt-4">
+              The Application allows users to get support by emailing the
+              development team.
+            </h6>
+          </div>
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.app-features {
-  background: #2e1226;
-  height: 70vh;
-}
-
 .text-div {
   display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.container {
+  margin: auto;
+  width: 90%;
 }
 </style>

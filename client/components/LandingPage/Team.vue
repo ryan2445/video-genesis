@@ -1,5 +1,5 @@
 <template>
-  <div class="team-row h-screen">
+  <div class="team-row container">
     <v-container>
       <v-row>
         <v-col cols="12" class="text-center mt-16 white--text">
@@ -58,5 +58,9 @@
 <style scoped>
 .team-row {
   padding: 20px;
+}
+.container {
+  margin: auto;
+  width: 90%;
 }
 </style>
