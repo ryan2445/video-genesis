@@ -1,7 +1,8 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <NuxtLink :to="to">
-      <div class="playlist-thumbnail-container rounded-md relative mr-2 cursor-pointer">
+      <div @click="handleThumbnailClick" class="playlist-thumbnail-container rounded-md relative mr-2"
+        :class="{'cursor-pointer' : !!to}"      
+      >
         <img 
           v-if="thumbnail"
           class="playlist-thumbnail w-full h-full object-fill" 
@@ -23,7 +24,7 @@
             </div>
           </div>
         </div>
-        <div v-if="hover" class="playlist-thumbnail-play-all-container absolute inset-0 w-full h-full grid place-items-center">
+        <div v-if="hover && !!to" class="playlist-thumbnail-play-all-container absolute inset-0 w-full h-full grid place-items-center">
           <div class="flex flex-row">
             <div>
               <v-icon color="white" left>
@@ -38,7 +39,6 @@
           </div>
         </div>
       </div>
-    </NuxtLink>
   </v-hover>
 </template>
 
@@ -52,7 +52,8 @@ export default {
     },
     to: {
       type: String,
-      required: true
+      required: false,
+      default: null
     }
   },
   data() {
@@ -75,6 +76,11 @@ export default {
         }
       }
     },
+    handleThumbnailClick() {
+      if (!this.to) return
+
+      this.$router.push(this.to)
+    }
   },
   computed: {
     videosCount() {
