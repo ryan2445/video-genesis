@@ -1,24 +1,26 @@
 <template>
-  <div class="main-container h-screen">
+  <div class="page-container h-screen">
     <v-row>
       <v-col cols="7" class="px-16 mt-16 text-white">
-        <h2 @click="handleOnClick" class="text-4xl font-bold"
-          :class="{'cursor-pointer': !!user}"
-        >Video Genesis</h2>
+        <h2
+          @click="handleOnClick"
+          class="text-4xl font-bold"
+          :class="{ 'cursor-pointer hover:text-yellow-100': !!user }"
+        >
+          Video Genesis
+        </h2>
         <h5 class="text-2xl">Super-Resolution Video For Everyone</h5>
-        <p class="mt-4">
+        <p class="mt-4 w-3/4">
           Video Genesis is a video streaming platform that enables users to
-          upscale their<br />
-          videos from low to high-resolution using a Super-Resolution
-          Generative<br />
-          Adversarial Network (SRGAN). SGRAN is a trained machine learning model
-          that <br />predicts high-resolution images from their low-resolution
-          counterparts. Videos <br />that are processed using this model can be
-          displayed side-by-side with their <br />original and down-sampled
-          versions for comparison. Users can stream videos and <br />interact
-          with other content creators by leaving comments on videos. Videos can
-          <br />be organized in playlists and played sequentially. Unlike other
-          platforms, Video <br />Genesis opens up the pathway to intuitively
+          upscale their videos from low to high-resolution using a
+          Super-Resolution Generative Adversarial Network (SRGAN). SGRAN is a
+          trained machine learning model that predicts high-resolution images
+          from their low-resolution counterparts. Videos that are processed
+          using this model can be displayed side-by-side with their original and
+          down-sampled versions for comparison. Users can stream videos and
+          interact with other content creators by leaving comments on videos.
+          Videos can be organized in playlists and played sequentially. Unlike
+          other platforms, Video Genesis opens up the pathway to intuitively
           interact with super-resolution technology.
         </p>
         <p class="opacity-50">
@@ -56,9 +58,9 @@ export default {
   name: "AppBar",
   methods: {
     handleOnClick() {
-      if (!this.user) return
+      if (!this.user) return;
 
-      this.$router.push('/home')
+      this.$router.push("/home");
     },
     onSignUp() {
       this.$router.push({
@@ -90,10 +92,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.main-container {
-  background: linear-gradient(175.96deg, #ce5752 50%, #2e1226 71.95%),
-    url(@/assets/images/banner-img.png);
-  background-blend-mode: color, normal;
-}
-</style>
+<style scoped></style>

@@ -57,8 +57,6 @@
 
 <style scoped>
 .team-row {
-  background: #2e1226;
-
   padding: 20px;
 }
 </style>
