@@ -56,7 +56,7 @@
         <div class="text-div">
           <h6 class="text-base mt-4">
             The Application allows users to process videos using a Super
-            <br />Resolution Model.
+            Resolution Model.
           </h6>
         </div>
       </v-col>
