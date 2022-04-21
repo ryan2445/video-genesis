@@ -14,6 +14,7 @@
         ref="videoPlayer"
         :audio="audio"
         :start-time="startTime"
+        :video="video"
         :video-data="videoData"
         :autoplay="autoplay"
         :showStats="showStats"

@@ -1,17 +1,19 @@
 <template>
   <div class="relative">
     <div v-if="showStats" class="absolute z-10 bg-black bg-opacity-75 m-2">
-      <div class="text-white p-2">
-        <ul class="list-none list-outside m-0 text-left pl-0 text-sm">
-          <li>Aspect Ratio: {{ videoPlayer.aspectRatio_ }}</li>
-          <li>Video Height: {{ videoPlayer.tech_.el_.videoHeight }}</li>
-          <li>Video Width: {{ videoPlayer.tech_.el_.videoWidth }}</li>
-          <li>Duration: {{ videoPlayer.tech_.el_.duration }}</li>
-          <li>Current Time: {{ videoPlayer.cache_.currentTime }}</li>
-          <li>Audio: {{ videoPlayer.isAudio_ }}</li>
-          <li>Type: {{ videoPlayer.cache_.source.type }}</li>
-          <li>Src: {{ videoPlayer.tech_.el_.src }}</li>
-        </ul>
+      <div class="p-2 grid grid-cols-2 gap-x-2">
+        <div v-for="stat in videoStats" :key="stat.title" class="flex flex-row">
+          <div class="text text-xs">
+            <span class="text-white font-bold">
+              {{ stat.title }}:&nbsp 
+            </span>
+          </div>
+          <div class="text-xs">
+            <span class="text-white">
+              {{ stat.value }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <video
@@ -73,6 +75,11 @@ export default {
       default: false,
     },
     showStats: { type: Boolean },
+    video: {
+      type: Object,
+      required: false,
+      default: null
+    }
   },
   data() {
     return {
@@ -249,6 +256,58 @@ export default {
     audioEnabled() {
       return !!this.audio;
     },
+    videoStats() {
+      if (!this.videoPlayer) return
+
+      const stats = [
+        {
+          title: "Aspect Ratio",
+          value: this.videoPlayer.aspectRatio_
+        },
+        {
+          title: "Height",
+          value: this.videoPlayer.tech_.el_.videoHeight
+        },
+        {
+          title: "Width",
+          value: this.videoPlayer.tech_.el_.videoWidth
+        },
+        {
+          title: "Duration",
+          value: this.videoPlayer.tech_.el_.duration
+        },
+        {
+          title: "Audio",
+          value: this.videoPlayer.isAudio_
+        },
+        {
+          title: "Type",
+          value: this.videoPlayer.cache_.source.type
+        },
+        {
+          title: "Elapsed Time",
+          value: this.videoPlayer.cache_.currentTime
+        }
+      ]
+
+      if (this.video) {
+        const data = this.video.videoData.find(d => d.width == this.currentVideoRes )
+        if (data) {
+          stats.push(...[{
+            title: "Codec",
+            value: data.codecs
+          }, {
+            title: "Scan Type",
+            value: data.scanType
+          }, {
+            title: "Base URL",
+            value: data.baseURL
+          }])
+        }
+      }
+
+      return stats
+    }
   },
   watch: {
     audio() {
