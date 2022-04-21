@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="absolute -bottom-7 left-64">
+    <div class="absolute -bottom-9 left-64">
       <h3>
         <strong>
           {{ user | userDisplayName }}
