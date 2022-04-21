@@ -1,7 +1,7 @@
 <template>
   <div class="playlist-player-container">
     <v-card color="#A13440">
-      <v-card-title>
+      <v-card-title class="white--text">
         {{ playlist.playlistTitle }}
       </v-card-title>
       <v-card-actions>
