@@ -24,7 +24,7 @@
           <v-btn
             @click="onSubmit"
             class="white--text"
-            color="orange lighten-1"
+            color="#A13440"
             :disabled="invalid"
           >
             Submit
