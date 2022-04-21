@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10">
+  <div class="flex flex-row place-content-center height-full">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
@@ -11,157 +11,159 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <form
-      ref="contact-us-form"
-      @submit.prevent="SendEmail($event.currentTarget)"
-    >
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">From</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <p class="control is-expanded has-icons-left">
-              <input
-                class="input"
-                type="text"
-                placeholder="Name"
-                name="from_name"
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-            </p>
-          </div>
-          <div class="field">
-            <p class="control is-expanded has-icons-left has-icons-right">
-              <input
-                class="input"
-                type="email"
-                placeholder="Email"
-                value=""
-                name="from_email"
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
-              <!-- <span class="icon is-small is-right">
+    <div class="place-self-center p-4 bg-gray-300 rounded-lg shadow-md">
+      <h1 class="font-bold text-center mb-2 text-xl text-gray-800">
+        Contact Us Form
+      </h1>
+      <div class="p-4">
+        <form
+          class=""
+          ref="contact-us-form"
+          @submit.prevent="SendEmail($event.currentTarget)"
+        >
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">From</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="Name"
+                    name="from_name"
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <input
+                    class="input"
+                    type="email"
+                    placeholder="Email"
+                    value=""
+                    name="from_email"
+                  />
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                  </span>
+                  <!-- <span class="icon is-small is-right">
                 <i class="fas fa-check"></i>
               </span> -->
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field is-expanded">
-            <div class="field has-addons">
-              <p class="control">
-                <a class="button is-static"> +1 </a>
-              </p>
-              <p class="control is-expanded">
-                <input
-                  class="input"
-                  type="tel"
-                  placeholder="Your phone number"
-                  name="from_phone_number"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Country</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-narrow">
-            <div class="control">
-              <div class="select is-fullwidth">
-                <select name="from_country">
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>China</option>
-                  <option>India</option>
-                </select>
+                </p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">First Time User?</label>
-        </div>
-        <div class="field-body">
-          <div class="field is-narrow">
-            <div class="control">
-              <label class="radio">
-                <input type="radio" name="member" />
-                Yes
-              </label>
-              <label class="radio">
-                <input type="radio" name="member" />
-                No
-              </label>
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-static"> +1 </a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input
+                      class="input"
+                      type="tel"
+                      placeholder="Your phone number"
+                      name="from_phone_number"
+                    />
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Subject</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input
-                class="input"
-                type="text"
-                placeholder="e.g. Trouble Accessing Video"
-                name="subject"
-              />
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Country</label>
             </div>
-            <p class="help is-danger"></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          <label class="label">Question</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <textarea
-                class="textarea"
-                placeholder="how we can help you"
-                name="message"
-              ></textarea>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select name="from_country">
+                      <option>United States</option>
+                      <option>Canada</option>
+                      <option>China</option>
+                      <option>India</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <button type="submit" class="button is-primary">
-                send message
-              </button>
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <label class="label">First Time User?</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <label class="radio">
+                    <input type="radio" name="member" />
+                    Yes
+                  </label>
+                  <label class="radio">
+                    <input type="radio" name="member" />
+                    No
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Subject</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <input
+                    class="input"
+                    type="text"
+                    placeholder="e.g. Trouble Accessing Video"
+                    name="subject"
+                  />
+                </div>
+                <p class="help is-danger"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Question</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <div class="control">
+                  <textarea
+                    class="textarea"
+                    placeholder="how we can help you"
+                    name="message"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-row place-content-center">
+            <button type="submit" class="button button-color">
+              send message
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
+
     <div v-show="sendMessageSuccess">
       <br />
       <v-alert border="right" color="blue-grey" dark>
@@ -215,4 +217,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.button-color {
+  background-color: #a13440;
+  color: white;
+}
+.button-color:hover {
+  background-color: #c64050;
+  color: white;
+}
+.height-full {
+  height: calc(100vh - 76px);
+}
+</style>
