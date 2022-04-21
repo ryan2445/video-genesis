@@ -11,7 +11,7 @@
       indeterminate
       rounded
       :active="loading"
-      color="orange lighten-1"
+      color="#A13440"
     />
     <v-card-title class="justify-center">
       <h3
@@ -33,7 +33,7 @@
               placeholder="Username"
               :success="!errors"
               v-model="username"
-              color="orange lighten-1"
+              color="#A13440"
             >
             </v-text-field>
           </validation-provider>
@@ -52,7 +52,7 @@
               :success="!errors"
               v-model="email"
               @keydown.enter="onSubmit"
-              color="orange lighten-1"
+              color="#A13440"
             >
             </v-text-field>
           </validation-provider>
@@ -71,7 +71,7 @@
               v-model="password"
               type="password"
               @keydown.enter="onSubmit"
-              color="orange lighten-1"
+              color="#A13440"
             />
           </validation-provider>
 
@@ -87,7 +87,7 @@
             @click="onSubmit"
             :disabled="invalid"
             class="mt-3 white--text"
-            color="orange lighten-1"
+            color="#A13440"
           >
             Submit
           </v-btn>
@@ -103,9 +103,7 @@
           {{ dialogText }}
         </v-card-text>
         <v-card-actions class="justify-center">
-          <v-btn color="orange lighten-1" text @click="dialog = false">
-            Ok
-          </v-btn>
+          <v-btn color="#A13440" text @click="dialog = false"> Ok </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
