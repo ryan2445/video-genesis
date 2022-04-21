@@ -2,7 +2,9 @@
   <div class="main-container h-screen">
     <v-row>
       <v-col cols="7" class="px-16 mt-16 text-white">
-        <h2 class="text-4xl font-bold">Video Genesis</h2>
+        <h2 @click="handleOnClick" class="text-4xl font-bold"
+          :class="{'cursor-pointer': !!user}"
+        >Video Genesis</h2>
         <h5 class="text-2xl">Super-Resolution Video For Everyone</h5>
         <p class="mt-4">
           Video Genesis is a video streaming platform that enables users to
@@ -53,6 +55,11 @@ import { mapGetters } from "vuex";
 export default {
   name: "AppBar",
   methods: {
+    handleOnClick() {
+      if (!this.user) return
+
+      this.$router.push('/home')
+    },
     onSignUp() {
       this.$router.push({
         path: "/auth/sign-up",
