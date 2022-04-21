@@ -7,7 +7,7 @@
                 </h6>
             </v-col>
             <v-col cols="6" class="mt-11 mb-11">
-                <h6 class="float-right">Application Created With Love by Team 24</h6>
+                <h6 class="float-right"></h6>
             </v-col>
         </v-row>
     </div>

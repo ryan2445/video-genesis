@@ -8,7 +8,7 @@
             v-model="tabSelected"
             centered
             background-color="#0000"
-            color="orange"
+            color="#A13440"
           >
             <v-tab v-for="tab in tabs" :key="tab">
               {{ tab }}

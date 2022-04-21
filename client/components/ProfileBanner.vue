@@ -14,8 +14,15 @@
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || bannerPictureLoading)"
-            fab absolute right elevation="4" width="30" height="30"
-            style="bottom:6px;" color="orange" class="white--text"
+            fab
+            absolute
+            right
+            elevation="4"
+            width="30"
+            height="30"
+            style="bottom: 6px"
+            color="#A13440"
+            class="white--text"
             @click="onBannerEdit"
             :loading="bannerPictureLoading"
             :disabled="bannerPictureLoading"
@@ -40,10 +47,7 @@
       </div>
     </v-hover>
     <v-hover v-slot="{ hover }" :open-delay="100">
-      <div
-        v-if="userProfilePic"
-        class="-bottom-16 left-14 absolute w-44 h-44"
-      >
+      <div v-if="userProfilePic" class="-bottom-16 left-14 absolute w-44 h-44">
         <img
           class="w-full h-full object-cover rounded-full"
           :src="userProfilePic"
@@ -53,9 +57,14 @@
         <v-fade-transition>
           <v-btn
             v-if="isRootUser && (hover || profilePictureLoading)"
-            fab absolute elevation="4" color="orange"
-            class="white--text" width="30" height="30"
-            style="bottom: 12px; right: 22px;"
+            fab
+            absolute
+            elevation="4"
+            color="#A13440"
+            class="white--text"
+            width="30"
+            height="30"
+            style="bottom: 12px; right: 22px"
             @click="onProfilePictureEdit"
             :disabled="profilePictureLoading"
             :loading="profilePictureLoading"

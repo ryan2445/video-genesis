@@ -38,7 +38,7 @@
       <v-btn
         :loading="loadingProfilePic"
         small
-        color="orange lighten-1"
+        color="#A13440"
         class="white--text"
         @click="uploadProfilePic"
       >
@@ -60,7 +60,7 @@
               <v-text-field
                 label="First Name"
                 v-model="usersFirstName"
-                color="orange"
+                color="#A13440"
                 required
                 filled
                 rows="2"
@@ -70,7 +70,7 @@
               <v-text-field
                 label="Last Name"
                 v-model="usersLastName"
-                color="orange"
+                color="#A13440"
                 required
                 filled
                 rows="2"
@@ -80,7 +80,7 @@
               <v-textarea
                 label="About Me"
                 v-model="usersAboutMe"
-                color="orange"
+                color="#A13440"
                 filled
               >
               </v-textarea>
@@ -90,7 +90,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 right
-                color="orange"
+                color="#A13440"
                 class="white--text"
                 :loading="loading"
                 @click="submit()"
