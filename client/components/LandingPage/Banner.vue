@@ -2,7 +2,7 @@
   <div class="main-container h-screen">
     <v-row>
       <v-col cols="7" class="px-16 mt-16 text-white">
-        <h2 class="text-4xl">Video Genesis</h2>
+        <h2 class="text-4xl font-bold">Video Genesis</h2>
         <h5 class="text-2xl">Super-Resolution Video For Everyone</h5>
         <p class="mt-4">
           Video Genesis is a video streaming platform that enables users to
@@ -19,7 +19,7 @@
           platforms, Video <br />Genesis opens up the pathway to intuitively
           interact with super-resolution technology.
         </p>
-        <p>
+        <p class="opacity-50">
           CS 426 Senior Project in Computer Science, Spring 2022, at UNR, CSE
           Department
         </p>
