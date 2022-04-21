@@ -10,5 +10,11 @@
   </v-app>
 </template>
 <script>
-export default {};
+export default {
+  head() {
+    return {
+      title: "Video Genesis"
+    }
+  },
+};
 </script>

@@ -22,6 +22,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: "Video Genesis"
+    }
+  },
   created() {
     const getS3 = () => {
       this.$store.dispatch("auth/inits3");
