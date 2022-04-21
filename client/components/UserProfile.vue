@@ -70,7 +70,7 @@ export default {
       this.tabSelected = tabName;
     },
     async init() {
-      this.loading = true
+      this.loading = true;
 
       const videos = await this.$store.dispatch("videos/videosGetByUsername", {
         username: this.user.username,
@@ -87,11 +87,11 @@ export default {
 
       this.$store.commit("playlists/playlistsSet", playlists);
 
-      this.loading = false
-    }
+      this.loading = false;
+    },
   },
   async mounted() {
-    this.init()
+    this.init();
   },
   computed: {
     ...mapGetters({
@@ -123,17 +123,17 @@ export default {
       ];
     },
     permissions() {
-      const rootUser = this.$store.getters['users/rootUser']
+      const rootUser = this.$store.getters["users/rootUser"];
 
-      if (!rootUser) return false
+      if (!rootUser) return false;
 
-      return rootUser.pk === this.user.pk && rootUser.sk === this.user.sk
-    }
+      return rootUser.pk === this.user.pk && rootUser.sk === this.user.sk;
+    },
   },
   watch: {
     user() {
-      this.init()
-    }
-  }
+      this.init();
+    },
+  },
 };
 </script>
