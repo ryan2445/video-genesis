@@ -141,6 +141,6 @@ svg {
   fill: #a13440;
 }
 svg path:hover {
-  fill: #ffe58a;
+  fill: #c64050;
 }
 </style>
