@@ -1,8 +1,9 @@
 <template>
-  <v-menu 
-    v-model="showPlaylistForm" 
-    offset-y nudge-left="435" 
-    nudge-bottom="2" 
+  <v-menu
+    v-model="showPlaylistForm"
+    offset-y
+    nudge-left="435"
+    nudge-bottom="2"
     :close-on-content-click="false"
   >
     <template v-slot:activator="{ on, attrs }">
@@ -13,11 +14,10 @@
         class="-top-8 -right-1"
         v-bind="attrs"
         v-on="on"
+        color="#A13440"
       >
-        <div class="text-app-orange">
-          <v-icon small class="mr-2">
-            mdi-folder-plus
-          </v-icon>
+        <div class="text-white">
+          <v-icon small class="mr-2"> mdi-folder-plus </v-icon>
           {{ text }}
         </div>
       </v-btn>
@@ -33,13 +33,13 @@ export default {
     text: {
       required: false,
       default: "New Playlist",
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      showPlaylistForm: false
-    }
-  }
-}
+      showPlaylistForm: false,
+    };
+  },
+};
 </script>
