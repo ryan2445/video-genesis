@@ -26,7 +26,7 @@
       </v-col>
       <v-col cols="5" class="px-16 mt-16">
         <div v-if="!user" class="float-right">
-          <v-btn color="#A13440" outlined class="m-2" @click="onSignIn">
+          <v-btn text class="m-2 white--text" @click="onSignIn">
             Sign In
           </v-btn>
           <v-btn class="white--text" color="#A13440" @click="onSignUp">
